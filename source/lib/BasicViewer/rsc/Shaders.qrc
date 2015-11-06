@@ -1,0 +1,12 @@
+<!DOCTYPE RCC>
+<RCC>
+    <qresource prefix="/Shaders/Basic">
+        <file>BasicVertexShader.glsl</file>
+        <file>BasicFragmentShader.glsl</file>
+    </qresource>
+
+    <qresource prefix="/Shaders/Grid">
+        <file>GridVertexShader.glsl</file>
+        <file>GridFragmentShader.glsl</file>
+    </qresource>
+</RCC>

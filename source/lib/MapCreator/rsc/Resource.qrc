@@ -1,0 +1,27 @@
+<RCC>
+  <qresource prefix="Icons">
+    <file>Icons/download.icns</file>
+    <file>Icons/picture.icns</file>
+    <file>Icons/cancel.icns</file>
+    <file>Icons/stack_of_photos.icns</file>
+    <file>Icons/synchronize.icns</file>
+    <file>Icons/engineering.icns</file>
+    <file>Icons/disclaimer.icns</file>
+    <file>Icons/survey.icns</file>
+    <file>Icons/data_configuration.icns</file>
+    <file>Icons/document.icns</file>
+    <file>Icons/undo.icns</file>
+    <file>Icons/close_up_mode.icns</file>
+    <file>Icons/compact_camera.icns</file>
+    <file>Icons/org_unit.icns</file>
+    <file>Icons/share.icns</file>
+    <file>Icons/opened_folder.icns</file>
+    <file>Icons/services.icns</file>
+    <file>Icons/start.icns</file>
+    <file>Icons/mind_map.icns</file>
+  </qresource>
+  <qresource prefix="Images">
+    <file>Images/MapCreator_BG_2560x1600.jpg</file>
+    <file>Images/pure_square_background.jpg</file>
+  </qresource>
+</RCC>

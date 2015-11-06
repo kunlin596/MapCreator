@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>EvaluationViewer</class>
+ <widget class="QWidget" name="EvaluationViewer">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>439</width>
+    <height>293</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>EvalutationViewer</string>
+  </property>
+ </widget>
+ <resources/>
+ <connections/>
+ <slots>
+  <signal>Message(QString)</signal>
+  <slot>SetKeyFrames(NiS::KeyFrames)</slot>
+ </slots>
+</ui>
