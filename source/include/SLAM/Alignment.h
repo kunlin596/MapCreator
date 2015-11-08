@@ -12,128 +12,143 @@
 #include "SLAM/Matcher.h"
 #include "SLAM/Tracker.h"
 #include "SLAM/ComputationResultCache.h"
+#include "SLAM/CoordinateConverter.h"
 
 #include <limits>
 
 namespace {
 
-    using MatricesInfo = std::pair<std::vector<size_t>, std::vector<glm::mat4> >;
+	using MatricesInfo = std::pair < std::vector < size_t > , std::vector < glm::mat4 > >;
 
 };
 
 namespace NiS {
 
 
-    class SlamComputer : public QObject {
+	class SlamComputer : public QObject
+	{
 
-    Q_OBJECT
+	Q_OBJECT
 
-    public:
+	public:
 
-        SlamComputer(QObject *parent = 0);
+		SlamComputer ( QObject * parent = 0 );
 
-        inline ~SlamComputer() { }
+		inline ~SlamComputer ( ) { }
 
-        void SetDataDir(const QDir &data_dir);
+		void SetDataDir ( const QDir & data_dir );
 
-        void SetFeatureType(Feature::Type type);
+		void SetFeatureType ( Feature::Type type );
 
-        bool WriteResult(const std::pair<glm::vec3, glm::vec3> &point_pair);
+		bool WriteResult ( const std::pair < glm::vec3 , glm::vec3 > & point_pair );
 
-        bool CheckPreviousResult();
+		bool CheckPreviousResult ( );
 
-        void UsePreviousResult(const QString &result_cache_name);
+		void UsePreviousResult ( const QString & result_cache_name );
 
-        Options GetOptions() const { return options_; }
+		Options GetOptions ( ) const { return options_; }
 
-        inline void SetRunningFLag(bool running_flag) { running_flag_ = running_flag; };
+		inline void SetRunningFLag ( bool running_flag ) { running_flag_ = running_flag; };
 
-    public slots:
+	public slots:
 
-        void SetOptions(const Options &options) { options_ = options; };
+		void SetOptions ( const Options & options ) { options_ = options; };
+		void SetFrameData ( const KeyFrames & keyframes ) {
 
-        inline void SetFrameData(const KeyFrames &keyframes) {
+			keyframes_           = keyframes;
+			is_data_initialized_ = true;
+		}
 
-            keyframes_ = keyframes;
-            is_data_initialized_ = true;
-        }
+		void SetCoordinateConverter ( const XtionCoordinateConverter & converter ) {
 
-        void StartCompute();
+			xtion_converter_  = converter;
+			converter_choice_ = 0;
+		}
+		void SetCoordinateConverter ( const AistCoordinateConverter & converter ) {
 
-        void StopCompute();
+			aist_converter_   = converter;
+			converter_choice_ = 1;
+		}
 
-    public:
+		void StartCompute ( );
+		void StopCompute ( );
 
-        inline const KeyFrames &GetResultKeyFrames() const { return result_keyframes_; }
+	public:
 
-        inline const KeyFrames &GetKeyFrames() const { return keyframes_; }
+		inline const KeyFrames & GetResultKeyFrames ( ) const { return result_keyframes_; }
+		inline const KeyFrames & GetKeyFrames ( ) const { return keyframes_; }
 
-        inline bool IsComputationConfigured() const { return is_computation_configured_; }
+		inline bool IsComputationConfigured ( ) const { return is_computation_configured_; }
+		inline bool IsDataInitialized ( ) const { return is_data_initialized_; }
 
-        inline bool IsDataInitialized() const { return is_data_initialized_; }
+	signals:
 
-    signals:
+		void SendData ( KeyFrames );
+		void Message ( QString );
 
-        void SendData(KeyFrames);
+	private:
 
-        void Message(QString);
+		template < TrackingType type > void ComputeHelper ( ) {
 
-    private:
-
-        template<TrackingType type>
-        void ComputeHelper() {
-
-            std::cout << "Computation begins" << std::endl;
-
-            Tracker<type> tracker(keyframes_, options_);
-
-            assert (tracker.GetIterator1() == keyframes_.begin() and tracker.GetIterator2() == keyframes_.begin());
-
-            do {
-
-                result_keyframes_.push_back(tracker.ComputeNext());
-                emit Message(tracker.GetMessage());
-            }
-            while (tracker.Update());
-
-        }
-
-        template<TrackingType type>
-        void WriteCache() { }
-
-        bool is_computation_configured_;
-        bool is_data_initialized_;
-
-        QDir data_dir_;
-
-        QString result_cache_path_;
-
-        Feature::Type feature_type_;
-
-        Options options_;
-
-        KeyFrames keyframes_;
-        KeyFrames result_keyframes_;
-
-        bool running_flag_;
-
-    };
-
-    template<>
-    void SlamComputer::WriteCache<TrackingType::OneByOne>();
-
-    template<>
-    void SlamComputer::WriteCache<TrackingType::FixedFrameCount>();
-
-    template<>
-    void SlamComputer::WriteCache<TrackingType::PcaKeyFrame>();
+			std::cout << "Computation begins" << std::endl;
 
 
-    // Serialize
+			switch ( converter_choice_ ) {
+				case 0: {
+					Tracker < type > tracker1 ( keyframes_ , options_ , xtion_converter_ );
+					do {
+						result_keyframes_.push_back ( tracker1.ComputeNext ( ) );
+						emit Message ( tracker1.GetMessage ( ) );
+					}
+					while ( tracker1.Update ( ) );
+					break;
+				}
+				case 1: {
+					Tracker < type > tracker2 ( keyframes_ , options_ , aist_converter_ );
+					do {
+						result_keyframes_.push_back ( tracker2.ComputeNext ( ) );
+						emit Message ( tracker2.GetMessage ( ) );
+					}
+					while ( tracker2.Update ( ) );
+					break;
+				}
+				default:
+					break;
+			}
+		}
 
-    bool LoadMatricesInfo(const std::string &file_name, MatricesInfo &info);
+		template < TrackingType type > void WriteCache ( ) { }
 
-    bool SaveMatricesInfo(const std::string &file_name, const MatricesInfo &info);
+		bool is_computation_configured_;
+		bool is_data_initialized_;
+
+		QDir data_dir_;
+
+		QString result_cache_path_;
+
+		Feature::Type feature_type_;
+
+		Options options_;
+
+		KeyFrames keyframes_;
+		KeyFrames result_keyframes_;
+
+
+		int                      converter_choice_;
+		XtionCoordinateConverter xtion_converter_;
+		AistCoordinateConverter  aist_converter_;
+
+		bool running_flag_;
+
+	};
+
+	template < > void SlamComputer::WriteCache < TrackingType::OneByOne > ( );
+	template < > void SlamComputer::WriteCache < TrackingType::FixedFrameCount > ( );
+	template < > void SlamComputer::WriteCache < TrackingType::PcaKeyFrame > ( );
+
+	// Serialize
+	bool LoadMatricesInfo ( const std::string & file_name , MatricesInfo & info );
+	bool SaveMatricesInfo ( const std::string & file_name , const MatricesInfo & info );
 
 }
 

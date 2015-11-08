@@ -7,10 +7,11 @@
 
 #include <QObject>
 
-#include "Option.h"
-#include "CommonDefinitions.h"
-#include "KeyFrame.h"
-#include "Transformation.h"
+#include "SLAM/Option.h"
+#include "SLAM/CommonDefinitions.h"
+#include "SLAM/KeyFrame.h"
+#include "SLAM/Transformation.h"
+#include "SLAM/CoordinateConverter.h"
 
 #include <iostream>
 #include <boost/tuple/tuple.hpp>
@@ -33,19 +34,40 @@ namespace NiS {
 
 		using KeyFramesIterator = KeyFrames::iterator;
 
+		Tracker ( ) = default;
+
 		Tracker ( const Options & options ) {
 
 			options_ = options;
 		}
-		Tracker ( const KeyFrames & keyframes , const Options & options ) {
 
-			options_   = options;
-			keyframes_ = keyframes;
+		Tracker ( const Tracker & other ) = default;
+
+		Tracker ( const KeyFrames & keyframes , const Options & options , const XtionCoordinateConverter & converter ) {
+
+			options_                    = options;
+			keyframes_                  = keyframes;
+			xtion_coordinate_converter_ = converter;
+			converter_choice_           = 0;
+			converter_pointer_          = & xtion_coordinate_converter_;
 
 			assert( !keyframes_.empty ( ) );
 
 			Initialize ( );
 		}
+		Tracker ( const KeyFrames & keyframes , const Options & options , const AistCoordinateConverter & converter ) {
+
+			options_                   = options;
+			keyframes_                 = keyframes;
+			aist_coordinate_converter_ = converter;
+			converter_choice_          = 1;
+			converter_pointer_         = & aist_coordinate_converter_;
+
+			assert( !keyframes_.empty ( ) );
+
+			Initialize ( );
+		}
+
 		~Tracker ( ) { }
 
 		bool     Update ( );
@@ -68,8 +90,12 @@ namespace NiS {
 		Points inliers2_;
 
 		Options options_;
-
 		QString message_;
+
+		int                      converter_choice_;
+		XtionCoordinateConverter xtion_coordinate_converter_;
+		AistCoordinateConverter  aist_coordinate_converter_;
+		CoordinateConverter * converter_pointer_;
 
 		int offset_;
 

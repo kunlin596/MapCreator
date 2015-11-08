@@ -14,92 +14,97 @@
 
 namespace NiS {
 
-    using ScreenPoint = cv::Point2f;
-    using WorldPoint = cv::Point3f;
 
-    class CoordinateConverter {
-    protected:
+	class CoordinateConverter
+	{
+	public:
 
-        virtual ScreenPoint WorldToScreen(WorldPoint const &world_point) = 0;
+		virtual ScreenPoint WorldToScreen ( const WorldPoint & world_point ) const { return ScreenPoint ( ); };
 
-        virtual WorldPoint ScreenToWorld(ScreenPoint const &screen_point, ushort const depth) = 0;
+		virtual WorldPoint ScreenToWorld ( const ScreenPoint & screen_point , ushort const depth ) const { return WorldPoint ( ); };
 
-        struct XtionFrameProperty {
-            static const float kXtionHorizontalFOV;
-            static const float kXtionVerticalFOV;
-            static const float kXtionWidth;
-            static const float kXtionHeight;
-        };
+		struct XtionFrameProperty
+		{
+			static const float kXtionHorizontalFOV;
+			static const float kXtionVerticalFOV;
+			static const float kXtionWidth;
+			static const float kXtionHeight;
+		};
 
-    };
+	};
 
-    class XtionCoordinateConverter : public CoordinateConverter {
-    public:
+	class XtionCoordinateConverter : public CoordinateConverter
+	{
+	public:
 
-        XtionCoordinateConverter() :
-                universal_xz_factor_(GetXtionDepthFactor(XtionFrameProperty::kXtionHorizontalFOV)),
-                universal_yz_factor_(GetXtionDepthFactor(XtionFrameProperty::kXtionVerticalFOV)) { }
+		XtionCoordinateConverter ( ) :
+				universal_xz_factor_ ( GetXtionDepthFactor ( XtionFrameProperty::kXtionHorizontalFOV ) ) ,
+				universal_yz_factor_ ( GetXtionDepthFactor ( XtionFrameProperty::kXtionVerticalFOV ) ) { }
+
+		~XtionCoordinateConverter ( ) = default;
+
+		ScreenPoint WorldToScreen ( WorldPoint const & world_point ) const override;
+
+		WorldPoint ScreenToWorld ( ScreenPoint const & screen_point , ushort const depth ) const override;
+
+	private:
+
+		float GetXtionDepthFactor ( float fov ) {
+
+			return tanf ( fov / 2 ) * 2;
+		}
+
+		float universal_xz_factor_;
+		float universal_yz_factor_;
+
+	};
+
+	class AistCoordinateConverter : public CoordinateConverter
+	{
+	public:
+
+		AistCoordinateConverter ( ) = default;
+		~AistCoordinateConverter ( ) = default;
+		inline AistCoordinateConverter ( std::string const & file_name ) {
+
+			internal_calibration_info_ = InternalCalibrationReader::Read ( file_name );
+		}
+
+		ScreenPoint WorldToScreen ( WorldPoint const & world_point ) const override;
+
+		WorldPoint ScreenToWorld ( ScreenPoint const & screen_point , ushort const depth ) const override;
+
+	private:
 
 
-        ScreenPoint WorldToScreen(WorldPoint const &world_point) override;
+		float NthDegreeEquation ( const InternalCalibrationInfo::CoefficientsVector & coef , float x ) const {
 
-        WorldPoint ScreenToWorld(ScreenPoint const &screen_point, ushort const depth) override;
+			float y  = 0;
+			float xx = 1.0f;
 
-    private:
+			for ( const auto & c : coef ) {
+				y += c * xx;
+				xx *= x;
+			}
 
-        float GetXtionDepthFactor(float fov) {
+			return y;
+		}
 
-            return tanf(fov / 2) * 2;
-        }
+		float CorrectDepth ( float depth ) const {
 
-        float universal_xz_factor_;
-        float universal_yz_factor_;
+			const auto & coef = internal_calibration_info_.global_calibration_vector;
+			return coef.empty ( ) ? depth : depth * NthDegreeEquation ( coef , depth );
+		}
 
-    };
+		float CorrectDistortion ( int row , int col , float depth ) const {
 
-    class AistCoordinateConverter : public CoordinateConverter {
-    public:
+			const auto & coef = internal_calibration_info_.local_calibration_table[ row ][ col ];
+			return coef.empty ( ) ? 0.0f : depth * NthDegreeEquation ( coef , depth );
+		}
 
-        inline AistCoordinateConverter(std::string const &file_name) {
+		InternalCalibrationInfo internal_calibration_info_;
 
-            internal_calibration_info_ = InternalCalibrationReader::Read(file_name);
-        }
-
-        ScreenPoint WorldToScreen(WorldPoint const &world_point) override;
-
-        WorldPoint ScreenToWorld(ScreenPoint const &screen_point, ushort const depth) override;
-
-    private:
-
-
-        float NthDegreeEquation(const InternalCalibrationInfo::CoefficientsVector &coef, float x) const {
-
-            float y = 0;
-            float xx = 1.0f;
-
-            for (const auto &c : coef) {
-                y += c * xx;
-                xx *= x;
-            }
-
-            return y;
-        }
-
-        float CorrectDepth(float depth) const {
-
-            const auto &coef = internal_calibration_info_.global_calibration_vector;
-            return coef.empty() ? depth : depth * NthDegreeEquation(coef, depth);
-        }
-
-        float CorrectDistortion(int row, int col, float depth) const {
-
-            const auto &coef = internal_calibration_info_.local_calibration_table[row][col];
-            return coef.empty() ? 0.0f : depth * NthDegreeEquation(coef, depth);
-        }
-
-        InternalCalibrationInfo internal_calibration_info_;
-
-    };
+	};
 };
 
 

@@ -7,6 +7,7 @@
 namespace NiS {
 
 	using Matrices = std::vector < glm::mat4 >;
+	using KeyPoints = std::vector < cv::KeyPoint >;
 	using Points = std::vector < cv::Point3f >;
 	using CorrespondingPointsPair = std::pair < Points , Points >;
 	using InlierPoints = Points;
@@ -24,11 +25,14 @@ namespace NiS {
 
 	using PointPair = std::pair < glm::vec3 , glm::vec3 >;
 
+	using ScreenPoint = cv::Point2f;
+	using WorldPoint = cv::Point3f;
+
 	struct MatchedPoint
 	{
-		int       id;
-		glm::vec2 screen_coordinate;
-		glm::vec3 world_coordinate;
+		int         id;
+		ScreenPoint screen_point;
+		WorldPoint  world_point;
 	};
 
 	using MatchedPoints = std::vector < MatchedPoint >;

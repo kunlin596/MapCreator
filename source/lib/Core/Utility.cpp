@@ -8,50 +8,59 @@
 
 
 namespace NiS {
-    void PrintMessage(const std::string msg, int status) {
 
-        using namespace std;
+	void PrintMessage ( const std::string msg , int status ) {
 
-        string m = "[SLAM]";
-        switch (status) {
-            case 1:
-                m += " [PROCESSING]  - ";
-                break;
-            case 2:
-                m += " [OK]          - ";
-                break;
-            case 3:
-                m += " [WARNING]     - ";
-                break;
-            case 4:
-                m += " [ERROR]       - ";
-                break;
-            default:
-                break;
-        }
+		using namespace std;
 
-        cout << m << msg << endl;
-    }
+		string m = "[SLAM]";
+		switch ( status ) {
+			case 1:
+				m += " [PROCESSING]  - ";
+				break;
+			case 2:
+				m += " [OK]          - ";
+				break;
+			case 3:
+				m += " [WARNING]     - ";
+				break;
+			case 4:
+				m += " [ERROR]       - ";
+				break;
+			default:
+				break;
+		}
 
-    std::string ConvertConstCStrToStdString(const unsigned char *c_str, size_t len) {
+		cout << m << msg << endl;
+	}
 
-        std::string str;
-        str.resize(len);
-        for (auto i = 0; i < len; ++i) {
-            str[i] = *(c_str + i);
-        }
-        return str;
-    }
+	std::string ConvertConstCStrToStdString ( const unsigned char * c_str , size_t len ) {
 
-    glm::mat4 ConvertMat(const cv::Matx44f &m) {
+		std::string str;
+		str.resize ( len );
+		for ( auto i = 0 ; i < len ; ++i ) {
+			str[ i ] = * ( c_str + i );
+		}
+		return str;
+	}
 
-        return glm::mat4();
-    }
+	glm::mat4 ConvertMat ( const cv::Matx44f & m ) {
+
+		return glm::mat4 ( );
+	}
 
 
-    glm::mat4 Convert_OpenCV_Matx44f_To_GLM_mat4(const cv::Matx44f &m) {
-        return glm::make_mat4(m.val);
+	glm::mat4 Convert_OpenCV_Matx44f_To_GLM_mat4 ( const cv::Matx44f & m ) {
 
-    }
+		return glm::make_mat4 ( m.val );
+
+	}
+
+	cv::Matx44f Convert_GLM_mat4_To_OpenCV_Matx44f ( const glm::mat4 & m ) {
+
+		return cv::Matx44f ( glm::value_ptr ( m ) );
+
+	}
+
 
 }

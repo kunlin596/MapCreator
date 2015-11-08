@@ -25,8 +25,10 @@
 #include <Handler/ImageDataHandler.h>
 
 namespace {
+
     using namespace std;
     using namespace glm;
+
 }
 
 namespace NiS {

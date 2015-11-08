@@ -8,10 +8,12 @@
 #include <algorithm>
 #include <string>
 #include <opencv2/opencv.hpp>
+
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtc/matrix_access.hpp>
+
 #include <QString>
 
 namespace NiS {
@@ -40,7 +42,8 @@ namespace NiS {
 
 	glm::mat4 ConvertMat ( const cv::Matx44f & m );
 
-	glm::mat4 Convert_OpenCV_Matx44f_To_GLM_mat4 ( const cv::Matx44f & m );
+	glm::mat4   Convert_OpenCV_Matx44f_To_GLM_mat4 ( const cv::Matx44f & m );
+	cv::Matx44f Convert_GLM_mat4_To_OpenCV_Matx44f ( const glm::mat4 & m );
 
 	inline std::ostream & operator << ( std::ostream & os , const glm::vec4 & v ) {
 

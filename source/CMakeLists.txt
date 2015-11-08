@@ -11,6 +11,10 @@ set ( INSTALL_NAME_DIR ${CMAKE_INSTALL_PREFIX}/lib )
 set ( CMAKE_MACOSX_RPATH ${CMAKE_INSTALL_PREFIX}/lib )
 
 include_directories ( ${NiS_INCLUDE_DIR} )
+
+set ( CMAKE_INCLUDE_CURRENT_DIR ON )
+set ( CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "/usr/local/Qt5" )
+
 add_subdirectory ( include )
 add_subdirectory ( lib )
 add_subdirectory ( tool )

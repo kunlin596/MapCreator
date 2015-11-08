@@ -7,7 +7,7 @@
 
 #endif //NIS_SLAMOPTIONCACHE_H
 
-#include "Option.h"
+#include "SLAM/Option.h"
 
 namespace NiS {
 

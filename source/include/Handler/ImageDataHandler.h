@@ -15,95 +15,110 @@
 #include <SLAM/CommonDefinitions.h>
 #include <SLAM/KeyFrame.h>
 #include <SLAM/Calibrator.h>
+#include <SLAM/CoordinateConverter.h>
 
 #include <QFutureWatcher>
 
 namespace NiS {
 
-    class ImageHandler2 : public QObject {
+	class ImageHandler2 : public QObject
+	{
 
-    Q_OBJECT
+	Q_OBJECT
 
-    public:
+	public:
 
-        struct XtionFrameProperty {
-            static const float kXtionHorizontalFOV;
-            static const float kXtionVerticalFOV;
-            static const float kXtionWidth;
-            static const float kXtionHeight;
-        };
+		struct XtionFrameProperty
+		{
+			static const float kXtionHorizontalFOV;
+			static const float kXtionVerticalFOV;
+			static const float kXtionWidth;
+			static const float kXtionHeight;
+		};
 
-        inline ImageHandler2(QFileInfoList file_list, QObject *parent = 0) :
-                file_list_(file_list),
-                xz_factor_(GetXtionDepthFactor(XtionFrameProperty::kXtionHorizontalFOV)),
-                yz_factor_(GetXtionDepthFactor(XtionFrameProperty::kXtionVerticalFOV)) { }
+		inline ImageHandler2 ( QFileInfoList file_list , QObject * parent = 0 ) :
+				file_list_ ( file_list ) ,
+				xz_factor_ ( GetXtionDepthFactor ( XtionFrameProperty::kXtionHorizontalFOV ) ) ,
+				yz_factor_ ( GetXtionDepthFactor ( XtionFrameProperty::kXtionVerticalFOV ) ) { }
 
-        inline ~ImageHandler2() { }
+		inline ~ImageHandler2 ( ) { }
 
-        inline void SetInternalCalibrator(Calibrator const &calibrator) { calibrator_ = calibrator; }
+		inline void SetInternalCalibrator ( Calibrator const & calibrator ) { calibrator_ = calibrator; }
 
-        inline RawDataFrames GetRawDataFrames() const { return raw_data_frames_; }
+		inline RawDataFrames GetRawDataFrames ( ) const { return raw_data_frames_; }
 
-        inline const KeyFrames &GetKeyFrames() const { return keyframes_; }
+		inline const KeyFrames & GetKeyFrames ( ) const { return keyframes_; }
 
-    signals:
+	signals:
 
-        void SendData(KeyFrames);
+		void SendData ( KeyFrames );
 
-        void DoneReading();
+		void DoneReading ( );
 
-        void Message(QString);
+		void Message ( QString );
 
-    public slots:
+	public slots:
 
-        void StartReading();
+		void StartReading ( );
 
-        void ConvertToPointImages();
+		void ConvertToPointImages ( int choice );
 
-        void ConvertToPointImagesWithInternalCalibration();
+		void ConvertToPointImagesWithInternalCalibration ( );
 
-    private:
+		void SetXtionCoordinateConverter ( ) { converter_pointer_ = & xtion_converter_; }
+		void SetAistCoordinateConverter ( const AistCoordinateConverter & converter ) {
 
-        void ConvertHelper();
+			aist_converter_    = converter;
+			converter_pointer_ = & aist_converter_;
+		}
 
-        void ConvertHelper(bool calibrated);
+		XtionCoordinateConverter GetXtionCoordinateConverter ( ) const { return xtion_converter_; }
+		AistCoordinateConverter GetAistCoordinateConverter ( ) const { return aist_converter_; }
 
-        float GetXtionDepthFactor(float fov) {
+	private:
 
-            return tanf(fov / 2) * 2;
-        }
+		void ConvertHelper ( );
 
-        inline cv::Point3f ScreenToWorld(int x, int y, float depth) {
+		void ConvertHelper ( bool calibrated );
 
-            const float gz = 0.001f * depth;
-            cv::Point3f p;
-            p.x = gz * xz_factor_ * (static_cast<float>(x) / XtionFrameProperty::kXtionWidth - 0.5f);
-            p.y = -gz * yz_factor_ * (static_cast<float>(y) / XtionFrameProperty::kXtionHeight - 0.5f);
-            p.z = -gz;
+		float GetXtionDepthFactor ( float fov ) {
 
-            return p;
-        }
+			return tanf ( fov / 2 ) * 2;
+		}
 
-        inline cv::Point2f WorldToScreen(const cv::Point3f &point) {
+		inline cv::Point3f ScreenToWorld ( int x , int y , float depth ) {
 
-            const float x = (point.x / (point.z * xz_factor_) + 0.5f) * XtionFrameProperty::kXtionWidth;
-            const float y = (point.y / (point.z * yz_factor_) + 0.5f) * XtionFrameProperty::kXtionHeight;
-            return cv::Point2f(x, y);
-        }
+			const float gz = 0.001f * depth;
+			cv::Point3f p;
+			p.x = gz * xz_factor_ * ( static_cast<float>(x) / XtionFrameProperty::kXtionWidth - 0.5f );
+			p.y = -gz * yz_factor_ * ( static_cast<float>(y) / XtionFrameProperty::kXtionHeight - 0.5f );
+			p.z = -gz;
 
-        PointImage ConvertDepthImageToPointImage(DepthImage const &depth_image);
+			return p;
+		}
 
-        PointImage ConvertDepthImageToPointImage(DepthImage const &depth_image, int choice);
+		inline cv::Point2f WorldToScreen ( const cv::Point3f & point ) {
 
-        bool calibrated_;
-        Calibrator calibrator_;
-        QFileInfoList file_list_;
-        RawDataFrames raw_data_frames_;
-        KeyFrames keyframes_;
+			const float x = ( point.x / ( point.z * xz_factor_ ) + 0.5f ) * XtionFrameProperty::kXtionWidth;
+			const float y = ( point.y / ( point.z * yz_factor_ ) + 0.5f ) * XtionFrameProperty::kXtionHeight;
+			return cv::Point2f ( x , y );
+		}
 
-        float xz_factor_;
-        float yz_factor_;
-    };
+		PointImage ConvertDepthImageToPointImage ( DepthImage const & depth_image , int choice );
+
+		bool          calibrated_;
+		Calibrator    calibrator_;
+		QFileInfoList file_list_;
+		RawDataFrames raw_data_frames_;
+		KeyFrames     keyframes_;
+
+		CoordinateConverter * converter_pointer_;
+		XtionCoordinateConverter xtion_converter_;
+		AistCoordinateConverter  aist_converter_;
+
+		float xz_factor_;
+		float yz_factor_;
+	};
 
 
 }

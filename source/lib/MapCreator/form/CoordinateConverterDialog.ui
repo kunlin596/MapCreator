@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Dialog</class>
- <widget class="QDialog" name="Dialog">
+ <class>CoordinateConverterDialog</class>
+ <widget class="QDialog" name="CoordinateConverterDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -27,14 +27,14 @@
        <number>20</number>
       </property>
       <item>
-       <widget class="QRadioButton" name="radioButton">
+       <widget class="QRadioButton" name="RadioButton_XtionCoordinateConverter">
         <property name="text">
          <string>Xtion Default</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QRadioButton" name="radioButton_2">
+       <widget class="QRadioButton" name="RadioButton_AistCoordinateConverter">
         <property name="text">
          <string>Aist Internal Calibration</string>
         </property>
@@ -47,7 +47,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QDialogButtonBox" name="buttonBox">
+    <widget class="QDialogButtonBox" name="ButtonBox_ResultButtons">
      <property name="standardButtons">
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
      </property>

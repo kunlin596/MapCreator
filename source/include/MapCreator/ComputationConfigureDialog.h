@@ -17,39 +17,37 @@ namespace Ui { class ComputationConfigureDialog; }
 
 namespace NiS {
 
-    class ComputationConfigureDialog : public QDialog {
+	class ComputationConfigureDialog : public QDialog
+	{
 
-        Q_OBJECT
+	Q_OBJECT
 
-    public:
+	public:
 
-        ComputationConfigureDialog(QWidget *parent = 0);
+		ComputationConfigureDialog ( QWidget * parent = 0 );
 
-        inline TrackingType GetTrackingType() const { return options_.GetType(); }
+		inline TrackingType GetTrackingType ( ) const { return options_.GetType ( ); }
 
-        Options GetOptions() const { return options_; }
+		Options GetOptions ( ) const { return options_; }
 
-        inline bool GetUseGlobalOptimization() const { return use_bundle_adjustment_; }
+		inline bool GetUseGlobalOptimization ( ) const { return use_bundle_adjustment_; }
 
-    private
-        slots:
+	private slots:
 
-        void
-        onResultButtonBoxClicked ( QAbstractButton
-        * button );
+		void onResultButtonBoxClicked ( QAbstractButton * button );
 
-        void onSettingButtonClicked();
+		void onSettingButtonClicked ( );
 
-    private:
+	private:
 
-        Ui::ComputationConfigureDialog ui_;
+		Ui::ComputationConfigureDialog ui_;
 
-        bool use_bundle_adjustment_;
-        bool options_configured_;
+		bool use_bundle_adjustment_;
+		bool options_configured_;
 
-        Options options_;
+		Options options_;
 
-    };
+	};
 }
 
 
