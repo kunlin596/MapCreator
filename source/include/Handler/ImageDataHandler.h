@@ -49,6 +49,8 @@ namespace NiS {
 
 		inline const KeyFrames & GetKeyFrames ( ) const { return keyframes_; }
 
+		static NiS::RawDataFrame ReadFrame ( const QString & file_name );
+
 	signals:
 
 		void SendData ( KeyFrames );

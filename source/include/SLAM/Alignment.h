@@ -34,21 +34,13 @@ namespace NiS {
 
 		SlamComputer ( QObject * parent = 0 );
 
-		inline ~SlamComputer ( ) { }
-
 		void SetDataDir ( const QDir & data_dir );
-
 		void SetFeatureType ( Feature::Type type );
-
 		bool WriteResult ( const std::pair < glm::vec3 , glm::vec3 > & point_pair );
-
 		bool CheckPreviousResult ( );
-
 		void UsePreviousResult ( const QString & result_cache_name );
-
 		Options GetOptions ( ) const { return options_; }
-
-		inline void SetRunningFLag ( bool running_flag ) { running_flag_ = running_flag; };
+		void SetRunningFLag ( bool running_flag ) { running_flag_ = running_flag; };
 
 	public slots:
 
@@ -58,7 +50,6 @@ namespace NiS {
 			keyframes_           = keyframes;
 			is_data_initialized_ = true;
 		}
-
 		void SetCoordinateConverter ( const XtionCoordinateConverter & converter ) {
 
 			xtion_converter_  = converter;
@@ -72,6 +63,8 @@ namespace NiS {
 
 		void StartCompute ( );
 		void StopCompute ( );
+
+		void StartGenerateAnswer();
 
 	public:
 
@@ -91,7 +84,6 @@ namespace NiS {
 		template < TrackingType type > void ComputeHelper ( ) {
 
 			std::cout << "Computation begins" << std::endl;
-
 
 			switch ( converter_choice_ ) {
 				case 0: {
@@ -116,7 +108,6 @@ namespace NiS {
 					break;
 			}
 		}
-
 		template < TrackingType type > void WriteCache ( ) { }
 
 		bool is_computation_configured_;
@@ -133,7 +124,6 @@ namespace NiS {
 		KeyFrames keyframes_;
 		KeyFrames result_keyframes_;
 
-
 		int                      converter_choice_;
 		XtionCoordinateConverter xtion_converter_;
 		AistCoordinateConverter  aist_converter_;
@@ -149,6 +139,8 @@ namespace NiS {
 	// Serialize
 	bool LoadMatricesInfo ( const std::string & file_name , MatricesInfo & info );
 	bool SaveMatricesInfo ( const std::string & file_name , const MatricesInfo & info );
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 }
 

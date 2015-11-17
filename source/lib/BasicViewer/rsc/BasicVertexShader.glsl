@@ -12,7 +12,7 @@ void main() {
     gl_Position = transformation_matrix * vec4(position, 1.0);
 
     if (gl_Position.z > 100)
-        gl_PointSize = 5;
+        gl_PointSize = 3;
     else
         gl_PointSize = 10.0 / gl_Position.z;
 

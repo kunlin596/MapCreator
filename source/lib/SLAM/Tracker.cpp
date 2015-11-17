@@ -44,7 +44,8 @@ namespace NiS {
 			const cv::Point3f pt2 = image2 ( cvRound ( key_point2.y ) , cvRound ( key_point2.x ) );
 
 			if ( std::isfinite ( pt1.x ) and std::isfinite ( pt2.x ) and
-			     ( pt1 != cv::Point3f ( 0.0f , 0.0f , 0.0f ) ) and ( pt2 != cv::Point3f ( 0.0f , 0.0f , 0.0f ) ) ) {
+			     ( pt1 != cv::Point3f ( 0.0f , 0.0f , 0.0f ) ) and ( pt2 != cv::Point3f ( 0.0f , 0.0f , 0.0f ) ) and
+			     std::abs(pt1.z) > 0.3f and std::abs(pt2.z) > 0.3f ) {
 				points1.push_back ( pt1 );
 				points2.push_back ( pt2 );
 			}

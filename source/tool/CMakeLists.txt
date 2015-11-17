@@ -30,6 +30,18 @@ target_link_libraries ( NiSMapCreatorTool
 
 add_executable ( NiSViewer Viewer.cpp )
 
+add_executable ( NiSFrameViewer FrameViewer.cpp )
+target_link_libraries ( NiSFrameViewer
+	NiSHandler
+	NiSSLAM
+	NiSMapCreator
+	${OpenCV_LIBS}
+	${Boost_LIBRARIES}
+	Qt5::Widgets
+	Qt5::Concurrent
+	Qt5::OpenGL )
+
+
 install ( TARGETS
 	NiSMapCreatorTool
 	NiSViewer

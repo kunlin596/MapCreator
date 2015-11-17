@@ -60,6 +60,7 @@ namespace NiS {
 		void onActionOpenLogPanel ( );
 		void onActionShowMarkerViewer ( );
 		void onActionOutputResult ( );
+		void onActionGenerateAnswer ( );
 
 		void OnReadingFinished ( );
 		void OnConversionFinished ( );

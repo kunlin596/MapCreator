@@ -11,40 +11,42 @@
 
 namespace NiS {
 
-    /***
-     *  This is the wrapper of KeyFrame data for OpenGL rendering
-     */
-    class KeyFrameGL : public PrimitiveGL {
-    public:
+	/***
+	 *  This is the wrapper of KeyFrame data for OpenGL rendering
+	 */
+	class KeyFrameGL : public PrimitiveGL
+	{
+	public:
 
-        KeyFrameGL(QOpenGLFunctions_4_1_Core *GL,
-                   const KeyFrame &keyframe,
-                   const int &point_cloud_density_step = 5);
+		KeyFrameGL ( QOpenGLFunctions_4_1_Core * GL ,
+		             const KeyFrame & keyframe ,
+		             const int & point_cloud_density_step = 5 );
 
-        ~KeyFrameGL() { /*ReleaseData ( );*/ }
+		~KeyFrameGL ( ) { /*ReleaseData ( );*/ }
 
-        void Render() override;
+		void Render ( ) override;
 
-        void SetupData() override;
+		void SetupData ( ) override;
 
-        inline void SetPointDensityStep(const int &step) {
+		inline void SetPointDensityStep ( const int & step ) {
 
-            point_cloud_density_step_ = step;
-            gpu_data_is_new_ = false;
-        }
+			point_cloud_density_step_ = step;
+			gpu_data_is_new_          = false;
+		}
 
-        std::string GetName() const { return keyframe_.GetName(); }
+		std::string GetName ( ) const { return keyframe_.GetName ( ); }
 
-        inline const glm::mat4 &GetAlignmentMatrix() const { return keyframe_.GetAlignmentMatrix(); }
+		inline const glm::mat4 & GetAlignmentMatrix ( ) const { return keyframe_.GetAlignmentMatrix ( ); }
+		inline const glm::mat4 & GetAnswerAlignmentMatrix ( ) const { return keyframe_.GetAnswerAlignmentMatrix ( ); }
 
-    private:
+	private:
 
-        int point_cloud_density_step_;
+		int point_cloud_density_step_;
 
-        KeyFrame keyframe_;
-    };
+		KeyFrame keyframe_;
+	};
 
-    using KeyFramesGL = std::vector<KeyFrameGL>;
+	using KeyFramesGL = std::vector < KeyFrameGL >;
 
 }
 

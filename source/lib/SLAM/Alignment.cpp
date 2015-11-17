@@ -5,6 +5,7 @@
 #include "SLAM/Calibrator.h"
 #include "SLAM/Transformation.h"
 #include "SLAM/GlobalOptimization.h"
+#include "SLAM/ArucoMarkerUtils.h"
 
 #include <limits>
 
@@ -95,7 +96,8 @@ namespace NiS {
 		for_each ( std::begin ( result_keyframes_ ) , std::end ( result_keyframes_ ) ,
 		           [ &cache ] ( const KeyFrame & keyframe ) -> void {
 			           cache.indices.push_back ( std::move ( keyframe.GetId ( ) ) );
-			           cache.matrices.push_back ( std::move ( keyframe.GetAlignmentMatrix ( ) ) );
+			           cache.estimation_matrices.push_back ( std::move ( keyframe.GetAlignmentMatrix ( ) ) );
+			           cache.marker_matrices.push_back ( std::move ( keyframe.GetAnswerAlignmentMatrix ( ) ) );
 		           } );
 
 		try {
@@ -109,6 +111,88 @@ namespace NiS {
 			return;
 
 		}
+	}
+
+	void SlamComputer::StartGenerateAnswer ( ) {
+
+		if ( result_keyframes_.empty ( ) ) {
+			return;
+		}
+
+		if ( result_keyframes_.size ( ) < 2 ) {
+			emit SendData ( result_keyframes_ );
+			return;
+
+		}
+
+		aruco::MarkerDetector marker_detector;
+
+		QTime timer;
+		timer.start ( );
+
+		for ( auto i = 1 ; i < result_keyframes_.size ( ) ; ++i ) {
+
+			auto & keyframe1 = result_keyframes_[ i - 1 ];
+			auto & keyframe2 = result_keyframes_[ i ];
+
+			Markers markers1;
+			Markers markers2;
+
+			marker_detector.detect ( keyframe1.GetColorImage ( ) , markers1 );
+			marker_detector.detect ( keyframe2.GetColorImage ( ) , markers2 );
+
+			Points points1;
+			Points points2;
+
+			boost::tie ( points1 , points2 ) = ArucoMarkerUtils::CreatePoints ( markers1 , markers2 , keyframe1 , keyframe2 );
+
+			auto matrix = ComputeTransformationMatrix ( points2 , points1 );
+
+			keyframe2.SetAnswerAlignmentMatrix ( std::move ( Convert_OpenCV_Matx44f_To_GLM_mat4 ( matrix ) ) );
+
+			std::cout << keyframe1.GetId ( ) << " - " << keyframe2.GetId ( ) << std::endl;
+			std::cout << keyframe2.GetAnswerAlignmentMatrix ( ) << std::endl;
+		}
+		emit Message ( QString ( "Done generating answers of  %1 frames. (used %2)" )
+				               .arg ( keyframes_.size ( ) )
+				               .arg ( ConvertTime ( timer.elapsed ( ) ) ) );
+
+		emit SendData ( result_keyframes_ );
+
+		QDir dir ( data_dir_.absolutePath ( ) + "/Cache" );
+		if ( !dir.exists ( ) ) dir.mkdir ( data_dir_.absolutePath ( ) + "/Cache" );
+		result_cache_path_ = dir.absolutePath ( );
+
+		QString cache_file_name = QString ( "%1/%2-%3.cache" )
+				.arg ( result_cache_path_ )
+				.arg ( time ( nullptr ) )
+				.arg ( QString ( "with_MARKER_ANSWER" ) );
+
+		ComputationResultCache cache;
+
+		cache.data_set_name    = data_dir_.absolutePath ( ).toStdString ( );
+		cache.computation_time = timer.elapsed ( );
+		cache.options          = options_;
+
+		for_each ( std::begin ( result_keyframes_ ) , std::end ( result_keyframes_ ) ,
+		           [ &cache ] ( const KeyFrame & keyframe ) -> void {
+			           cache.indices.push_back ( std::move ( keyframe.GetId ( ) ) );
+			           cache.estimation_matrices.push_back ( std::move ( keyframe.GetAlignmentMatrix ( ) ) );
+			           cache.marker_matrices.push_back ( std::move ( keyframe.GetAnswerAlignmentMatrix ( ) ) );
+		           } );
+
+		try {
+
+			SaveComputationResultCache ( cache_file_name.toStdString ( ) , cache );
+
+		}
+		catch ( const boost::archive::archive_exception & e ) {
+
+			emit Message ( e.what ( ) );
+			return;
+
+		}
+
 	}
 
 	bool SlamComputer::WriteResult ( const std::pair < glm::vec3 , glm::vec3 > & point_pair ) {
@@ -214,13 +298,15 @@ namespace NiS {
 		options_ = cache.options;
 
 		for ( auto i = 0 ; i < cache.indices.size ( ) ; ++i ) {
-			auto id     = cache.indices[ i ];
-			auto matrix = cache.matrices[ i ];
+			auto id                = cache.indices[ i ];
+			auto estimation_matrix = cache.estimation_matrices[ i ];
+			auto marker_matrix     = cache.marker_matrices[ i ];
 
 			auto kf = keyframes_[ id ];
 
 			kf.SetId ( id );
-			kf.SetAlignmentMatrix ( matrix );
+			kf.SetAlignmentMatrix ( estimation_matrix );
+			kf.SetAnswerAlignmentMatrix ( marker_matrix );
 
 			result_keyframes_.push_back ( kf );
 		}
@@ -230,6 +316,13 @@ namespace NiS {
 				               .arg ( keyframes_.size ( ) )
 				               .arg ( ConvertTime ( timer.elapsed ( ) ) ) );
 	}
+
+	void SlamComputer::StopCompute ( ) {
+
+		running_flag_ = false;
+	}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	bool SaveMatricesInfo ( const std::string & file_name , const MatricesInfo & info ) {
 
@@ -271,9 +364,5 @@ namespace NiS {
 		return false;
 	}
 
-	void SlamComputer::StopCompute ( ) {
-
-		running_flag_ = false;
-	}
 }
 

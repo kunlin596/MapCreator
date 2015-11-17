@@ -18,7 +18,10 @@ find_package ( OpenCV REQUIRED )
 qt5_wrap_cpp ( HANDLERS_MOC_FILES
 	"${NiS_INCLUDE_DIR}/Handler/ImageDataHandler.h" )
 
-include_directories ( ${OpenCV_INCLUDE_DIRS} ${Boost_INCLUDE_DIR} ${NiS_INCLUDE_DIR} )
+include_directories (
+	${OpenCV_INCLUDE_DIRS}
+	${Boost_INCLUDE_DIR}
+	${NiS_INCLUDE_DIR} )
 
 add_library ( NiSHandler SHARED
 	${Handler_SOURCE_FILES}

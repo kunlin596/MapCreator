@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>634</width>
+    <width>646</width>
     <height>500</height>
    </rect>
   </property>
@@ -348,6 +348,18 @@
                 </widget>
                </item>
                <item>
+                <widget class="QCheckBox" name="CheckBox_ShowAnswer">
+                 <property name="font">
+                  <font>
+                   <pointsize>10</pointsize>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>Show Answer</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
                 <widget class="QCheckBox" name="CheckBox_ViewDirection_Top">
                  <property name="font">
                   <font>
@@ -436,7 +448,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>634</width>
+     <width>646</width>
      <height>22</height>
     </rect>
    </property>
@@ -517,6 +529,7 @@
    <addaction name="separator"/>
    <addaction name="actionInternalCalibration"/>
    <addaction name="separator"/>
+   <addaction name="actionGenerateAnswer"/>
    <addaction name="actionConfigureSlamComputation"/>
    <addaction name="actionStartSlamComputation"/>
    <addaction name="actionStopSlamComputation"/>
@@ -687,6 +700,15 @@
    </property>
    <property name="toolTip">
     <string>Open log panel</string>
+   </property>
+  </action>
+  <action name="actionGenerateAnswer">
+   <property name="icon">
+    <iconset resource="../rsc/Resource.qrc">
+     <normaloff>:/Icons/Icons/mind_map.icns</normaloff>:/Icons/Icons/mind_map.icns</iconset>
+   </property>
+   <property name="text">
+    <string>Generate answer</string>
    </property>
   </action>
  </widget>

@@ -54,6 +54,7 @@ namespace NiS {
 		connect ( ui_.CheckBox_ShowGrid , SIGNAL( stateChanged ( int ) ) , ui_.BasicViewer , SLOT( onRenderGrid ( int ) ) );
 		connect ( ui_.CheckBox_ShowPointCloud , SIGNAL( stateChanged ( int ) ) , ui_.BasicViewer , SLOT( onRenderPointCloud ( int ) ) );
 		connect ( ui_.CheckBox_ShowTrajectory , SIGNAL( stateChanged ( int ) ) , ui_.BasicViewer , SLOT( onRenderTrajectory ( int ) ) );
+		connect ( ui_.CheckBox_ShowAnswer , SIGNAL( stateChanged ( int ) ) , ui_.BasicViewer , SLOT( onRenderAnswer ( int ) ) );
 
 		connect ( ui_.actionConfigureSlamComputation , SIGNAL( triggered ( ) ) , this ,
 		          SLOT( onActionConfigureSlamComputation ( ) ) );
@@ -67,6 +68,8 @@ namespace NiS {
 		connect ( ui_.actionCaptureModelMage , SIGNAL( triggered ( bool ) ) , this , SLOT( onActionCaptureModelImage ( ) ) );
 		connect ( ui_.actionUsePreviousResult , SIGNAL( triggered ( ) ) , this , SLOT( onActionUsePreviousResult ( ) ) );
 		connect ( ui_.actionOutputResult , SIGNAL( triggered ( ) ) , this , SLOT( onActionOutputResult ( ) ) );
+
+		connect ( ui_.actionGenerateAnswer , SIGNAL ( triggered ( ) ) , this , SLOT( onActionGenerateAnswer ( ) ) );
 
 		connect ( this , SIGNAL( ConfigurationDone ( ) ) , this , SLOT( PrepareComputation ( ) ) );
 		connect ( this , SIGNAL( ChangeViewerMode ( int ) ) , ui_.BasicViewer , SLOT( SetViewerMode ( int ) ) );
@@ -391,6 +394,7 @@ namespace NiS {
 			QMessageBox::information ( this , "Warning" , "No computation results found." , QMessageBox::Ok );
 
 		}
+
 		else {
 
 			marker_viewer_dialog_->SetKeyFrames ( result_keyframes_ );
@@ -407,6 +411,28 @@ namespace NiS {
 				QMessageBox::information ( this , "Warning" , "You need to selected 2 marker points." , QMessageBox::Ok );
 			}
 		}
+
+	}
+
+	void MainWindow::onActionGenerateAnswer ( ) {
+
+
+//		if ( !computation_configured_ ) {
+//			ui_.statusbar->showMessage ( "SLAM computation not configured, configure at first." );
+//			QMessageBox::warning ( this , "Warning" , "SLAM computation not configured." );
+//			return;
+//		}
+
+		assert( !keyframes_.empty ( ) );
+
+		std::cout << "MainWindow::onActionStartSlamAnswerComputation - data size: " << keyframes_.size ( ) << std::endl;
+
+		assert( !computer_->GetKeyFrames ( ).empty ( ) );
+
+		connect ( watcher_ , SIGNAL( finished ( ) ) , this , SLOT( OnSlamComputationCompleted ( ) ) );
+		QFuture < void > compute_result = QtConcurrent::run ( computer_ , & SlamComputer::StartGenerateAnswer );
+
+		watcher_->setFuture ( compute_result );
 
 	}
 

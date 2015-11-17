@@ -11,21 +11,33 @@
 
 namespace NiS {
 
-    class TrajectoryGL : public PrimitiveGL {
-    public:
+	class TrajectoryGL : public PrimitiveGL
+	{
+	public:
 
-        TrajectoryGL(QOpenGLFunctions_4_1_Core *GL,
-                     const KeyFrames &keyframes);
+		TrajectoryGL ( QOpenGLFunctions_4_1_Core * GL ,
+		               const KeyFrames & keyframes );
 
-        void SetupData() override;
+		void SetupData ( ) override;
 
-        void Render() override;
+		void Render ( ) override;
 
-    private:
+	protected:
 
-        KeyFrames keyframes_;
+		KeyFrames keyframes_;
 
-    };
+	};
+
+
+	class AnswerTrajectoryGL : public TrajectoryGL
+	{
+	public:
+
+		AnswerTrajectoryGL ( QOpenGLFunctions_4_1_Core * GL , const KeyFrames & keyframes );
+
+		void SetupData ( ) override;
+
+	};
 }
 
 #endif //NIS_TRAJECTORYGL_H

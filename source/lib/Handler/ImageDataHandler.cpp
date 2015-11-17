@@ -25,6 +25,22 @@ namespace NiS {
 	const float ImageHandler2::XtionFrameProperty::kXtionWidth         = 640;
 	const float ImageHandler2::XtionFrameProperty::kXtionHeight        = 480;
 
+
+	NiS::RawDataFrame ImageHandler2::ReadFrame ( const QString & file_name ) {
+
+		RawDataFrame frame;
+
+		ifstream in ( file_name.toStdString ( ) , ios::binary );
+		if ( in ) {
+
+			frame = ( NiS::Read < RawDataFrames > ( in ) )[ 0 ];
+			frame.name = file_name.toStdString ( );
+			frame.id   = -1;
+		}
+
+		return frame;
+	}
+
 	///////////////////	///////////////////	///////////////////	///////////////////	///////////////////	///////////////////	///////////////////
 
 	void ImageHandler2::StartReading ( ) {
