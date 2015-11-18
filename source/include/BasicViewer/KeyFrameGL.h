@@ -33,11 +33,10 @@ namespace NiS {
 			point_cloud_density_step_ = step;
 			gpu_data_is_new_          = false;
 		}
-
 		std::string GetName ( ) const { return keyframe_.GetName ( ); }
-
-		inline const glm::mat4 & GetAlignmentMatrix ( ) const { return keyframe_.GetAlignmentMatrix ( ); }
-		inline const glm::mat4 & GetAnswerAlignmentMatrix ( ) const { return keyframe_.GetAnswerAlignmentMatrix ( ); }
+		const glm::mat4 & GetAlignmentMatrix ( ) const { return keyframe_.GetAlignmentMatrix ( ); }
+		const glm::mat4 & GetAnswerAlignmentMatrix ( ) const { return keyframe_.GetAnswerAlignmentMatrix ( ); }
+		bool IsUsed ( ) const { return keyframe_.IsUsed ( ); }
 
 	private:
 

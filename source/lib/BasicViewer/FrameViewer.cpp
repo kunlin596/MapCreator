@@ -90,7 +90,13 @@ namespace NiS {
 		using namespace aruco;
 		using namespace cv;
 
-		if ( not color_image_.empty ( ) ) {
+		if ( not color_image_.empty ( ) and not depth_image_.empty ( ) ) {
+
+			cv::Mat depth_image_rgb;
+			depth_image_.convertTo ( depth_image_rgb , CV_8UC1 , 255.0f / 10000.0f );
+			cv::cvtColor ( depth_image_rgb , depth_image_rgb , CV_GRAY2RGB );
+
+			depth_image_rgb_ = depth_image_rgb;
 
 			MarkerDetector    marker_detector;
 			vector < Marker > markers;
@@ -100,19 +106,6 @@ namespace NiS {
 			has_marker_ = ( not markers.empty ( ) );
 
 			for ( auto const & marker : markers ) {
-
-				std::cout << marker.id << std::endl;
-//
-//				for ( auto const & point : marker ) {
-//					std::cout << point.x << ", " << point.y << std::endl;
-//				}
-
-				cv::Mat depth_image_rgb;
-				depth_image_.convertTo ( depth_image_rgb , CV_8UC1 , 255.0f / 10000.0f );
-				cv::cvtColor ( depth_image_rgb , depth_image_rgb , CV_GRAY2RGB );
-
-				depth_image_rgb_ = depth_image_rgb;
-
 				marker.draw ( color_image_ , Scalar ( 0 , 0 , 255 ) , 2 );
 
 				bool valid_marker = true;

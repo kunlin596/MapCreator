@@ -21,6 +21,7 @@ namespace NiS {
 		int                       computation_time;
 		Options                   options;
 		std::vector < int >       indices;
+		std::vector < bool >      used_status;
 		std::vector < glm::mat4 > estimation_matrices;
 		std::vector < glm::mat4 > marker_matrices;
 
@@ -31,6 +32,7 @@ namespace NiS {
 			ar & computation_time;
 			ar & options;
 			ar & indices;
+			ar & used_status;
 			ar & estimation_matrices;
 			ar & marker_matrices;
 		}

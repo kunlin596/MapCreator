@@ -91,8 +91,7 @@ namespace NiS {
 		QImage display_image = QImage ( color.data , color.cols , color.rows , QImage::Format::Format_RGB888 );
 
 		ui_.Label_MarkerImage2->setPixmap ( QPixmap::fromImage ( display_image ).scaled ( ui_.Label_MarkerImage2->width ( ) ,
-		                                                                                  ui_.Label_MarkerImage2->height ( ) ,
-		                                                                                  Qt::KeepAspectRatio ) );
+		                                                                                  ui_.Label_MarkerImage2->height ( ) , Qt::KeepAspectRatio ) );
 		ui_.CheckBox_HasPoint2->setChecked ( false );
 	}
 
@@ -156,15 +155,19 @@ namespace NiS {
 
 				QDialog::accept ( );
 
-				glm::mat4 accumulated_matrix;
+				glm::mat4 accumulated_matrix1;
+				glm::mat4 accumulated_matrix2;
 				for_each ( keyframes_.begin ( ) , keyframes_.end ( ) ,
 				           [ & ] ( const KeyFrame & keyframe ) {
-					           accumulated_matrix *= keyframe.GetAlignmentMatrix ( );
+					           accumulated_matrix1 *= keyframe.GetAlignmentMatrix ( );
+					           accumulated_matrix2 *= keyframe.GetAnswerAlignmentMatrix ( );
 				           } );
 
-				point2_ = glm::vec3 ( accumulated_matrix * glm::vec4 ( point2_ , 1.0f ) );
+				glm::vec3 point2_1 = glm::vec3 ( accumulated_matrix1 * glm::vec4 ( point2_ , 1.0f ) );
+				glm::vec3 point2_2 = glm::vec3 ( accumulated_matrix2 * glm::vec4 ( point2_ , 1.0f ) );
 
-				emit SendPointPair ( std::make_pair ( point1_ , point2_ ) );
+				emit SendEstimationPointPair ( std::make_pair ( point1_ , point2_1 ) );
+				emit SendMarkerPointPair ( std::make_pair ( point1_ , point2_2 ) );
 
 			} else {
 				QMessageBox::information ( this , "Warning" , "A pair of point must be set." );

@@ -77,6 +77,7 @@ namespace NiS {
 		Ui::MainWindow ui_;
 
 		void WriteResult ( const std::pair < glm::vec3 , glm::vec3 > & marker_points_pair );
+		void ResetWatcher ( );
 
 		bool computation_configured_;
 		bool computation_done_;
@@ -84,7 +85,6 @@ namespace NiS {
 		TrackingType type_;
 
 		KeyFrames keyframes_;
-		KeyFrames result_keyframes_;
 
 		ImageHandler2 * handler_;
 		SlamComputer  * computer_;

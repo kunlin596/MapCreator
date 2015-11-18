@@ -20,8 +20,8 @@ namespace NiS {
 	{
 		static CorrespondingPointsPair CreatePoints ( Markers & markers_set_1 ,
 		                                              Markers & markers_set_2 ,
-		                                              KeyFrame & keyframe1 ,
-		                                              KeyFrame & keyframe2 );
+		                                              const KeyFrame & keyframe1 ,
+		                                              const KeyFrame & keyframe2 );
 	};
 
 

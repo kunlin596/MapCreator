@@ -39,17 +39,19 @@ namespace NiS {
 
 		for ( const auto & frame : keyframes_ ) {
 
+			if ( frame.IsUsed ( ) ) {
 
-			accumulated_matrix = accumulated_matrix * frame.GetAlignmentMatrix ( );
+				accumulated_matrix = accumulated_matrix * frame.GetAlignmentMatrix ( );
 
-			VertexGL point;
+				VertexGL point;
 
-			glm::vec4 position = accumulated_matrix * glm::vec4 ( glm::vec3 ( 0.0f ) , 1.0f );
+				glm::vec4 position = accumulated_matrix * glm::vec4 ( glm::vec3 ( 0.0f ) , 1.0f );
 
-			point.position = glm::vec3 ( position.x , position.y , position.z );
-			point.color    = color;
+				point.position = glm::vec3 ( position.x , position.y , position.z );
+				point.color    = color;
 
-			data_.push_back ( point );
+				data_.push_back ( point );
+			}
 		}
 
 		assert ( !data_.empty ( ) );
@@ -75,7 +77,6 @@ namespace NiS {
 		GL->glBindVertexArray ( 0 );
 
 	}
-
 
 	AnswerTrajectoryGL::AnswerTrajectoryGL ( QOpenGLFunctions_4_1_Core * GL , const KeyFrames & keyframes ) :
 			TrajectoryGL ( GL , keyframes ) { }

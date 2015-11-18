@@ -88,21 +88,18 @@ namespace NiS {
 		GL->glClearColor ( background_color_.r , background_color_.g , background_color_.b , background_color_.a );
 		GL->glClear ( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-		mat4 scale_matrix     = scale ( mat4 ( ) , vec3 ( scale_ ) );
-		mat4 translate_matrix = translate ( mat4 ( ) , vec3 ( 0.0f , 0.0f , 0.0f ) );
-		mat4 rotation_matrix  = rotate ( mat4 ( ) , degree_ , vec3 ( 0.0f , 1.0f , 0.0f ) );
-		mat4 model_matrix     = translate_matrix * rotation_matrix * scale_matrix;
-
+		auto scale_matrix          = scale ( mat4 ( ) , vec3 ( scale_ ) );
+		auto translate_matrix      = translate ( mat4 ( ) , vec3 ( 0.0f , 0.0f , 0.0f ) );
+		auto rotation_matrix       = rotate ( mat4 ( ) , degree_ , vec3 ( 0.0f , 1.0f , 0.0f ) );
+		auto model_matrix          = translate_matrix * rotation_matrix * scale_matrix;
+		auto view_matrix           = camera_.ViewMatrix ( );
+		auto projection_matrix     = perspective ( radians ( 45.0f ) ,                                  // radian
+		                                           ( float ) ( this->width ( ) ) / this->height ( ) ,   // aspect ratio
+		                                           0.001f ,                                             // near z
+		                                           200.0f );                                            // far z
+		auto transformation_matrix = projection_matrix * view_matrix * model_matrix;
 		model_matrix = model_matrix * model_translation_matrix_ * model_rotation_matrix_;
 
-		mat4 view_matrix = camera_.ViewMatrix ( );
-
-		mat4 projection_matrix = perspective ( radians ( 45.0f ) ,                                // radian
-		                                       ( float ) ( this->width ( ) ) / this->height ( ) , // aspect ratio
-		                                       0.001f ,                                             // near z
-		                                       200.0f );                                          // far z
-
-		mat4 transformation_matrix = projection_matrix * view_matrix * model_matrix;
 
 		if ( render_grid_ ) {
 			grid_->SetTransformationMatrix (
@@ -123,6 +120,7 @@ namespace NiS {
 							accumulated_transformation_matrix = accumulated_transformation_matrix * keyframe_gl.GetAlignmentMatrix ( );
 							keyframe_gl.SetTransformationMatrix ( transformation_matrix * accumulated_transformation_matrix );
 							keyframe_gl.Render ( );
+							if ( keyframe_gl.IsUsed ( ) ) keyframe_gl.Render ( );
 						}
 					}
 					else {
@@ -146,7 +144,12 @@ namespace NiS {
 					}
 				}
 
-				for ( auto & point_pair_gl : point_pair_gl_ ) {
+				for ( auto & point_pair_gl : estimation_point_pair_gl_ ) {
+					point_pair_gl.SetTransformationMatrix ( transformation_matrix );
+					point_pair_gl.Render ( );
+				}
+
+				for ( auto & point_pair_gl : marker_point_pair_gl_ ) {
 					point_pair_gl.SetTransformationMatrix ( transformation_matrix );
 					point_pair_gl.Render ( );
 				}
@@ -242,7 +245,7 @@ namespace NiS {
 	void BasicViewer::keyPressEvent ( QKeyEvent * e ) {
 
 		// Camera movement
-		const float distance = 0.3f;
+		const float distance = 0.2f;
 
 		QEasingCurve curve ( QEasingCurve::InOutQuad );
 
@@ -408,15 +411,15 @@ namespace NiS {
 
 		keyframes_gl_.clear ( );
 
-		for ( auto i = 0 ; i < keyframes.size ( ) ; ++i ) {
+		for ( auto const & keyframe : keyframes ) {
 
-			KeyFrameGL keyframe_gl ( GL , keyframes[ i ] , density_step_ );
+			KeyFrameGL keyframe_gl ( GL , keyframe , density_step_ );
 			keyframe_gl.SetShaderProgram ( shader_program_ );
 			keyframe_gl.SetupData ( );
 			keyframes_gl_.push_back ( keyframe_gl );
 		}
 
-		std::cout << "Set up " << keyframes.size ( ) << std::endl;
+		std::cout << "BasicViewer setuped " << keyframes.size ( ) << " frames." << std::endl;
 
 		trajectory_gl_.clear ( );
 		TrajectoryGL trajectory_gl ( GL , keyframes );
@@ -577,11 +580,11 @@ namespace NiS {
 		return program;
 	}
 
-	void BasicViewer::SetPointPair ( const PointPair & point_pair ) {
+	void BasicViewer::SetEstimationPointPair ( const PointPair & point_pair ) {
 
 		makeCurrent ( );
 
-		point_pair_gl_.clear ( );
+		estimation_point_pair_gl_.clear ( );
 
 		std::cout << point_pair.first;
 		std::cout << point_pair.second;
@@ -589,7 +592,25 @@ namespace NiS {
 		auto point_pair_gl = PointPairGL ( GL , point_pair );
 		point_pair_gl.SetShaderProgram ( shader_program_ );
 		point_pair_gl.SetupData ( );
-		point_pair_gl_.push_back ( point_pair_gl );
+		estimation_point_pair_gl_.push_back ( point_pair_gl );
+
+		doneCurrent ( );
+	}
+
+
+	void BasicViewer::SetMarkerPointPair ( const PointPair & point_pair ) {
+
+		makeCurrent ( );
+
+		marker_point_pair_gl_.clear ( );
+
+		std::cout << point_pair.first;
+		std::cout << point_pair.second;
+
+		auto point_pair_gl = AnswerPointPairGL ( GL , point_pair );
+		point_pair_gl.SetShaderProgram ( shader_program_ );
+		point_pair_gl.SetupData ( );
+		marker_point_pair_gl_.push_back ( point_pair_gl );
 
 		doneCurrent ( );
 	}

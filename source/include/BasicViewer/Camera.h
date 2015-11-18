@@ -37,7 +37,7 @@ namespace NiS {
 		inline const glm::vec3 & GetPosition ( ) const { return camera_position_; }
 		inline const glm::vec3 & GetLookAt ( ) const { return look_at_; }
 		inline const glm::vec3 & GetUp ( ) const { return up_; }
-		
+
 		inline glm::vec3 GetHorizontalStrifeMatrix ( ) { return glm::cross ( look_at_ , up_ ); }
 
 		inline void SetView ( const glm::mat4 & m ) { view_mat_ = m; }

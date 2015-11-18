@@ -44,56 +44,62 @@ namespace NiS {
 		ui_.actionUsePreviousResult->setEnabled ( false );
 		ui_.actionConfigureSlamComputation->setEnabled ( false );
 
-		connect ( ui_.PushButton_ResetCamera , SIGNAL( pressed ( ) ) , ui_.BasicViewer , SLOT( onResetCamera ( ) ) );
-		connect ( ui_.PushButton_ResetModel , SIGNAL( pressed ( ) ) , ui_.BasicViewer , SLOT( onResetModel ( ) ) );
-		connect ( ui_.HorizontalSlider_PointCloudDensity , SIGNAL( valueChanged ( int ) ) , ui_.BasicViewer ,
-		          SLOT( onChangeDensity ( int ) ) );
-		connect ( ui_.CheckBox_ViewDirection_Top , SIGNAL( stateChanged ( int ) ) , ui_.BasicViewer , SLOT( onTopView ( int ) ) );
-		connect ( ui_.CheckBox_SpinModel , SIGNAL( stateChanged ( int ) ) , ui_.BasicViewer , SLOT( onSpin ( int ) ) );
+		connect ( ui_.PushButton_ResetCamera , SIGNAL ( pressed ( ) ) , ui_.BasicViewer , SLOT ( onResetCamera ( ) ) );
+		connect ( ui_.PushButton_ResetModel , SIGNAL ( pressed ( ) ) , ui_.BasicViewer , SLOT ( onResetModel ( ) ) );
+		connect ( ui_.HorizontalSlider_PointCloudDensity , SIGNAL ( valueChanged ( int ) ) , ui_.BasicViewer ,
+		          SLOT ( onChangeDensity ( int ) ) );
+		connect ( ui_.CheckBox_ViewDirection_Top , SIGNAL ( stateChanged ( int ) ) , ui_.BasicViewer , SLOT ( onTopView ( int ) ) );
+		connect ( ui_.CheckBox_SpinModel , SIGNAL ( stateChanged ( int ) ) , ui_.BasicViewer , SLOT ( onSpin ( int ) ) );
 
-		connect ( ui_.CheckBox_ShowGrid , SIGNAL( stateChanged ( int ) ) , ui_.BasicViewer , SLOT( onRenderGrid ( int ) ) );
-		connect ( ui_.CheckBox_ShowPointCloud , SIGNAL( stateChanged ( int ) ) , ui_.BasicViewer , SLOT( onRenderPointCloud ( int ) ) );
-		connect ( ui_.CheckBox_ShowTrajectory , SIGNAL( stateChanged ( int ) ) , ui_.BasicViewer , SLOT( onRenderTrajectory ( int ) ) );
-		connect ( ui_.CheckBox_ShowAnswer , SIGNAL( stateChanged ( int ) ) , ui_.BasicViewer , SLOT( onRenderAnswer ( int ) ) );
+		connect ( ui_.CheckBox_ShowGrid , SIGNAL ( stateChanged ( int ) ) , ui_.BasicViewer , SLOT ( onRenderGrid ( int ) ) );
+		connect ( ui_.CheckBox_ShowPointCloud , SIGNAL ( stateChanged ( int ) ) , ui_.BasicViewer , SLOT ( onRenderPointCloud ( int ) ) );
+		connect ( ui_.CheckBox_ShowTrajectory , SIGNAL ( stateChanged ( int ) ) , ui_.BasicViewer , SLOT ( onRenderTrajectory ( int ) ) );
+		connect ( ui_.CheckBox_ShowAnswer , SIGNAL ( stateChanged ( int ) ) , ui_.BasicViewer , SLOT ( onRenderAnswer ( int ) ) );
 
-		connect ( ui_.actionConfigureSlamComputation , SIGNAL( triggered ( ) ) , this ,
-		          SLOT( onActionConfigureSlamComputation ( ) ) );
-		connect ( ui_.actionStartSlamComputation , SIGNAL( triggered ( ) ) , this , SLOT( onActionStartSlamComputation ( ) ) );
-		connect ( ui_.actionOpenDataFiles , SIGNAL( triggered ( ) ) , this , SLOT( onActionOpenDataFiles ( ) ) );
-		connect ( ui_.actionShowControlPanel , SIGNAL( triggered ( ) ) , this , SLOT( onActionShowControlPanel ( ) ) );
-		connect ( ui_.actionOpenLogPanel , SIGNAL( triggered ( ) ) , this , SLOT( onActionOpenLogPanel ( ) ) );
-		connect ( ui_.actionInternalCalibration , & QAction::triggered , this , & MainWindow::onActionInternalCalibration );
-		connect ( ui_.actionOpenInliersViewMode , SIGNAL( triggered ( bool ) ) , this ,
-		          SLOT( onActionOpenInliersViewerMode ( bool ) ) );
-		connect ( ui_.actionCaptureModelMage , SIGNAL( triggered ( bool ) ) , this , SLOT( onActionCaptureModelImage ( ) ) );
-		connect ( ui_.actionUsePreviousResult , SIGNAL( triggered ( ) ) , this , SLOT( onActionUsePreviousResult ( ) ) );
-		connect ( ui_.actionOutputResult , SIGNAL( triggered ( ) ) , this , SLOT( onActionOutputResult ( ) ) );
+		connect ( ui_.actionConfigureSlamComputation , SIGNAL ( triggered ( ) ) , this ,
+		          SLOT ( onActionConfigureSlamComputation ( ) ) );
+		connect ( ui_.actionStartSlamComputation , SIGNAL ( triggered ( ) ) , this , SLOT ( onActionStartSlamComputation ( ) ) );
+		connect ( ui_.actionOpenDataFiles , SIGNAL ( triggered ( ) ) , this , SLOT ( onActionOpenDataFiles ( ) ) );
+		connect ( ui_.actionShowControlPanel , SIGNAL ( triggered ( ) ) , this , SLOT ( onActionShowControlPanel ( ) ) );
+		connect ( ui_.actionOpenLogPanel , SIGNAL ( triggered ( ) ) , this , SLOT ( onActionOpenLogPanel ( ) ) );
+		connect ( ui_.actionInternalCalibration , SIGNAL ( triggered ( ) ) , this , SLOT ( onActionInternalCalibration ( ) ) );
+		connect ( ui_.actionOpenInliersViewMode , SIGNAL ( triggered ( bool ) ) , this ,
+		          SLOT ( onActionOpenInliersViewerMode ( bool ) ) );
+		connect ( ui_.actionCaptureModelMage , SIGNAL ( triggered ( bool ) ) , this , SLOT ( onActionCaptureModelImage ( ) ) );
+		connect ( ui_.actionUsePreviousResult , SIGNAL ( triggered ( ) ) , this , SLOT ( onActionUsePreviousResult ( ) ) );
+		connect ( ui_.actionOutputResult , SIGNAL ( triggered ( ) ) , this , SLOT ( onActionOutputResult ( ) ) );
 
-		connect ( ui_.actionGenerateAnswer , SIGNAL ( triggered ( ) ) , this , SLOT( onActionGenerateAnswer ( ) ) );
+		connect ( ui_.actionGenerateAnswer , SIGNAL ( triggered ( ) ) , this , SLOT ( onActionGenerateAnswer ( ) ) );
 
-		connect ( this , SIGNAL( ConfigurationDone ( ) ) , this , SLOT( PrepareComputation ( ) ) );
-		connect ( this , SIGNAL( ChangeViewerMode ( int ) ) , ui_.BasicViewer , SLOT( SetViewerMode ( int ) ) );
+		connect ( this , SIGNAL ( ConfigurationDone ( ) ) , this , SLOT ( PrepareComputation ( ) ) );
+		connect ( this , SIGNAL ( ChangeViewerMode ( int ) ) , ui_.BasicViewer , SLOT ( SetViewerMode ( int ) ) );
 
 		// UI dialogs initialization
 		computation_configure_dialog_ = new ComputationConfigureDialog ( this );
 		computation_configure_dialog_->setFixedSize ( computation_configure_dialog_->sizeHint ( ) );
 
 		computer_ = new SlamComputer ( this );
-		connect ( computer_ , SIGNAL( Message ( QString ) ) , log_panel_dialog_ , SLOT( AppendMessage ( QString ) ) );
-		connect ( computer_ , SIGNAL( SendData ( KeyFrames ) ) , ui_.BasicViewer , SLOT( SetKeyFrames ( KeyFrames ) ) );
+		connect ( computer_ , SIGNAL ( Message ( QString ) ) , log_panel_dialog_ , SLOT ( AppendMessage ( QString ) ) );
+		connect ( computer_ , SIGNAL ( SendData ( KeyFrames ) ) , ui_.BasicViewer , SLOT ( SetKeyFrames ( KeyFrames ) ) );
 
-		connect ( ui_.BasicViewer , SIGNAL( Message ( QString ) ) , log_panel_dialog_ , SLOT( AppendMessage ( QString ) ) );
-		connect ( ui_.actionStopSlamComputation , SIGNAL( triggered ( ) ) , computer_ , SLOT( StopCompute ( ) ) );
+		connect ( ui_.BasicViewer , SIGNAL ( Message ( QString ) ) , log_panel_dialog_ , SLOT ( AppendMessage ( QString ) ) );
+		connect ( ui_.actionStopSlamComputation , SIGNAL ( triggered ( ) ) , computer_ , SLOT ( StopCompute ( ) ) );
 
 		// Marker Image Viewer
 		marker_viewer_dialog_ = new MarkerViewerDialog ( this );
-		connect ( marker_viewer_dialog_ , SIGNAL( SendPointPair ( PointPair ) ) , ui_.BasicViewer ,
-		          SLOT( SetPointPair ( PointPair ) ) );
+		connect ( marker_viewer_dialog_ , SIGNAL ( SendEstimationPointPair ( PointPair ) ) , ui_.BasicViewer ,
+		          SLOT ( SetEstimationPointPair ( PointPair ) ) );
+		connect ( marker_viewer_dialog_ , SIGNAL ( SendMarkerPointPair ( PointPair ) ) , ui_.BasicViewer ,
+		          SLOT ( SetMarkerPointPair ( PointPair ) ) );
 
-		connect ( ui_.actionIShowMarkerViewer , SIGNAL( triggered ( ) ) , this , SLOT( onActionShowMarkerViewer ( ) ) );
+		connect ( ui_.actionIShowMarkerViewer , SIGNAL ( triggered ( ) ) , this , SLOT ( onActionShowMarkerViewer ( ) ) );
 	}
 
-	MainWindow::~MainWindow ( ) { delete inliers_viewer_option_dialog_; }
+	MainWindow::~MainWindow ( ) {
+
+		delete watcher_;
+		delete inliers_viewer_option_dialog_;
+	}
 
 	void MainWindow::PrepareComputation ( ) {
 
@@ -116,9 +122,11 @@ namespace NiS {
 
 	void MainWindow::OnConversionFinished ( ) {
 
+		watcher_->disconnect ( this );
+
 		keyframes_ = handler_->GetKeyFrames ( );
 
-		assert( !keyframes_.empty ( ) );
+		assert ( !keyframes_.empty ( ) );
 
 		std::cout << "OnConversionFinished - data size : " << keyframes_.size ( ) << std::endl;
 
@@ -132,16 +140,6 @@ namespace NiS {
 		computer_->SetFrameData ( keyframes_ );
 	}
 
-	void MainWindow::OnSlamComputationCompleted ( ) {
-
-		ui_.HorizontalSlider_PointCloudDensity->setEnabled ( true );
-
-		result_keyframes_ = computer_->GetResultKeyFrames ( );
-		assert( !result_keyframes_.empty ( ) );
-
-		ui_.HorizontalSlider_PointCloudDensity->setValue ( 5 );
-	}
-
 	void MainWindow::WriteResult ( const std::pair < glm::vec3 , glm::vec3 > & marker_points_pair ) {
 
 		computer_->WriteResult ( marker_points_pair );
@@ -149,6 +147,10 @@ namespace NiS {
 	}
 
 	void MainWindow::onActionOpenDataFiles ( ) {
+
+		// ResetWatcher ( );
+
+		watcher_->disconnect ( this );
 
 		ui_.actionStartSlamComputation->setEnabled ( false );
 
@@ -165,9 +167,9 @@ namespace NiS {
 
 			handler_ = new ImageHandler2 ( list , this );
 
-			connect ( watcher_ , SIGNAL( finished ( ) ) , this , SLOT( OnReadingFinished ( ) ) );
-			connect ( handler_ , SIGNAL( Message ( QString ) ) , log_panel_dialog_ , SLOT( AppendMessage ( QString ) ) );
-			connect ( handler_ , SIGNAL( Message ( QString ) ) , ui_.statusbar , SLOT( showMessage ( QString ) ) );
+			connect ( watcher_ , SIGNAL ( finished ( ) ) , this , SLOT ( OnReadingFinished ( ) ) );
+			connect ( handler_ , SIGNAL ( Message ( QString ) ) , log_panel_dialog_ , SLOT ( AppendMessage ( QString ) ) );
+			connect ( handler_ , SIGNAL ( Message ( QString ) ) , ui_.statusbar , SLOT ( showMessage ( QString ) ) );
 
 			QFuture < void > reading_result = QtConcurrent::run ( this->handler_ , & ImageHandler2::StartReading );
 			watcher_->setFuture ( reading_result );
@@ -198,13 +200,15 @@ namespace NiS {
 
 	void MainWindow::onActionInternalCalibration ( ) {
 
+		// ResetWatcher ( );
+
 		ui_.actionStartSlamComputation->setEnabled ( false );
 
 		std::cerr << "Main thread : " << QThread::currentThreadId ( ) << std::endl;
 
-		assert( !handler_->GetRawDataFrames ( ).empty ( ) );
+		assert ( !handler_->GetRawDataFrames ( ).empty ( ) );
 
-		connect ( watcher_ , SIGNAL( finished ( ) ) , this , SLOT( OnConversionFinished ( ) ) );
+		connect ( watcher_ , SIGNAL ( finished ( ) ) , this , SLOT ( OnConversionFinished ( ) ) );
 
 		CoordinateConverterDialog dialog;
 
@@ -270,23 +274,39 @@ namespace NiS {
 
 	void MainWindow::onActionStartSlamComputation ( ) {
 
+		// ResetWatcher ( );
+
+		watcher_->disconnect ( this );
+
 		if ( !computation_configured_ ) {
 			ui_.statusbar->showMessage ( "SLAM computation not configured, configure at first." );
 			QMessageBox::warning ( this , "Warning" , "SLAM computation not configured." );
 			return;
 		}
 
-		assert( !keyframes_.empty ( ) );
+		assert ( !keyframes_.empty ( ) );
 
 		std::cout << "MainWindow::onActionStartSlamComputation - data size: " << keyframes_.size ( ) << std::endl;
 
-		assert( !computer_->GetKeyFrames ( ).empty ( ) );
+		assert ( !computer_->GetKeyFrames ( ).empty ( ) );
 
-		connect ( watcher_ , SIGNAL( finished ( ) ) , this , SLOT( OnSlamComputationCompleted ( ) ) );
+		connect ( watcher_ , SIGNAL ( finished ( ) ) , this , SLOT ( OnSlamComputationCompleted ( ) ) );
 		QFuture < void > compute_result = QtConcurrent::run ( computer_ , & SlamComputer::StartCompute );
 
 		watcher_->setFuture ( compute_result );
 
+		ui_.CheckBox_ShowAnswer->setChecked ( false );
+
+	}
+
+	void MainWindow::OnSlamComputationCompleted ( ) {
+
+		ui_.HorizontalSlider_PointCloudDensity->setEnabled ( true );
+
+		keyframes_ = computer_->GetKeyFrames ( );
+		assert ( !keyframes_.empty ( ) );
+
+		ui_.HorizontalSlider_PointCloudDensity->setValue ( 5 );
 	}
 
 	void MainWindow::onActionOpenInliersViewerMode ( bool checked ) {
@@ -295,13 +315,13 @@ namespace NiS {
 
 			emit ChangeViewerMode ( 1 );
 
-			connect ( inliers_viewer_option_dialog_ , SIGNAL( SendData ( KeyFrames ) ) , ui_.BasicViewer ,
-			          SLOT( SetKeyFramesForInliers ( KeyFrames ) ) );
-			connect ( inliers_viewer_option_dialog_ , SIGNAL( SendInliers ( CorrespondingPointsPair ) ) , ui_.BasicViewer ,
-			          SLOT( SetInliers ( CorrespondingPointsPair ) ) );
-			connect ( inliers_viewer_option_dialog_ , SIGNAL( SendCorrespondingPoints ( CorrespondingPointsPair ) ) ,
+			connect ( inliers_viewer_option_dialog_ , SIGNAL ( SendData ( KeyFrames ) ) , ui_.BasicViewer ,
+			          SLOT ( SetKeyFramesForInliers ( KeyFrames ) ) );
+			connect ( inliers_viewer_option_dialog_ , SIGNAL ( SendInliers ( CorrespondingPointsPair ) ) , ui_.BasicViewer ,
+			          SLOT ( SetInliers ( CorrespondingPointsPair ) ) );
+			connect ( inliers_viewer_option_dialog_ , SIGNAL ( SendCorrespondingPoints ( CorrespondingPointsPair ) ) ,
 			          ui_.BasicViewer ,
-			          SLOT( SetCorrespondingPoints ( CorrespondingPointsPair ) ) );
+			          SLOT ( SetCorrespondingPoints ( CorrespondingPointsPair ) ) );
 
 			inliers_viewer_option_dialog_->SetKeyFrames ( keyframes_ );
 			inliers_viewer_option_dialog_->SetOptions ( computer_->GetOptions ( ) );
@@ -389,7 +409,7 @@ namespace NiS {
 
 	void MainWindow::onActionOutputResult ( ) {
 
-		if ( result_keyframes_.empty ( ) ) {
+		if ( keyframes_.empty ( ) ) {
 
 			QMessageBox::information ( this , "Warning" , "No computation results found." , QMessageBox::Ok );
 
@@ -397,7 +417,9 @@ namespace NiS {
 
 		else {
 
-			marker_viewer_dialog_->SetKeyFrames ( result_keyframes_ );
+			computer_->WriteResult ( );
+
+			marker_viewer_dialog_->SetKeyFrames ( keyframes_ );
 			int result = marker_viewer_dialog_->exec ( );
 
 			if ( result == QDialog::Accepted ) {
@@ -416,23 +438,23 @@ namespace NiS {
 
 	void MainWindow::onActionGenerateAnswer ( ) {
 
+		// ResetWatcher ( );
 
-//		if ( !computation_configured_ ) {
-//			ui_.statusbar->showMessage ( "SLAM computation not configured, configure at first." );
-//			QMessageBox::warning ( this , "Warning" , "SLAM computation not configured." );
-//			return;
-//		}
-
-		assert( !keyframes_.empty ( ) );
+		assert ( !keyframes_.empty ( ) );
 
 		std::cout << "MainWindow::onActionStartSlamAnswerComputation - data size: " << keyframes_.size ( ) << std::endl;
 
-		assert( !computer_->GetKeyFrames ( ).empty ( ) );
+		assert ( !computer_->GetKeyFrames ( ).empty ( ) );
 
-		connect ( watcher_ , SIGNAL( finished ( ) ) , this , SLOT( OnSlamComputationCompleted ( ) ) );
+		connect ( watcher_ , SIGNAL ( finished ( ) ) , this , SLOT ( OnSlamComputationCompleted ( ) ) );
 		QFuture < void > compute_result = QtConcurrent::run ( computer_ , & SlamComputer::StartGenerateAnswer );
 
 		watcher_->setFuture ( compute_result );
+		ui_.CheckBox_ShowAnswer->setChecked ( true );
+
+	}
+
+	void MainWindow::ResetWatcher ( ) {
 
 	}
 

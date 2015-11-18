@@ -56,7 +56,9 @@ namespace NiS {
 				                           color_image.at < cv::Vec3b > ( row , col )[ 1 ] / 255.0f ,
 				                           color_image.at < cv::Vec3b > ( row , col )[ 2 ] / 255.0f );
 
-				data_.push_back ( vertex );
+				if ( std::abs ( vertex.position.z ) > 0.3f ) {
+					data_.push_back ( vertex );
+				}
 			}
 		}
 

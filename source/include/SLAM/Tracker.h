@@ -13,6 +13,8 @@
 #include "SLAM/Transformation.h"
 #include "SLAM/CoordinateConverter.h"
 
+#include <Core/Utility.h>
+
 #include <iostream>
 #include <boost/tuple/tuple.hpp>
 
@@ -34,15 +36,11 @@ namespace NiS {
 
 		using KeyFramesIterator = KeyFrames::iterator;
 
-		Tracker ( ) = default;
-
 		Tracker ( const Options & options ) {
 
 			options_ = options;
 		}
-
 		Tracker ( const Tracker & other ) = default;
-
 		Tracker ( const KeyFrames & keyframes , const Options & options , const XtionCoordinateConverter & converter ) {
 
 			options_                    = options;
@@ -68,14 +66,16 @@ namespace NiS {
 			Initialize ( );
 		}
 
-		~Tracker ( ) { }
+		Tracker ( ) = default;
+		~Tracker ( ) = default;
 
-		bool     Update ( );
-		KeyFrame ComputeNext ( );
+		bool Update ( );
+		void ComputeNext ( );
 
-		inline QString GetMessage ( ) const { return message_; };
-		inline const KeyFramesIterator & GetIterator1 ( ) const { return iterator1_; }
-		inline const KeyFramesIterator & GetIterator2 ( ) const { return iterator2_; }
+		QString GetMessage ( ) const { return message_; };
+		const KeyFramesIterator & GetIterator1 ( ) const { return iterator1_; }
+		const KeyFramesIterator & GetIterator2 ( ) const { return iterator2_; }
+		const KeyFrames GetResults ( ) const { return keyframes_; }
 
 	private:
 
@@ -105,9 +105,9 @@ namespace NiS {
 	template < > bool Tracker < TrackingType::FixedFrameCount >::Update ( );
 	template < > bool Tracker < TrackingType::PcaKeyFrame >::Update ( );
 
-	template < > KeyFrame Tracker < TrackingType::OneByOne >::ComputeNext ( );
-	template < > KeyFrame Tracker < TrackingType::FixedFrameCount >::ComputeNext ( );
-	template < > KeyFrame Tracker < TrackingType::PcaKeyFrame >::ComputeNext ( );
+	template < > void Tracker < TrackingType::OneByOne >::ComputeNext ( );
+	template < > void Tracker < TrackingType::FixedFrameCount >::ComputeNext ( );
+	template < > void Tracker < TrackingType::PcaKeyFrame >::ComputeNext ( );
 
 	template < > void Tracker < TrackingType::OneByOne >::Initialize ( );
 	template < > void Tracker < TrackingType::FixedFrameCount >::Initialize ( );

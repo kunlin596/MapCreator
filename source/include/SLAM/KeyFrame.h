@@ -20,61 +20,52 @@ namespace NiS {
 	{
 	public:
 
-		inline KeyFrame ( ) { }
-
-		inline KeyFrame ( const std::string & name , const PointImage & point_image , const ColorImage & color_image ,
-		                  const Feature::Type & type = Feature::Type::kTypeSIFT ) :
+		KeyFrame ( const std::string & name , const PointImage & point_image , const ColorImage & color_image ,
+		           const Feature::Type & type = Feature::Type::kTypeSIFT ) :
 				name_ ( name ) ,
 				point_image_ ( point_image ) ,
 				color_image_ ( color_image ) ,
-				type_ ( type ) {
+				type_ ( type ) ,
+				is_used_ ( false ) {
 
 			CreateFeature ( );
 		}
 
-		inline ~KeyFrame ( ) { }
+		KeyFrame ( ) = default;
+		~KeyFrame ( ) = default;
 
-		inline void SetId ( const int & id ) { id_ = id; }
-
-		inline void SetName ( const std::string & name ) { name_ = name; }
-
-		inline void SetColorImage ( const ColorImage & color_image , const Feature::Type & type = Feature::Type::kTypeSIFT ) {
+		// Setters
+		void SetId ( const int & id ) { id_ = id; }
+		void SetName ( const std::string & name ) { name_ = name; }
+		void SetColorImage ( const ColorImage & color_image , const Feature::Type & type = Feature::Type::kTypeSIFT ) {
 
 			type_        = type;
 			color_image_ = color_image;
 			CreateFeature ( );
 		}
-//		inline void SetColorImage ( const ColorImage & color_image , int ) { color_image_ = color_image; }
+		void SetPointImage ( const PointImage & point_image ) { point_image_ = point_image; }
+		void SetAlignmentMatrix ( const glm::mat4 & mat ) { alignment_matrix_ = mat; }
+		void SetAnswerAlignmentMatrix ( const glm::mat4 & mat ) { marker_alignment_matrix_ = mat; }
+		void SetUsed ( bool is_used ) { is_used_ = is_used; }
 
-		inline void SetPointImage ( const PointImage & point_image ) { point_image_ = point_image; }
+		// Getters
+		int GetId ( ) const { return id_; }
+		const ColorImage & GetColorImage ( ) const { return color_image_; }
+		const PointImage & GetPointImage ( ) const { return point_image_; }
+		const std::string & GetName ( ) const { return name_; }
+		const NiS::Feature & GetFeature ( ) const { return feature_; }
+		const NiS::Feature::Type & GetFeatureType ( ) const { return type_; }
+		const glm::mat4 & GetAlignmentMatrix ( ) const { return alignment_matrix_; }
+		const glm::mat4 & GetAnswerAlignmentMatrix ( ) const { return marker_alignment_matrix_; }
+		const bool IsUsed ( ) const { return is_used_; }
 
+	private: // Private methods
 
-		inline void SetAlignmentMatrix ( const glm::mat4 & mat ) { alignment_matrix_ = mat; }
-		inline void SetAnswerAlignmentMatrix ( const glm::mat4 & mat ) { marker_alignment_matrix_ = mat; }
-
-		inline int GetId ( ) const { return id_; }
-
-		inline const ColorImage & GetColorImage ( ) const { return color_image_; }
-
-		inline const PointImage & GetPointImage ( ) const { return point_image_; }
-
-		inline const std::string & GetName ( ) const { return name_; }
-
-		inline const NiS::Feature & GetFeature ( ) const { return feature_; }
-
-		inline const NiS::Feature::Type & GetFeatureType ( ) const { return type_; }
-
-		inline const glm::mat4 & GetAlignmentMatrix ( ) const { return alignment_matrix_; }
-		inline const glm::mat4 & GetAnswerAlignmentMatrix ( ) const { return marker_alignment_matrix_; }
-
-	private:
-
+		// Boost serialization methods
 		friend class boost::serialization::access;
 
 		BOOST_SERIALIZATION_SPLIT_MEMBER ( );
-
-		template < class Archive >
-		void save ( Archive & ar , const unsigned int version ) const {
+		template < class Archive > void save ( Archive & ar , const unsigned int version ) const {
 
 			const cv::Mat color = color_image_;
 			const cv::Mat point = point_image_;
@@ -85,9 +76,7 @@ namespace NiS {
 			ar & feature_;
 
 		}
-
-		template < class Archive >
-		void load ( Archive & ar , const unsigned int version ) {
+		template < class Archive > void load ( Archive & ar , const unsigned int version ) {
 
 			cv::Mat     color;
 			cv::Mat     point;
@@ -145,8 +134,10 @@ namespace NiS {
 			}
 		}
 
-		int id_;
+	private: // Fields
 
+		int                id_;
+		bool               is_used_;
 		glm::mat4          marker_alignment_matrix_;
 		glm::mat4          alignment_matrix_;
 		std::string        name_;

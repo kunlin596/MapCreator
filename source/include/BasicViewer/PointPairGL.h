@@ -10,20 +10,32 @@
 
 namespace NiS {
 
-    class PointPairGL : public PrimitiveGL {
-    public:
+	class PointPairGL : public PrimitiveGL
+	{
+	public:
 
-        PointPairGL(QOpenGLFunctions_4_1_Core *GL, const std::pair<glm::vec3, glm::vec3> &point_pair);
+		PointPairGL ( QOpenGLFunctions_4_1_Core * GL , const std::pair < glm::vec3 , glm::vec3 > & point_pair );
 
-        void SetupData() override;
+		void SetupData ( ) override;
 
-        void Render() override;
+		void Render ( ) override;
 
-    private:
+	protected:
 
-        KeyFrames keyframes_;
-        std::pair<glm::vec3, glm::vec3> point_pair_;
+		KeyFrames                           keyframes_;
+		std::pair < glm::vec3 , glm::vec3 > point_pair_;
 
-    };
+	};
+
+	class AnswerPointPairGL : public PointPairGL
+	{
+	public:
+
+		AnswerPointPairGL ( QOpenGLFunctions_4_1_Core * GL , const std::pair < glm::vec3 , glm::vec3 > & point_pair );
+
+		void SetupData ( ) override;
+
+	};
+
 }
 #endif //NIS_POINTPAIRGL_H

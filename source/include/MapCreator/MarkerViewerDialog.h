@@ -36,7 +36,8 @@ namespace NiS {
 
 	signals:
 
-		void SendPointPair ( PointPair );
+		void SendEstimationPointPair ( PointPair );
+		void SendMarkerPointPair ( PointPair );
 
 	private slots:
 

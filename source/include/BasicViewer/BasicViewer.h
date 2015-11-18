@@ -50,65 +50,40 @@ namespace NiS {
 	protected:
 
 		virtual void initializeGL ( ) override;
-
 		virtual void paintGL ( ) override;
-
 		virtual void resizeGL ( int width , int height ) override;
 
 		void mouseMoveEvent ( QMouseEvent * e ) override;
-
 		void mousePressEvent ( QMouseEvent * e ) override;
-
 		void keyPressEvent ( QKeyEvent * e ) override;
-
 		void wheelEvent ( QWheelEvent * e ) override;
 
 	signals:
 
-		void
-				Message ( QString );
+		void Message ( QString );
 
-	public
-		slots:
+	public slots:
 
-		void
-				SetKeyFrames ( KeyFrames
-				               keyframes );
-
+		void SetKeyFrames ( KeyFrames keyframes );
 		void SetViewerMode ( int mode );
-
 		void SetCorrespondingPoints ( CorrespondingPointsPair );
-
 		void SetInliers ( CorrespondingPointsPair );
-
 		void SetKeyFramesForInliers ( KeyFrames keyframes );
+		void SetEstimationPointPair ( const PointPair & point_pair );
+		void SetMarkerPointPair ( const PointPair & point_pair );
 
-		void SetPointPair ( const PointPair & point_pair );
+	private slots:
 
-	private
-		slots:
-
-		void
-
-				onSpin ( );
-
+		void onSpin ( );
 		void onResetCamera ( );
-
 		void onResetModel ( );
-
 		void onChangeDensity ( int value );
-
 		void onTopView ( int option );
-
 		void onSpin ( int option );
-
 		void onRenderGrid ( int option );
-
 		void onRenderTrajectory ( int option );
-
 		void onRenderPointCloud ( int option );
-
-		void onRenderAnswer ( int opetion );
+		void onRenderAnswer ( int option );
 
 	private:
 
@@ -134,7 +109,8 @@ namespace NiS {
 		std::vector < KeyFrameGL >            keyframes_gl_for_inliers_;
 		std::vector < TrajectoryGL >          trajectory_gl_;
 		std::vector < TrajectoryGL >          answer_trajectory_gl_;
-		std::vector < PointPairGL >           point_pair_gl_;
+		std::vector < PointPairGL >           estimation_point_pair_gl_;
+		std::vector < PointPairGL >           marker_point_pair_gl_;
 
 		QOpenGLShaderProgram      * shader_program_;
 		QOpenGLFunctions_4_1_Core * GL;
