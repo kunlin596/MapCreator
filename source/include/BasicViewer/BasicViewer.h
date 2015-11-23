@@ -71,6 +71,20 @@ namespace NiS {
 		void SetKeyFramesForInliers ( KeyFrames keyframes );
 		void SetEstimationPointPair ( const PointPair & point_pair );
 		void SetMarkerPointPair ( const PointPair & point_pair );
+		void SetBeginFrame ( int begin_frame ) {
+
+			if ( 0 <= begin_frame and begin_frame < keyframes_gl_.size ( ) ) {
+				begin_frame_ = begin_frame;
+				emit repaint ( );
+			}
+		}
+		void SetEndFrame ( int end_frame ) {
+
+			if ( 0 <= end_frame and end_frame < keyframes_gl_.size ( ) ) {
+				end_frame_ = end_frame;
+				emit repaint ( );
+			}
+		}
 
 	private slots:
 
@@ -97,11 +111,16 @@ namespace NiS {
 		float     scale_;
 		int       density_step_;
 
+		int begin_frame_;
+		int end_frame_;
+
 		bool render_grid_;
 		bool render_inliers_;
 		bool render_point_cloud_;
 		bool render_trajectory_;
 		bool render_answer_;
+
+		bool top_view_;
 
 		std::vector < KeyFrameGL >            keyframes_gl_;
 		std::vector < CorrespondingPointsGL > corresponding_points_pair_gl_;

@@ -19,6 +19,7 @@ namespace NiS {
 	MainWindow::MainWindow ( QWidget * parent ) :
 			computation_configured_ ( false ) ,
 			computation_done_ ( false ) ,
+			play_timer_ ( new QTimer ( this ) ) ,
 			watcher_ ( new QFutureWatcher < void > ( this ) ) {
 
 		// Register object for Qt
@@ -93,6 +94,25 @@ namespace NiS {
 		          SLOT ( SetMarkerPointPair ( PointPair ) ) );
 
 		connect ( ui_.actionIShowMarkerViewer , SIGNAL ( triggered ( ) ) , this , SLOT ( onActionShowMarkerViewer ( ) ) );
+
+
+		connect ( ui_.SpinBox_BeginFrame , SIGNAL ( valueChanged ( int ) ) , ui_.HorizontalSlider_BeginFrame , SLOT( setValue ( int ) ) );
+		connect ( ui_.SpinBox_BeginFrame , SIGNAL( valueChanged ( int ) ) , this , SLOT( onBeginFrameIsBiggerThanEndFrame ( int ) ) );
+		connect ( ui_.SpinBox_EndFrame , SIGNAL ( valueChanged ( int ) ) , ui_.HorizontalSlider_EndFrame , SLOT( setValue ( int ) ) );
+		connect ( ui_.SpinBox_EndFrame , SIGNAL ( valueChanged ( int ) ) , this , SLOT( onEndFrameIsSmallerThanBeginFrame ( int ) ) );
+		connect ( ui_.HorizontalSlider_BeginFrame , SIGNAL ( valueChanged ( int ) ) , ui_.SpinBox_BeginFrame , SLOT( setValue ( int ) ) );
+		connect ( ui_.HorizontalSlider_BeginFrame , SIGNAL( valueChanged ( int ) ) , this , SLOT( onBeginFrameIsBiggerThanEndFrame ( int ) ) );
+		connect ( ui_.HorizontalSlider_EndFrame , SIGNAL ( valueChanged ( int ) ) , ui_.SpinBox_EndFrame , SLOT( setValue ( int ) ) );
+		connect ( ui_.HorizontalSlider_EndFrame , SIGNAL ( valueChanged ( int ) ) , this , SLOT( onEndFrameIsSmallerThanBeginFrame ( int ) ) );
+
+		connect ( ui_.SpinBox_BeginFrame , SIGNAL( valueChanged ( int ) ) , ui_.BasicViewer , SLOT( SetBeginFrame ( int ) ) );
+		connect ( ui_.SpinBox_EndFrame , SIGNAL( valueChanged ( int ) ) , ui_.BasicViewer , SLOT( SetEndFrame ( int ) ) );
+
+
+		connect ( ui_.PushButton_Play , SIGNAL( clicked ( ) ) , this , SLOT( onPlayButtonClicked ( ) ) );
+		connect ( ui_.PushButton_Stop , SIGNAL( clicked ( ) ) , this , SLOT( onStopButtonClicked ( ) ) );
+		connect ( play_timer_ , SIGNAL( timeout ( ) ) , this , SLOT( onRewindCloud ( ) ) );
+
 	}
 
 	MainWindow::~MainWindow ( ) {
@@ -306,6 +326,15 @@ namespace NiS {
 		keyframes_ = computer_->GetKeyFrames ( );
 		assert ( !keyframes_.empty ( ) );
 
+		ui_.HorizontalSlider_BeginFrame->setRange ( 0 , static_cast<int>(keyframes_.size ( ) - 1 ) );
+		ui_.HorizontalSlider_EndFrame->setRange ( 0 , static_cast<int>(keyframes_.size ( ) - 1 ) );
+
+		ui_.SpinBox_BeginFrame->setRange ( 0 , static_cast<int>(keyframes_.size ( ) - 1 ) );
+		ui_.SpinBox_EndFrame->setRange ( 0 , static_cast<int>(keyframes_.size ( ) - 1 ) );
+
+		ui_.HorizontalSlider_BeginFrame->setValue ( 0 );
+		ui_.HorizontalSlider_EndFrame->setValue ( static_cast<int>(keyframes_.size ( ) - 1 ) );
+
 		ui_.HorizontalSlider_PointCloudDensity->setValue ( 5 );
 	}
 
@@ -314,6 +343,8 @@ namespace NiS {
 		if ( checked ) {
 
 			emit ChangeViewerMode ( 1 );
+
+			connect ( inliers_viewer_option_dialog_ , SIGNAL( Message ( QString ) ) , log_panel_dialog_ , SLOT( AppendMessage ( QString ) ) );
 
 			connect ( inliers_viewer_option_dialog_ , SIGNAL ( SendData ( KeyFrames ) ) , ui_.BasicViewer ,
 			          SLOT ( SetKeyFramesForInliers ( KeyFrames ) ) );
@@ -456,6 +487,52 @@ namespace NiS {
 
 	void MainWindow::ResetWatcher ( ) {
 
+	}
+
+	void MainWindow::onBeginFrameIsBiggerThanEndFrame ( int val ) {
+
+		if ( val > ui_.SpinBox_EndFrame->value ( ) ) {
+			ui_.SpinBox_EndFrame->setValue ( val );
+		}
+	}
+
+	void MainWindow::onEndFrameIsSmallerThanBeginFrame ( int val ) {
+
+		if ( val < ui_.SpinBox_BeginFrame->value ( ) ) {
+			ui_.SpinBox_BeginFrame->setValue ( val );
+		}
+	}
+
+
+	void MainWindow::onPlayButtonClicked ( ) {
+
+		play_timer_->start ( 33 );
+
+	}
+
+	void MainWindow::onStopButtonClicked ( ) {
+
+		play_timer_->stop ( );
+
+	}
+
+
+	void MainWindow::onRewindCloud ( ) {
+
+		const auto begin_frame = ui_.SpinBox_BeginFrame->value ( );
+		const auto end_frame   = ui_.SpinBox_EndFrame->value ( );
+
+		static bool backwards = true;
+
+		if ( not backwards and end_frame != keyframes_.size ( ) - 1 ) {
+			ui_.SpinBox_EndFrame->setValue ( end_frame + 1 );
+		} else if ( not backwards and end_frame == keyframes_.size ( ) - 1 ) {
+			backwards = true;
+		} else if ( backwards and ui_.SpinBox_EndFrame->value ( ) != begin_frame ) {
+			ui_.SpinBox_EndFrame->setValue ( end_frame - 1 );
+		} else if ( backwards and ui_.SpinBox_EndFrame->value ( ) == begin_frame ) {
+			backwards = false;
+		}
 	}
 
 }

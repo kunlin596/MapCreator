@@ -27,5 +27,7 @@
   <slot>SetKeyFramesForInliers(NiS::KeyFrames2)</slot>
   <slot>SetCorrespondingPoints(CorrespondingPointsPair)</slot>
   <slot>SetPointPair(NiS::PointPair)</slot>
+  <slot>SetBeginFrame(int)</slot>
+  <slot>SetEndFrame(int)</slot>
  </slots>
 </ui>

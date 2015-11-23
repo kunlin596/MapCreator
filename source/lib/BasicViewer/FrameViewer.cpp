@@ -52,11 +52,16 @@ namespace NiS {
 		filters.push_back ( QString ( "*.dat" ) );
 		QFileInfoList file_info_list = dir.entryInfoList ( filters );
 
-		for ( auto item : file_info_list ) {
+		for ( int i = 0 ; i < file_info_list.size ( ) ; ++i ) {
 
-			QListWidgetItem * i = new QListWidgetItem ( item.baseName ( ) , ui_.ListWidget_FileList );
-			i->setData ( Qt::UserRole , item.absoluteFilePath ( ) );
-			ui_.ListWidget_FileList->addItem ( i );
+			auto & file_info = file_info_list[ i ];
+
+			QListWidgetItem * item = new QListWidgetItem ( QString ( "%1 : (%2)" )
+					                                               .arg ( i + 1 )
+					                                               .arg ( file_info.baseName ( ) ) ,
+			                                               ui_.ListWidget_FileList );
+			item->setData ( Qt::UserRole , file_info.absoluteFilePath ( ) );
+			ui_.ListWidget_FileList->addItem ( item );
 		}
 	}
 

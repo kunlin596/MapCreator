@@ -42,9 +42,12 @@ namespace NiS {
 			render_point_cloud_ ( true ) ,
 			render_trajectory_ ( true ) ,
 			render_answer_ ( false ) ,
+			top_view_ ( false ) ,
 			density_step_ ( 5 ) ,
 			scale_ ( 1.0f ) ,
 			degree_ ( 0.0f ) ,
+			begin_frame_ ( 0 ) ,
+			end_frame_ ( -1 ) ,
 			spin_timer_ ( new QTimer ( this ) ) {
 
 		ui_.setupUi ( this );
@@ -115,20 +118,21 @@ namespace NiS {
 				glm::mat4 accumulated_transformation_matrix;
 
 				if ( render_point_cloud_ ) {
-					if ( not render_answer_ ) {
-						for ( auto & keyframe_gl : keyframes_gl_ ) {
-							accumulated_transformation_matrix = accumulated_transformation_matrix * keyframe_gl.GetAlignmentMatrix ( );
-							keyframe_gl.SetTransformationMatrix ( transformation_matrix * accumulated_transformation_matrix );
-							keyframe_gl.Render ( );
-							if ( keyframe_gl.IsUsed ( ) ) keyframe_gl.Render ( );
-						}
+
+					// since the tranformation matrix must be accumulated from the very begining
+					for ( auto i = 0 ; i < begin_frame_ ; ++i ) {
+						auto & keyframe_gl = keyframes_gl_[ i ];
+						const auto m = ( render_answer_ ) ? ( keyframe_gl.GetAnswerAlignmentMatrix ( ) ) : ( keyframe_gl.GetAlignmentMatrix ( ) );
+						accumulated_transformation_matrix *= m;
 					}
-					else {
-						for ( auto & keyframe_gl : keyframes_gl_ ) {
-							accumulated_transformation_matrix = accumulated_transformation_matrix * keyframe_gl.GetAnswerAlignmentMatrix ( );
-							keyframe_gl.SetTransformationMatrix ( transformation_matrix * accumulated_transformation_matrix );
-							keyframe_gl.Render ( );
-						}
+
+					for ( auto i = begin_frame_ ; i <= end_frame_ ; ++i ) {
+						auto & keyframe_gl = keyframes_gl_[ i ];
+						const auto m = ( render_answer_ ) ? ( keyframe_gl.GetAnswerAlignmentMatrix ( ) ) : ( keyframe_gl.GetAlignmentMatrix ( ) );
+						accumulated_transformation_matrix *= m;
+						keyframe_gl.SetTransformationMatrix ( transformation_matrix * accumulated_transformation_matrix );
+						if ( render_answer_ ) keyframe_gl.Render ( );
+						else if ( keyframe_gl.IsUsed ( ) ) keyframe_gl.Render ( );
 					}
 				}
 
@@ -202,6 +206,10 @@ namespace NiS {
 	}
 
 	void BasicViewer::mouseMoveEvent ( QMouseEvent * e ) {
+
+		if ( top_view_ ) {
+			return;
+		}
 
 		float dx = ( e->x ( ) - last_mouse_position_.x ( ) ) * 0.001f;
 		float dy = ( e->y ( ) - last_mouse_position_.y ( ) ) * 0.001f;
@@ -384,12 +392,16 @@ namespace NiS {
 			camera_.UpdateCameraLookAt ( 0.0f , -1.0f , -0.001f );
 			camera_.UpdateCameraPosition ( 0.0f , 20.0f , 0.0f );
 
+			top_view_ = true;
+
 		}
 		else {
+
 			camera_.UpdateCameraPosition ( old_camera_position );
 			camera_.UpdateCameraLookAt ( old_camera_lookat );
 			old_camera_position = camera_.GetPosition ( );
 			old_camera_lookat   = camera_.GetLookAt ( );
+			top_view_           = false;
 
 		}
 		emit repaint ( );

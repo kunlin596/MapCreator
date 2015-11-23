@@ -25,26 +25,28 @@ namespace NiS {
 		const auto & image1 = key_frame1.GetPointImage ( );
 		const auto & image2 = key_frame2.GetPointImage ( );
 
-		assert( !key_frame1.GetFeature ( ).GetKeyPoints ( ).empty ( ) );
+		assert ( !key_frame1.GetFeature ( ).GetKeyPoints ( ).empty ( ) );
 
 		const NiS::Matcher matcher ( feature1 , feature2 , true );
 		const auto & matches = matcher.GetMatches ( );
 
-		assert( !matches.empty ( ) );
+		assert ( !matches.empty ( ) );
 
-		std::cout << key_frame1.GetId ( ) << " - " << key_frame2.GetId ( ) << " : Matches size : " << matches.size ( ) <<
+		std::cout << "Creating point pairs of " << key_frame2.GetId ( ) << " - " << key_frame1.GetId ( ) << " : Matches size : " <<
+		matches.size ( ) <<
 		std::endl;
 
 		for ( const auto & match : matches ) {
 
-			const cv::Point2f & key_point1 = feature1.GetKeyPoints ( )[ match.first ].pt;
-			const cv::Point2f & key_point2 = feature2.GetKeyPoints ( )[ match.second ].pt;
+			const auto & key_point1 = feature1.GetKeyPoints ( )[ match.first ].pt;
+			const auto & key_point2 = feature2.GetKeyPoints ( )[ match.second ].pt;
 
 			const cv::Point3f pt1 = image1 ( cvRound ( key_point1.y ) , cvRound ( key_point1.x ) );
 			const cv::Point3f pt2 = image2 ( cvRound ( key_point2.y ) , cvRound ( key_point2.x ) );
 
 			if ( std::isfinite ( pt1.x ) and std::isfinite ( pt2.x ) and
-			     ( pt1 != cv::Point3f ( 0.0f , 0.0f , 0.0f ) ) and ( pt2 != cv::Point3f ( 0.0f , 0.0f , 0.0f ) ) ) {
+			     ( pt1 != cv::Point3f ( 0.0f ) ) and ( pt2 != cv::Point3f ( 0.0f ) ) ) {
+
 				points1.push_back ( pt1 );
 				points2.push_back ( pt2 );
 			}
@@ -106,14 +108,20 @@ namespace NiS {
 
 	template < > void Tracker < TrackingType::OneByOne >::Initialize ( ) {
 
-		for ( auto & keyframe : keyframes_ ) { keyframe.SetUsed ( false ); }
+		for ( auto & keyframe : keyframes_ ) {
+			keyframe.SetAlignmentMatrix ( std::move ( glm::mat4 ( ) ) );
+			keyframe.SetUsed ( false );
+		}
 
 		iterator1_ = keyframes_.begin ( );
 		iterator2_ = iterator1_;
 	}
 	template < > void Tracker < TrackingType::FixedFrameCount >::Initialize ( ) {
 
-		for ( auto & keyframe : keyframes_ ) { keyframe.SetUsed ( false ); }
+		for ( auto & keyframe : keyframes_ ) {
+			keyframe.SetAlignmentMatrix ( std::move ( glm::mat4 ( ) ) );
+			keyframe.SetUsed ( false );
+		}
 
 		iterator1_ = keyframes_.begin ( );
 		iterator2_ = iterator1_;
@@ -122,7 +130,10 @@ namespace NiS {
 	}
 	template < > void Tracker < TrackingType::PcaKeyFrame >::Initialize ( ) {
 
-		for ( auto & keyframe : keyframes_ ) { keyframe.SetUsed ( false ); }
+		for ( auto & keyframe : keyframes_ ) {
+			keyframe.SetAlignmentMatrix ( std::move ( glm::mat4 ( ) ) );
+			keyframe.SetUsed ( false );
+		}
 
 		iterator1_ = keyframes_.begin ( );
 		iterator2_ = iterator1_;
@@ -229,7 +240,7 @@ namespace NiS {
 
 		CorrespondingPointsPair corresponding_points_pair = CreateCorrespondingPointsPair ( * iterator1_ , * iterator2_ );
 
-		assert( !corresponding_points_pair.first.empty ( ) and !corresponding_points_pair.second.empty ( ) );
+		assert ( !corresponding_points_pair.first.empty ( ) and !corresponding_points_pair.second.empty ( ) );
 
 		// 2 -> 1
 		auto local_transformation_matrix = ComputeTransformationMatrix ( corresponding_points_pair.second ,
@@ -251,34 +262,33 @@ namespace NiS {
 		                                                                      world_points1 ,
 		                                                                      world_points2 );
 
+		std::cout << "Before LM : " << local_transformation_matrix << std::endl;
+		std::cout << "After LM : " << local_transformation_matrix_after_global_optimization << std::endl;
+
 		glm::mat4 m = Convert_OpenCV_Matx44f_To_GLM_mat4 ( local_transformation_matrix_after_global_optimization );
 
 		iterator2_->SetAlignmentMatrix ( m );
 
-		std::cout << "Matrix : \n" << iterator2_->GetAlignmentMatrix ( ) << std::endl;
-
-		message_ = QString ( " + Computed : %1 - %2. (using Levenberg Marquardt, total error : %3.)" )
+		message_ = QString ( " + Computed : %1 - %2. #inliers : %3. (using Levenberg Marquardt, total error : %4.)" )
 				.arg ( QString::number ( iterator2_->GetId ( ) ) )
 				.arg ( QString::number ( iterator1_->GetId ( ) ) )
+				.arg ( world_points1.size ( ) )
 				.arg ( error_after_global_optimization );
 
 		iterator2_->SetUsed ( true );
-
-//		return * iterator2_;
 	}
 	template < > void Tracker < TrackingType::FixedFrameCount >::ComputeNext ( ) {
 
-		CorrespondingPointsPair corresponding_points_pair = CreateCorrespondingPointsPair ( * iterator1_ , * iterator2_ );
+		auto corresponding_points_pair = CreateCorrespondingPointsPair ( * iterator1_ , * iterator2_ );
 
-		assert( !corresponding_points_pair.first.empty ( ) and !corresponding_points_pair.second.empty ( ) );
+		assert ( !corresponding_points_pair.first.empty ( ) and !corresponding_points_pair.second.empty ( ) );
 
 		// 2 -> 1
-		cv::Matx44f local_transformation_matrix = ComputeTransformationMatrix ( corresponding_points_pair.second ,
-		                                                                        corresponding_points_pair.first ,
-		                                                                        options_.options_fixed_frame_count.num_ransac_iteration ,
-		                                                                        options_.options_fixed_frame_count.threshold_outlier ,
-		                                                                        options_.options_fixed_frame_count.threshold_inlier );
-
+		auto local_transformation_matrix = ComputeTransformationMatrix ( corresponding_points_pair.second ,
+		                                                                 corresponding_points_pair.first ,
+		                                                                 options_.options_fixed_frame_count.num_ransac_iteration ,
+		                                                                 options_.options_fixed_frame_count.threshold_outlier ,
+		                                                                 options_.options_fixed_frame_count.threshold_inlier );
 
 		const auto & world_points1 = corresponding_points_pair.first;
 		const auto & world_points2 = corresponding_points_pair.second;
@@ -322,13 +332,17 @@ namespace NiS {
 		                                                                      world_points1 ,
 		                                                                      world_points2 );
 
+		std::cout << "Before LM : " << local_transformation_matrix << std::endl;
+		std::cout << "After LM : " << local_transformation_matrix_after_global_optimization << std::endl;
+
 		auto m = Convert_OpenCV_Matx44f_To_GLM_mat4 ( local_transformation_matrix_after_global_optimization );
 
 		iterator2_->SetAlignmentMatrix ( m );
 
-		message_ = QString ( " + Computed : %1 - %2. (using Levenberg Marquardt, total error : %3.)" )
+		message_ = QString ( " + Computed : %1 - %2. #inliers : %3. (using Levenberg Marquardt, total error : %4.)" )
 				.arg ( QString::number ( iterator2_->GetId ( ) ) )
 				.arg ( QString::number ( iterator1_->GetId ( ) ) )
+				.arg ( world_points1.size ( ) )
 				.arg ( error_after_global_optimization );
 
 		auto current_keyframe_itr = iterator2_;

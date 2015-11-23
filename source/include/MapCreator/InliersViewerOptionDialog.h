@@ -25,6 +25,7 @@ namespace NiS {
 
 	signals:
 
+		void Message ( QString );
 		void SendData ( KeyFrames );
 		void SendCorrespondingPoints ( CorrespondingPointsPair );
 		void SendInliers ( CorrespondingPointsPair );
@@ -32,17 +33,14 @@ namespace NiS {
 	public slots:
 
 		void SetKeyFrames ( const KeyFrames & );
-		inline void SetOptions ( const Options & options ) { options_ = options; }
+		void SetOptions ( const Options & options ) { options_ = options; }
 
 	private slots:
 
 		void OpenDataFileFolder ( );
-		inline void SetFrame1 ( const KeyFrame & frame1 ) { keyframes_for_inliers_[ 0 ] = frame1; };
-		inline void SetFrame2 ( const KeyFrame & frame2 ) { keyframes_for_inliers_[ 1 ] = frame2; };
-
 		void onSetNewFrame1 ( int );
 		void onSetNewFrame2 ( int );
-
+		void onShowButtonClicked ( );
 
 	public:
 
@@ -51,6 +49,8 @@ namespace NiS {
 
 	private:
 
+		void SetFrame1 ( const KeyFrame & frame1 ) { keyframes_for_inliers_[ 0 ] = frame1; };
+		void SetFrame2 ( const KeyFrame & frame2 ) { keyframes_for_inliers_[ 1 ] = frame2; };
 		void ComputeCorrespondingPoints ( );
 
 		Ui::InliersViewerOptionDialog ui_;

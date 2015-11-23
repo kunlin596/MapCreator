@@ -198,10 +198,6 @@ namespace NiS {
 
 	bool SlamComputer::WriteResult ( ) {
 
-		if ( all_markers_points_pairs_.empty ( ) ) {
-			return false;
-		}
-
 		time_t time_stamp = time ( nullptr );
 
 		QString result_name_prefix;
@@ -253,60 +249,124 @@ namespace NiS {
 					break;
 			}
 
-			glm::mat4 accumulated_matrix1;
-			glm::mat4 accumulated_matrix2;
+//			out << "id x(estimation) y(estimation) z(estimation) "
+//					"x'(estimation) y'(estimation) z'(estimation) "
+//					"x(marker) y(marker) z(marker) "
+//					"x'(marker) y'(marker) z'(marker) "
+//					"position_error(estimation) "
+//					"position_error(marker) "
+//					"d_estimation_d_marker "
+//					"angle_estimation "
+//					"angle_marker" << std::endl;
 
-			out <<
-			"id x y z x'(estimation) y'(estimation) z'(estimation) x'(marker) y'(marker) z'(marker) position_error(estimation) position_error(marker)" <<
-			std::endl;
+//			std::cout << "all_markers_points_pairs_.size() : " << all_markers_points_pairs_.size ( ) << std::endl;
+//
+//			// estimation pair
+//			glm::mat4 accumulated_matrix1_e;
+//			glm::mat4 accumulated_matrix2_e;
+//
+//			// marker apir
+//			glm::mat4 accumulated_matrix1_m;
+//			glm::mat4 accumulated_matrix2_m;
+			out << "CAUTION: The look at point has been translated to the origin." << std::endl;
+			out << "Position X (estimation),Position Y (estimation),Position Z (estimation),"
+					"Position X (marker),Position Y (marker),Position Z (marker),"
+					"Translation Error,"
+					"LookatPoint X (estimation),LookatPoint Y (estimation),LookatPoint Z (estimation),"
+					"LookatPoint X (marker),LookatPoint Y (marker),LookatPoint Z (marker),"
+					"Rotation Error" << std::endl;
 
-			std::cout << "all_markers_points_pairs_.size() : " << all_markers_points_pairs_.size ( ) << std::endl;
+			auto position_estimation     = glm::vec3 ( );
+			auto position_marker         = glm::vec3 ( );
+			auto lookat_point_estimation = glm::vec3 ( 0.0f , 0.0f , 1.0f );
+			auto lookat_point_marker     = glm::vec3 ( 0.0f , 0.0f , 1.0f );
 
-			for ( auto id = 0 ; id < all_markers_points_pairs_.size ( ) ; ++id ) {
+			auto accumulated_matrix_estimation = glm::mat4 ( );
+			auto accumulated_matrix_marker     = glm::mat4 ( );
 
-				auto & markers_points_pair = all_markers_points_pairs_[ id ];
-				auto & points1             = markers_points_pair.first;
-				auto & points2             = markers_points_pair.second;
+			for ( const auto & keyframe : keyframes_ ) {
 
-				std::cout << id << " : points1.size() : " << points1.size ( ) << std::endl;
-				for ( auto i = 0 ; i < points1.size ( ) ; ++i ) {
+				accumulated_matrix_estimation *= keyframe.GetAlignmentMatrix ( );
+				accumulated_matrix_marker *= keyframe.GetAnswerAlignmentMatrix ( );
 
-					const auto & point1 = points1[ i ];
-					const auto & point2 = points2[ i ];
+				const auto _position_estimation = accumulated_matrix_estimation * glm::vec4 ( position_estimation , 1.0f );
+				const auto _position_marker     = accumulated_matrix_marker * glm::vec4 ( position_marker , 1.0f );
 
-					out << id << " ";
+				const auto _lookat_point_estimation = accumulated_matrix_estimation * glm::vec4 ( lookat_point_estimation , 1.0f );
+				const auto _lookat_point_marker     = accumulated_matrix_marker * glm::vec4 ( lookat_point_marker , 1.0f );
 
-					accumulated_matrix1 *= keyframes_[ id + 1 ].GetAlignmentMatrix ( );         // estimation
-					accumulated_matrix2 *= keyframes_[ id + 1 ].GetAnswerAlignmentMatrix ( );   // marker
+				const auto __lookat_point_estimation = _lookat_point_estimation - _position_estimation;
+				const auto __lookat_point_marker     = _lookat_point_marker - _position_marker;
 
-					const auto glm_point2_1 = glm::vec4 ( point2.x , point2.y , point2.z , 1.0f );
-					const auto glm_point2_2 = glm::vec4 ( point2.x , point2.y , point2.z , 1.0f );
+				out << _position_estimation.x << "," << _position_estimation.y << "," << _position_estimation.z << ",";
+				out << _position_marker.x << "," << _position_marker.y << "," << _position_marker.z << ",";
 
-					const auto glm_point2_1_vec3 = glm::vec3 ( accumulated_matrix1 * glm_point2_1 );
-					const auto glm_point2_2_vec3 = glm::vec3 ( accumulated_matrix2 * glm_point2_2 );
+				if ( keyframe.IsUsed ( ) ) out << glm::length ( _position_estimation - _position_marker ) << ",";
+				else out << 0 << ",";
 
-					out << point1.x << " " << point1.y << " " << point1.z << " ";
-					out << glm_point2_1_vec3.x << " " << glm_point2_1_vec3.y << " " << glm_point2_1_vec3.z << " ";
-					out << glm_point2_2_vec3.x << " " << glm_point2_2_vec3.y << " " << glm_point2_2_vec3.z << " ";
+				out << __lookat_point_estimation.x << "," << __lookat_point_estimation.y << "," << __lookat_point_estimation.z << ",";
+				out << __lookat_point_marker.x << "," << __lookat_point_marker.y << "," << __lookat_point_marker.z << ",";
 
-					out << std::sqrt ( ( point1.x - glm_point2_1_vec3.x ) * ( point1.x - glm_point2_1_vec3.x ) +
-					                   ( point1.y - glm_point2_1_vec3.y ) * ( point1.y - glm_point2_1_vec3.y ) +
-					                   ( point1.z - glm_point2_1_vec3.z ) * ( point1.z - glm_point2_1_vec3.z ) ) << " ";
-
-					out << std::sqrt ( ( point1.x - glm_point2_2_vec3.x ) * ( point1.x - glm_point2_2_vec3.x ) +
-					                   ( point1.y - glm_point2_2_vec3.y ) * ( point1.y - glm_point2_2_vec3.y ) +
-					                   ( point1.z - glm_point2_2_vec3.z ) * ( point1.z - glm_point2_2_vec3.z ) ) << std::endl;
-				}
+				if ( keyframe.IsUsed ( ) ) out << glm::angle ( __lookat_point_estimation , __lookat_point_marker ) << std::endl;
+				else out << 0 << std::endl;
 
 			}
+
+//			for ( auto id = 0 ; id < all_markers_points_pairs_.size ( ) ; ++id ) {
+//
+//				auto & markers_points_pair = all_markers_points_pairs_[ id ];
+//				auto & points1             = markers_points_pair.first;
+//				auto & points2             = markers_points_pair.second;
+//
+//				std::cout << id << " : points1.size() : " << points1.size ( ) << std::endl;
+//
+//				accumulated_matrix1_e *= keyframes_[ id ].GetAlignmentMatrix ( );               // estimation
+//				accumulated_matrix2_e *= keyframes_[ id + 1 ].GetAlignmentMatrix ( );           // estimation
+//
+//				accumulated_matrix1_m *= keyframes_[ id ].GetAnswerAlignmentMatrix ( );         // marker
+//				accumulated_matrix2_m *= keyframes_[ id + 1 ].GetAnswerAlignmentMatrix ( );     // marker
+//
+//				for ( auto i = 0 ; i < points1.size ( ) ; ++i ) {
+//
+//					const auto & point1 = points1[ i ];
+//					const auto & point2 = points2[ i ];
+//
+//					const auto glm_point1 = glm::vec4 ( point1.x , point1.y , point1.z , 1.0f );
+//					const auto glm_point2 = glm::vec4 ( point2.x , point2.y , point2.z , 1.0f );
+//
+//					// estimation pair
+//					const auto glm_point1_e_vec3 = glm::vec3 ( accumulated_matrix1_e * glm_point1 );
+//					const auto glm_point2_e_vec3 = glm::vec3 ( accumulated_matrix2_e * glm_point2 );
+//
+//					// marker pair
+//					const auto glm_point1_m_vec3 = glm::vec3 ( accumulated_matrix1_m * glm_point1 );
+//					const auto glm_point2_m_vec3 = glm::vec3 ( accumulated_matrix2_m * glm_point2 );
+//
+//					const auto angle_estimation = glm::angle ( glm_point1_e_vec3 , glm_point2_e_vec3 );
+//					const auto angle_marker     = glm::angle ( glm_point1_m_vec3 , glm_point2_m_vec3 );
+//
+//					out << id << " ";
+//
+//					// estimation pair
+//					out << glm_point1_e_vec3.x << " " << glm_point1_e_vec3.y << " " << glm_point1_e_vec3.z << " ";
+//					out << glm_point2_e_vec3.x << " " << glm_point2_e_vec3.y << " " << glm_point2_e_vec3.z << " ";
+//
+//					// marker pair
+//					out << glm_point1_m_vec3.x << " " << glm_point1_m_vec3.y << " " << glm_point1_m_vec3.z << " ";
+//					out << glm_point2_m_vec3.x << " " << glm_point2_m_vec3.y << " " << glm_point2_m_vec3.z << " ";
+//
+//					out << angle_estimation << " ";
+//					out << angle_marker << std::endl;
+//				}
+//			}
 
 			out.close ( );
 			return true;
 		}
+
 		return false;
 
 	}
-
 
 	bool SlamComputer::CheckPreviousResult ( ) {
 

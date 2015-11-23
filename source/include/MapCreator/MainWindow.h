@@ -61,10 +61,17 @@ namespace NiS {
 		void onActionShowMarkerViewer ( );
 		void onActionOutputResult ( );
 		void onActionGenerateAnswer ( );
+		void onBeginFrameIsBiggerThanEndFrame ( int );
+		void onEndFrameIsSmallerThanBeginFrame ( int );
 
 		void OnReadingFinished ( );
 		void OnConversionFinished ( );
 		void OnSlamComputationCompleted ( );
+
+		void onPlayButtonClicked ( );
+		void onStopButtonClicked ( );
+		void onRewindCloud ( );
+
 
 		void PrepareComputation ( );
 
@@ -89,6 +96,7 @@ namespace NiS {
 		ImageHandler2 * handler_;
 		SlamComputer  * computer_;
 
+		QTimer                  * play_timer_;
 		QFutureWatcher < void > * watcher_;
 
 		Calibrator calibrator_;
