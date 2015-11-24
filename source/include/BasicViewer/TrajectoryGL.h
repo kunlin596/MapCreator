@@ -19,7 +19,6 @@ namespace NiS {
 		               const KeyFrames & keyframes );
 
 		void SetupData ( ) override;
-
 		void Render ( ) override;
 
 	protected:

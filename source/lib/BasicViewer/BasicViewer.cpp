@@ -44,7 +44,7 @@ namespace NiS {
 			render_answer_ ( false ) ,
 			top_view_ ( false ) ,
 			density_step_ ( 5 ) ,
-			scale_ ( 1.0f ) ,
+			scale_ ( 1.5f ) ,
 			degree_ ( 0.0f ) ,
 			begin_frame_ ( 0 ) ,
 			end_frame_ ( -1 ) ,
@@ -137,14 +137,14 @@ namespace NiS {
 				}
 
 				if ( render_trajectory_ ) {
-					for ( auto & trajectory_gl : trajectory_gl_ ) {
-						trajectory_gl.SetTransformationMatrix ( transformation_matrix );
-						trajectory_gl.Render ( );
-					}
 
-					for ( auto & answer_trajectory_gl : answer_trajectory_gl_ ) {
-						answer_trajectory_gl.SetTransformationMatrix ( transformation_matrix );
-						answer_trajectory_gl.Render ( );
+					for ( auto i = 0 ; i < estimation_trajectory_gl_.size ( ) ; ++i ) {
+						for ( auto j = begin_frame_ ; j <= end_frame_ - 1 ; ++j ) {
+							estimation_trajectory_gl_[ i ][ j ].SetTransformationMatrix ( transformation_matrix );
+							estimation_trajectory_gl_[ i ][ j ].Render ( );
+							marker_trajectory_gl_[ i ][ j ].SetTransformationMatrix ( transformation_matrix );
+							marker_trajectory_gl_[ i ][ j ].Render ( );
+						}
 					}
 				}
 
@@ -170,23 +170,20 @@ namespace NiS {
 				if ( render_point_cloud_ ) {
 					for ( auto & keyframe_for_inliers : keyframes_gl_for_inliers_ ) {
 
-						keyframe_for_inliers.SetTransformationMatrix (
-								transformation_matrix * left_translation_mat * scale_mat );
+						keyframe_for_inliers.SetTransformationMatrix ( transformation_matrix * left_translation_mat * scale_mat );
 						keyframe_for_inliers.Render ( );
 					}
 
 					for ( auto & keyframe_for_inliers : keyframes_gl_for_inliers_ ) {
 
-						keyframe_for_inliers.SetTransformationMatrix (
-								transformation_matrix * right_translation_mat * scale_mat );
+						keyframe_for_inliers.SetTransformationMatrix ( transformation_matrix * right_translation_mat * scale_mat );
 						keyframe_for_inliers.Render ( );
 					}
 				}
 
 				for ( auto & corresponding_points_pair_gl : corresponding_points_pair_gl_ ) {
 
-					corresponding_points_pair_gl.SetTransformationMatrix (
-							transformation_matrix * left_translation_mat * scale_mat );
+					corresponding_points_pair_gl.SetTransformationMatrix ( transformation_matrix * left_translation_mat * scale_mat );
 					corresponding_points_pair_gl.Render ( );
 				}
 
@@ -421,8 +418,49 @@ namespace NiS {
 
 		emit Message ( QString ( "Viewer received %1 frames." ).arg ( keyframes.size ( ) ) );
 
-		keyframes_gl_.clear ( );
+		// Setup Trajectories
+		estimation_trajectory_gl_.clear ( );
+		marker_trajectory_gl_.clear ( );
 
+		auto estimation_accumulated_matrix1 = glm::mat4 ( );
+		auto estimation_accumulated_matrix2 = glm::mat4 ( );
+		auto marker_accumulated_matrix1     = glm::mat4 ( );
+		auto marker_accumulated_matrix2     = glm::mat4 ( );
+
+		std::vector < LineSegmentGL > estimation_trajectory_gl;
+		std::vector < LineSegmentGL > marker_trajectory_gl;
+
+		for ( auto i = 1 ; i < keyframes.size ( ) ; ++i ) {
+
+			estimation_accumulated_matrix1 *= keyframes[ i - 1 ].GetAlignmentMatrix ( );
+			estimation_accumulated_matrix2 *= keyframes[ i ].GetAlignmentMatrix ( );
+
+			marker_accumulated_matrix1 *= keyframes[ i - 1 ].GetAnswerAlignmentMatrix ( );
+			marker_accumulated_matrix2 *= keyframes[ i ].GetAnswerAlignmentMatrix ( );
+
+			auto color_val = static_cast<float>(i) / keyframes.size ( ) * 0.8f;
+
+			auto estimation_color = glm::vec3 ( 1.0f , color_val , 1.0f );
+			auto marker_color     = glm::vec3 ( color_val , 1.0f , color_val );
+
+			LineSegmentGL line1 ( GL , estimation_accumulated_matrix1 , estimation_accumulated_matrix2 , estimation_color , estimation_color );
+			LineSegmentGL line2 ( GL , marker_accumulated_matrix1 , marker_accumulated_matrix2 , marker_color , marker_color );
+
+			line1.SetShaderProgram ( shader_program_ );
+			line2.SetShaderProgram ( shader_program_ );
+
+			line1.SetupData ( );
+			line2.SetupData ( );
+
+			estimation_trajectory_gl.push_back ( line1 );
+			marker_trajectory_gl.push_back ( line2 );
+		}
+
+		estimation_trajectory_gl_.push_back ( estimation_trajectory_gl );
+		marker_trajectory_gl_.push_back ( marker_trajectory_gl );
+
+		// Setup Keyframes
+		keyframes_gl_.clear ( );
 		for ( auto const & keyframe : keyframes ) {
 
 			KeyFrameGL keyframe_gl ( GL , keyframe , density_step_ );
@@ -432,18 +470,6 @@ namespace NiS {
 		}
 
 		std::cout << "BasicViewer setuped " << keyframes.size ( ) << " frames." << std::endl;
-
-		trajectory_gl_.clear ( );
-		TrajectoryGL trajectory_gl ( GL , keyframes );
-		trajectory_gl.SetShaderProgram ( shader_program_ );
-		trajectory_gl.SetupData ( );
-		trajectory_gl_.push_back ( trajectory_gl );
-
-		answer_trajectory_gl_.clear ( );
-		AnswerTrajectoryGL answer_trajectory_gl ( GL , keyframes );
-		answer_trajectory_gl.SetShaderProgram ( shader_program_ );
-		answer_trajectory_gl.SetupData ( );
-		answer_trajectory_gl_.push_back ( answer_trajectory_gl );
 
 		emit repaint ( );
 

@@ -14,6 +14,7 @@
 #include "BasicViewer/PointPairGL.h"
 #include "BasicViewer/GridGL.h"
 #include "BasicViewer/KeyFrameGL.h"
+#include "BasicViewer/LineSegmentGL.h"
 
 #include <SLAM/KeyFrame.h>
 #include <SLAM/Inliers.h>
@@ -122,14 +123,17 @@ namespace NiS {
 
 		bool top_view_;
 
-		std::vector < KeyFrameGL >            keyframes_gl_;
+		std::vector < KeyFrameGL > keyframes_gl_;
+		std::vector < KeyFrameGL > keyframes_gl_for_inliers_;
+
 		std::vector < CorrespondingPointsGL > corresponding_points_pair_gl_;
 		std::vector < CorrespondingPointsGL > inliers_pair_gl_;
-		std::vector < KeyFrameGL >            keyframes_gl_for_inliers_;
-		std::vector < TrajectoryGL >          trajectory_gl_;
-		std::vector < TrajectoryGL >          answer_trajectory_gl_;
-		std::vector < PointPairGL >           estimation_point_pair_gl_;
-		std::vector < PointPairGL >           marker_point_pair_gl_;
+
+		std::vector < PointPairGL > estimation_point_pair_gl_;
+		std::vector < PointPairGL > marker_point_pair_gl_;
+
+		std::vector < std::vector < LineSegmentGL > > estimation_trajectory_gl_;
+		std::vector < std::vector < LineSegmentGL > > marker_trajectory_gl_;
 
 		QOpenGLShaderProgram      * shader_program_;
 		QOpenGLFunctions_4_1_Core * GL;
