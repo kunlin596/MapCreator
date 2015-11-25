@@ -12,7 +12,7 @@
 #include <QMouseEvent>
 #include <QFileDialog>
 #include <QDir>
-#include <Qthread>
+#include <QThread>
 
 namespace NiS {
 

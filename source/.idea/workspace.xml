@@ -18,25 +18,11 @@
     </ADDITIONAL_GENERATION_ENVIRONMENT>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="26c6f326-4e90-4b7f-8507-02339ac4f915" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/BasicViewer/form/BasicViewer.ui" afterPath="$PROJECT_DIR$/lib/BasicViewer/form/BasicViewer.ui" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/MapCreator/form/InliersViewerOptionDialog.ui" afterPath="$PROJECT_DIR$/lib/MapCreator/form/InliersViewerOptionDialog.ui" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/MapCreator/form/MainWindow.ui" afterPath="$PROJECT_DIR$/lib/MapCreator/form/MainWindow.ui" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+    <list default="true" id="26c6f326-4e90-4b7f-8507-02339ac4f915" name="Default" comment="Minimal typo fixed.">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/source.iml" afterPath="$PROJECT_DIR$/.idea/source.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/BasicViewer/BasicViewer.h" afterPath="$PROJECT_DIR$/include/BasicViewer/BasicViewer.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/MapCreator/InliersViewerOptionDialog.h" afterPath="$PROJECT_DIR$/include/MapCreator/InliersViewerOptionDialog.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/MapCreator/MainWindow.h" afterPath="$PROJECT_DIR$/include/MapCreator/MainWindow.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/SLAM/Transformation.h" afterPath="$PROJECT_DIR$/include/SLAM/Transformation.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/BasicViewer/BasicViewer.cpp" afterPath="$PROJECT_DIR$/lib/BasicViewer/BasicViewer.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/BasicViewer/FrameViewer.cpp" afterPath="$PROJECT_DIR$/lib/BasicViewer/FrameViewer.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/MapCreator/InliersViewerOptionDialog.cpp" afterPath="$PROJECT_DIR$/lib/MapCreator/InliersViewerOptionDialog.cpp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/MapCreator/MainWindow.cpp" afterPath="$PROJECT_DIR$/lib/MapCreator/MainWindow.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/SLAM/Alignment.cpp" afterPath="$PROJECT_DIR$/lib/SLAM/Alignment.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/SLAM/Matcher.cpp" afterPath="$PROJECT_DIR$/lib/SLAM/Matcher.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/SLAM/Tracker.cpp" afterPath="$PROJECT_DIR$/lib/SLAM/Tracker.cpp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/SLAM/Transformation.cpp" afterPath="$PROJECT_DIR$/lib/SLAM/Transformation.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tool/FrameViewer.cpp" afterPath="$PROJECT_DIR$/tool/FrameViewer.cpp" />
     </list>
     <ignored path="source.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -121,17 +107,9 @@
       <file leaf-file-name="Transformation.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/lib/SLAM/Transformation.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.50970876">
-              <caret line="65" column="4" selection-start-line="65" selection-start-column="4" selection-end-line="65" selection-end-column="4" />
-              <folding>
-                <element signature="e#451#1048#1" expanded="false" />
-                <element signature="e#551#1045#0" expanded="false" />
-                <element signature="e#1070#1380#1" expanded="false" />
-                <element signature="e#1460#1471#0" expanded="true" />
-                <element signature="e#2956#3446#0" expanded="false" />
-                <element signature="e#3448#4820#0" expanded="false" />
-                <element signature="e#10172#12785#0" expanded="false" />
-              </folding>
+            <state vertical-scroll-proportion="0.16688396">
+              <caret line="38" column="25" selection-start-line="38" selection-start-column="25" selection-end-line="38" selection-end-column="25" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -247,8 +225,10 @@
     <detection-done>true</detection-done>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="width" value="1440" />
-    <option name="height" value="900" />
+    <option name="x" value="-1" />
+    <option name="y" value="26" />
+    <option name="width" value="1602" />
+    <option name="height" value="1175" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -339,209 +319,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="lib" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="source" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="source" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="source" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lib" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SLAM" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="source" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="source" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="source" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lib" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MapCreator" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="source" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="source" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="source" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lib" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MapCreator" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="form" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="source" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="source" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="source" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lib" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="BasicViewer" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="source" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="source" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="source" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lib" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="BasicViewer" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="form" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="source" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="source" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="source" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="include" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="source" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="source" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="source" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="include" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SLAM" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="source" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="source" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="source" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="include" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MapCreator" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="source" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="source" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="source" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="include" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="BasicViewer" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -659,16 +437,16 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1440" height="900" extended-state="0" />
+    <frame x="-1" y="26" width="1602" height="1175" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2766408" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" x="654" y="128" width="619" height="593" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27647433" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" x="654" y="128" width="619" height="593" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32771084" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32891566" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5" sideWeight="0.50247" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32771084" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3246295" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2180723" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23512477" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32891566" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -712,6 +490,10 @@
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Minimal typo fixed." />
+    <option name="LAST_COMMIT_MESSAGE" value="Minimal typo fixed." />
+  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
@@ -726,6 +508,105 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/include/MapCreator/MainWindow.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="80" column="0" selection-start-line="80" selection-start-column="0" selection-end-line="80" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/MapCreator/MainWindow.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="320" column="0" selection-start-line="320" selection-start-column="0" selection-end-line="320" selection-end-column="0" />
+          <folding>
+            <element signature="e#7247#7356#0" expanded="false" />
+            <element signature="e#8070#8221#0" expanded="false" />
+            <element signature="e#9302#10032#0" expanded="false" />
+            <element signature="e#10035#11910#0" expanded="false" />
+            <element signature="e#11913#12103#0" expanded="false" />
+            <element signature="e#12106#12277#0" expanded="false" />
+            <element signature="e#13880#15038#0" expanded="false" />
+            <element signature="e#15041#15691#0" expanded="false" />
+            <element signature="e#15694#16095#0" expanded="false" />
+            <element signature="e#16716#16770#0" expanded="false" />
+            <element signature="e#16773#16827#0" expanded="false" />
+            <element signature="e#16830#17132#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/SLAM/Tracker.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="103" column="58" selection-start-line="103" selection-start-column="58" selection-end-line="103" selection-end-column="58" />
+          <folding>
+            <element signature="e#2570#2573#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/SLAM/Tracker.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="320" column="69" selection-start-line="320" selection-start-column="69" selection-end-line="320" selection-end-column="69" />
+          <folding>
+            <element signature="e#1743#4193#0" expanded="false" />
+            <element signature="e#5973#6356#0" expanded="false" />
+            <element signature="e#6358#6999#0" expanded="false" />
+            <element signature="e#7001#9076#0" expanded="false" />
+            <element signature="e#11599#13925#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/SLAM/Transformation.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/SLAM/Transformation.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="36" column="69" selection-start-line="36" selection-start-column="69" selection-end-line="36" selection-end-column="69" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/BasicViewer/BasicViewer.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="117" column="29" selection-start-line="117" selection-start-column="29" selection-end-line="117" selection-end-column="29" />
+          <folding>
+            <element signature="e#1862#2036#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/BasicViewer/BasicViewer.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="220" column="57" selection-start-line="220" selection-start-column="57" selection-end-line="220" selection-end-column="57" />
+          <folding>
+            <element signature="e#7062#7159#0" expanded="false" />
+            <element signature="e#7162#7344#0" expanded="false" />
+            <element signature="e#7347#7451#0" expanded="false" />
+            <element signature="e#7454#8632#0" expanded="false" />
+            <element signature="e#8635#8763#0" expanded="false" />
+            <element signature="e#8766#8907#0" expanded="false" />
+            <element signature="e#8910#9050#0" expanded="false" />
+            <element signature="e#9053#9185#0" expanded="false" />
+            <element signature="e#9188#9270#0" expanded="false" />
+            <element signature="e#9273#10534#0" expanded="false" />
+            <element signature="e#11450#11601#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/lib/SLAM/ComputationResultCache.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.1126408">
@@ -855,53 +736,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file:///opt/local/include/glm/gtx/rotate_vector.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5306633">
-          <caret line="104" column="30" selection-start-line="104" selection-start-column="30" selection-end-line="104" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/set">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33190578">
-          <caret line="600" column="0" selection-start-line="600" selection-start-column="0" selection-end-line="600" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/lib/SLAM/Matcher.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.10706638">
           <caret line="41" column="33" selection-start-line="41" selection-start-column="33" selection-end-line="41" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/vector">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.1939925">
-          <caret line="1596" column="0" selection-start-line="1596" selection-start-column="0" selection-end-line="1596" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/random">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.018773466">
-          <caret line="2109" column="0" selection-start-line="2109" selection-start-column="0" selection-end-line="2109" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///opt/local/include/glm/gtx/vector_angle.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.30538172">
-          <caret line="58" column="10" selection-start-line="58" selection-start-column="10" selection-end-line="58" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///opt/local/include/glm/gtc/constants.inl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33269963">
-          <caret line="54" column="14" selection-start-line="54" selection-start-column="14" selection-end-line="54" selection-end-column="14" />
         </state>
       </provider>
     </entry>
@@ -927,27 +765,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file:///Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/cmath">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33199194">
-          <caret line="678" column="95" selection-start-line="678" selection-start-column="90" selection-end-line="678" selection-end-column="95" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///opt/local/include/glm/detail/func_geometric.inl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.25520834">
-          <caret line="84" column="13" selection-start-line="84" selection-start-column="13" selection-end-line="84" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/complex">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.25260416">
-          <caret line="1376" column="0" selection-start-line="1376" selection-start-column="0" selection-end-line="1376" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/lib/BasicViewer/KeyFrameGL.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.5137157">
@@ -959,29 +776,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.61977184">
           <caret line="111" column="0" selection-start-line="111" selection-start-column="0" selection-end-line="111" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/local/include/gnuplot-iostream.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.39235413">
-          <caret line="1374" column="69" selection-start-line="1374" selection-start-column="69" selection-end-line="1374" selection-end-column="69" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Library/Caches/CLion12/cmake/generated/80c81cfc/80c81cfc/Debug/lib/MapCreator/__/__/include/MapCreator/moc_InliersViewerOptionDialog.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.19894366">
-          <caret line="113" column="0" selection-start-line="113" selection-start-column="0" selection-end-line="113" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/local/Qt5/lib/QtCore.framework/Headers/qstring.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.19894366">
-          <caret line="275" column="0" selection-start-line="275" selection-start-column="0" selection-end-line="275" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -989,7 +783,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.3617021">
           <caret line="42" column="37" selection-start-line="42" selection-start-column="37" selection-end-line="42" selection-end-column="37" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1011,7 +804,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.3942428">
           <caret line="22" column="23" selection-start-line="22" selection-start-column="23" selection-end-line="22" selection-end-column="23" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1029,8 +821,6 @@
             <element signature="e#13832#13897#0" expanded="false" />
             <element signature="e#14028#14416#0" expanded="false" />
             <element signature="e#14419#14799#0" expanded="false" />
-            <marker date="1448278216000" expanded="false" signature="6789:7462" placeholder="..." />
-            <marker date="1448278216000" expanded="false" signature="9823:12075" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -1143,17 +933,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/SLAM/Transformation.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.50970876">
-          <caret line="65" column="4" selection-start-line="65" selection-start-column="4" selection-end-line="65" selection-end-column="4" />
-          <folding>
-            <element signature="e#451#1048#1" expanded="false" />
-            <element signature="e#551#1045#0" expanded="false" />
-            <element signature="e#1070#1380#1" expanded="false" />
-            <element signature="e#1460#1471#0" expanded="true" />
-            <element signature="e#2956#3446#0" expanded="false" />
-            <element signature="e#3448#4820#0" expanded="false" />
-            <element signature="e#10172#12785#0" expanded="false" />
-          </folding>
+        <state vertical-scroll-proportion="0.16688396">
+          <caret line="38" column="25" selection-start-line="38" selection-start-column="25" selection-end-line="38" selection-end-column="25" />
+          <folding />
         </state>
       </provider>
     </entry>

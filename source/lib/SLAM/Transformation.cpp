@@ -13,7 +13,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/vector_angle.hpp>
 #include <glm/gtx/matrix_decompose.hpp>
-#include <gnuplot-iostream.h>
+// #include <gnuplot-iostream.h>
 
 #include <boost/tuple/tuple.hpp>
 
@@ -177,7 +177,7 @@ namespace {
 			float _val1 = glm::dot ( vec1 , vec2 );
 			float _val2 = glm::length ( vec1 ) * glm::length ( vec2 );
 
-			auto _angle = std::acosf ( _val1 / _val2 ) / glm::pi < float > ( ) * 180.0f;
+			auto _angle = acosf ( _val1 / _val2 ) / glm::pi < float > ( ) * 180.0f;
 
 			auto _cross_product = glm::cross ( vec2 , vec1 );
 			auto _val3          = glm::dot ( _cross_product , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
@@ -426,7 +426,7 @@ namespace NiS {
 			float _val1 = glm::dot ( vec2 , vec1 );
 			float _val2 = glm::length ( vec1 ) * glm::length ( vec2 );
 
-			auto _angle = std::acosf ( _val1 / _val2 ) / glm::pi < float > ( ) * 180.0f;
+			auto _angle = acosf ( _val1 / _val2 ) / glm::pi < float > ( ) * 180.0f;
 
 			auto _cross_product = glm::cross ( vec2 , vec1 );
 			auto _val3          = glm::dot ( _cross_product , glm::vec3 ( 0.0f , 1.0f , 0.0f ) );
