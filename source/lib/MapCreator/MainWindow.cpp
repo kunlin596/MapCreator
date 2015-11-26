@@ -317,23 +317,27 @@ namespace NiS {
 
 	void MainWindow::OnSlamComputationCompleted ( ) {
 
-		ui_.HorizontalSlider_PointCloudDensity->setEnabled ( true );
-
-//		keyframes_ = computer_->GetKeyFrames ( );
-		assert ( not keyframes_ptr_->empty ( ) );
+		if ( not keyframes_ptr_->empty ( ) ) {
+			return;
+		}
 
 		const auto size = static_cast<int>(keyframes_ptr_->size ( ));
 
+		// Since the change of the slider's value will trigger a signal to set the viewer's current begin and end frame,
+		// set keyframes must be called at first otherwise the setting will be a fault, bacause the KeyframesGL has not been created.
+		ui_.HorizontalSlider_PointCloudDensity->setEnabled ( true );
+
+		// Must important part
 		ui_.BasicViewer->SetKeyFrames ( keyframes_ptr_ );
 
-		ui_.HorizontalSlider_BeginFrame->setRange ( 0 , size -1);
-		ui_.HorizontalSlider_EndFrame->setRange ( 0 , size-1 );
+		ui_.HorizontalSlider_BeginFrame->setRange ( 0 , size - 1 );
+		ui_.HorizontalSlider_EndFrame->setRange ( 0 , size - 1 );
 
-		ui_.SpinBox_BeginFrame->setRange ( 0 , size -1);
-		ui_.SpinBox_EndFrame->setRange ( 0 , size-1 );
+		ui_.SpinBox_BeginFrame->setRange ( 0 , size - 1 );
+		ui_.SpinBox_EndFrame->setRange ( 0 , size - 1 );
 
 		ui_.HorizontalSlider_BeginFrame->setValue ( 0 );
-		ui_.HorizontalSlider_EndFrame->setValue ( size-1 );
+		ui_.HorizontalSlider_EndFrame->setValue ( size - 1 );
 
 		ui_.HorizontalSlider_PointCloudDensity->setValue ( 5 );
 
