@@ -17,6 +17,7 @@
       <sourceFolder url="file://$MODULE_DIR$/lib/BasicViewer/FrameViewer.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/lib/BasicViewer/GridGL.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/lib/BasicViewer/KeyFrameGL.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lib/BasicViewer/LineSegmentGL.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/lib/BasicViewer/PointCloudGL.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/lib/BasicViewer/PointPairGL.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/lib/BasicViewer/PrimitiveGL.cpp" isTestSource="false" />
@@ -849,6 +850,7 @@
           <root url="file://$MODULE_DIR$/lib/BasicViewer/CloudViewer.cpp" />
           <root url="file://$MODULE_DIR$/lib/BasicViewer/EvaluationViewer.cpp" />
           <root url="file://$MODULE_DIR$/lib/BasicViewer/form/FrameViewer.ui" />
+          <root url="file://$MODULE_DIR$/lib/BasicViewer/LineSegmentGL.cpp" />
           <root url="file://$MODULE_DIR$/lib/Core/CMakeLists.txt" />
           <root url="file://$MODULE_DIR$/lib/Core/MyMath.cpp" />
           <root url="file://$MODULE_DIR$/lib/Core/Grabber.cpp" />

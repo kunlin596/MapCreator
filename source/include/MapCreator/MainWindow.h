@@ -10,6 +10,8 @@
 #include <QtConcurrent>
 #include <QThread>
 
+#include <memory>
+
 #include "../../../bin/lib/MapCreator/ui_MainWindow.h"
 
 #include <SLAM/Option.h>
@@ -81,6 +83,8 @@ namespace NiS {
 
 	private:
 
+		friend class ImageHandler2;
+
 		Ui::MainWindow ui_;
 
 		void WriteResult ( const std::pair < glm::vec3 , glm::vec3 > & marker_points_pair );
@@ -91,7 +95,8 @@ namespace NiS {
 
 		TrackingType type_;
 
-		KeyFrames keyframes_;
+		KeyFrames                     keyframes_;
+		std::shared_ptr < KeyFrames > keyframes_ptr_;
 
 		ImageHandler2 * handler_;
 		SlamComputer  * computer_;

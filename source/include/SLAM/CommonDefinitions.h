@@ -3,6 +3,7 @@
 
 #include <opencv2/opencv.hpp>
 #include <glm/glm.hpp>
+#include <memory>
 
 namespace NiS {
 

@@ -4,18 +4,10 @@
 
 #include "Handler/ImageDataHandler.h"
 
-#include <QDebug>
 #include <QThread>
 #include <QtConcurrent>
 
-#include <vector>
-
 #include <Core/Utility.h>
-#include <Core/Serialize.h>
-
-#include <SLAM/CoordinateConverter.h>
-
-#include<mutex>
 
 
 namespace NiS {
@@ -55,38 +47,66 @@ namespace NiS {
 		QTime timer;
 		timer.start ( );
 
-		raw_data_frames_.clear ( );
+		//raw_data_frames_.clear ( );
+
+//		for ( auto i = 0 ; i < file_list_.size ( ) ; ++i ) {
+//
+//			string std_path = file_list_[ i ].absoluteFilePath ( ).toStdString ( );
+//
+//			ifstream in ( std_path , ios::binary );
+//
+//			if ( in ) {
+//
+//				RawDataFrame raw_data_frame = ( NiS::Read < RawDataFrames > ( in ) )[ 0 ];
+//
+//				raw_data_frame.id   = i;
+//				raw_data_frame.name = std_path;
+//
+//				raw_data_frames_.push_back ( raw_data_frame );
+//
+//				std::cout << "Reading - id : " << raw_data_frame.id << ", name : " << raw_data_frame.name << std::endl;
+//
+//				emit Message ( file_list_[ i ].absoluteFilePath ( ) );
+//
+//				in.close ( );
+//
+//			} else {
+//
+//				std::cout << "File open failed : " << std_path << endl;
+//			}
+//		}
 
 		for ( auto i = 0 ; i < file_list_.size ( ) ; ++i ) {
 
-			string std_path = file_list_[ i ].absoluteFilePath ( ).toStdString ( );
+			auto path = file_list_[ i ].absoluteFilePath ( ).toStdString ( );
 
-			ifstream in ( std_path , ios::binary );
+			ifstream in ( path , ios::binary );
 
 			if ( in ) {
 
-				RawDataFrame raw_data_frame = ( NiS::Read < RawDataFrames > ( in ) )[ 0 ];
-
+				auto raw_data_frame = NiS::Read < RawDataFrames > ( in )[ 0 ];
 				raw_data_frame.id   = i;
-				raw_data_frame.name = std_path;
+				raw_data_frame.name = path;
 
-				raw_data_frames_.push_back ( raw_data_frame );
+				raw_data_frames_ptr_->push_back ( raw_data_frame );
 
-				std::cout << "Reading - id : " << raw_data_frame.id << ", name : " << raw_data_frame.name << std::endl;
+				auto message = QString ( "Reading - id : %1, name : %2" ).arg ( raw_data_frame.id )
+				                                                         .arg ( QString::fromStdString ( raw_data_frame.name ) );
 
-				emit Message ( file_list_[ i ].absoluteFilePath ( ) );
+				std::cout << message.toStdString ( ) << std::endl;
+				emit Message ( message );
 
 				in.close ( );
 
 			} else {
 
-				std::cout << "File open failed : " << std_path << endl;
+				std::cout << "File open failed : " << path << endl;
 			}
-
 		}
 
+
 		emit Message ( QString ( "Done reading %1 frames. (used %2)" )
-				               .arg ( raw_data_frames_.size ( ) )
+				               .arg ( raw_data_frames_ptr_->size ( ) )
 				               .arg ( ConvertTime ( timer.elapsed ( ) ) ) );
 
 		emit DoneReading ( );
@@ -96,24 +116,27 @@ namespace NiS {
 
 		std::cout << "Handler thread (Conversion) : " << QThread::currentThreadId ( ) << std::endl;
 
-		keyframes_.clear ( );
+		if ( auto temp_keyframes_ = keyframes_ptr_.lock ( ) ) {
 
-		for ( auto i = 0 ; i < raw_data_frames_.size ( ) ; ++i ) {
-			KeyFrame kf;
-			kf.SetId ( raw_data_frames_[ i ].id );
-			kf.SetName ( raw_data_frames_[ i ].name );
-			kf.SetColorImage ( raw_data_frames_[ i ].color_image );
-			kf.SetPointImage ( std::move ( ConvertDepthImageToPointImage ( raw_data_frames_[ i ].depth_image , choice ) ) );
+			temp_keyframes_->clear ( );
 
-			keyframes_.push_back ( kf );
+			for ( const auto & raw_data_frame : * raw_data_frames_ptr_ ) {
 
-			std::cout << "Converted (" << choice << ")." << i << std::endl;
+				KeyFrame kf;
+				kf.SetId ( raw_data_frame.id );
+				kf.SetName ( raw_data_frame.name );
+				kf.SetColorImage ( raw_data_frame.color_image );
+				kf.SetPointImage ( std::move ( ConvertDepthImageToPointImage ( raw_data_frame.depth_image , choice ) ) );
 
-			emit Message (
-					QString ( "Converted %1. KP size : %2" ).arg ( kf.GetId ( ) ).arg ( kf.GetFeature ( ).GetKeyPoints ( ).size ( ) ) );
+				temp_keyframes_->push_back ( kf );
+
+				auto message = QString ( "Converted frame with choice (%1) : %2." ).arg ( choice )
+				                                                                   .arg ( raw_data_frame.id );
+				std::cout << message.toStdString ( ) << std::endl;
+				emit Message ( message );
+			}
 		}
 
-		emit SendData ( keyframes_ );
 	}
 
 	void ImageHandler2::ConvertToPointImagesWithInternalCalibration ( ) {

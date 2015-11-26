@@ -34,6 +34,8 @@ namespace NiS {
 
 	};
 
+	using LineSegmentsGL = std::vector < LineSegmentGL >;
+
 }
 
 

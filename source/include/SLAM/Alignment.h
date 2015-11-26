@@ -15,6 +15,7 @@
 #include "SLAM/CoordinateConverter.h"
 
 #include <limits>
+#include <memory>
 
 namespace {
 
@@ -32,7 +33,7 @@ namespace NiS {
 
 	public:
 
-		SlamComputer ( QObject * parent = 0 );
+		SlamComputer ( std::shared_ptr < KeyFrames > keyframes_ptr , QObject * parent = 0 );
 
 		void SetDataDir ( const QDir & data_dir );
 		void SetFeatureType ( Feature::Type type );
@@ -40,7 +41,7 @@ namespace NiS {
 		bool WriteResult ( );
 		bool CheckPreviousResult ( );
 		void UsePreviousResult ( const QString & result_cache_name );
-		void SetRunningFLag ( bool running_flag ) { running_flag_ = running_flag; };
+		void SetRunningFLag ( bool running_flag ) { running_flag_ = running_flag; }
 		Options GetOptions ( ) const { return options_; }
 
 	public slots:
@@ -81,33 +82,36 @@ namespace NiS {
 
 		template < TrackingType type > void ComputeHelper ( ) {
 
-			std::cout << "Computation begins" << std::endl;
-			switch ( converter_choice_ ) {
-				case 0: {
-					Tracker < type > tracker1 ( keyframes_ , options_ , xtion_converter_ );
-					do {
-						tracker1.ComputeNext ( );
-						emit Message ( tracker1.GetMessage ( ) );
-					}
-					while ( tracker1.Update ( ) );
-					keyframes_ = tracker1.GetResults ( );
-					break;
-				}
-				case 1: {
-					Tracker < type > tracker2 ( keyframes_ , options_ , aist_converter_ );
-					do {
-						tracker2.ComputeNext ( );
-						emit Message ( tracker2.GetMessage ( ) );
-					}
-					while ( tracker2.Update ( ) );
-					keyframes_ = tracker2.GetResults ( );
-					break;
-				}
-				default:
-					break;
-			}
+			if ( auto keyframes = keyframes_ptr_.lock ( ) ) {
 
+				std::cout << "Computation begins" << std::endl;
+				switch ( converter_choice_ ) {
+					case 0: {
+						Tracker < type > tracker1 ( keyframes , options_ , xtion_converter_ );
+						do {
+							tracker1.ComputeNext ( );
+							emit Message ( tracker1.GetMessage ( ) );
+						}
+						while ( tracker1.Update ( ) );
+//					keyframes_ = tracker1.GetResults ( );
+						break;
+					}
+					case 1: {
+						Tracker < type > tracker2 ( keyframes , options_ , aist_converter_ );
+						do {
+							tracker2.ComputeNext ( );
+							emit Message ( tracker2.GetMessage ( ) );
+						}
+						while ( tracker2.Update ( ) );
+//					keyframes_ = tracker2.GetResults ( );
+						break;
+					}
+					default:
+						break;
+				}
+			}
 		}
+
 
 		void WriteCache ( int computation_time , QString suffix = "NoMarker" ) {
 
@@ -158,6 +162,7 @@ namespace NiS {
 		Feature::Type                                 feature_type_;
 		Options                                       options_;
 		KeyFrames                                     keyframes_;
+		std::weak_ptr < KeyFrames >                   keyframes_ptr_;
 		int                                           converter_choice_;
 		XtionCoordinateConverter                      xtion_converter_;
 		AistCoordinateConverter                       aist_converter_;
@@ -171,11 +176,11 @@ namespace NiS {
 //	template < > void SlamComputer::WriteCache < TrackingType::FixedFrameCount > ( );
 //	template < > void SlamComputer::WriteCache < TrackingType::PcaKeyFrame > ( );
 
-	// Serialize
+// Serialize
 	bool LoadMatricesInfo ( const std::string & file_name , MatricesInfo & info );
 	bool SaveMatricesInfo ( const std::string & file_name , const MatricesInfo & info );
 
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 }
 

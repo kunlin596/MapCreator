@@ -27,6 +27,8 @@ namespace NiS {
 		qRegisterMetaType < CorrespondingPointsPair > ( "CorrespondingPointsPair" );
 		qRegisterMetaType < CorrespondingPointsPair > ( "PointPair" );
 
+		keyframes_ptr_ = std::make_shared < KeyFrames > ( );
+
 		ui_.setupUi ( this );
 
 		log_panel_dialog_ = new LogPanelDialog ( this );
@@ -79,9 +81,9 @@ namespace NiS {
 		computation_configure_dialog_ = new ComputationConfigureDialog ( this );
 		computation_configure_dialog_->setFixedSize ( computation_configure_dialog_->sizeHint ( ) );
 
-		computer_ = new SlamComputer ( this );
+		computer_ = new SlamComputer ( keyframes_ptr_ , this );
 		connect ( computer_ , SIGNAL ( Message ( QString ) ) , log_panel_dialog_ , SLOT ( AppendMessage ( QString ) ) );
-		connect ( computer_ , SIGNAL ( SendData ( KeyFrames ) ) , ui_.BasicViewer , SLOT ( SetKeyFrames ( KeyFrames ) ) );
+//		connect ( computer_ , SIGNAL ( SendData ( std::shared_ptr < KeyFrames > keyframes ) ) , ui_.BasicViewer , SLOT ( SetKeyFrames ( std::shared_ptr < KeyFrames >keyframes ) ) );
 
 		connect ( ui_.BasicViewer , SIGNAL ( Message ( QString ) ) , log_panel_dialog_ , SLOT ( AppendMessage ( QString ) ) );
 		connect ( ui_.actionStopSlamComputation , SIGNAL ( triggered ( ) ) , computer_ , SLOT ( StopCompute ( ) ) );
@@ -137,16 +139,16 @@ namespace NiS {
 	void MainWindow::OnReadingFinished ( ) {
 
 		ui_.actionInternalCalibration->setEnabled ( true );
-
 	}
 
 	void MainWindow::OnConversionFinished ( ) {
 
 		watcher_->disconnect ( this );
 
-		keyframes_ = handler_->GetKeyFrames ( );
+//		keyframes_ = handler_->GetKeyFrames ( );
 
-		assert ( !keyframes_.empty ( ) );
+		assert( not keyframes_ptr_->empty ( ) );
+		// assert ( !keyframes_.empty ( ) );
 
 		std::cout << "OnConversionFinished - data size : " << keyframes_.size ( ) << std::endl;
 
@@ -166,6 +168,7 @@ namespace NiS {
 
 	}
 
+
 	void MainWindow::onActionOpenDataFiles ( ) {
 
 		// ResetWatcher ( );
@@ -180,12 +183,13 @@ namespace NiS {
 
 		if ( !dir_path.isEmpty ( ) ) {
 
-			data_dir_          = QDir ( dir_path );
+			data_dir_ = QDir ( dir_path );
 
-			QStringList   name_filers ( QString ( "*.dat" ) );
+			QStringList name_filers ( QString ( "*.dat" ) );
+
 			QFileInfoList list = data_dir_.entryInfoList ( name_filers );
 
-			handler_ = new ImageHandler2 ( list , this );
+			handler_ = new ImageHandler2 ( list , keyframes_ptr_ , this );
 
 			connect ( watcher_ , SIGNAL ( finished ( ) ) , this , SLOT ( OnReadingFinished ( ) ) );
 			connect ( handler_ , SIGNAL ( Message ( QString ) ) , log_panel_dialog_ , SLOT ( AppendMessage ( QString ) ) );
@@ -220,13 +224,9 @@ namespace NiS {
 
 	void MainWindow::onActionInternalCalibration ( ) {
 
-		// ResetWatcher ( );
-
 		ui_.actionStartSlamComputation->setEnabled ( false );
 
 		std::cerr << "Main thread : " << QThread::currentThreadId ( ) << std::endl;
-
-		assert ( !handler_->GetRawDataFrames ( ).empty ( ) );
 
 		connect ( watcher_ , SIGNAL ( finished ( ) ) , this , SLOT ( OnConversionFinished ( ) ) );
 
@@ -240,16 +240,21 @@ namespace NiS {
 
 		switch ( choice ) {
 			case 0: {
+
 				QFuture < void > reading_result = QtConcurrent::run ( this->handler_ ,
 				                                                      & ImageHandler2::ConvertToPointImages , choice );
+
 				computer_->SetCoordinateConverter ( handler_->GetXtionCoordinateConverter ( ) );
 				watcher_->setFuture ( reading_result );
 				break;
 			}
+
 			case 1: {
+
 				onActionOpenInternalCalibrationFile ( );
 				QFuture < void > reading_result = QtConcurrent::run ( this->handler_ ,
 				                                                      & ImageHandler2::ConvertToPointImages , choice );
+
 				computer_->SetCoordinateConverter ( handler_->GetAistCoordinateConverter ( ) );
 				watcher_->setFuture ( reading_result );
 				break;
@@ -259,17 +264,6 @@ namespace NiS {
 				return;
 		}
 
-//		if ( b == QMessageBox::Yes ) {
-//			onActionOpenInternalCalibrationFile ( );
-//			QFuture < void > reading_result = QtConcurrent::run ( this->handler_ ,
-//			                                                      & ImageHandler2::ConvertToPointImages , 1 );
-//			watcher_->setFuture ( reading_result );
-//		}
-//		else if ( b == QMessageBox::No ) {
-//			QFuture < void > reading_result = QtConcurrent::run ( this->handler_ ,
-//			                                                      & ImageHandler2::ConvertToPointImages , 0 );
-//			watcher_->setFuture ( reading_result );
-//		}
 	}
 
 	void MainWindow::onActionShowControlPanel ( ) {
@@ -304,11 +298,13 @@ namespace NiS {
 			return;
 		}
 
-		assert ( !keyframes_.empty ( ) );
+//		assert ( !keyframes_.empty ( ) );
+
+		assert ( not keyframes_ptr_->empty ( ) );
 
 		std::cout << "MainWindow::onActionStartSlamComputation - data size: " << keyframes_.size ( ) << std::endl;
 
-		assert ( !computer_->GetKeyFrames ( ).empty ( ) );
+		// assert ( !computer_->GetKeyFrames ( ).empty ( ) );
 
 		connect ( watcher_ , SIGNAL ( finished ( ) ) , this , SLOT ( OnSlamComputationCompleted ( ) ) );
 		QFuture < void > compute_result = QtConcurrent::run ( computer_ , & SlamComputer::StartCompute );
@@ -323,19 +319,24 @@ namespace NiS {
 
 		ui_.HorizontalSlider_PointCloudDensity->setEnabled ( true );
 
-		keyframes_ = computer_->GetKeyFrames ( );
-		assert ( !keyframes_.empty ( ) );
+//		keyframes_ = computer_->GetKeyFrames ( );
+		assert ( not keyframes_ptr_->empty ( ) );
 
-		ui_.HorizontalSlider_BeginFrame->setRange ( 0 , static_cast<int>(keyframes_.size ( ) - 1 ) );
-		ui_.HorizontalSlider_EndFrame->setRange ( 0 , static_cast<int>(keyframes_.size ( ) - 1 ) );
+		const auto size = static_cast<int>(keyframes_ptr_->size ( ));
 
-		ui_.SpinBox_BeginFrame->setRange ( 0 , static_cast<int>(keyframes_.size ( ) - 1 ) );
-		ui_.SpinBox_EndFrame->setRange ( 0 , static_cast<int>(keyframes_.size ( ) - 1 ) );
+		ui_.BasicViewer->SetKeyFrames ( keyframes_ptr_ );
+
+		ui_.HorizontalSlider_BeginFrame->setRange ( 0 , size -1);
+		ui_.HorizontalSlider_EndFrame->setRange ( 0 , size-1 );
+
+		ui_.SpinBox_BeginFrame->setRange ( 0 , size -1);
+		ui_.SpinBox_EndFrame->setRange ( 0 , size-1 );
 
 		ui_.HorizontalSlider_BeginFrame->setValue ( 0 );
-		ui_.HorizontalSlider_EndFrame->setValue ( static_cast<int>(keyframes_.size ( ) - 1 ) );
+		ui_.HorizontalSlider_EndFrame->setValue ( size-1 );
 
 		ui_.HorizontalSlider_PointCloudDensity->setValue ( 5 );
+
 	}
 
 	void MainWindow::onActionOpenInliersViewerMode ( bool checked ) {
@@ -503,7 +504,6 @@ namespace NiS {
 		}
 	}
 
-
 	void MainWindow::onPlayButtonClicked ( ) {
 
 		play_timer_->start ( 33 );
@@ -515,7 +515,6 @@ namespace NiS {
 		play_timer_->stop ( );
 
 	}
-
 
 	void MainWindow::onRewindCloud ( ) {
 

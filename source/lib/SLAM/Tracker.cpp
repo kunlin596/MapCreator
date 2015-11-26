@@ -108,90 +108,43 @@ namespace NiS {
 
 	template < > void Tracker < TrackingType::OneByOne >::Initialize ( ) {
 
-		for ( auto & keyframe : keyframes_ ) {
-			keyframe.SetAlignmentMatrix ( std::move ( glm::mat4 ( ) ) );
-			keyframe.SetUsed ( false );
+		if ( auto keyframes = keyframes_ptr_.lock ( ) ) {
+			for ( auto & keyframe : * keyframes ) {
+				keyframe.SetAlignmentMatrix ( std::move ( glm::mat4 ( ) ) );
+				keyframe.SetUsed ( false );
+			}
+			iterator1_ = keyframes->begin ( );
+			iterator2_ = iterator1_;
 		}
-
-		iterator1_ = keyframes_.begin ( );
-		iterator2_ = iterator1_;
 	}
 	template < > void Tracker < TrackingType::FixedFrameCount >::Initialize ( ) {
 
-		for ( auto & keyframe : keyframes_ ) {
-			keyframe.SetAlignmentMatrix ( std::move ( glm::mat4 ( ) ) );
-			keyframe.SetUsed ( false );
-		}
+		if ( auto keyframes = keyframes_ptr_.lock ( ) ) {
 
-		iterator1_ = keyframes_.begin ( );
-		iterator2_ = iterator1_;
-		offset_    = keyframes_.size ( ) / ( options_.options_fixed_frame_count.frame_count - 1 ) + 1;
+			for ( auto & keyframe :* keyframes ) {
+				keyframe.SetAlignmentMatrix ( std::move ( glm::mat4 ( ) ) );
+				keyframe.SetUsed ( false );
+			}
+
+			iterator1_ = keyframes->begin ( );
+			iterator2_ = iterator1_;
+			offset_    = keyframes->size ( ) / ( options_.options_fixed_frame_count.frame_count - 1 ) + 1;
+		}
 
 	}
 	template < > void Tracker < TrackingType::PcaKeyFrame >::Initialize ( ) {
 
-		for ( auto & keyframe : keyframes_ ) {
-			keyframe.SetAlignmentMatrix ( std::move ( glm::mat4 ( ) ) );
-			keyframe.SetUsed ( false );
-		}
+		if ( auto keyframes = keyframes_ptr_.lock ( ) ) {
 
-		iterator1_ = keyframes_.begin ( );
-		iterator2_ = iterator1_;
+			for ( auto & keyframe : * keyframes ) {
+				keyframe.SetAlignmentMatrix ( std::move ( glm::mat4 ( ) ) );
+				keyframe.SetUsed ( false );
+			}
 
-		// For initial inliers computation in order to to compute next.
-		CorrespondingPointsPair corresponding_points_pair = CreateCorrespondingPointsPair ( * iterator1_ , * iterator2_ );
+			iterator1_ = keyframes->begin ( );
+			iterator2_ = iterator1_;
 
-		boost::tie ( inliers2_ , inliers1_ ) = ComputeInliers ( corresponding_points_pair.second ,
-		                                                        corresponding_points_pair.first ,
-		                                                        options_.options_pca_keyframe.num_ransac_iteration ,
-		                                                        options_.options_pca_keyframe.threshold_outlier ,
-		                                                        options_.options_pca_keyframe.threshold_inlier );
-	}
-
-	template < > bool Tracker < TrackingType::OneByOne >::Update ( ) {
-
-
-		if ( iterator1_ == iterator2_ ) {
-			std::advance ( iterator2_ , 1 );
-		} else {
-			std::advance ( iterator1_ , 1 );
-			std::advance ( iterator2_ , 1 );
-		}
-
-		std::cout << "Updated to : " << iterator2_->GetId ( ) << " - " << iterator1_->GetId ( ) << std::endl;
-
-		return ( iterator2_ != keyframes_.end ( ) );
-	}
-	template < > bool Tracker < TrackingType::FixedFrameCount >::Update ( ) {
-
-		// iter2 has reached the end of data array, no need to compute anymore.
-		if ( iterator2_ == keyframes_.end ( ) - 1 ) {
-			return false;
-		}
-
-		else if ( iterator1_ == iterator2_ ) {
-			std::advance ( iterator2_ , offset_ );
-		}
-
-		else if ( iterator2_->GetId ( ) + offset_ < keyframes_.size ( ) ) {
-			std::advance ( iterator1_ , offset_ );
-			std::advance ( iterator2_ , offset_ );
-		}
-
-		else if ( iterator2_->GetId ( ) + offset_ >= keyframes_.size ( ) ) {
-			iterator2_ = keyframes_.end ( ) - 1;
-			std::advance ( iterator1_ , offset_ );
-		}
-
-		return true;
-	}
-	template < > bool Tracker < TrackingType::PcaKeyFrame >::Update ( ) {
-
-		if ( iterator2_ == keyframes_.end ( ) )
-			return false;
-
-		do {
-
+			// For initial inliers computation in order to to compute next.
 			CorrespondingPointsPair corresponding_points_pair = CreateCorrespondingPointsPair ( * iterator1_ , * iterator2_ );
 
 			boost::tie ( inliers2_ , inliers1_ ) = ComputeInliers ( corresponding_points_pair.second ,
@@ -199,41 +152,101 @@ namespace NiS {
 			                                                        options_.options_pca_keyframe.num_ransac_iteration ,
 			                                                        options_.options_pca_keyframe.threshold_outlier ,
 			                                                        options_.options_pca_keyframe.threshold_inlier );
+		}
+	}
 
-			if ( iterator2_ == keyframes_.end ( ) - 1 ) {
-				return true;
+	template < > bool Tracker < TrackingType::OneByOne >::Update ( ) {
+
+		if ( auto keyframes = keyframes_ptr_.lock ( ) ) {
+
+			if ( iterator1_ == iterator2_ ) {
+				std::advance ( iterator2_ , 1 );
+			} else {
+				std::advance ( iterator1_ , 1 );
+				std::advance ( iterator2_ , 1 );
 			}
 
-			QString error_msg;
+			std::cout << "Updated to : " << iterator2_->GetId ( ) << " - " << iterator1_->GetId ( ) << std::endl;
 
-			bool is_valid = ValidateInliersDistribution ( inliers2_ ,
-			                                              options_.options_pca_keyframe.num_inliers ,
-			                                              options_.options_pca_keyframe.threshold_1st_component_contribution ,
-			                                              options_.options_pca_keyframe.threshold_1st_component_variance ,
-			                                              options_.options_pca_keyframe.threshold_2nd_component_variance ,
-			                                              options_.options_pca_keyframe.threshold_3rd_component_variance ,
-			                                              error_msg );
+			return ( iterator2_ != keyframes->end ( ) );
+		}
+	}
+	template < > bool Tracker < TrackingType::FixedFrameCount >::Update ( ) {
 
-			message_ = QString ( " - Checking %1 - %2 : %3" )
-					.arg ( QString::number ( iterator2_->GetId ( ) ) )
-					.arg ( QString::number ( iterator1_->GetId ( ) ) )
-					.arg ( error_msg );
-
-			if ( is_valid ) {
-				++iterator2_;
-			}
-			else {
-
-				if ( iterator1_ + 1 != iterator2_ ) { --iterator2_; }
-				// if the iterator2 != iterator1, which means it's safe to move backwards by one.
-				// otherwise, just use these 2 frame to compute bruntly, since there's nowhere to go
-				return true;
-
+		if ( auto keyframes = keyframes_ptr_.lock ( ) ) {
+			// iter2 has reached the end of data array, no need to compute anymore.
+			if ( iterator2_ == keyframes->end ( ) - 1 ) {
+				return false;
 			}
 
-		} while ( true );
+			else if ( iterator1_ == iterator2_ ) {
+				std::advance ( iterator2_ , offset_ );
+			}
 
+			else if ( iterator2_->GetId ( ) + offset_ < keyframes->size ( ) ) {
+				std::advance ( iterator1_ , offset_ );
+				std::advance ( iterator2_ , offset_ );
+			}
 
+			else if ( iterator2_->GetId ( ) + offset_ >= keyframes->size ( ) ) {
+				iterator2_ = keyframes->end ( ) - 1;
+				std::advance ( iterator1_ , offset_ );
+			}
+
+			return true;
+		}
+	}
+	template < > bool Tracker < TrackingType::PcaKeyFrame >::Update ( ) {
+
+		if ( auto keyframes = keyframes_ptr_.lock ( ) ) {
+
+			if ( iterator2_ == keyframes->end ( ) )
+				return false;
+
+			do {
+
+				CorrespondingPointsPair corresponding_points_pair = CreateCorrespondingPointsPair ( * iterator1_ , * iterator2_ );
+
+				boost::tie ( inliers2_ , inliers1_ ) = ComputeInliers ( corresponding_points_pair.second ,
+				                                                        corresponding_points_pair.first ,
+				                                                        options_.options_pca_keyframe.num_ransac_iteration ,
+				                                                        options_.options_pca_keyframe.threshold_outlier ,
+				                                                        options_.options_pca_keyframe.threshold_inlier );
+
+				if ( iterator2_ == keyframes->end ( ) - 1 ) {
+					return true;
+				}
+
+				QString error_msg;
+
+				bool is_valid = ValidateInliersDistribution ( inliers2_ ,
+				                                              options_.options_pca_keyframe.num_inliers ,
+				                                              options_.options_pca_keyframe.threshold_1st_component_contribution ,
+				                                              options_.options_pca_keyframe.threshold_1st_component_variance ,
+				                                              options_.options_pca_keyframe.threshold_2nd_component_variance ,
+				                                              options_.options_pca_keyframe.threshold_3rd_component_variance ,
+				                                              error_msg );
+
+				message_ = QString ( " - Checking %1 - %2 : %3" )
+						.arg ( QString::number ( iterator2_->GetId ( ) ) )
+						.arg ( QString::number ( iterator1_->GetId ( ) ) )
+						.arg ( error_msg );
+
+				if ( is_valid ) {
+					++iterator2_;
+				}
+				else {
+
+					if ( iterator1_ + 1 != iterator2_ ) { --iterator2_; }
+					// if the iterator2 != iterator1, which means it's safe to move backwards by one.
+					// otherwise, just use these 2 frame to compute bruntly, since there's nowhere to go
+					return true;
+
+				}
+
+			} while ( true );
+
+		}
 	}
 
 	template < > void Tracker < TrackingType::OneByOne >::ComputeNext ( ) {

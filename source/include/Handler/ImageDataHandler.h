@@ -19,7 +19,12 @@
 
 #include <QFutureWatcher>
 
+#include <memory>
+
 namespace NiS {
+
+	using KeyFramesSharedPtr = std::shared_ptr < KeyFrames >;
+	using KeyFramesWeakPtr = std::weak_ptr < KeyFrames >;
 
 	class ImageHandler2 : public QObject
 	{
@@ -36,17 +41,19 @@ namespace NiS {
 			static const float kXtionHeight;
 		};
 
-		inline ImageHandler2 ( QFileInfoList file_list , QObject * parent = 0 ) :
+		inline ImageHandler2 ( QFileInfoList file_list , KeyFramesSharedPtr keyframes_ptr , QObject * parent = 0 ) :
 				file_list_ ( file_list ) ,
 				xz_factor_ ( GetXtionDepthFactor ( XtionFrameProperty::kXtionHorizontalFOV ) ) ,
-				yz_factor_ ( GetXtionDepthFactor ( XtionFrameProperty::kXtionVerticalFOV ) ) { }
+				yz_factor_ ( GetXtionDepthFactor ( XtionFrameProperty::kXtionVerticalFOV ) ) {
+
+			raw_data_frames_ptr_ = std::unique_ptr < RawDataFrames > ( new RawDataFrames );
+			keyframes_ptr_       = keyframes_ptr;
+
+		}
 
 		inline ~ImageHandler2 ( ) { }
-
 		inline void SetInternalCalibrator ( Calibrator const & calibrator ) { calibrator_ = calibrator; }
-
 		inline RawDataFrames GetRawDataFrames ( ) const { return raw_data_frames_; }
-
 		inline const KeyFrames & GetKeyFrames ( ) const { return keyframes_; }
 
 		static NiS::RawDataFrame ReadFrame ( const QString & file_name );
@@ -54,19 +61,14 @@ namespace NiS {
 	signals:
 
 		void SendData ( KeyFrames );
-
 		void DoneReading ( );
-
 		void Message ( QString );
 
 	public slots:
 
 		void StartReading ( );
-
 		void ConvertToPointImages ( int choice );
-
 		void ConvertToPointImagesWithInternalCalibration ( );
-
 		void SetXtionCoordinateConverter ( ) { converter_pointer_ = & xtion_converter_; }
 		void SetAistCoordinateConverter ( const AistCoordinateConverter & converter ) {
 
@@ -113,6 +115,9 @@ namespace NiS {
 		QFileInfoList file_list_;
 		RawDataFrames raw_data_frames_;
 		KeyFrames     keyframes_;
+
+		std::unique_ptr < RawDataFrames > raw_data_frames_ptr_;
+		KeyFramesWeakPtr                  keyframes_ptr_;
 
 		CoordinateConverter * converter_pointer_;
 		XtionCoordinateConverter xtion_converter_;

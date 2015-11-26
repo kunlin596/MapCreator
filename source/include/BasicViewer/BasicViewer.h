@@ -23,6 +23,8 @@
 
 #include <boost/tuple/tuple.hpp>
 
+#include <memory>
+
 //#include "../../Build/BasicViewer/Source/ui_BasicViewer.h"
 #include "../../../bin/lib/BasicViewer/ui_BasicViewer.h"
 
@@ -65,7 +67,7 @@ namespace NiS {
 
 	public slots:
 
-		void SetKeyFrames ( KeyFrames keyframes );
+		void SetKeyFrames ( std::shared_ptr < KeyFrames > keyframes );
 		void SetViewerMode ( int mode );
 		void SetCorrespondingPoints ( CorrespondingPointsPair );
 		void SetInliers ( CorrespondingPointsPair );
@@ -74,18 +76,20 @@ namespace NiS {
 		void SetMarkerPointPair ( const PointPair & point_pair );
 		void SetBeginFrame ( int begin_frame ) {
 
-			if ( 0 <= begin_frame and begin_frame < keyframes_gl_.size ( ) ) {
+			if ( 0 <= begin_frame and begin_frame < keyframes_gl_->size ( ) ) {
 				begin_frame_ = begin_frame;
 				emit repaint ( );
 			}
 		}
 		void SetEndFrame ( int end_frame ) {
 
-			if ( 0 <= end_frame and end_frame < keyframes_gl_.size ( ) ) {
+			if ( 0 <= end_frame and end_frame < keyframes_gl_->size ( ) ) {
 				end_frame_ = end_frame;
 				emit repaint ( );
 			}
 		}
+
+		void UpdateViewer ( );
 
 	private slots:
 
@@ -123,21 +127,21 @@ namespace NiS {
 
 		bool top_view_;
 
-		std::vector < KeyFrameGL > keyframes_gl_;
-		std::vector < KeyFrameGL > keyframes_gl_for_inliers_;
 
-		std::vector < CorrespondingPointsGL > corresponding_points_pair_gl_;
-		std::vector < CorrespondingPointsGL > inliers_pair_gl_;
+		// OpenGL Drawing Objects
+		std::unique_ptr < std::vector < KeyFrameGL > > keyframes_gl_;
+		std::unique_ptr < std::vector < KeyFrameGL > > keyframes_gl_for_inliers_;
+		std::unique_ptr < CorrespondingPointsGL >      corresponding_points_pair_gl_;
+		std::unique_ptr < CorrespondingPointsGL >      inliers_pair_gl_;
+		std::unique_ptr < PointPairGL >                estimation_point_pair_gl_;
+		std::unique_ptr < PointPairGL >                marker_point_pair_gl_;
+		std::unique_ptr < LineSegmentsGL >             estimation_trajectory_gl_;
+		std::unique_ptr < LineSegmentsGL >             marker_trajectory_gl_;
+		std::unique_ptr < GridGL >                     grid_;
 
-		std::vector < PointPairGL > estimation_point_pair_gl_;
-		std::vector < PointPairGL > marker_point_pair_gl_;
-
-		std::vector < std::vector < LineSegmentGL > > estimation_trajectory_gl_;
-		std::vector < std::vector < LineSegmentGL > > marker_trajectory_gl_;
 
 		QOpenGLShaderProgram      * shader_program_;
 		QOpenGLFunctions_4_1_Core * GL;
-		GridGL                    * grid_;
 		QTimer                    * spin_timer_;
 
 		QPoint last_mouse_position_;

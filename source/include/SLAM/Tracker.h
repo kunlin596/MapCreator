@@ -41,27 +41,27 @@ namespace NiS {
 			options_ = options;
 		}
 		Tracker ( const Tracker & other ) = default;
-		Tracker ( const KeyFrames & keyframes , const Options & options , const XtionCoordinateConverter & converter ) {
+		Tracker ( std::shared_ptr < KeyFrames > keyframes_ptr , const Options & options , const XtionCoordinateConverter & converter ) {
 
 			options_                    = options;
-			keyframes_                  = keyframes;
+			keyframes_ptr_              = keyframes_ptr;
 			xtion_coordinate_converter_ = converter;
 			converter_choice_           = 0;
 			converter_pointer_          = & xtion_coordinate_converter_;
 
-			assert( !keyframes_.empty ( ) );
+			assert ( not keyframes_ptr->empty ( ) );
 
 			Initialize ( );
 		}
-		Tracker ( const KeyFrames & keyframes , const Options & options , const AistCoordinateConverter & converter ) {
+		Tracker ( std::shared_ptr < KeyFrames > keyframes_ptr , const Options & options , const AistCoordinateConverter & converter ) {
 
 			options_                   = options;
-			keyframes_                 = keyframes;
+			keyframes_ptr_             = keyframes_ptr;
 			aist_coordinate_converter_ = converter;
 			converter_choice_          = 1;
 			converter_pointer_         = & aist_coordinate_converter_;
 
-			assert( !keyframes_.empty ( ) );
+			assert ( not keyframes_ptr->empty ( ) );
 
 			Initialize ( );
 		}
@@ -75,13 +75,12 @@ namespace NiS {
 		QString GetMessage ( ) const { return message_; };
 		const KeyFramesIterator & GetIterator1 ( ) const { return iterator1_; }
 		const KeyFramesIterator & GetIterator2 ( ) const { return iterator2_; }
-		const KeyFrames GetResults ( ) const { return keyframes_; }
 
 	private:
 
 		void Initialize ( );
 
-		KeyFrames keyframes_;
+		std::weak_ptr < KeyFrames > keyframes_ptr_;
 
 		KeyFramesIterator iterator1_;
 		KeyFramesIterator iterator2_;

@@ -52,8 +52,7 @@ namespace NiS {
 
 		ui_.setupUi ( this );
 
-		connect ( spin_timer_ , SIGNAL( timeout ( ) ) ,
-		          this , SLOT( onSpin ( ) ) );
+		connect ( spin_timer_ , SIGNAL( timeout ( ) ) , this , SLOT( onSpin ( ) ) );
 
 		GL = new QOpenGLFunctions_4_1_Core;
 	}
@@ -78,7 +77,7 @@ namespace NiS {
 		shader_program_ = SetupShaderProgram ( ":/Shaders/Basic/BasicVertexShader.glsl" ,
 		                                       ":/Shaders/Basic/BasicFragmentShader.glsl" , this );
 
-		grid_ = new GridGL ( GL , 0.0f , -1.0f , 0.0f , 30.0f , 1.0f );
+		grid_ = std::unique_ptr < GridGL > ( new GridGL ( GL , 0.0f , -1.0f , 0.0f , 30.0f , 1.0f ) );
 		grid_->SetShaderProgram ( shader_program_ );
 		grid_->SetupData ( );
 
@@ -105,8 +104,7 @@ namespace NiS {
 
 
 		if ( render_grid_ ) {
-			grid_->SetTransformationMatrix (
-					projection_matrix * view_matrix * model_translation_matrix_ * model_rotation_matrix_ );
+			grid_->SetTransformationMatrix ( projection_matrix * view_matrix * model_translation_matrix_ * model_rotation_matrix_ );
 			grid_->Render ( );
 		}
 
@@ -119,43 +117,46 @@ namespace NiS {
 
 				if ( render_point_cloud_ ) {
 
-					// since the tranformation matrix must be accumulated from the very begining
+					// since the tranformation matrix must be accumulated from the very beginning
 					for ( auto i = 0 ; i < begin_frame_ ; ++i ) {
-						auto & keyframe_gl = keyframes_gl_[ i ];
+
+						auto & keyframe_gl = keyframes_gl_->at ( i );
+
 						const auto m = ( render_answer_ ) ? ( keyframe_gl.GetAnswerAlignmentMatrix ( ) ) : ( keyframe_gl.GetAlignmentMatrix ( ) );
+
 						accumulated_transformation_matrix *= m;
 					}
 
 					for ( auto i = begin_frame_ ; i <= end_frame_ ; ++i ) {
-						auto & keyframe_gl = keyframes_gl_[ i ];
+
+						auto & keyframe_gl = keyframes_gl_->at ( i );
+
 						const auto m = ( render_answer_ ) ? ( keyframe_gl.GetAnswerAlignmentMatrix ( ) ) : ( keyframe_gl.GetAlignmentMatrix ( ) );
+
 						accumulated_transformation_matrix *= m;
+
 						keyframe_gl.SetTransformationMatrix ( transformation_matrix * accumulated_transformation_matrix );
+
 						if ( render_answer_ ) keyframe_gl.Render ( );
 						else if ( keyframe_gl.IsUsed ( ) ) keyframe_gl.Render ( );
 					}
 				}
 
 				if ( render_trajectory_ ) {
-
-					for ( auto i = 0 ; i < estimation_trajectory_gl_.size ( ) ; ++i ) {
-						for ( auto j = begin_frame_ ; j <= end_frame_ - 1 ; ++j ) {
-							estimation_trajectory_gl_[ i ][ j ].SetTransformationMatrix ( transformation_matrix );
-							estimation_trajectory_gl_[ i ][ j ].Render ( );
-							marker_trajectory_gl_[ i ][ j ].SetTransformationMatrix ( transformation_matrix );
-							marker_trajectory_gl_[ i ][ j ].Render ( );
-						}
+					for ( auto j = begin_frame_ ; j <= end_frame_ - 1 ; ++j ) {
+						estimation_trajectory_gl_->at ( j ).SetTransformationMatrix ( transformation_matrix );
+						estimation_trajectory_gl_->at ( j ).Render ( );
+						marker_trajectory_gl_->at ( j ).SetTransformationMatrix ( transformation_matrix );
+						marker_trajectory_gl_->at ( j ).Render ( );
 					}
 				}
 
-				for ( auto & point_pair_gl : estimation_point_pair_gl_ ) {
-					point_pair_gl.SetTransformationMatrix ( transformation_matrix );
-					point_pair_gl.Render ( );
-				}
+				if ( estimation_point_pair_gl_ and marker_point_pair_gl_ ) {
+					estimation_point_pair_gl_->SetTransformationMatrix ( transformation_matrix );
+					estimation_point_pair_gl_->Render ( );
 
-				for ( auto & point_pair_gl : marker_point_pair_gl_ ) {
-					point_pair_gl.SetTransformationMatrix ( transformation_matrix );
-					point_pair_gl.Render ( );
+					marker_point_pair_gl_->SetTransformationMatrix ( transformation_matrix );
+					marker_point_pair_gl_->Render ( );
 				}
 
 				break;
@@ -168,39 +169,35 @@ namespace NiS {
 				glm::mat4 scale_mat             = glm::scale ( glm::mat4 ( ) , glm::vec3 ( 1.5f ) );
 
 				if ( render_point_cloud_ ) {
-					for ( auto & keyframe_for_inliers : keyframes_gl_for_inliers_ ) {
+					for ( auto & keyframe_for_inliers :  * keyframes_gl_for_inliers_ ) {
 
 						keyframe_for_inliers.SetTransformationMatrix ( transformation_matrix * left_translation_mat * scale_mat );
 						keyframe_for_inliers.Render ( );
 					}
 
-					for ( auto & keyframe_for_inliers : keyframes_gl_for_inliers_ ) {
+					for ( auto & keyframe_for_inliers : * keyframes_gl_for_inliers_ ) {
 
 						keyframe_for_inliers.SetTransformationMatrix ( transformation_matrix * right_translation_mat * scale_mat );
 						keyframe_for_inliers.Render ( );
 					}
 				}
 
-				for ( auto & corresponding_points_pair_gl : corresponding_points_pair_gl_ ) {
+				if ( corresponding_points_pair_gl_ and inliers_pair_gl_ ) {
+					corresponding_points_pair_gl_->SetTransformationMatrix ( transformation_matrix * left_translation_mat * scale_mat );
+					corresponding_points_pair_gl_->Render ( );
 
-					corresponding_points_pair_gl.SetTransformationMatrix ( transformation_matrix * left_translation_mat * scale_mat );
-					corresponding_points_pair_gl.Render ( );
-				}
-
-				for ( auto & inliers_pair_gl : inliers_pair_gl_ ) {
-
-					inliers_pair_gl.SetTransformationMatrix ( transformation_matrix * right_translation_mat * scale_mat );
-					inliers_pair_gl.Render ( );
+					inliers_pair_gl_->SetTransformationMatrix ( transformation_matrix * right_translation_mat * scale_mat );
+					inliers_pair_gl_->Render ( );
 				}
 
 				break;
 			}
-
 			default:
 				break;
-
 		}
+
 	}
+
 
 	void BasicViewer::mouseMoveEvent ( QMouseEvent * e ) {
 
@@ -334,32 +331,33 @@ namespace NiS {
 
 		density_step_ = value;
 
-		for ( auto & frame : keyframes_gl_ ) {
+		for ( auto & frame : * keyframes_gl_ ) {
 			frame.SetPointDensityStep ( density_step_ );
 			frame.SetupData ( );
 		}
 
-		for ( auto & frame : keyframes_gl_for_inliers_ ) {
+		for ( auto & frame : * keyframes_gl_for_inliers_ ) {
 			frame.SetPointDensityStep ( density_step_ );
 			frame.SetupData ( );
 		}
 
-		if ( !keyframes_gl_.empty ( ) ) {
-			auto points_per_frame = keyframes_gl_[ 0 ].GetVertexData ( ).size ( );
-			auto total_points     = points_per_frame * keyframes_gl_.size ( );
+		if ( not keyframes_gl_->empty ( ) ) {
+
+			auto points_per_frame = keyframes_gl_->at ( 0 ).GetVertexData ( ).size ( );
+			auto total_points     = points_per_frame * keyframes_gl_->size ( );
 
 			emit Message ( QString ( "#Frames : %1, #Points/Frame : %2, #Total Points %3." )
-					               .arg ( keyframes_gl_.size ( ) )
+					               .arg ( keyframes_gl_->size ( ) )
 					               .arg ( points_per_frame )
 					               .arg ( total_points ) );
 		}
 
-		if ( !keyframes_gl_for_inliers_.empty ( ) ) {
-			auto points_per_frame = keyframes_gl_for_inliers_[ 0 ].GetVertexData ( ).size ( );
-			auto total_points     = points_per_frame * keyframes_gl_for_inliers_.size ( );
+		if ( not keyframes_gl_for_inliers_->empty ( ) ) {
+			auto points_per_frame = keyframes_gl_for_inliers_->at ( 0 ).GetVertexData ( ).size ( );
+			auto total_points     = points_per_frame * keyframes_gl_for_inliers_->size ( );
 
 			emit Message ( QString ( "#Frames : %1, #Points/Frame : %2, #Total Points %3." )
-					               .arg ( keyframes_gl_for_inliers_.size ( ) )
+					               .arg ( keyframes_gl_for_inliers_->size ( ) )
 					               .arg ( points_per_frame )
 					               .arg ( total_points ) );
 		}
@@ -412,33 +410,31 @@ namespace NiS {
 			spin_timer_->stop ( );
 	}
 
-	void BasicViewer::SetKeyFrames ( KeyFrames keyframes ) {
+	void BasicViewer::SetKeyFrames ( std::shared_ptr < KeyFrames > keyframes ) {
 
 		makeCurrent ( );
 
-		emit Message ( QString ( "Viewer received %1 frames." ).arg ( keyframes.size ( ) ) );
+		keyframes_gl_ = std::unique_ptr < KeyFramesGL > ( new KeyFramesGL );
 
-		// Setup Trajectories
-		estimation_trajectory_gl_.clear ( );
-		marker_trajectory_gl_.clear ( );
+		emit Message ( QString ( "Viewer received %1 frames." ).arg ( keyframes->size ( ) ) );
 
 		auto estimation_accumulated_matrix1 = glm::mat4 ( );
 		auto estimation_accumulated_matrix2 = glm::mat4 ( );
 		auto marker_accumulated_matrix1     = glm::mat4 ( );
 		auto marker_accumulated_matrix2     = glm::mat4 ( );
 
-		std::vector < LineSegmentGL > estimation_trajectory_gl;
-		std::vector < LineSegmentGL > marker_trajectory_gl;
+		estimation_trajectory_gl_ = std::unique_ptr < LineSegmentsGL > ( new LineSegmentsGL );
+		marker_trajectory_gl_     = std::unique_ptr < LineSegmentsGL > ( new LineSegmentsGL );
 
-		for ( auto i = 1 ; i < keyframes.size ( ) ; ++i ) {
+		for ( auto i = 1 ; i < keyframes->size ( ) ; ++i ) {
 
-			estimation_accumulated_matrix1 *= keyframes[ i - 1 ].GetAlignmentMatrix ( );
-			estimation_accumulated_matrix2 *= keyframes[ i ].GetAlignmentMatrix ( );
+			estimation_accumulated_matrix1 *= keyframes->at ( i - 1 ).GetAlignmentMatrix ( );
+			estimation_accumulated_matrix2 *= keyframes->at ( i ).GetAlignmentMatrix ( );
 
-			marker_accumulated_matrix1 *= keyframes[ i - 1 ].GetAnswerAlignmentMatrix ( );
-			marker_accumulated_matrix2 *= keyframes[ i ].GetAnswerAlignmentMatrix ( );
+			marker_accumulated_matrix1 *= keyframes->at ( i - 1 ).GetAnswerAlignmentMatrix ( );
+			marker_accumulated_matrix2 *= keyframes->at ( i ).GetAnswerAlignmentMatrix ( );
 
-			auto color_val = static_cast<float>(i) / keyframes.size ( ) * 0.8f;
+			auto color_val = static_cast<float>(i) / keyframes->size ( ) * 0.8f;
 
 			auto estimation_color = glm::vec3 ( 1.0f , color_val , 1.0f );
 			auto marker_color     = glm::vec3 ( color_val , 1.0f , color_val );
@@ -452,38 +448,37 @@ namespace NiS {
 			line1.SetupData ( );
 			line2.SetupData ( );
 
-			estimation_trajectory_gl.push_back ( line1 );
-			marker_trajectory_gl.push_back ( line2 );
+			estimation_trajectory_gl_->push_back ( line1 );
+			marker_trajectory_gl_->push_back ( line2 );
 		}
 
-		estimation_trajectory_gl_.push_back ( estimation_trajectory_gl );
-		marker_trajectory_gl_.push_back ( marker_trajectory_gl );
-
 		// Setup Keyframes
-		keyframes_gl_.clear ( );
-		for ( auto const & keyframe : keyframes ) {
+		//		keyframes_gl_->clear ( );
+
+		for ( auto const & keyframe : * keyframes ) {
 
 			KeyFrameGL keyframe_gl ( GL , keyframe , density_step_ );
 			keyframe_gl.SetShaderProgram ( shader_program_ );
 			keyframe_gl.SetupData ( );
-			keyframes_gl_.push_back ( keyframe_gl );
+			keyframes_gl_->push_back ( keyframe_gl );
 		}
 
-		std::cout << "BasicViewer setuped " << keyframes.size ( ) << " frames." << std::endl;
+		std::cout << "BasicViewer setuped " << keyframes->size ( ) << " frames." << std::endl;
 
 		emit repaint ( );
 
-		if ( !keyframes_gl_.empty ( ) ) {
-			auto points_per_frame = keyframes_gl_[ 0 ].GetVertexData ( ).size ( );
-			auto total_points     = points_per_frame * keyframes_gl_.size ( );
+		if ( not keyframes_gl_->empty ( ) ) {
+			auto points_per_frame = keyframes_gl_->at ( 0 ).GetVertexData ( ).size ( );
+			auto total_points     = points_per_frame * keyframes_gl_->size ( );
 
 			emit Message ( QString ( "#Frames : %1, #Points/Frame : %2, #Total Points %3." )
-					               .arg ( keyframes_gl_.size ( ) )
+					               .arg ( keyframes_gl_->size ( ) )
 					               .arg ( points_per_frame )
 					               .arg ( total_points ) );
 		}
 
 		doneCurrent ( );
+
 	}
 
 	void BasicViewer::SetViewerMode ( int mode ) {
@@ -493,8 +488,8 @@ namespace NiS {
 		switch ( mode ) {
 			case 0: {
 				background_color_ = glm::vec4 ( 0.1f , 0.1f , 0.1f , 1.0f );
-				inliers_pair_gl_.clear ( );
-				keyframes_gl_for_inliers_.clear ( );
+//				inliers_pair_gl_->clear ( );
+//				keyframes_gl_for_inliers_->clear ( );
 				break;
 			}
 			case 1:
@@ -517,10 +512,11 @@ namespace NiS {
 		std::cout << "Inliers of 1 and 2 : " << inliers_pair.first.size ( ) << " : " << inliers_pair.second.size ( ) <<
 		std::endl;
 
-		inliers_pair_gl_.clear ( );
-		inliers_pair_gl_.push_back ( CorrespondingPointsGL ( GL , inliers_pair ) );
-		inliers_pair_gl_[ 0 ].SetShaderProgram ( shader_program_ );
-		inliers_pair_gl_[ 0 ].SetupData ( );
+//		inliers_pair_gl_.clear ( );
+//		inliers_pair_gl_.push_back ( CorrespondingPointsGL ( GL , inliers_pair ) );
+		inliers_pair_gl_ = std::unique_ptr < CorrespondingPointsGL > ( new CorrespondingPointsGL ( GL , inliers_pair ) );
+		inliers_pair_gl_->SetShaderProgram ( shader_program_ );
+		inliers_pair_gl_->SetupData ( );
 
 		doneCurrent ( );
 
@@ -537,10 +533,11 @@ namespace NiS {
 		std::cout << "Initial 3D corresponding points : " << corresponding_points_pair.first.size ( ) << " : " <<
 		corresponding_points_pair.second.size ( ) << std::endl;
 
-		corresponding_points_pair_gl_.clear ( );
-		corresponding_points_pair_gl_.push_back ( CorrespondingPointsGL ( GL , corresponding_points_pair ) );
-		corresponding_points_pair_gl_[ 0 ].SetShaderProgram ( shader_program_ );
-		corresponding_points_pair_gl_[ 0 ].SetupData ( );
+//		corresponding_points_pair_gl_.clear ( );
+//		corresponding_points_pair_gl_.push_back ( CorrespondingPointsGL ( GL , corresponding_points_pair ) );
+		corresponding_points_pair_gl_ = std::unique_ptr < CorrespondingPointsGL > ( new CorrespondingPointsGL ( GL , corresponding_points_pair ) );
+		corresponding_points_pair_gl_->SetShaderProgram ( shader_program_ );
+		corresponding_points_pair_gl_->SetupData ( );
 
 		doneCurrent ( );
 
@@ -555,15 +552,15 @@ namespace NiS {
 
 		if ( keyframes.size ( ) == 2 ) {
 
-			keyframes_gl_for_inliers_.clear ( );
-			keyframes_gl_for_inliers_.push_back ( KeyFrameGL ( GL , keyframes[ 0 ] , density_step_ ) );
-			keyframes_gl_for_inliers_.push_back ( KeyFrameGL ( GL , keyframes[ 1 ] , density_step_ ) );
+			keyframes_gl_for_inliers_->clear ( );
+			keyframes_gl_for_inliers_->push_back ( KeyFrameGL ( GL , keyframes[ 0 ] , density_step_ ) );
+			keyframes_gl_for_inliers_->push_back ( KeyFrameGL ( GL , keyframes[ 1 ] , density_step_ ) );
 
-			keyframes_gl_for_inliers_[ 0 ].SetShaderProgram ( shader_program_ );
-			keyframes_gl_for_inliers_[ 1 ].SetShaderProgram ( shader_program_ );
+			keyframes_gl_for_inliers_->at ( 0 ).SetShaderProgram ( shader_program_ );
+			keyframes_gl_for_inliers_->at ( 1 ).SetShaderProgram ( shader_program_ );
 
-			keyframes_gl_for_inliers_[ 0 ].SetupData ( );
-			keyframes_gl_for_inliers_[ 1 ].SetupData ( );
+			keyframes_gl_for_inliers_->at ( 0 ).SetupData ( );
+			keyframes_gl_for_inliers_->at ( 0 ).SetupData ( );
 		}
 
 		doneCurrent ( );
@@ -622,15 +619,14 @@ namespace NiS {
 
 		makeCurrent ( );
 
-		estimation_point_pair_gl_.clear ( );
+//		estimation_point_pair_gl_.clear ( );
 
 		std::cout << point_pair.first;
 		std::cout << point_pair.second;
 
-		auto point_pair_gl = PointPairGL ( GL , point_pair );
-		point_pair_gl.SetShaderProgram ( shader_program_ );
-		point_pair_gl.SetupData ( );
-		estimation_point_pair_gl_.push_back ( point_pair_gl );
+		estimation_point_pair_gl_ = std::unique_ptr < PointPairGL > ( new PointPairGL ( GL , point_pair ) );
+		estimation_point_pair_gl_->SetShaderProgram ( shader_program_ );
+		estimation_point_pair_gl_->SetupData ( );
 
 		doneCurrent ( );
 	}
@@ -640,17 +636,21 @@ namespace NiS {
 
 		makeCurrent ( );
 
-		marker_point_pair_gl_.clear ( );
+//		marker_point_pair_gl_.clear ( );
 
 		std::cout << point_pair.first;
 		std::cout << point_pair.second;
 
-		auto point_pair_gl = AnswerPointPairGL ( GL , point_pair );
-		point_pair_gl.SetShaderProgram ( shader_program_ );
-		point_pair_gl.SetupData ( );
-		marker_point_pair_gl_.push_back ( point_pair_gl );
+		marker_point_pair_gl_ = std::unique_ptr < AnswerPointPairGL > ( new AnswerPointPairGL ( GL , point_pair ) );
+		marker_point_pair_gl_->SetShaderProgram ( shader_program_ );
+		marker_point_pair_gl_->SetupData ( );
+//		marker_point_pair_gl_.push_back ( point_pair_gl );
 
 		doneCurrent ( );
+	}
+
+	void BasicViewer::UpdateViewer ( ) {
+
 	}
 
 }

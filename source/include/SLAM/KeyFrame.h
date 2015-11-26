@@ -30,7 +30,7 @@ namespace NiS {
 
 			CreateFeature ( );
 		}
-
+		
 		KeyFrame ( ) = default;
 		~KeyFrame ( ) = default;
 

@@ -19,17 +19,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="26c6f326-4e90-4b7f-8507-02339ac4f915" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/include/BasicViewer/LineSegmentGL.h" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/BasicViewer/LineSegmentGL.cpp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/source.iml" afterPath="$PROJECT_DIR$/.idea/source.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/BasicViewer/BasicViewer.h" afterPath="$PROJECT_DIR$/include/BasicViewer/BasicViewer.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/BasicViewer/FrameViewer.h" afterPath="$PROJECT_DIR$/include/BasicViewer/FrameViewer.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/BasicViewer/PrimitiveGL.h" afterPath="$PROJECT_DIR$/include/BasicViewer/PrimitiveGL.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/BasicViewer/TrajectoryGL.h" afterPath="$PROJECT_DIR$/include/BasicViewer/TrajectoryGL.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/BasicViewer/LineSegmentGL.h" afterPath="$PROJECT_DIR$/include/BasicViewer/LineSegmentGL.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/Handler/ImageDataHandler.h" afterPath="$PROJECT_DIR$/include/Handler/ImageDataHandler.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/MapCreator/MainWindow.h" afterPath="$PROJECT_DIR$/include/MapCreator/MainWindow.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/SLAM/Alignment.h" afterPath="$PROJECT_DIR$/include/SLAM/Alignment.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/SLAM/CommonDefinitions.h" afterPath="$PROJECT_DIR$/include/SLAM/CommonDefinitions.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/SLAM/KeyFrame.h" afterPath="$PROJECT_DIR$/include/SLAM/KeyFrame.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/SLAM/Tracker.h" afterPath="$PROJECT_DIR$/include/SLAM/Tracker.h" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/BasicViewer/BasicViewer.cpp" afterPath="$PROJECT_DIR$/lib/BasicViewer/BasicViewer.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/BasicViewer/rsc/BasicFragmentShader.glsl" afterPath="$PROJECT_DIR$/lib/BasicViewer/rsc/BasicFragmentShader.glsl" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/BasicViewer/rsc/BasicVertexShader.glsl" afterPath="$PROJECT_DIR$/lib/BasicViewer/rsc/BasicVertexShader.glsl" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/Handler/ImageDataHandler.cpp" afterPath="$PROJECT_DIR$/lib/Handler/ImageDataHandler.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/MapCreator/MainWindow.cpp" afterPath="$PROJECT_DIR$/lib/MapCreator/MainWindow.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/SLAM/Alignment.cpp" afterPath="$PROJECT_DIR$/lib/SLAM/Alignment.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/SLAM/Tracker.cpp" afterPath="$PROJECT_DIR$/lib/SLAM/Tracker.cpp" />
     </list>
     <ignored path="source.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -49,16 +53,206 @@
     <favorites_list name="source" />
   </component>
   <component name="FileEditorManager">
-    <leaf />
+    <splitter split-orientation="horizontal" split-proportion="0.7529993">
+      <split-first>
+        <leaf>
+          <file leaf-file-name="Alignment.h" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/include/SLAM/Alignment.h">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.0">
+                  <caret line="86" column="0" selection-start-line="86" selection-start-column="0" selection-end-line="86" selection-end-column="0" />
+                  <folding>
+                    <element signature="e#91#116#0" expanded="true" />
+                    <element signature="e#1969#1990#0" expanded="true" />
+                    <element signature="e#2793#4155#0" expanded="false" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="Alignment.cpp" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/lib/SLAM/Alignment.cpp">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.0">
+                  <caret line="87" column="0" selection-start-line="87" selection-start-column="0" selection-end-line="87" selection-end-column="0" />
+                  <folding>
+                    <element signature="e#839#924#0" expanded="false" />
+                    <element signature="e#2189#3475#0" expanded="false" />
+                    <element signature="e#3478#5337#0" expanded="false" />
+                    <element signature="e#5340#12306#0" expanded="false" />
+                    <element signature="e#12309#12733#0" expanded="false" />
+                    <element signature="e#14003#14068#0" expanded="false" />
+                    <element signature="e#14199#14587#0" expanded="false" />
+                    <element signature="e#14590#14970#0" expanded="false" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="qtconcurrentstoredfunctioncall.h" pinned="false" current-in-tab="false">
+            <entry file="file:///usr/local/Qt5/lib/QtConcurrent.framework/Headers/qtconcurrentstoredfunctioncall.h">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.0">
+                  <caret line="199" column="0" selection-start-line="199" selection-start-column="0" selection-end-line="199" selection-end-column="0" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="qtconcurrentrunbase.h" pinned="false" current-in-tab="false">
+            <entry file="file:///usr/local/Qt5/lib/QtConcurrent.framework/Headers/qtconcurrentrunbase.h">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.0">
+                  <caret line="120" column="0" selection-start-line="120" selection-start-column="0" selection-end-line="120" selection-end-column="0" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="qstring.h" pinned="false" current-in-tab="false">
+            <entry file="file:///usr/local/Qt5/lib/QtCore.framework/Headers/qstring.h">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.0">
+                  <caret line="281" column="0" selection-start-line="281" selection-start-column="0" selection-end-line="281" selection-end-column="0" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="Tracker.cpp" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/lib/SLAM/Tracker.cpp">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.0">
+                  <caret line="118" column="0" selection-start-line="118" selection-start-column="0" selection-end-line="118" selection-end-column="0" />
+                  <folding>
+                    <element signature="e#1743#4193#0" expanded="false" />
+                    <element signature="e#4333#4336#0" expanded="true" />
+                    <element signature="e#6179#6182#0" expanded="true" />
+                    <element signature="e#12022#14348#0" expanded="false" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="Tracker.h" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/include/SLAM/Tracker.h">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.0">
+                  <caret line="54" column="0" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
+                  <folding>
+                    <element signature="e#2586#2589#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="MainWindow.cpp" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/lib/MapCreator/MainWindow.cpp">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.28707224">
+                  <caret line="329" column="63" selection-start-line="329" selection-start-column="63" selection-end-line="329" selection-end-column="63" />
+                  <folding>
+                    <element signature="e#7147#7239#0" expanded="false" />
+                    <element signature="e#7242#7378#0" expanded="false" />
+                    <element signature="e#7381#7490#0" expanded="false" />
+                    <element signature="e#8251#8402#0" expanded="false" />
+                    <element signature="e#9491#10221#0" expanded="false" />
+                    <element signature="e#10224#11441#0" expanded="false" />
+                    <element signature="e#11444#11634#0" expanded="false" />
+                    <element signature="e#11637#11808#0" expanded="false" />
+                    <element signature="e#11811#12693#0" expanded="false" />
+                    <element signature="e#13410#14568#0" expanded="false" />
+                    <element signature="e#14571#15221#0" expanded="false" />
+                    <element signature="e#15224#15625#0" expanded="false" />
+                    <element signature="e#15628#16243#0" expanded="false" />
+                    <element signature="e#16246#16300#0" expanded="false" />
+                    <element signature="e#16303#16357#0" expanded="false" />
+                    <element signature="e#16360#16662#0" expanded="false" />
+                    <element signature="e#16665#17429#0" expanded="false" />
+                    <element signature="e#17432#18010#0" expanded="false" />
+                    <element signature="e#18013#18052#0" expanded="false" />
+                    <element signature="e#18055#18218#0" expanded="false" />
+                    <element signature="e#18221#18389#0" expanded="false" />
+                    <element signature="e#18392#18468#0" expanded="false" />
+                    <element signature="e#18471#18543#0" expanded="false" />
+                    <element signature="e#18546#19192#0" expanded="false" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="vector" pinned="false" current-in-tab="false">
+            <entry file="file:///Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/vector">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.0">
+                  <caret line="652" column="0" selection-start-line="652" selection-start-column="0" selection-end-line="652" selection-end-column="0" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="BasicViewer.h" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/include/BasicViewer/BasicViewer.h">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.0">
+                  <caret line="86" column="39" selection-start-line="86" selection-start-column="39" selection-end-line="86" selection-end-column="39" />
+                  <folding>
+                    <element signature="e#109#133#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-first>
+      <split-second>
+        <leaf>
+          <file leaf-file-name="BasicViewer.cpp" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/lib/BasicViewer/BasicViewer.cpp">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.5703422">
+                  <caret line="89" column="0" selection-start-line="89" selection-start-column="0" selection-end-line="89" selection-end-column="0" />
+                  <folding>
+                    <element signature="e#6987#7084#0" expanded="false" />
+                    <element signature="e#7087#7269#0" expanded="false" />
+                    <element signature="e#7272#7376#0" expanded="false" />
+                    <element signature="e#8560#8688#0" expanded="false" />
+                    <element signature="e#8691#8832#0" expanded="false" />
+                    <element signature="e#8835#8975#0" expanded="false" />
+                    <element signature="e#8978#9110#0" expanded="false" />
+                    <element signature="e#9113#9195#0" expanded="false" />
+                    <element signature="e#9198#10486#0" expanded="false" />
+                    <element signature="e#10489#11399#0" expanded="false" />
+                    <element signature="e#11402#11553#0" expanded="false" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="MapCreator.cpp" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/tool/MapCreator.cpp">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.0">
+                  <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-second>
+    </splitter>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="mock:///Dummy.txt" root0="SKIP_INSPECTION" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/lib/SLAM/CoordinateConverter.cpp" />
-        <option value="$PROJECT_DIR$/include/SLAM/CommonDefinitions.h" />
         <option value="$PROJECT_DIR$/include/SLAM/CoordinateConverter.h" />
         <option value="$PROJECT_DIR$/../bin/lib/MapCreator/ui_CoordinateConverterDialog.h" />
         <option value="$PROJECT_DIR$/include/MapCreator/ComputationConfigureDialog.h" />
@@ -68,8 +262,6 @@
         <option value="$PROJECT_DIR$/include/SLAM/GlobalOptimization.h" />
         <option value="$PROJECT_DIR$/lib/SLAM/GlobalOptimization.cpp" />
         <option value="$PROJECT_DIR$/tool/CMakeLists.txt" />
-        <option value="$PROJECT_DIR$/include/Handler/ImageDataHandler.h" />
-        <option value="$PROJECT_DIR$/lib/Handler/ImageDataHandler.cpp" />
         <option value="$PROJECT_DIR$/lib/Handler/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/lib/BasicViewer/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/lib/SLAM/CMakeLists.txt" />
@@ -77,37 +269,40 @@
         <option value="$PROJECT_DIR$/include/BasicViewer/PointPairGL.h" />
         <option value="$PROJECT_DIR$/lib/BasicViewer/PointPairGL.cpp" />
         <option value="$PROJECT_DIR$/include/MapCreator/MarkerViewerDialog.h" />
-        <option value="$PROJECT_DIR$/include/SLAM/KeyFrame.h" />
         <option value="$PROJECT_DIR$/include/SLAM/ComputationResultCache.h" />
         <option value="$PROJECT_DIR$/include/BasicViewer/KeyFrameGL.h" />
         <option value="$PROJECT_DIR$/include/BasicViewer/Camera.h" />
-        <option value="$PROJECT_DIR$/include/SLAM/Tracker.h" />
         <option value="$PROJECT_DIR$/include/SLAM/ArucoMarkerUtils.h" />
         <option value="$PROJECT_DIR$/lib/SLAM/ArucoMarkerUtils.cpp" />
         <option value="$PROJECT_DIR$/lib/BasicViewer/Camera.cpp" />
-        <option value="$PROJECT_DIR$/include/SLAM/Alignment.h" />
         <option value="$PROJECT_DIR$/lib/MapCreator/MarkerViewerDialog.cpp" />
         <option value="$PROJECT_DIR$/tool/FrameViewer.cpp" />
         <option value="$PROJECT_DIR$/lib/BasicViewer/FrameViewer.cpp" />
         <option value="$PROJECT_DIR$/lib/SLAM/Matcher.cpp" />
         <option value="$PROJECT_DIR$/include/MapCreator/InliersViewerOptionDialog.h" />
-        <option value="$PROJECT_DIR$/lib/SLAM/Alignment.cpp" />
-        <option value="$PROJECT_DIR$/include/MapCreator/MainWindow.h" />
-        <option value="$PROJECT_DIR$/lib/MapCreator/MainWindow.cpp" />
         <option value="$PROJECT_DIR$/lib/MapCreator/InliersViewerOptionDialog.cpp" />
-        <option value="$PROJECT_DIR$/lib/SLAM/Tracker.cpp" />
         <option value="$PROJECT_DIR$/include/SLAM/Transformation.h" />
         <option value="$PROJECT_DIR$/lib/SLAM/Transformation.cpp" />
         <option value="$PROJECT_DIR$/include/BasicViewer/FrameViewer.h" />
         <option value="$PROJECT_DIR$/include/BasicViewer/PrimitiveGL.h" />
         <option value="$PROJECT_DIR$/lib/BasicViewer/TrajectoryGL.cpp" />
         <option value="$PROJECT_DIR$/include/BasicViewer/TrajectoryGL.h" />
-        <option value="$PROJECT_DIR$/include/BasicViewer/LineSegmentGL.h" />
         <option value="$PROJECT_DIR$/lib/BasicViewer/LineSegmentGL.cpp" />
-        <option value="$PROJECT_DIR$/include/BasicViewer/BasicViewer.h" />
-        <option value="$PROJECT_DIR$/lib/BasicViewer/BasicViewer.cpp" />
         <option value="$PROJECT_DIR$/lib/BasicViewer/rsc/BasicFragmentShader.glsl" />
         <option value="$PROJECT_DIR$/lib/BasicViewer/rsc/BasicVertexShader.glsl" />
+        <option value="$PROJECT_DIR$/include/SLAM/CommonDefinitions.h" />
+        <option value="$PROJECT_DIR$/include/SLAM/KeyFrame.h" />
+        <option value="$PROJECT_DIR$/include/MapCreator/MainWindow.h" />
+        <option value="$PROJECT_DIR$/include/Handler/ImageDataHandler.h" />
+        <option value="$PROJECT_DIR$/lib/Handler/ImageDataHandler.cpp" />
+        <option value="$PROJECT_DIR$/include/SLAM/Tracker.h" />
+        <option value="$PROJECT_DIR$/include/SLAM/Alignment.h" />
+        <option value="$PROJECT_DIR$/lib/SLAM/Alignment.cpp" />
+        <option value="$PROJECT_DIR$/lib/SLAM/Tracker.cpp" />
+        <option value="$PROJECT_DIR$/include/BasicViewer/LineSegmentGL.h" />
+        <option value="$PROJECT_DIR$/include/BasicViewer/BasicViewer.h" />
+        <option value="$PROJECT_DIR$/lib/BasicViewer/BasicViewer.cpp" />
+        <option value="$PROJECT_DIR$/lib/MapCreator/MainWindow.cpp" />
       </list>
     </option>
   </component>
@@ -191,7 +386,91 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="tool" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="source" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="source" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="source" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="lib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="source" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="source" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="source" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="lib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SLAM" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="source" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="source" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="source" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="lib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MapCreator" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="source" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="source" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="source" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="lib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Core" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -231,15 +510,29 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="lib" />
+              <option name="myItemId" value="include" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="source" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="source" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="source" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="BasicViewer" />
+              <option name="myItemId" value="include" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="rsc" />
+              <option name="myItemId" value="MapCreator" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -372,26 +665,27 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26676077" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" x="654" y="128" width="619" height="593" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2159492" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" x="654" y="128" width="619" height="593" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32725528" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32891566" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32821497" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5" sideWeight="0.50247" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Command Line Tools Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32891566" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32650602" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32891566" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3246295" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.48915663" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30722892" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.56626505" sideWeight="0.49752998" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32891566" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32891566" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.40361446" sideWeight="0.49752998" order="3" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32876712" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -433,145 +727,69 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/lib/SLAM/Alignment.cpp</url>
-          <line>425</line>
+          <line>430</line>
           <option name="timeStamp" value="35" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/lib/SLAM/Alignment.cpp</url>
+          <line>52</line>
+          <option name="timeStamp" value="47" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/include/SLAM/Alignment.h</url>
+          <line>85</line>
+          <option name="timeStamp" value="48" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/lib/SLAM/Tracker.cpp</url>
+          <line>109</line>
+          <option name="timeStamp" value="49" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/lib/SLAM/Tracker.cpp</url>
+          <line>117</line>
+          <option name="timeStamp" value="50" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/lib/BasicViewer/BasicViewer.cpp</url>
+          <line>419</line>
+          <option name="timeStamp" value="56" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/lib/BasicViewer/BasicViewer.cpp</url>
+          <line>424</line>
+          <option name="timeStamp" value="57" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/lib/BasicViewer/BasicViewer.cpp</url>
+          <line>427</line>
+          <option name="timeStamp" value="58" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/lib/BasicViewer/BasicViewer.cpp</url>
+          <line>453</line>
+          <option name="timeStamp" value="59" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/lib/MapCreator/MainWindow.cpp</url>
+          <line>327</line>
+          <option name="timeStamp" value="60" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/lib/MapCreator/MainWindow.cpp</url>
+          <line>338</line>
+          <option name="timeStamp" value="61" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="40" />
+      <option name="time" value="62" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/include/SLAM/Tracker.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="103" column="58" selection-start-line="103" selection-start-column="58" selection-end-line="103" selection-end-column="58" />
-          <folding>
-            <element signature="e#2570#2573#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/SLAM/Tracker.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="320" column="69" selection-start-line="320" selection-start-column="69" selection-end-line="320" selection-end-column="69" />
-          <folding>
-            <element signature="e#1743#4193#0" expanded="false" />
-            <element signature="e#5973#6356#0" expanded="false" />
-            <element signature="e#6358#6999#0" expanded="false" />
-            <element signature="e#7001#9076#0" expanded="false" />
-            <element signature="e#11599#13925#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/SLAM/Transformation.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/include/SLAM/Transformation.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="36" column="69" selection-start-line="36" selection-start-column="69" selection-end-line="36" selection-end-column="69" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/include/BasicViewer/BasicViewer.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="117" column="29" selection-start-line="117" selection-start-column="29" selection-end-line="117" selection-end-column="29" />
-          <folding>
-            <element signature="e#1901#2075#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/BasicViewer/BasicViewer.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="220" column="57" selection-start-line="220" selection-start-column="57" selection-end-line="220" selection-end-column="57" />
-          <folding>
-            <element signature="e#7129#7226#0" expanded="false" />
-            <element signature="e#7229#7411#0" expanded="false" />
-            <element signature="e#7414#7518#0" expanded="false" />
-            <element signature="e#8702#8830#0" expanded="false" />
-            <element signature="e#8833#8974#0" expanded="false" />
-            <element signature="e#8977#9117#0" expanded="false" />
-            <element signature="e#9120#9252#0" expanded="false" />
-            <element signature="e#9255#9337#0" expanded="false" />
-            <element signature="e#9340#10601#0" expanded="false" />
-            <element signature="e#10604#11514#0" expanded="false" />
-            <element signature="e#11517#11668#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/SLAM/ComputationResultCache.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.1126408">
-          <caret line="9" column="9" selection-start-line="9" selection-start-column="9" selection-end-line="9" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/include/MapCreator/MarkerViewerDialog.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.19274093">
-          <caret line="32" column="58" selection-start-line="32" selection-start-column="58" selection-end-line="32" selection-end-column="58" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/include/BasicViewer/PointPairGL.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.281602">
-          <caret line="16" column="8" selection-start-line="16" selection-start-column="8" selection-end-line="16" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/BasicViewer/PointPairGL.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.15018773">
-          <caret line="8" column="17" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/SLAM/KeyFrame.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0563204">
-          <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/include/SLAM/ArucoMarkerUtils.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.475">
-          <caret line="22" column="60" selection-start-line="22" selection-start-column="60" selection-end-line="22" selection-end-column="60" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/include/SLAM/KeyFrame.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="39" column="69" selection-start-line="39" selection-start-column="69" selection-end-line="39" selection-end-column="69" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/include/SLAM/ComputationResultCache.h">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.31914893">
           <caret line="22" column="42" selection-start-line="22" selection-start-column="42" selection-end-line="22" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/include/Handler/ImageDataHandler.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33291614">
-          <caret line="49" column="33" selection-start-line="49" selection-start-column="33" selection-end-line="49" selection-end-column="33" />
         </state>
       </provider>
     </entry>
@@ -607,9 +825,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.39612675">
           <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
-          <folding>
-            <element signature="e#156#172#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -662,45 +877,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tool/MapCreator.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.20650813">
-          <caret line="14" column="39" selection-start-line="14" selection-start-column="39" selection-end-line="14" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/include/SLAM/CommonDefinitions.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3942428">
-          <caret line="22" column="23" selection-start-line="22" selection-start-column="23" selection-end-line="22" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/SLAM/Alignment.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.34292865">
-          <caret line="66" column="64" selection-start-line="66" selection-start-column="64" selection-end-line="66" selection-end-column="64" />
-          <folding>
-            <element signature="e#39#66#0" expanded="false" />
-            <element signature="e#758#843#0" expanded="false" />
-            <element signature="e#2018#3304#0" expanded="false" />
-            <element signature="e#3307#5166#0" expanded="false" />
-            <element signature="e#5169#12135#0" expanded="false" />
-            <element signature="e#12138#12562#0" expanded="false" />
-            <element signature="e#13832#13897#0" expanded="false" />
-            <element signature="e#14028#14416#0" expanded="false" />
-            <element signature="e#14419#14799#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/include/SLAM/Alignment.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.72715896">
-          <caret line="102" column="50" selection-start-line="102" selection-start-column="50" selection-end-line="102" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/lib/MapCreator/InliersViewerOptionDialog.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.35669586">
@@ -713,7 +889,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.6138996">
           <caret line="36" column="69" selection-start-line="36" selection-start-column="69" selection-end-line="36" selection-end-column="69" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -721,7 +896,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.19305019">
           <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -729,9 +903,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.28957528">
           <caret line="17" column="38" selection-start-line="17" selection-start-column="38" selection-end-line="17" selection-end-column="38" />
-          <folding>
-            <element signature="e#263#907#1" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -739,31 +910,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.15830116">
           <caret line="36" column="59" selection-start-line="36" selection-start-column="59" selection-end-line="36" selection-end-column="59" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/SLAM/Tracker.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.16988418">
-          <caret line="320" column="69" selection-start-line="320" selection-start-column="69" selection-end-line="320" selection-end-column="69" />
-          <folding>
-            <element signature="e#1743#4193#0" expanded="false" />
-            <element signature="e#5973#6356#0" expanded="false" />
-            <element signature="e#6358#6999#0" expanded="false" />
-            <element signature="e#7001#9076#0" expanded="false" />
-            <element signature="e#11599#13925#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/include/SLAM/Tracker.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.57528955">
-          <caret line="103" column="58" selection-start-line="103" selection-start-column="58" selection-end-line="103" selection-end-column="58" />
-          <folding>
-            <element signature="e#2570#2573#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -771,9 +917,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.28660825">
           <caret line="25" column="60" selection-start-line="25" selection-start-column="60" selection-end-line="25" selection-end-column="60" />
-          <folding>
-            <element signature="e#884#2237#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -781,39 +924,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.35669586">
           <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
-          <folding>
-            <element signature="e#96#120#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/MapCreator/MainWindow.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="2.0851064">
-          <caret line="337" column="34" selection-start-line="337" selection-start-column="34" selection-end-line="337" selection-end-column="34" />
-          <folding>
-            <element signature="e#7247#7356#0" expanded="false" />
-            <element signature="e#8070#8221#0" expanded="false" />
-            <element signature="e#9302#10032#0" expanded="false" />
-            <element signature="e#10035#11910#0" expanded="false" />
-            <element signature="e#11913#12103#0" expanded="false" />
-            <element signature="e#12106#12277#0" expanded="false" />
-            <element signature="e#13880#15038#0" expanded="false" />
-            <element signature="e#15041#15691#0" expanded="false" />
-            <element signature="e#15694#16095#0" expanded="false" />
-            <element signature="e#16098#16713#0" expanded="false" />
-            <element signature="e#16716#16770#0" expanded="false" />
-            <element signature="e#16773#16827#0" expanded="false" />
-            <element signature="e#16830#17132#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/include/MapCreator/MainWindow.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.09887359">
-          <caret line="75" column="36" selection-start-line="75" selection-start-column="36" selection-end-line="75" selection-end-column="36" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -821,15 +931,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.31414267">
           <caret line="891" column="0" selection-start-line="891" selection-start-column="0" selection-end-line="891" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/include/BasicViewer/PrimitiveGL.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33291614">
-          <caret line="45" column="28" selection-start-line="45" selection-start-column="28" selection-end-line="45" selection-end-column="28" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -838,17 +939,6 @@
         <state vertical-scroll-proportion="0.34292865">
           <caret line="24" column="48" selection-start-line="24" selection-start-column="48" selection-end-line="24" selection-end-column="48" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/include/BasicViewer/BasicViewer.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.23028786">
-          <caret line="115" column="23" selection-start-line="115" selection-start-column="23" selection-end-line="115" selection-end-column="23" />
-          <folding>
-            <element signature="e#109#133#0" expanded="true" />
-            <element signature="e#1901#2075#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -864,37 +954,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.3942428">
           <caret line="21" column="41" selection-start-line="21" selection-start-column="41" selection-end-line="21" selection-end-column="41" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/BasicViewer/BasicViewer.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.39924905">
-          <caret line="443" column="79" selection-start-line="443" selection-start-column="79" selection-end-line="443" selection-end-column="79" />
-          <folding>
-            <element signature="e#7129#7226#0" expanded="false" />
-            <element signature="e#7229#7411#0" expanded="false" />
-            <element signature="e#7414#7518#0" expanded="false" />
-            <element signature="e#8702#8830#0" expanded="false" />
-            <element signature="e#8833#8974#0" expanded="false" />
-            <element signature="e#8977#9117#0" expanded="false" />
-            <element signature="e#9120#9252#0" expanded="false" />
-            <element signature="e#9255#9337#0" expanded="false" />
-            <element signature="e#9340#10601#0" expanded="false" />
-            <element signature="e#10604#11514#0" expanded="false" />
-            <element signature="e#11517#11668#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/include/BasicViewer/LineSegmentGL.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.46933666">
-          <caret line="25" column="13" selection-start-line="25" selection-start-column="13" selection-end-line="25" selection-end-column="13" />
-          <folding>
-            <element signature="e#99#123#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -902,7 +961,291 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.15018773">
           <caret line="8" column="16" selection-start-line="8" selection-start-column="16" selection-end-line="8" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/SLAM/CommonDefinitions.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="23" column="23" selection-start-line="23" selection-start-column="23" selection-end-line="24" selection-end-column="6" />
+          <folding>
+            <element signature="e#67#96#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/memory">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33269963">
+          <caret line="4669" column="0" selection-start-line="4669" selection-start-column="0" selection-end-line="4669" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/Qt5/lib/QtWidgets.framework/Headers/qwidget.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33269963">
+          <caret line="36" column="0" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
+          <folding>
+            <element signature="e#1621#1651#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/SLAM/KeyFrame.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.65779465">
+          <caret line="149" column="0" selection-start-line="149" selection-start-column="0" selection-end-line="149" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Caches/CLion12/cmake/generated/80c81cfc/80c81cfc/Debug/lib/Handler/__/__/include/Handler/moc_ImageDataHandler.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.22813688">
+          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+          <folding>
+            <element signature="e#348#460#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Caches/CLion12/cmake/generated/80c81cfc/80c81cfc/Debug/lib/MapCreator/__/__/include/MapCreator/moc_MainWindow.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33189654">
+          <caret line="171" column="0" selection-start-line="171" selection-start-column="0" selection-end-line="171" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/Handler/ImageDataHandler.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="108" column="70" selection-start-line="108" selection-start-column="70" selection-end-line="108" selection-end-column="70" />
+          <folding>
+            <element signature="e#3846#4703#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/Handler/ImageDataHandler.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="85" column="47" selection-start-line="85" selection-start-column="47" selection-end-line="85" selection-end-column="47" />
+          <folding>
+            <element signature="e#137#155#0" expanded="true" />
+            <element signature="e#1925#2087#0" expanded="false" />
+            <element signature="e#2358#2436#0" expanded="false" />
+            <element signature="e#2440#2785#0" expanded="false" />
+            <element signature="e#2789#3092#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Caches/CLion12/cmake/generated/80c81cfc/80c81cfc/Debug/lib/SLAM/__/__/include/SLAM/moc_Alignment.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.22813688">
+          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+          <folding>
+            <element signature="e#341#443#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///opt/local/include/glm/detail/type_vec4.inl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.2014652">
+          <caret line="255" column="0" selection-start-line="255" selection-start-column="0" selection-end-line="255" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/BasicViewer/PrimitiveGL.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33333334">
+          <caret line="83" column="0" selection-start-line="83" selection-start-column="0" selection-end-line="83" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///opt/local/include/glm/detail/type_mat4x4.inl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33333334">
+          <caret line="373" column="0" selection-start-line="373" selection-start-column="0" selection-end-line="373" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/BasicViewer/LineSegmentGL.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+          <folding>
+            <element signature="e#99#123#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tool/MapCreator.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/BasicViewer/BasicViewer.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5703422">
+          <caret line="89" column="0" selection-start-line="89" selection-start-column="0" selection-end-line="89" selection-end-column="0" />
+          <folding>
+            <element signature="e#6987#7084#0" expanded="false" />
+            <element signature="e#7087#7269#0" expanded="false" />
+            <element signature="e#7272#7376#0" expanded="false" />
+            <element signature="e#8560#8688#0" expanded="false" />
+            <element signature="e#8691#8832#0" expanded="false" />
+            <element signature="e#8835#8975#0" expanded="false" />
+            <element signature="e#8978#9110#0" expanded="false" />
+            <element signature="e#9113#9195#0" expanded="false" />
+            <element signature="e#9198#10486#0" expanded="false" />
+            <element signature="e#10489#11399#0" expanded="false" />
+            <element signature="e#11402#11553#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/MapCreator/MainWindow.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="101" column="16" selection-start-line="101" selection-start-column="16" selection-end-line="101" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/SLAM/Alignment.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="86" column="0" selection-start-line="86" selection-start-column="0" selection-end-line="86" selection-end-column="0" />
+          <folding>
+            <element signature="e#91#116#0" expanded="true" />
+            <element signature="e#1969#1990#0" expanded="true" />
+            <element signature="e#2793#4155#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/SLAM/Tracker.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="118" column="0" selection-start-line="118" selection-start-column="0" selection-end-line="118" selection-end-column="0" />
+          <folding>
+            <element signature="e#1743#4193#0" expanded="false" />
+            <element signature="e#4333#4336#0" expanded="true" />
+            <element signature="e#6179#6182#0" expanded="true" />
+            <element signature="e#12022#14348#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/SLAM/Tracker.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="54" column="0" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
+          <folding>
+            <element signature="e#2586#2589#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/Qt5/lib/QtCore.framework/Headers/qstring.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="281" column="0" selection-start-line="281" selection-start-column="0" selection-end-line="281" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/SLAM/Alignment.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="87" column="0" selection-start-line="87" selection-start-column="0" selection-end-line="87" selection-end-column="0" />
+          <folding>
+            <element signature="e#839#924#0" expanded="false" />
+            <element signature="e#2189#3475#0" expanded="false" />
+            <element signature="e#3478#5337#0" expanded="false" />
+            <element signature="e#5340#12306#0" expanded="false" />
+            <element signature="e#12309#12733#0" expanded="false" />
+            <element signature="e#14003#14068#0" expanded="false" />
+            <element signature="e#14199#14587#0" expanded="false" />
+            <element signature="e#14590#14970#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/Qt5/lib/QtConcurrent.framework/Headers/qtconcurrentstoredfunctioncall.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="199" column="0" selection-start-line="199" selection-start-column="0" selection-end-line="199" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/Qt5/lib/QtConcurrent.framework/Headers/qtconcurrentrunbase.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="120" column="0" selection-start-line="120" selection-start-column="0" selection-end-line="120" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/vector">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="652" column="0" selection-start-line="652" selection-start-column="0" selection-end-line="652" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/BasicViewer/BasicViewer.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="86" column="39" selection-start-line="86" selection-start-column="39" selection-end-line="86" selection-end-column="39" />
+          <folding>
+            <element signature="e#109#133#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/MapCreator/MainWindow.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.28707224">
+          <caret line="329" column="63" selection-start-line="329" selection-start-column="63" selection-end-line="329" selection-end-column="63" />
+          <folding>
+            <element signature="e#7147#7239#0" expanded="false" />
+            <element signature="e#7242#7378#0" expanded="false" />
+            <element signature="e#7381#7490#0" expanded="false" />
+            <element signature="e#8251#8402#0" expanded="false" />
+            <element signature="e#9491#10221#0" expanded="false" />
+            <element signature="e#10224#11441#0" expanded="false" />
+            <element signature="e#11444#11634#0" expanded="false" />
+            <element signature="e#11637#11808#0" expanded="false" />
+            <element signature="e#11811#12693#0" expanded="false" />
+            <element signature="e#13410#14568#0" expanded="false" />
+            <element signature="e#14571#15221#0" expanded="false" />
+            <element signature="e#15224#15625#0" expanded="false" />
+            <element signature="e#15628#16243#0" expanded="false" />
+            <element signature="e#16246#16300#0" expanded="false" />
+            <element signature="e#16303#16357#0" expanded="false" />
+            <element signature="e#16360#16662#0" expanded="false" />
+            <element signature="e#16665#17429#0" expanded="false" />
+            <element signature="e#17432#18010#0" expanded="false" />
+            <element signature="e#18013#18052#0" expanded="false" />
+            <element signature="e#18055#18218#0" expanded="false" />
+            <element signature="e#18221#18389#0" expanded="false" />
+            <element signature="e#18392#18468#0" expanded="false" />
+            <element signature="e#18471#18543#0" expanded="false" />
+            <element signature="e#18546#19192#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>

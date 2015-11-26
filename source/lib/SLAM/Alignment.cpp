@@ -26,11 +26,13 @@
 
 namespace NiS {
 
-	SlamComputer::SlamComputer ( QObject * parent ) :
+	SlamComputer::SlamComputer ( std::shared_ptr < KeyFrames > keyframes_ptr , QObject * parent ) :
 			running_flag_ ( true ) ,
 			has_answer_ ( false ) ,
 			is_computation_configured_ ( false ) ,
 			is_data_initialized_ ( false ) {
+
+		keyframes_ptr_ = keyframes_ptr;
 
 	}
 
@@ -43,43 +45,46 @@ namespace NiS {
 
 		running_flag_ = true;
 
-		std::cout << "SlamComputer thread : " << QThread::currentThreadId ( ) << std::endl;
-		std::cout << "SlamComputer thread - data size : " << keyframes_.size ( ) << std::endl;
 
-		if ( keyframes_.size ( ) < 2 ) {
-			emit SendData ( keyframes_ );
-			return;
-		}
+		if ( auto keyframes = keyframes_ptr_.lock ( ) ) {
 
-		QTime timer;
-		timer.start ( );
+			std::cout << "SlamComputer thread : " << QThread::currentThreadId ( ) << std::endl;
+			std::cout << "SlamComputer thread - data size : " << keyframes->size ( ) << std::endl;
 
-		emit Message ( "Computation begins..." );
-
-		switch ( options_.type_ ) {
-			case TrackingType::OneByOne:
-				ComputeHelper < TrackingType::OneByOne > ( );
-				break;
-			case TrackingType::FixedFrameCount:
-				ComputeHelper < TrackingType::FixedFrameCount > ( );
-				break;
-			case TrackingType::PcaKeyFrame:
-				ComputeHelper < TrackingType::PcaKeyFrame > ( );
-				break;
-			case TrackingType::Unknown:
-				emit Message ( "Setup computation options at first." );
+			if ( keyframes->size ( ) < 2 ) {
+//			emit SendData ( keyframes_ );
 				return;
+			}
+
+			QTime timer;
+			timer.start ( );
+
+			emit Message ( "Computation begins..." );
+
+			switch ( options_.type_ ) {
+				case TrackingType::OneByOne:
+					ComputeHelper < TrackingType::OneByOne > ( );
+					break;
+				case TrackingType::FixedFrameCount:
+					ComputeHelper < TrackingType::FixedFrameCount > ( );
+					break;
+				case TrackingType::PcaKeyFrame:
+					ComputeHelper < TrackingType::PcaKeyFrame > ( );
+					break;
+				case TrackingType::Unknown:
+					emit Message ( "Setup computation options at first." );
+					return;
+			}
+
+			emit Message ( QString ( "Done computing %1 frames. (used %2)" )
+					               .arg ( keyframes->size ( ) )
+					               .arg ( ConvertTime ( timer.elapsed ( ) ) ) );
+
+//		emit SendData ( keyframes_ );
+
+//		if ( has_answer_ ) WriteCache ( timer.elapsed ( ) , "WithAnswer" );
+//		else WriteCache ( timer.elapsed ( ) );
 		}
-
-		emit Message ( QString ( "Done computing %1 frames. (used %2)" )
-				               .arg ( keyframes_.size ( ) )
-				               .arg ( ConvertTime ( timer.elapsed ( ) ) ) );
-
-		emit SendData ( keyframes_ );
-
-		if ( has_answer_ ) WriteCache ( timer.elapsed ( ) , "WithAnswer" );
-		else WriteCache ( timer.elapsed ( ) );
-
 	}
 
 	void SlamComputer::StartGenerateAnswer ( ) {
