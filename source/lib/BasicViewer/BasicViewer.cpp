@@ -414,7 +414,7 @@ namespace NiS {
 
 		makeCurrent ( );
 
-		keyframes_gl_ = std::unique_ptr < KeyFramesGL > ( new KeyFramesGL );
+		keyframes_gl_ = std::unique_ptr < KeyFramesGL > ( new KeyFramesGL ( ) );
 
 		emit Message ( QString ( "Viewer received %1 frames." ).arg ( keyframes->size ( ) ) );
 
@@ -423,8 +423,8 @@ namespace NiS {
 		auto marker_accumulated_matrix1     = glm::mat4 ( );
 		auto marker_accumulated_matrix2     = glm::mat4 ( );
 
-		estimation_trajectory_gl_ = std::unique_ptr < LineSegmentsGL > ( new LineSegmentsGL );
-		marker_trajectory_gl_     = std::unique_ptr < LineSegmentsGL > ( new LineSegmentsGL );
+		estimation_trajectory_gl_ = std::unique_ptr < LineSegmentsGL > ( new LineSegmentsGL ( ) );
+		marker_trajectory_gl_     = std::unique_ptr < LineSegmentsGL > ( new LineSegmentsGL ( ) );
 
 		for ( auto i = 1 ; i < keyframes->size ( ) ; ++i ) {
 

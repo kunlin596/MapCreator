@@ -23,72 +23,77 @@ namespace NiS {
 
 		ui_.setupUi ( this );
 
-		connect ( ui_.PushButton_AddFile , & QPushButton::clicked , this , & FrameViewer::onAddFileButtonPushed );
-		connect ( ui_.PushButton_AddFiles , & QPushButton::clicked , this , & FrameViewer::onAddFilesButtonPushed );
-		connect ( ui_.PushButton_Clear , & QPushButton::clicked , this , & FrameViewer::onClearButtonPushed );
-		connect ( ui_.PushButton_TryDetection , & QPushButton::clicked , this , & FrameViewer::onTryDetection );
-		connect ( ui_.ListWidget_FileList , SIGNAL( currentRowChanged ( int ) ) , this , SLOT( onFileListCurrentItemChanged ( int ) ) );
+		connect ( ui_.PushButton_Open , & QPushButton::clicked , this , & FrameViewer::onOpenButtonClicked );
+//		connect ( ui_.ListWidget_FileList , SIGNAL( currentRowChanged ( int ) ) , this , SLOT( onFileListCurrentItemChanged ( int ) ) );
+
+		dir_model_  = new QFileSystemModel ( this );
+		file_model_ = new QFileSystemModel ( this );
+
+		dir_model_->setReadOnly ( true );
+		dir_model_->setReadOnly ( true );
+
+		connect ( ui_.TreeView_DataFolder , & QTreeView::clicked , this , & FrameViewer::onTreeViewItemClicked );
+		connect ( ui_.ListView_DataFileList , & QListView::clicked , this , & FrameViewer::onListViewItemClicked );
 
 	}
 
-	void FrameViewer::onAddFileButtonPushed ( ) {
+//	void FrameViewer::onAddFileButtonPushed ( ) {
+//
+//		std::cout << "onAddFisleButtonPushed" << std::endl;
+//
+//		QString file_name = QFileDialog::getOpenFileName ( this , "Add File" , "." , "*.dat" );
+//		ui_.ListWidget_FileList->addItem ( file_name );
+//
+//	}
+//
+//	void FrameViewer::onAddFilesButtonPushed ( ) {
+//
+//		std::cout << "onAddFilesButtonPushed" << std::endl;
+//
+//
+//		QDir dir ( dir_path );
+//
+//		QStringList filters;
+//		filters.push_back ( QString ( "*.dat" ) );
+//		QFileInfoList file_info_list = dir.entryInfoList ( filters );
+//
+//		for ( int i = 0 ; i < file_info_list.size ( ) ; ++i ) {
+//
+//			auto & file_info = file_info_list[ i ];
+//
+//			QListWidgetItem * item = new QListWidgetItem ( QString ( "%1 : (%2)" )
+//					                                               .arg ( i + 1 )
+//					                                               .arg ( file_info.baseName ( ) ) ,
+//			                                               ui_.ListWidget_FileList );
+//			item->setData ( Qt::UserRole , file_info.absoluteFilePath ( ) );
+//			ui_.ListWidget_FileList->addItem ( item );
+//		}
+//	}
+//
+//	void FrameViewer::onClearButtonPushed ( ) {
+//
+//		std::cout << "onCLearButtonPushed" << std::endl;
+//
+//		ui_.ListWidget_FileList->clear ( );
+//	}
 
-		std::cout << "onAddFisleButtonPushed" << std::endl;
-
-		QString file_name = QFileDialog::getOpenFileName ( this , "Add File" , "." , "*.dat" );
-		ui_.ListWidget_FileList->addItem ( file_name );
-
-	}
-
-	void FrameViewer::onAddFilesButtonPushed ( ) {
-
-		std::cout << "onAddFilesButtonPushed" << std::endl;
-
-		QString dir_path = QFileDialog::getExistingDirectory ( this , "Add Files" , "." );
-
-		QDir dir ( dir_path );
-
-		QStringList filters;
-		filters.push_back ( QString ( "*.dat" ) );
-		QFileInfoList file_info_list = dir.entryInfoList ( filters );
-
-		for ( int i = 0 ; i < file_info_list.size ( ) ; ++i ) {
-
-			auto & file_info = file_info_list[ i ];
-
-			QListWidgetItem * item = new QListWidgetItem ( QString ( "%1 : (%2)" )
-					                                               .arg ( i + 1 )
-					                                               .arg ( file_info.baseName ( ) ) ,
-			                                               ui_.ListWidget_FileList );
-			item->setData ( Qt::UserRole , file_info.absoluteFilePath ( ) );
-			ui_.ListWidget_FileList->addItem ( item );
-		}
-	}
-
-	void FrameViewer::onClearButtonPushed ( ) {
-
-		std::cout << "onCLearButtonPushed" << std::endl;
-
-		ui_.ListWidget_FileList->clear ( );
-	}
-
-	void FrameViewer::onFileListCurrentItemChanged ( int row ) {
-
-		if ( row < 0 ) {
-			return;
-		}
-
-		std::cout << ui_.ListWidget_FileList->item ( row )->data ( Qt::UserRole ).toString ( ).toStdString ( ) << std::endl;
-
-		NiS::RawDataFrame frame = NiS::ImageHandler2::ReadFrame ( ui_.ListWidget_FileList->item ( row )->data ( Qt::UserRole ).toString ( ) );
-
-		color_image_ = frame.color_image;
-		depth_image_ = frame.depth_image;
-
-		onDetectMarkerButtonPushed ( );
-
-//		UpdateDisplayImage ( );
-	}
+//	void FrameViewer::onFileListCurrentItemChanged ( int row ) {
+//
+//		if ( row < 0 ) {
+//			return;
+//		}
+//
+//		std::cout << ui_.ListWidget_FileList->item ( row )->data ( Qt::UserRole ).toString ( ).toStdString ( ) << std::endl;
+//
+//		NiS::RawDataFrame frame = NiS::ImageHandler2::ReadFrame ( ui_.ListWidget_FileList->item ( row )->data ( Qt::UserRole ).toString ( ) );
+//
+//		color_image_ = frame.color_image;
+//		depth_image_ = frame.depth_image;
+//
+//		onDetectMarkerButtonPushed ( );
+//
+////		UpdateDisplayImage ( );
+//	}
 
 	void FrameViewer::onDetectMarkerButtonPushed ( ) {
 
@@ -182,16 +187,63 @@ namespace NiS {
 
 	void FrameViewer::onTryDetection ( ) {
 
-		for ( auto i = 0 ; i < ui_.ListWidget_FileList->count ( ) ; ++i ) {
+//		for ( auto i = 0 ; i < ui_.ListWidget_FileList->count ( ) ; ++i ) {
+//
+//			ui_.ListWidget_FileList->setCurrentRow ( i );
+//			onFileListCurrentItemChanged ( i );
+//
+//			if ( has_marker_ ) {
+//				ui_.ListWidget_FileList->currentItem ( )->setBackgroundColor ( QColor::fromRgb ( qRgb ( 100 , 100 , 100 ) ) );
+//				ui_.ListWidget_FileList->currentItem ( )->setTextColor ( QColor::fromRgb ( qRgb ( 255 , 100 , 100 ) ) );
+//			}
+//		}
+	}
 
-			ui_.ListWidget_FileList->setCurrentRow ( i );
-			onFileListCurrentItemChanged ( i );
+	void FrameViewer::onOpenButtonClicked ( ) {
 
-			if ( has_marker_ ) {
-				ui_.ListWidget_FileList->currentItem ( )->setBackgroundColor ( QColor::fromRgb ( qRgb ( 100 , 100 , 100 ) ) );
-				ui_.ListWidget_FileList->currentItem ( )->setTextColor ( QColor::fromRgb ( qRgb ( 255 , 100 , 100 ) ) );
-			}
-		}
+		QString dir_path = QFileDialog::getExistingDirectory ( this , "Open Data Root Dir" , "." );
 
+		std::cout << dir_path.toStdString ( ) << std::endl;
+
+		dir_model_->setRootPath ( dir_path );
+		dir_model_->setFilter ( QDir::NoDotAndDotDot | QDir::AllDirs );
+		dir_model_->setNameFilterDisables ( false );
+
+		file_model_->setRootPath ( dir_path );
+		file_model_->setFilter ( QDir::NoDotAndDotDot | QDir::Files );
+		file_model_->setNameFilters ( QStringList ( ) << "*.dat" );
+		file_model_->setNameFilterDisables ( false );
+
+		ui_.TreeView_DataFolder->setModel ( dir_model_ );
+		ui_.ListView_DataFileList->setModel ( file_model_ );
+
+		QModelIndex index = dir_model_->index ( dir_path );
+		ui_.TreeView_DataFolder->expand ( index );
+		ui_.TreeView_DataFolder->scrollTo ( index );
+		ui_.TreeView_DataFolder->setCurrentIndex ( index );
+
+		ui_.TreeView_DataFolder->resizeColumnToContents ( 0 );
+		ui_.TreeView_DataFolder->hideColumn ( 1 );
+		ui_.TreeView_DataFolder->hideColumn ( 2 );
+		ui_.TreeView_DataFolder->hideColumn ( 3 );
+
+	}
+
+	void FrameViewer::onTreeViewItemClicked ( QModelIndex index ) {
+
+		QString path = dir_model_->fileInfo ( index ).absoluteFilePath ( );
+		ui_.ListView_DataFileList->setRootIndex ( file_model_->setRootPath ( path ) );
+	}
+
+	void FrameViewer::onListViewItemClicked ( QModelIndex index ) {
+
+		QString path = file_model_->fileInfo ( index ).absoluteFilePath ( );
+
+		NiS::RawDataFrame frame = NiS::ImageHandler2::ReadFrame ( path );
+//
+		color_image_ = frame.color_image;
+		depth_image_ = frame.depth_image;
+//
+		onDetectMarkerButtonPushed ( );
 	}
 }

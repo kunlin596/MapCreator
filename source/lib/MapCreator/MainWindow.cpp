@@ -197,7 +197,6 @@ namespace NiS {
 
 			QFuture < void > reading_result = QtConcurrent::run ( this->handler_ , & ImageHandler2::StartReading );
 			watcher_->setFuture ( reading_result );
-
 		}
 	}
 
@@ -317,7 +316,7 @@ namespace NiS {
 
 	void MainWindow::OnSlamComputationCompleted ( ) {
 
-		if ( not keyframes_ptr_->empty ( ) ) {
+		if ( keyframes_ptr_->empty ( ) ) {
 			return;
 		}
 

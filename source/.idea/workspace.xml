@@ -19,21 +19,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="26c6f326-4e90-4b7f-8507-02339ac4f915" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/source.iml" afterPath="$PROJECT_DIR$/.idea/source.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/BasicViewer/form/FrameViewer.ui" afterPath="$PROJECT_DIR$/lib/BasicViewer/form/FrameViewer.ui" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/BasicViewer/BasicViewer.h" afterPath="$PROJECT_DIR$/include/BasicViewer/BasicViewer.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/BasicViewer/LineSegmentGL.h" afterPath="$PROJECT_DIR$/include/BasicViewer/LineSegmentGL.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/Handler/ImageDataHandler.h" afterPath="$PROJECT_DIR$/include/Handler/ImageDataHandler.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/MapCreator/MainWindow.h" afterPath="$PROJECT_DIR$/include/MapCreator/MainWindow.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/SLAM/Alignment.h" afterPath="$PROJECT_DIR$/include/SLAM/Alignment.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/SLAM/CommonDefinitions.h" afterPath="$PROJECT_DIR$/include/SLAM/CommonDefinitions.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/SLAM/KeyFrame.h" afterPath="$PROJECT_DIR$/include/SLAM/KeyFrame.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/SLAM/Tracker.h" afterPath="$PROJECT_DIR$/include/SLAM/Tracker.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/BasicViewer/FrameViewer.h" afterPath="$PROJECT_DIR$/include/BasicViewer/FrameViewer.h" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/BasicViewer/BasicViewer.cpp" afterPath="$PROJECT_DIR$/lib/BasicViewer/BasicViewer.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/Handler/ImageDataHandler.cpp" afterPath="$PROJECT_DIR$/lib/Handler/ImageDataHandler.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/BasicViewer/FrameViewer.cpp" afterPath="$PROJECT_DIR$/lib/BasicViewer/FrameViewer.cpp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/MapCreator/MainWindow.cpp" afterPath="$PROJECT_DIR$/lib/MapCreator/MainWindow.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/SLAM/Alignment.cpp" afterPath="$PROJECT_DIR$/lib/SLAM/Alignment.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/SLAM/Tracker.cpp" afterPath="$PROJECT_DIR$/lib/SLAM/Tracker.cpp" />
     </list>
     <ignored path="source.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -53,23 +44,9 @@
     <favorites_list name="source" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.7529993">
+    <splitter split-orientation="vertical" split-proportion="0.6244344">
       <split-first>
-        <leaf>
-          <file leaf-file-name="Alignment.h" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/include/SLAM/Alignment.h">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0">
-                  <caret line="86" column="0" selection-start-line="86" selection-start-column="0" selection-end-line="86" selection-end-column="0" />
-                  <folding>
-                    <element signature="e#91#116#0" expanded="true" />
-                    <element signature="e#1969#1990#0" expanded="true" />
-                    <element signature="e#2793#4155#0" expanded="false" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file leaf-file-name="Alignment.cpp" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/lib/SLAM/Alignment.cpp">
               <provider selected="true" editor-type-id="text-editor">
@@ -119,21 +96,6 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="Tracker.cpp" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/lib/SLAM/Tracker.cpp">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0">
-                  <caret line="118" column="0" selection-start-line="118" selection-start-column="0" selection-end-line="118" selection-end-column="0" />
-                  <folding>
-                    <element signature="e#1743#4193#0" expanded="false" />
-                    <element signature="e#4333#4336#0" expanded="true" />
-                    <element signature="e#6179#6182#0" expanded="true" />
-                    <element signature="e#12022#14348#0" expanded="false" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
           <file leaf-file-name="Tracker.h" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/include/SLAM/Tracker.h">
               <provider selected="true" editor-type-id="text-editor">
@@ -146,46 +108,59 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="MainWindow.cpp" pinned="false" current-in-tab="true">
+          <file leaf-file-name="MainWindow.cpp" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/lib/MapCreator/MainWindow.cpp">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.28707224">
-                  <caret line="329" column="63" selection-start-line="329" selection-start-column="63" selection-end-line="329" selection-end-column="63" />
+                <state vertical-scroll-proportion="0.0">
+                  <caret line="191" column="74" selection-start-line="191" selection-start-column="74" selection-end-line="191" selection-end-column="74" />
                   <folding>
                     <element signature="e#7147#7239#0" expanded="false" />
                     <element signature="e#7242#7378#0" expanded="false" />
                     <element signature="e#7381#7490#0" expanded="false" />
                     <element signature="e#8251#8402#0" expanded="false" />
-                    <element signature="e#9491#10221#0" expanded="false" />
-                    <element signature="e#10224#11441#0" expanded="false" />
-                    <element signature="e#11444#11634#0" expanded="false" />
-                    <element signature="e#11637#11808#0" expanded="false" />
-                    <element signature="e#11811#12693#0" expanded="false" />
-                    <element signature="e#13410#14568#0" expanded="false" />
-                    <element signature="e#14571#15221#0" expanded="false" />
-                    <element signature="e#15224#15625#0" expanded="false" />
-                    <element signature="e#15628#16243#0" expanded="false" />
-                    <element signature="e#16246#16300#0" expanded="false" />
-                    <element signature="e#16303#16357#0" expanded="false" />
-                    <element signature="e#16360#16662#0" expanded="false" />
-                    <element signature="e#16665#17429#0" expanded="false" />
-                    <element signature="e#17432#18010#0" expanded="false" />
-                    <element signature="e#18013#18052#0" expanded="false" />
-                    <element signature="e#18055#18218#0" expanded="false" />
-                    <element signature="e#18221#18389#0" expanded="false" />
-                    <element signature="e#18392#18468#0" expanded="false" />
-                    <element signature="e#18471#18543#0" expanded="false" />
-                    <element signature="e#18546#19192#0" expanded="false" />
+                    <element signature="e#9490#10220#0" expanded="false" />
+                    <element signature="e#10223#11440#0" expanded="false" />
+                    <element signature="e#11443#11633#0" expanded="false" />
+                    <element signature="e#11636#11807#0" expanded="false" />
+                    <element signature="e#11810#12692#0" expanded="false" />
+                    <element signature="e#12695#13646#0" expanded="false" />
+                    <element signature="e#13649#14807#0" expanded="false" />
+                    <element signature="e#14810#15460#0" expanded="false" />
+                    <element signature="e#15463#15864#0" expanded="false" />
+                    <element signature="e#15867#16482#0" expanded="false" />
+                    <element signature="e#16485#16539#0" expanded="false" />
+                    <element signature="e#16542#16596#0" expanded="false" />
+                    <element signature="e#16599#16901#0" expanded="false" />
+                    <element signature="e#16904#17668#0" expanded="false" />
+                    <element signature="e#17671#18249#0" expanded="false" />
+                    <element signature="e#18252#18291#0" expanded="false" />
+                    <element signature="e#18294#18457#0" expanded="false" />
+                    <element signature="e#18460#18628#0" expanded="false" />
+                    <element signature="e#18631#18707#0" expanded="false" />
+                    <element signature="e#18710#18782#0" expanded="false" />
+                    <element signature="e#18785#19431#0" expanded="false" />
                   </folding>
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="vector" pinned="false" current-in-tab="false">
-            <entry file="file:///Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/vector">
+          <file leaf-file-name="FrameViewer.h" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/include/BasicViewer/FrameViewer.h">
               <provider selected="true" editor-type-id="text-editor">
                 <state vertical-scroll-proportion="0.0">
-                  <caret line="652" column="0" selection-start-line="652" selection-start-column="0" selection-end-line="652" selection-end-column="0" />
+                  <caret line="70" column="0" selection-start-line="70" selection-start-column="0" selection-end-line="70" selection-end-column="0" />
+                  <folding>
+                    <element signature="e#94#129#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="FrameViewer.cpp" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/lib/BasicViewer/FrameViewer.cpp">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.6151419">
+                  <caret line="35" column="80" selection-start-line="35" selection-start-column="80" selection-end-line="35" selection-end-column="80" />
                   <folding />
                 </state>
               </provider>
@@ -198,6 +173,7 @@
                   <caret line="86" column="39" selection-start-line="86" selection-start-column="39" selection-end-line="86" selection-end-column="39" />
                   <folding>
                     <element signature="e#109#133#0" expanded="true" />
+                    <marker date="1448538931000" expanded="true" signature="801:3913" placeholder="{...}" />
                   </folding>
                 </state>
               </provider>
@@ -206,35 +182,15 @@
         </leaf>
       </split-first>
       <split-second>
-        <leaf>
-          <file leaf-file-name="BasicViewer.cpp" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/lib/BasicViewer/BasicViewer.cpp">
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+          <file leaf-file-name="FrameViewer.h" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/include/BasicViewer/FrameViewer.h">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.5703422">
-                  <caret line="89" column="0" selection-start-line="89" selection-start-column="0" selection-end-line="89" selection-end-column="0" />
+                <state vertical-scroll-proportion="1.8826816">
+                  <caret line="57" column="32" selection-start-line="57" selection-start-column="32" selection-end-line="57" selection-end-column="32" />
                   <folding>
-                    <element signature="e#6987#7084#0" expanded="false" />
-                    <element signature="e#7087#7269#0" expanded="false" />
-                    <element signature="e#7272#7376#0" expanded="false" />
-                    <element signature="e#8560#8688#0" expanded="false" />
-                    <element signature="e#8691#8832#0" expanded="false" />
-                    <element signature="e#8835#8975#0" expanded="false" />
-                    <element signature="e#8978#9110#0" expanded="false" />
-                    <element signature="e#9113#9195#0" expanded="false" />
-                    <element signature="e#9198#10486#0" expanded="false" />
-                    <element signature="e#10489#11399#0" expanded="false" />
-                    <element signature="e#11402#11553#0" expanded="false" />
+                    <element signature="e#94#129#0" expanded="true" />
                   </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="MapCreator.cpp" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/tool/MapCreator.cpp">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0">
-                  <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
-                  <folding />
                 </state>
               </provider>
             </entry>
@@ -245,9 +201,6 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
-  </component>
-  <component name="HighlightingSettingsPerFile">
-    <setting file="mock:///Dummy.txt" root0="SKIP_INSPECTION" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -277,13 +230,11 @@
         <option value="$PROJECT_DIR$/lib/BasicViewer/Camera.cpp" />
         <option value="$PROJECT_DIR$/lib/MapCreator/MarkerViewerDialog.cpp" />
         <option value="$PROJECT_DIR$/tool/FrameViewer.cpp" />
-        <option value="$PROJECT_DIR$/lib/BasicViewer/FrameViewer.cpp" />
         <option value="$PROJECT_DIR$/lib/SLAM/Matcher.cpp" />
         <option value="$PROJECT_DIR$/include/MapCreator/InliersViewerOptionDialog.h" />
         <option value="$PROJECT_DIR$/lib/MapCreator/InliersViewerOptionDialog.cpp" />
         <option value="$PROJECT_DIR$/include/SLAM/Transformation.h" />
         <option value="$PROJECT_DIR$/lib/SLAM/Transformation.cpp" />
-        <option value="$PROJECT_DIR$/include/BasicViewer/FrameViewer.h" />
         <option value="$PROJECT_DIR$/include/BasicViewer/PrimitiveGL.h" />
         <option value="$PROJECT_DIR$/lib/BasicViewer/TrajectoryGL.cpp" />
         <option value="$PROJECT_DIR$/include/BasicViewer/TrajectoryGL.h" />
@@ -303,6 +254,8 @@
         <option value="$PROJECT_DIR$/include/BasicViewer/BasicViewer.h" />
         <option value="$PROJECT_DIR$/lib/BasicViewer/BasicViewer.cpp" />
         <option value="$PROJECT_DIR$/lib/MapCreator/MainWindow.cpp" />
+        <option value="$PROJECT_DIR$/include/BasicViewer/FrameViewer.h" />
+        <option value="$PROJECT_DIR$/lib/BasicViewer/FrameViewer.cpp" />
       </list>
     </option>
   </component>
@@ -312,7 +265,7 @@
     <detection-done>true</detection-done>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="width" value="1440" />
+    <option name="width" value="901" />
     <option name="height" value="900" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -470,6 +423,32 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="MapCreator" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="form" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="source" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="source" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="source" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="lib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="Core" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -493,6 +472,32 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="BasicViewer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="source" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="source" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="source" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="lib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="BasicViewer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="form" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -536,6 +541,28 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="source" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="source" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="source" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="include" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="BasicViewer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
     </panes>
@@ -554,7 +581,7 @@
       <recent name="$PROJECT_DIR$/include/BasicViewer" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.NiSMapCreatorTool">
+  <component name="RunManager" selected="Application.NiSFrameViewer">
     <configuration default="true" type="CMakeGoogleTestRunConfigurationType" factoryName="Google Test" PASS_PARENT_ENVS="FALSE" PROJECT_NAME="NiS" TARGET_NAME="NiSBasicViewer" CONFIG_NAME="Debug" TEST_MODE="SUITE_TEST">
       <envs />
       <method />
@@ -600,7 +627,7 @@
       <envs />
       <method />
     </configuration>
-    <configuration default="false" name="NiSMapCreatorTool" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS="FALSE" PROJECT_NAME="NiS" TARGET_NAME="NiSMapCreatorTool" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="NiS" RUN_TARGET_NAME="NiSMapCreatorTool">
+    <configuration default="false" name="NiSMapCreatorTool" type="CMakeRunConfiguration" factoryName="Application" WORKING_DIR="" PASS_PARENT_ENVS="FALSE" PROJECT_NAME="NiS" TARGET_NAME="NiSMapCreatorTool" CONFIG_NAME="Release" RUN_TARGET_PROJECT_NAME="NiS" RUN_TARGET_NAME="NiSMapCreatorTool">
       <envs />
       <method />
     </configuration>
@@ -651,7 +678,13 @@
       <option name="project" value="LOCAL" />
       <updated>1448439006014</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="MapCreator : Add some comments.">
+      <created>1448539511257</created>
+      <option name="number" value="00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1448539511257</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TodoView" selected-index="3">
@@ -664,25 +697,25 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1440" height="900" extended-state="0" />
-    <editor active="true" />
+    <frame x="0" y="0" width="901" height="900" extended-state="0" />
+    <editor active="false" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2159492" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" x="654" y="128" width="619" height="593" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24604316" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" x="654" y="128" width="619" height="593" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32725528" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32891566" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32821497" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5" sideWeight="0.50247" order="8" side_tool="true" content_ui="tabs" />
-      <window_info id="Command Line Tools Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32891566" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32650602" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32891566" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32650602" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.20120482" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3246295" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30722892" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.56626505" sideWeight="0.49752998" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2951807" sideWeight="0.49752998" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Command Line Tools Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32891566" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -720,7 +753,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Minimal typo fixed." />
-    <option name="LAST_COMMIT_MESSAGE" value="Minimal typo fixed." />
+    <MESSAGE value="MapCreator : Add some comments." />
+    <option name="LAST_COMMIT_MESSAGE" value="MapCreator : Add some comments." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -770,22 +804,33 @@
           <line>453</line>
           <option name="timeStamp" value="59" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/lib/MapCreator/MainWindow.cpp</url>
-          <line>327</line>
-          <option name="timeStamp" value="60" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/lib/MapCreator/MainWindow.cpp</url>
-          <line>338</line>
-          <option name="timeStamp" value="61" />
-        </line-breakpoint>
       </breakpoints>
       <option name="time" value="62" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/include/BasicViewer/BasicViewer.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="86" column="39" selection-start-line="86" selection-start-column="39" selection-end-line="86" selection-end-column="39" />
+          <folding>
+            <element signature="e#109#133#0" expanded="true" />
+            <marker date="1448538931000" expanded="true" signature="801:3913" placeholder="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/BasicViewer/FrameViewer.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="48" column="12" selection-start-line="48" selection-start-column="12" selection-end-line="48" selection-end-column="12" />
+          <folding>
+            <element signature="e#94#129#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/include/SLAM/ComputationResultCache.h">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.31914893">
@@ -804,13 +849,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0375">
           <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/BasicViewer/FrameViewer.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="71" column="34" selection-start-line="71" selection-start-column="34" selection-end-line="71" selection-end-column="34" />
         </state>
       </provider>
     </entry>
@@ -881,7 +919,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.35669586">
           <caret line="64" column="98" selection-start-line="64" selection-start-column="98" selection-end-line="64" selection-end-column="98" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -896,13 +933,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.19305019">
           <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/include/BasicViewer/FrameViewer.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.28957528">
-          <caret line="17" column="38" selection-start-line="17" selection-start-column="38" selection-end-line="17" selection-end-column="38" />
         </state>
       </provider>
     </entry>
@@ -934,19 +964,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/include/BasicViewer/KeyFrameGL.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.34292865">
-          <caret line="24" column="48" selection-start-line="24" selection-start-column="48" selection-end-line="24" selection-end-column="48" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/lib/BasicViewer/LineSegmentGL.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.20150188">
           <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -968,9 +989,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="23" column="23" selection-start-line="23" selection-start-column="23" selection-end-line="24" selection-end-column="6" />
-          <folding>
-            <element signature="e#67#96#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -978,7 +996,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33269963">
           <caret line="4669" column="0" selection-start-line="4669" selection-start-column="0" selection-end-line="4669" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -986,9 +1003,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33269963">
           <caret line="36" column="0" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
-          <folding>
-            <element signature="e#1621#1651#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -996,25 +1010,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.65779465">
           <caret line="149" column="0" selection-start-line="149" selection-start-column="0" selection-end-line="149" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Library/Caches/CLion12/cmake/generated/80c81cfc/80c81cfc/Debug/lib/Handler/__/__/include/Handler/moc_ImageDataHandler.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.22813688">
-          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-          <folding>
-            <element signature="e#348#460#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Library/Caches/CLion12/cmake/generated/80c81cfc/80c81cfc/Debug/lib/MapCreator/__/__/include/MapCreator/moc_MainWindow.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33189654">
-          <caret line="171" column="0" selection-start-line="171" selection-start-column="0" selection-end-line="171" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1022,9 +1017,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="108" column="70" selection-start-line="108" selection-start-column="70" selection-end-line="108" selection-end-column="70" />
-          <folding>
-            <element signature="e#3846#4703#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1032,23 +1024,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="85" column="47" selection-start-line="85" selection-start-column="47" selection-end-line="85" selection-end-column="47" />
-          <folding>
-            <element signature="e#137#155#0" expanded="true" />
-            <element signature="e#1925#2087#0" expanded="false" />
-            <element signature="e#2358#2436#0" expanded="false" />
-            <element signature="e#2440#2785#0" expanded="false" />
-            <element signature="e#2789#3092#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Library/Caches/CLion12/cmake/generated/80c81cfc/80c81cfc/Debug/lib/SLAM/__/__/include/SLAM/moc_Alignment.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.22813688">
-          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-          <folding>
-            <element signature="e#341#443#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1056,7 +1031,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.2014652">
           <caret line="255" column="0" selection-start-line="255" selection-start-column="0" selection-end-line="255" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1064,7 +1038,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33333334">
           <caret line="83" column="0" selection-start-line="83" selection-start-column="0" selection-end-line="83" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1072,7 +1045,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33333334">
           <caret line="373" column="0" selection-start-line="373" selection-start-column="0" selection-end-line="373" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1080,37 +1052,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
-          <folding>
-            <element signature="e#99#123#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tool/MapCreator.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/BasicViewer/BasicViewer.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5703422">
-          <caret line="89" column="0" selection-start-line="89" selection-start-column="0" selection-end-line="89" selection-end-column="0" />
-          <folding>
-            <element signature="e#6987#7084#0" expanded="false" />
-            <element signature="e#7087#7269#0" expanded="false" />
-            <element signature="e#7272#7376#0" expanded="false" />
-            <element signature="e#8560#8688#0" expanded="false" />
-            <element signature="e#8691#8832#0" expanded="false" />
-            <element signature="e#8835#8975#0" expanded="false" />
-            <element signature="e#8978#9110#0" expanded="false" />
-            <element signature="e#9113#9195#0" expanded="false" />
-            <element signature="e#9198#10486#0" expanded="false" />
-            <element signature="e#10489#11399#0" expanded="false" />
-            <element signature="e#11402#11553#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1118,7 +1059,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="101" column="16" selection-start-line="101" selection-start-column="16" selection-end-line="101" selection-end-column="16" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1198,11 +1138,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file:///Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/vector">
+    <entry file="file://$PROJECT_DIR$/tool/MapCreator.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="652" column="0" selection-start-line="652" selection-start-column="0" selection-end-line="652" selection-end-column="0" />
-          <folding />
+        <state vertical-scroll-proportion="0.5703422">
+          <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -1212,40 +1151,102 @@
           <caret line="86" column="39" selection-start-line="86" selection-start-column="39" selection-end-line="86" selection-end-column="39" />
           <folding>
             <element signature="e#109#133#0" expanded="true" />
+            <marker date="1448538931000" expanded="true" signature="801:3913" placeholder="{...}" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/MapCreator/MainWindow.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.28707224">
-          <caret line="329" column="63" selection-start-line="329" selection-start-column="63" selection-end-line="329" selection-end-column="63" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="191" column="74" selection-start-line="191" selection-start-column="74" selection-end-line="191" selection-end-column="74" />
           <folding>
             <element signature="e#7147#7239#0" expanded="false" />
             <element signature="e#7242#7378#0" expanded="false" />
             <element signature="e#7381#7490#0" expanded="false" />
             <element signature="e#8251#8402#0" expanded="false" />
-            <element signature="e#9491#10221#0" expanded="false" />
-            <element signature="e#10224#11441#0" expanded="false" />
-            <element signature="e#11444#11634#0" expanded="false" />
-            <element signature="e#11637#11808#0" expanded="false" />
-            <element signature="e#11811#12693#0" expanded="false" />
-            <element signature="e#13410#14568#0" expanded="false" />
-            <element signature="e#14571#15221#0" expanded="false" />
-            <element signature="e#15224#15625#0" expanded="false" />
-            <element signature="e#15628#16243#0" expanded="false" />
-            <element signature="e#16246#16300#0" expanded="false" />
-            <element signature="e#16303#16357#0" expanded="false" />
-            <element signature="e#16360#16662#0" expanded="false" />
-            <element signature="e#16665#17429#0" expanded="false" />
-            <element signature="e#17432#18010#0" expanded="false" />
-            <element signature="e#18013#18052#0" expanded="false" />
-            <element signature="e#18055#18218#0" expanded="false" />
-            <element signature="e#18221#18389#0" expanded="false" />
-            <element signature="e#18392#18468#0" expanded="false" />
-            <element signature="e#18471#18543#0" expanded="false" />
-            <element signature="e#18546#19192#0" expanded="false" />
+            <element signature="e#9490#10220#0" expanded="false" />
+            <element signature="e#10223#11440#0" expanded="false" />
+            <element signature="e#11443#11633#0" expanded="false" />
+            <element signature="e#11636#11807#0" expanded="false" />
+            <element signature="e#11810#12692#0" expanded="false" />
+            <element signature="e#12695#13646#0" expanded="false" />
+            <element signature="e#13649#14807#0" expanded="false" />
+            <element signature="e#14810#15460#0" expanded="false" />
+            <element signature="e#15463#15864#0" expanded="false" />
+            <element signature="e#15867#16482#0" expanded="false" />
+            <element signature="e#16485#16539#0" expanded="false" />
+            <element signature="e#16542#16596#0" expanded="false" />
+            <element signature="e#16599#16901#0" expanded="false" />
+            <element signature="e#16904#17668#0" expanded="false" />
+            <element signature="e#17671#18249#0" expanded="false" />
+            <element signature="e#18252#18291#0" expanded="false" />
+            <element signature="e#18294#18457#0" expanded="false" />
+            <element signature="e#18460#18628#0" expanded="false" />
+            <element signature="e#18631#18707#0" expanded="false" />
+            <element signature="e#18710#18782#0" expanded="false" />
+            <element signature="e#18785#19431#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/BasicViewer/KeyFrameGL.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.24906133">
+          <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/BasicViewer/BasicViewer.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.39048812">
+          <caret line="416" column="48" selection-start-line="416" selection-start-column="48" selection-end-line="416" selection-end-column="48" />
+          <folding>
+            <element signature="e#6987#7084#0" expanded="false" />
+            <element signature="e#7087#7269#0" expanded="false" />
+            <element signature="e#7272#7376#0" expanded="false" />
+            <element signature="e#8560#8688#0" expanded="false" />
+            <element signature="e#8691#8832#0" expanded="false" />
+            <element signature="e#8835#8975#0" expanded="false" />
+            <element signature="e#8978#9110#0" expanded="false" />
+            <element signature="e#9113#9195#0" expanded="false" />
+            <element signature="e#9198#10486#0" expanded="false" />
+            <element signature="e#10489#11399#0" expanded="false" />
+            <element signature="e#11402#11553#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/vector">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.05357143">
+          <caret line="652" column="0" selection-start-line="652" selection-start-column="0" selection-end-line="652" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/include/BasicViewer/FrameViewer.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="70" column="0" selection-start-line="70" selection-start-column="0" selection-end-line="70" selection-end-column="0" />
+          <folding>
+            <element signature="e#94#129#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/Qt5/lib/QtCore.framework/Headers/qstringlist.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.5392491">
+          <caret line="96" column="11" selection-start-line="96" selection-start-column="11" selection-end-line="96" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/BasicViewer/FrameViewer.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6151419">
+          <caret line="35" column="80" selection-start-line="35" selection-start-column="80" selection-end-line="35" selection-end-column="80" />
+          <folding />
         </state>
       </provider>
     </entry>
