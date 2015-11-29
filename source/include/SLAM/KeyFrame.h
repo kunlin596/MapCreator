@@ -101,7 +101,6 @@ namespace NiS {
 			auto path = info.absolutePath ( );
 			auto name = info.completeBaseName ( );
 
-
 			QString feature_prefix;
 			switch ( type_ ) {
 				case Feature::Type::kTypeSIFT:
@@ -124,7 +123,6 @@ namespace NiS {
 
 			QDir dir ( feature_folder_path );
 			if ( !dir.exists ( ) ) dir.mkdir ( feature_folder_path );
-
 			if ( !LoadFeature ( ( feature_folder_path + name + "." + "feature" ).toStdString ( ) , feature_ ) ) {
 				assert( !color_image_.empty ( ) );
 				cv::Mat cvt_color_image;

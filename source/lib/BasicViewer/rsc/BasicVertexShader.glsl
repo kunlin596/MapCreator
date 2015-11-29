@@ -15,7 +15,7 @@ void main() {
         gl_PointSize = 3;
     }
     else {
-        gl_PointSize = 10.0 / gl_Position.z;
+        gl_PointSize = 5.0 / gl_Position.z;
     }
 
     if (gl_Position.z < 10) {

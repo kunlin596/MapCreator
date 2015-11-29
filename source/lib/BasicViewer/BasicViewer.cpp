@@ -336,10 +336,10 @@ namespace NiS {
 			frame.SetupData ( );
 		}
 
-		for ( auto & frame : * keyframes_gl_for_inliers_ ) {
-			frame.SetPointDensityStep ( density_step_ );
-			frame.SetupData ( );
-		}
+//		for ( auto & frame : * keyframes_gl_for_inliers_ ) {
+//			frame.SetPointDensityStep ( density_step_ );
+//			frame.SetupData ( );
+//		}
 
 		if ( not keyframes_gl_->empty ( ) ) {
 
@@ -352,15 +352,15 @@ namespace NiS {
 					               .arg ( total_points ) );
 		}
 
-		if ( not keyframes_gl_for_inliers_->empty ( ) ) {
-			auto points_per_frame = keyframes_gl_for_inliers_->at ( 0 ).GetVertexData ( ).size ( );
-			auto total_points     = points_per_frame * keyframes_gl_for_inliers_->size ( );
-
-			emit Message ( QString ( "#Frames : %1, #Points/Frame : %2, #Total Points %3." )
-					               .arg ( keyframes_gl_for_inliers_->size ( ) )
-					               .arg ( points_per_frame )
-					               .arg ( total_points ) );
-		}
+//		if ( not keyframes_gl_for_inliers_->empty ( ) ) {
+//			auto points_per_frame = keyframes_gl_for_inliers_->at ( 0 ).GetVertexData ( ).size ( );
+//			auto total_points     = points_per_frame * keyframes_gl_for_inliers_->size ( );
+//
+//			emit Message ( QString ( "#Frames : %1, #Points/Frame : %2, #Total Points %3." )
+//					               .arg ( keyframes_gl_for_inliers_->size ( ) )
+//					               .arg ( points_per_frame )
+//					               .arg ( total_points ) );
+//		}
 
 		emit repaint ( );
 

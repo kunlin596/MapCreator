@@ -12,190 +12,170 @@
 
 namespace NiS {
 
-	const float ImageHandler2::XtionFrameProperty::kXtionHorizontalFOV = 1.0225999f;
-	const float ImageHandler2::XtionFrameProperty::kXtionVerticalFOV   = 0.79661566f;
-	const float ImageHandler2::XtionFrameProperty::kXtionWidth         = 640;
-	const float ImageHandler2::XtionFrameProperty::kXtionHeight        = 480;
+    const float ImageHandler2::XtionFrameProperty::kXtionHorizontalFOV = 1.0225999f;
+    const float ImageHandler2::XtionFrameProperty::kXtionVerticalFOV = 0.79661566f;
+    const float ImageHandler2::XtionFrameProperty::kXtionWidth = 640;
+    const float ImageHandler2::XtionFrameProperty::kXtionHeight = 480;
 
 
-	NiS::RawDataFrame ImageHandler2::ReadFrame ( const QString & file_name ) {
+    NiS::RawDataFrame ImageHandler2::ReadFrame(const QString &file_name) {
 
-		RawDataFrame frame;
+        RawDataFrame frame;
 
-		ifstream in ( file_name.toStdString ( ) , ios::binary );
-		if ( in ) {
+        ifstream in(file_name.toStdString(), ios::binary);
+        if (in) {
 
-			frame = ( NiS::Read < RawDataFrames > ( in ) )[ 0 ];
-			frame.name = file_name.toStdString ( );
-			frame.id   = -1;
-		}
+            frame = (NiS::Read<RawDataFrames>(in))[0];
+            frame.name = file_name.toStdString();
+            frame.id = -1;
+        }
 
-		return frame;
-	}
+        return frame;
+    }
 
-	///////////////////	///////////////////	///////////////////	///////////////////	///////////////////	///////////////////	///////////////////
+    ///////////////////	///////////////////	///////////////////	///////////////////	///////////////////	///////////////////	///////////////////
 
-	void ImageHandler2::StartReading ( ) {
+    void ImageHandler2::StartReading() {
 
-		using namespace std;
+        using namespace std;
 
-		std::cerr << "Handler thread (Reading) : " << QThread::currentThreadId ( ) << std::endl;
+        std::cerr << "Handler thread (Reading) : " << QThread::currentThreadId() << std::endl;
 
-		assert( !file_list_.empty ( ) );
-		emit Message ( QString ( "Start Reading ... " ) );
+        assert(not file_list_.empty());
+        emit Message(QString("Start Reading ... "));
 
-		QTime timer;
-		timer.start ( );
+        QTime timer;
+        timer.start();
 
-		//raw_data_frames_.clear ( );
+        emit SetProgressRange(1, file_list_.size());
 
-//		for ( auto i = 0 ; i < file_list_.size ( ) ; ++i ) {
-//
-//			string std_path = file_list_[ i ].absoluteFilePath ( ).toStdString ( );
-//
-//			ifstream in ( std_path , ios::binary );
-//
-//			if ( in ) {
-//
-//				RawDataFrame raw_data_frame = ( NiS::Read < RawDataFrames > ( in ) )[ 0 ];
-//
-//				raw_data_frame.id   = i;
-//				raw_data_frame.name = std_path;
-//
-//				raw_data_frames_.push_back ( raw_data_frame );
-//
-//				std::cout << "Reading - id : " << raw_data_frame.id << ", name : " << raw_data_frame.name << std::endl;
-//
-//				emit Message ( file_list_[ i ].absoluteFilePath ( ) );
-//
-//				in.close ( );
-//
-//			} else {
-//
-//				std::cout << "File open failed : " << std_path << endl;
-//			}
-//		}
+        for (auto i = 0; i < file_list_.size(); ++i) {
 
-		for ( auto i = 0 ; i < file_list_.size ( ) ; ++i ) {
+            auto path = file_list_[i].absoluteFilePath().toStdString();
 
-			auto path = file_list_[ i ].absoluteFilePath ( ).toStdString ( );
+            ifstream in(path, ios::binary);
 
-			ifstream in ( path , ios::binary );
+            if (in) {
 
-			if ( in ) {
+                auto raw_data_frame = NiS::Read<RawDataFrames>(in)[0];
+                raw_data_frame.id = i;
+                raw_data_frame.name = path;
 
-				auto raw_data_frame = NiS::Read < RawDataFrames > ( in )[ 0 ];
-				raw_data_frame.id   = i;
-				raw_data_frame.name = path;
+                raw_data_frames_ptr_->push_back(raw_data_frame);
 
-				raw_data_frames_ptr_->push_back ( raw_data_frame );
+                auto message = QString("Reading - id : %1, name : %2").arg(raw_data_frame.id)
+                        .arg(QString::fromStdString(raw_data_frame.name));
 
-				auto message = QString ( "Reading - id : %1, name : %2" ).arg ( raw_data_frame.id )
-				                                                         .arg ( QString::fromStdString ( raw_data_frame.name ) );
+                std::cout << message.toStdString() << std::endl;
+                emit Message(message);
+                emit SetProgressValue(i + 1);
 
-				std::cout << message.toStdString ( ) << std::endl;
-				emit Message ( message );
+                in.close();
 
-				in.close ( );
+            } else {
 
-			} else {
-
-				std::cout << "File open failed : " << path << endl;
-			}
-		}
+                std::cout << "File open failed : " << path << endl;
+            }
+        }
 
 
-		emit Message ( QString ( "Done reading %1 frames. (used %2)" )
-				               .arg ( raw_data_frames_ptr_->size ( ) )
-				               .arg ( ConvertTime ( timer.elapsed ( ) ) ) );
+        emit Message(QString("Done reading %1 frames. (used %2)")
+                             .arg(raw_data_frames_ptr_->size())
+                             .arg(ConvertTime(timer.elapsed())));
 
-		emit DoneReading ( );
-	}
+        emit DoneReading();
+    }
 
-	void ImageHandler2::ConvertToPointImages ( int choice ) {
+    void ImageHandler2::ConvertToPointImages(int choice) {
 
-		std::cout << "Handler thread (Conversion) : " << QThread::currentThreadId ( ) << std::endl;
+        std::cout << "Handler thread (Conversion) : " << QThread::currentThreadId() << std::endl;
 
-		if ( auto temp_keyframes_ = keyframes_ptr_.lock ( ) ) {
+        if (auto keyframes = keyframes_ptr_.lock()) {
 
-			temp_keyframes_->clear ( );
+            emit SetProgressRange(1, raw_data_frames_ptr_->size());
 
-			for ( const auto & raw_data_frame : * raw_data_frames_ptr_ ) {
+            keyframes->clear();
 
-				KeyFrame kf;
-				kf.SetId ( raw_data_frame.id );
-				kf.SetName ( raw_data_frame.name );
-				kf.SetColorImage ( raw_data_frame.color_image );
-				kf.SetPointImage ( std::move ( ConvertDepthImageToPointImage ( raw_data_frame.depth_image , choice ) ) );
+            auto raw_frames = *raw_data_frames_ptr_;
 
-				temp_keyframes_->push_back ( kf );
+            std::cout << "Data size is " << raw_frames.size() << std::endl;
 
-				auto message = QString ( "Converted frame with choice (%1) : %2." ).arg ( choice )
-				                                                                   .arg ( raw_data_frame.id );
-				std::cout << message.toStdString ( ) << std::endl;
-				emit Message ( message );
-			}
-		}
+            for (auto &raw_data_frame : raw_frames) {
 
-	}
+                KeyFrame kf;
+                kf.SetId(raw_data_frame.id);
+                kf.SetName(raw_data_frame.name);
+                kf.SetColorImage(raw_data_frame.color_image);
+                kf.SetPointImage(std::move(ConvertDepthImageToPointImage(raw_data_frame.depth_image, choice)));
 
-	void ImageHandler2::ConvertToPointImagesWithInternalCalibration ( ) {
+                keyframes->push_back(kf);
 
-		std::cout << "Handler thread (Calibrated conversion) : " << QThread::currentThreadId ( ) << std::endl;
+                auto message = QString("Converted frame with choice (%1) : %2.").arg(choice).arg(raw_data_frame.id);
+                std::cout << message.toStdString() << std::endl;
+//                emit Message(message);
+                emit SetProgressValue(raw_data_frame.id + 1);
+            }
+        }
 
-		if ( calibrator_.IsValid ( ) ) {
+    }
 
-			calibrated_ = true;
+    void ImageHandler2::ConvertToPointImagesWithInternalCalibration() {
 
-			keyframes_.clear ( );
+        std::cout << "Handler thread (Calibrated conversion) : " << QThread::currentThreadId() << std::endl;
 
-			for ( auto i = 0 ; i < raw_data_frames_.size ( ) ; ++i ) {
+        if (calibrator_.IsValid()) {
 
-				KeyFrame kf;
-				kf.SetId ( raw_data_frames_[ i ].id );
-				kf.SetName ( raw_data_frames_[ i ].name );
-				kf.SetColorImage ( raw_data_frames_[ i ].color_image );
-				kf.SetPointImage ( calibrator_.CalibrateImage ( raw_data_frames_[ i ].depth_image ) );
+            calibrated_ = true;
 
-				keyframes_.push_back ( kf );
+            keyframes_.clear();
 
-				emit Message ( QString ( "Converted %1 (Calibrated). KP size : %2" )
-						               .arg ( kf.GetId ( ) )
-						               .arg ( kf.GetFeature ( ).GetKeyPoints ( ).size ( ) ) );
-			}
+            for (auto i = 0; i < raw_data_frames_.size(); ++i) {
 
-			emit SendData ( keyframes_ );
-		}
-	}
+                KeyFrame kf;
+                kf.SetId(raw_data_frames_[i].id);
+                kf.SetName(raw_data_frames_[i].name);
+                kf.SetColorImage(raw_data_frames_[i].color_image);
+                kf.SetPointImage(calibrator_.CalibrateImage(raw_data_frames_[i].depth_image));
 
-	PointImage ImageHandler2::ConvertDepthImageToPointImage ( DepthImage const & depth_image , int choice ) {
+                keyframes_.push_back(kf);
 
-		const CoordinateConverter * converter;
-		switch ( choice ) {
-			case 0:
-				converter = & xtion_converter_;
-				break;
-			case 1:
-				converter = & aist_converter_;
-				break;
-			default:
-				return PointImage ( );
-		}
+                emit Message(QString("Converted %1 (Calibrated). KP size : %2")
+                                     .arg(kf.GetId())
+                                     .arg(kf.GetFeature().GetKeyPoints().size()));
+            }
 
-		PointImage point_image;
-		point_image.create ( depth_image.rows , depth_image.cols );
+//            emit SendData(keyframes_);
+        }
+    }
 
-		for ( auto row = 0 ; row < depth_image.rows ; ++row ) {
-			for ( auto col = 0 ; col < depth_image.cols ; ++col ) {
-				cv::Point3f p = converter->ScreenToWorld ( ScreenPoint ( col , row ) , depth_image.at < ushort > ( row , col ) );
+    PointImage ImageHandler2::ConvertDepthImageToPointImage(DepthImage const &depth_image, int choice) {
 
-				point_image.at < cv::Vec3f > ( row , col ) ( 0 ) = p.x;
-				point_image.at < cv::Vec3f > ( row , col ) ( 1 ) = p.y;
-				point_image.at < cv::Vec3f > ( row , col ) ( 2 ) = p.z;
-			}
-		}
-		return point_image;
-	}
+        const CoordinateConverter *converter;
+        switch (choice) {
+            case 0:
+                converter = &xtion_converter_;
+                break;
+            case 1:
+                converter = &aist_converter_;
+                break;
+            default:
+                return PointImage();
+        }
+
+        PointImage point_image;
+        point_image.create(depth_image.rows, depth_image.cols);
+
+        for (auto row = 0; row < depth_image.rows; ++row) {
+            for (auto col = 0; col < depth_image.cols; ++col) {
+                cv::Point3f p = converter->ScreenToWorld(ScreenPoint(col, row), depth_image.at<ushort>(row, col));
+
+                point_image.at<cv::Vec3f>(row, col)(0) = p.x;
+                point_image.at<cv::Vec3f>(row, col)(1) = p.y;
+                point_image.at<cv::Vec3f>(row, col)(2) = p.z;
+            }
+        }
+        return point_image;
+    }
 
 }
 

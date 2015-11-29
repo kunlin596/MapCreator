@@ -15,55 +15,57 @@
 #include <QModelIndex>
 
 namespace Ui {
-	class FrameViewer;
+    class FrameViewer;
 }
 
 namespace NiS {
 
-	class FrameViewer : public QWidget
-	{
+    class FrameViewer : public QWidget {
 
-	Q_OBJECT
+    Q_OBJECT
 
-	public:
+    public:
 
-		FrameViewer ( QWidget * parent = 0 );
+        FrameViewer(QWidget *parent = 0);
 
-	signals:
+    signals:
 
-		void GetNextFrame ( int );
+        void GetNextFrame(int);
 
-	protected:
+    protected:
 
-		void resizeEvent ( QResizeEvent * e ) override;
+        void resizeEvent(QResizeEvent *e) override;
 
-	private slots:
+    private slots:
 
-		void onOpenButtonClicked ( );
+        void onOpenButtonClicked();
+
 //		void onFileListCurrentItemChanged ( int );
-		void onDetectMarkerButtonPushed ( );
-		void onTryDetection ( );
+        void onDetectMarkerButtonPushed();
 
-		void onTreeViewItemClicked ( QModelIndex index );
-		void onListViewItemClicked ( QModelIndex index );
+        void onTryDetection();
 
-	private:
+        void onTreeViewItemClicked(QModelIndex index);
 
-		void UpdateDisplayImage ( );
+        void onListViewItemClicked(QModelIndex index);
 
-		Ui::FrameViewer ui_;
+    private:
 
-		ColorImage color_image_;
-		ColorImage depth_image_rgb_;
-		DepthImage depth_image_;
-		bool       has_marker_;
+        void UpdateDisplayImage();
 
-		QFileSystemModel * dir_model_;
-		QFileSystemModel * file_model_;
+        Ui::FrameViewer ui_;
 
-		QStringList file_list_;
+        ColorImage color_image_;
+        ColorImage depth_image_rgb_;
+        DepthImage depth_image_;
+        bool has_marker_;
 
-	};
+        QFileSystemModel *dir_model_;
+        QFileSystemModel *file_model_;
+
+        QStringList file_list_;
+
+    };
 
 
 }

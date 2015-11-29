@@ -19,166 +19,187 @@
 
 namespace {
 
-	using MatricesInfo = std::pair < std::vector < size_t > , std::vector < glm::mat4 > >;
+    using MatricesInfo = std::pair<std::vector<size_t>, std::vector<glm::mat4> >;
 
 };
 
 namespace NiS {
 
 
-	class SlamComputer : public QObject
-	{
+    class SlamComputer : public QObject {
 
-	Q_OBJECT
+    Q_OBJECT
 
-	public:
+    public:
 
-		SlamComputer ( std::shared_ptr < KeyFrames > keyframes_ptr , QObject * parent = 0 );
+        SlamComputer(std::shared_ptr<KeyFrames> keyframes_ptr, QObject *parent = 0);
 
-		void SetDataDir ( const QDir & data_dir );
-		void SetFeatureType ( Feature::Type type );
-		bool WriteResult ( const std::pair < glm::vec3 , glm::vec3 > & point_pair );
-		bool WriteResult ( );
-		bool CheckPreviousResult ( );
-		void UsePreviousResult ( const QString & result_cache_name );
-		void SetRunningFLag ( bool running_flag ) { running_flag_ = running_flag; }
-		Options GetOptions ( ) const { return options_; }
+        void SetDataDir(const QDir &data_dir);
 
-	public slots:
+        void SetFeatureType(Feature::Type type);
 
-		void SetOptions ( const Options & options ) { options_ = options; };
-		void SetFrameData ( const KeyFrames & keyframes ) {
+        bool WriteResult(const std::pair<glm::vec3, glm::vec3> &point_pair);
 
-			keyframes_           = keyframes;
-			is_data_initialized_ = true;
-			has_answer_          = false;
-		}
-		void SetCoordinateConverter ( const XtionCoordinateConverter & converter ) {
+        bool WriteResult();
 
-			xtion_converter_  = converter;
-			converter_choice_ = 0;
-		}
-		void SetCoordinateConverter ( const AistCoordinateConverter & converter ) {
+        bool CheckPreviousResult();
 
-			aist_converter_   = converter;
-			converter_choice_ = 1;
-		}
-		void StartCompute ( );
-		void StopCompute ( );
-		void StartGenerateAnswer ( );
+        void UsePreviousResult(const QString &result_cache_name);
 
-	public:
+        void SetRunningFLag(bool running_flag) { running_flag_ = running_flag; }
 
-		const KeyFrames & GetKeyFrames ( ) const { return keyframes_; }
-		bool IsComputationConfigured ( ) const { return is_computation_configured_; }
-		bool IsDataInitialized ( ) const { return is_data_initialized_; }
+        Options GetOptions() const { return options_; }
 
-	signals:
+    public slots:
 
-		void SendData ( KeyFrames );
-		void Message ( QString );
+        void SetOptions(const Options &options) { options_ = options; };
 
-	private:
+        void SetFrameData(const KeyFrames &keyframes) {
 
-		template < TrackingType type > void ComputeHelper ( ) {
+            keyframes_ = keyframes;
+            is_data_initialized_ = true;
+            has_answer_ = false;
+        }
 
-			if ( auto keyframes = keyframes_ptr_.lock ( ) ) {
+        void SetCoordinateConverter(const XtionCoordinateConverter &converter) {
 
-				std::cout << "Computation begins" << std::endl;
-				switch ( converter_choice_ ) {
-					case 0: {
-						Tracker < type > tracker1 ( keyframes , options_ , xtion_converter_ );
-						do {
-							tracker1.ComputeNext ( );
-							emit Message ( tracker1.GetMessage ( ) );
-						}
-						while ( tracker1.Update ( ) );
-//					keyframes_ = tracker1.GetResults ( );
-						break;
-					}
-					case 1: {
-						Tracker < type > tracker2 ( keyframes , options_ , aist_converter_ );
-						do {
-							tracker2.ComputeNext ( );
-							emit Message ( tracker2.GetMessage ( ) );
-						}
-						while ( tracker2.Update ( ) );
-//					keyframes_ = tracker2.GetResults ( );
-						break;
-					}
-					default:
-						break;
-				}
-			}
-		}
+            xtion_converter_ = converter;
+            converter_choice_ = 0;
+        }
 
+        void SetCoordinateConverter(const AistCoordinateConverter &converter) {
 
-		void WriteCache ( int computation_time , QString suffix = "NoMarker" ) {
+            aist_converter_ = converter;
+            converter_choice_ = 1;
+        }
 
-			QDir dir ( data_dir_.absolutePath ( ) + "/Cache" );
-			if ( !dir.exists ( ) ) dir.mkdir ( data_dir_.absolutePath ( ) + "/Cache" );
-			result_cache_path_ = dir.absolutePath ( );
+        void StartCompute();
 
-			QString cache_file_name = QString ( "%1/%2-%3-%4.cache" )
-					.arg ( result_cache_path_ )
-					.arg ( time ( nullptr ) )
-					.arg ( static_cast<int> ( options_.GetType ( ) ) )
-					.arg ( suffix );
+        void StopCompute();
 
-			ComputationResultCache cache;
+        void StartGenerateAnswer();
 
-			cache.data_set_name    = data_dir_.absolutePath ( ).toStdString ( );
-			cache.computation_time = computation_time;
-			cache.options          = options_;
+    public:
 
-			for_each ( std::begin ( keyframes_ ) , std::end ( keyframes_ ) ,
-			           [ &cache ] ( const KeyFrame & keyframe ) -> void {
-				           cache.indices.push_back ( std::move ( keyframe.GetId ( ) ) );
-				           cache.used_status.push_back ( keyframe.IsUsed ( ) );
-				           cache.estimation_matrices.push_back ( std::move ( keyframe.GetAlignmentMatrix ( ) ) );
-				           cache.marker_matrices.push_back ( std::move ( keyframe.GetAnswerAlignmentMatrix ( ) ) );
-			           } );
+        const KeyFrames &GetKeyFrames() const { return keyframes_; }
 
-			try {
+        bool IsComputationConfigured() const { return is_computation_configured_; }
 
-				SaveComputationResultCache ( cache_file_name.toStdString ( ) , cache );
+        bool IsDataInitialized() const { return is_data_initialized_; }
 
-			}
-			catch ( const boost::archive::archive_exception & e ) {
+    signals:
 
-				emit Message ( e.what ( ) );
-				return;
+        void SendData(KeyFrames);
 
-			}
+        void Message(QString);
+
+        void SetProgressValue(int);
+
+        void SetProgressRange(int, int);
+
+    private:
+
+        template<TrackingType type>
+        void ComputeHelper() {
+
+            if (auto keyframes = keyframes_ptr_.lock()) {
+
+                emit SetProgressRange(1, keyframes->size() - 1);
+
+                std::cout << "Computation begins" << std::endl;
+                switch (converter_choice_) {
+                    case 0: {
+                        Tracker<type> tracker1(keyframes, options_, xtion_converter_);
+                        do {
+                            tracker1.ComputeNext();
+                            emit Message(tracker1.GetMessage());
+                        }
+                        while (tracker1.Update());
+                        break;
+                    }
+                    case 1: {
+                        Tracker<type> tracker2(keyframes, options_, aist_converter_);
+                        do {
+                            tracker2.ComputeNext();
+                            emit Message(tracker2.GetMessage());
+                        }
+                        while (tracker2.Update());
+                        break;
+                    }
+                    default:
+                        break;
+                }
+            }
+        }
 
 
-		}
+        void WriteCache(int computation_time, QString suffix = "NoMarker") {
 
-		bool is_computation_configured_;
-		bool is_data_initialized_;
+            QDir dir(data_dir_.absolutePath() + "/Cache");
+            if (!dir.exists()) dir.mkdir(data_dir_.absolutePath() + "/Cache");
+            result_cache_path_ = dir.absolutePath();
 
-		QDir                                          data_dir_;
-		QString                                       result_cache_path_;
-		Feature::Type                                 feature_type_;
-		Options                                       options_;
-		KeyFrames                                     keyframes_;
-		std::weak_ptr < KeyFrames >                   keyframes_ptr_;
-		int                                           converter_choice_;
-		XtionCoordinateConverter                      xtion_converter_;
-		AistCoordinateConverter                       aist_converter_;
-		bool                                          running_flag_;
-		bool                                          has_answer_;
-		std::vector < std::pair < Points , Points > > all_markers_points_pairs_;
+            QString cache_file_name = QString("%1/%2-%3-%4.cache")
+                    .arg(result_cache_path_)
+                    .arg(time(nullptr))
+                    .arg(static_cast<int> ( options_.GetType()))
+                    .arg(suffix);
 
-	};
+            ComputationResultCache cache;
+
+            cache.data_set_name = data_dir_.absolutePath().toStdString();
+            cache.computation_time = computation_time;
+            cache.options = options_;
+
+            for_each(std::begin(keyframes_), std::end(keyframes_),
+                     [&cache](const KeyFrame &keyframe) -> void {
+                         cache.indices.push_back(std::move(keyframe.GetId()));
+                         cache.used_status.push_back(keyframe.IsUsed());
+                         cache.estimation_matrices.push_back(std::move(keyframe.GetAlignmentMatrix()));
+                         cache.marker_matrices.push_back(std::move(keyframe.GetAnswerAlignmentMatrix()));
+                     });
+
+            try {
+
+                SaveComputationResultCache(cache_file_name.toStdString(), cache);
+
+            }
+            catch (const boost::archive::archive_exception &e) {
+
+                emit Message(e.what());
+                return;
+
+            }
+
+
+        }
+
+        bool is_computation_configured_;
+        bool is_data_initialized_;
+
+        QDir data_dir_;
+        QString result_cache_path_;
+        Feature::Type feature_type_;
+        Options options_;
+        KeyFrames keyframes_;
+        std::weak_ptr<KeyFrames> keyframes_ptr_;
+        int converter_choice_;
+        XtionCoordinateConverter xtion_converter_;
+        AistCoordinateConverter aist_converter_;
+        bool running_flag_;
+        bool has_answer_;
+        std::vector<std::pair<Points, Points> > all_markers_points_pairs_;
+
+    };
 
 //	template < > void SlamComputer::WriteCache < TrackingType::OneByOne > ( );
 //	template < > void SlamComputer::WriteCache < TrackingType::FixedFrameCount > ( );
 //	template < > void SlamComputer::WriteCache < TrackingType::PcaKeyFrame > ( );
 
 // Serialize
-	bool LoadMatricesInfo ( const std::string & file_name , MatricesInfo & info );
-	bool SaveMatricesInfo ( const std::string & file_name , const MatricesInfo & info );
+    bool LoadMatricesInfo(const std::string &file_name, MatricesInfo &info);
+
+    bool SaveMatricesInfo(const std::string &file_name, const MatricesInfo &info);
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
