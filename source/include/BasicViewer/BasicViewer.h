@@ -30,146 +30,147 @@
 
 namespace Ui {
 
-    class BasicViewer;
+	class BasicViewer;
 }
 
 namespace NiS {
 
-    class BasicViewer : public QOpenGLWidget {
+	class BasicViewer : public QOpenGLWidget
+	{
 
-    Q_OBJECT
+	Q_OBJECT
 
-    public:
+	public:
 
-        BasicViewer(QWidget *parent = 0);
+		BasicViewer ( QWidget * parent = 0 );
 
-        ~BasicViewer();
+		~BasicViewer ( );
 
-        QOpenGLShaderProgram *SetupShaderProgram(const QString &vertex_shader_source_path,
-                                                 const QString &fragment_shader_source_path,
-                                                 QObject *parent = 0);
+		QOpenGLShaderProgram * SetupShaderProgram ( const QString & vertex_shader_source_path ,
+		                                            const QString & fragment_shader_source_path ,
+		                                            QObject * parent = 0 );
 
-    protected:
+	protected:
 
-        virtual void initializeGL() override;
+		virtual void initializeGL ( ) override;
 
-        virtual void paintGL() override;
+		virtual void paintGL ( ) override;
 
-        virtual void resizeGL(int width, int height) override;
+		virtual void resizeGL ( int width , int height ) override;
 
-        void mouseMoveEvent(QMouseEvent *e) override;
+		void mouseMoveEvent ( QMouseEvent * e ) override;
 
-        void mousePressEvent(QMouseEvent *e) override;
+		void mousePressEvent ( QMouseEvent * e ) override;
 
-        void keyPressEvent(QKeyEvent *e) override;
+		void keyPressEvent ( QKeyEvent * e ) override;
 
-        void wheelEvent(QWheelEvent *e) override;
+		void wheelEvent ( QWheelEvent * e ) override;
 
-    signals:
+	signals:
 
-        void Message(QString);
+		void Message ( QString );
 
-    public slots:
+	public slots:
 
-        void SetKeyFrames(std::shared_ptr<KeyFrames> keyframes);
+		void SetKeyFrames ( std::shared_ptr < KeyFrames > keyframes );
 
-        void SetViewerMode(int mode);
+		void SetViewerMode ( int mode );
 
-        void SetCorrespondingPoints(CorrespondingPointsPair);
+		void SetCorrespondingPoints ( CorrespondingPointsPair );
 
-        void SetInliers(CorrespondingPointsPair);
+		void SetInliers ( CorrespondingPointsPair );
 
-        void SetKeyFramesForInliers(KeyFrames keyframes);
+		void SetKeyFramesForInliers ( KeyFrames keyframes );
 
-        void SetEstimationPointPair(const PointPair &point_pair);
+		void SetEstimationPointPair ( const PointPair & point_pair );
 
-        void SetMarkerPointPair(const PointPair &point_pair);
+		void SetMarkerPointPair ( const PointPair & point_pair );
 
-        void SetBeginFrame(int begin_frame) {
+		void SetBeginFrame ( int begin_frame ) {
 
-            if (0 <= begin_frame and begin_frame < keyframes_gl_->size()) {
-                begin_frame_ = begin_frame;
-                emit repaint();
-            }
-        }
+			if ( 0 <= begin_frame and begin_frame < keyframes_gl_->size ( ) ) {
+				begin_frame_ = begin_frame;
+				emit repaint ( );
+			}
+		}
 
-        void SetEndFrame(int end_frame) {
+		void SetEndFrame ( int end_frame ) {
 
-            if (0 <= end_frame and end_frame < keyframes_gl_->size()) {
-                end_frame_ = end_frame;
-                emit repaint();
-            }
-        }
+			if ( 0 <= end_frame and end_frame < keyframes_gl_->size ( ) ) {
+				end_frame_ = end_frame;
+				emit repaint ( );
+			}
+		}
 
-        void UpdateViewer();
+		void UpdateViewer ( );
 
-    private slots:
+	private slots:
 
-        void onSpin();
+		void onSpin ( );
 
-        void onResetCamera();
+		void onResetCamera ( );
 
-        void onResetModel();
+		void onResetModel ( );
 
-        void onChangeDensity(int value);
+		void onChangeDensity ( int value );
 
-        void onTopView(int option);
+		void onTopView ( int option );
 
-        void onSpin(int option);
+		void onSpin ( int option );
 
-        void onRenderGrid(int option);
+		void onRenderGrid ( int option );
 
-        void onRenderTrajectory(int option);
+		void onRenderTrajectory ( int option );
 
-        void onRenderPointCloud(int option);
+		void onRenderPointCloud ( int option );
 
-        void onRenderAnswer(int option);
+		void onRenderAnswer ( int option );
 
-    private:
+	private:
 
-        Ui::BasicViewer ui_;
+		Ui::BasicViewer ui_;
 
-        Camera camera_;
-        int mode_;
+		Camera camera_;
+		int    mode_;
 
-        glm::vec4 background_color_;
-        float degree_;
-        float scale_;
-        int density_step_;
+		glm::vec4 background_color_;
+		float     degree_;
+		float     scale_;
+		int       density_step_;
 
-        int begin_frame_;
-        int end_frame_;
+		int begin_frame_;
+		int end_frame_;
 
-        bool render_grid_;
-        bool render_inliers_;
-        bool render_point_cloud_;
-        bool render_trajectory_;
-        bool render_answer_;
+		bool render_grid_;
+		bool render_inliers_;
+		bool render_point_cloud_;
+		bool render_trajectory_;
+		bool render_answer_;
 
-        bool top_view_;
+		bool top_view_;
 
 
-        // OpenGL Drawing Objects
-        std::unique_ptr<std::vector<KeyFrameGL> > keyframes_gl_;
-        std::unique_ptr<std::vector<KeyFrameGL> > keyframes_gl_for_inliers_;
-        std::unique_ptr<CorrespondingPointsGL> corresponding_points_pair_gl_;
-        std::unique_ptr<CorrespondingPointsGL> inliers_pair_gl_;
-        std::unique_ptr<PointPairGL> estimation_point_pair_gl_;
-        std::unique_ptr<PointPairGL> marker_point_pair_gl_;
-        std::unique_ptr<LineSegmentsGL> estimation_trajectory_gl_;
-        std::unique_ptr<LineSegmentsGL> marker_trajectory_gl_;
-        std::unique_ptr<GridGL> grid_;
+		// OpenGL Drawing Objects
+		std::unique_ptr < std::vector < KeyFrameGL > > keyframes_gl_;
+		std::unique_ptr < std::vector < KeyFrameGL > > keyframes_gl_for_inliers_;
+		std::unique_ptr < CorrespondingPointsGL >      corresponding_points_pair_gl_;
+		std::unique_ptr < CorrespondingPointsGL >      inliers_pair_gl_;
+		std::unique_ptr < PointPairGL >                estimation_point_pair_gl_;
+		std::unique_ptr < PointPairGL >                marker_point_pair_gl_;
+		std::unique_ptr < LineSegmentsGL >             estimation_trajectory_gl_;
+		std::unique_ptr < LineSegmentsGL >             marker_trajectory_gl_;
+		std::unique_ptr < GridGL >                     grid_;
 
-        QOpenGLShaderProgram *shader_program_;
-        QOpenGLFunctions_4_1_Core *GL;
-        QTimer *spin_timer_;
+		QOpenGLShaderProgram      * shader_program_;
+		QOpenGLFunctions_4_1_Core * GL;
+		QTimer                    * spin_timer_;
 
-        QPoint last_mouse_position_;
+		QPoint last_mouse_position_;
 
-        glm::mat4 model_rotation_matrix_;
-        glm::mat4 model_translation_matrix_;
+		glm::mat4 model_rotation_matrix_;
+		glm::mat4 model_translation_matrix_;
 
-    };
+	};
 }
 
 

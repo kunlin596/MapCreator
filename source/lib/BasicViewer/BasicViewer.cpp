@@ -108,7 +108,6 @@ namespace NiS {
 			grid_->Render ( );
 		}
 
-
 		switch ( mode_ ) {
 
 			case 0: {

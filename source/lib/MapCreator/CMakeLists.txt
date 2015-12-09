@@ -18,6 +18,8 @@ find_package ( Qt5OpenGL REQUIRED )
 
 qt5_wrap_ui ( MapCreator_UIC_FILES
 	${NiS_LIB_DIR}/MapCreator/form/LogPanelDialog.ui
+	${NiS_LIB_DIR}/MapCreator/form/ControlPanelDialog.ui
+	${NiS_LIB_DIR}/MapCreator/form/CloudPlayControlDialog.ui
 	${NiS_LIB_DIR}/MapCreator/form/MarkerViewerDialog.ui
 	${NiS_LIB_DIR}/MapCreator/form/MarkerSelectorDialog.ui
 	${NiS_LIB_DIR}/MapCreator/form/CoordinateConverterDialog.ui
@@ -31,6 +33,8 @@ qt5_wrap_ui ( MapCreator_UIC_FILES
 
 qt5_wrap_cpp ( MapCreator_MOC_FILES
 	${NiS_INCLUDE_DIR}/MapCreator/ComputationConfigureDialog.h
+	${NiS_INCLUDE_DIR}/MapCreator/CloudPlayControlDialog.h
+	${NiS_INCLUDE_DIR}/MapCreator/ControlPanelDialog.h
 	${NiS_INCLUDE_DIR}/MapCreator/CoordinateConverterDialog.h
 	${NiS_INCLUDE_DIR}/MapCreator/PcaKeyFrame_FrameTrackingMethodDialog.h
 	${NiS_INCLUDE_DIR}/MapCreator/OneByOne_FrameTrackingMethodDialog.h

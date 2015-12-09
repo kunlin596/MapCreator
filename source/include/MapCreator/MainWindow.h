@@ -21,6 +21,7 @@
 #include "MapCreator/LogPanelDialog.h"
 #include "MapCreator/MarkerViewerDialog.h"
 #include "MapCreator/UiDialogs.h"
+#include "MapCreator/ControlPanelDialog.h"
 
 Q_DECLARE_METATYPE ( NiS::KeyFrames )
 
@@ -31,7 +32,7 @@ namespace NiS {
 	class MainWindow : public QMainWindow
 	{
 
-	Q_OBJECT
+		Q_OBJECT
 
 	public:
 
@@ -74,7 +75,6 @@ namespace NiS {
 		void onStopButtonClicked ( );
 		void onRewindCloud ( );
 
-
 		void PrepareComputation ( );
 
 	protected:
@@ -88,7 +88,6 @@ namespace NiS {
 		Ui::MainWindow ui_;
 
 		void WriteResult ( const std::pair < glm::vec3 , glm::vec3 > & marker_points_pair );
-		void ResetWatcher ( );
 
 		bool computation_configured_;
 		bool computation_done_;
@@ -113,6 +112,7 @@ namespace NiS {
 		// SLAM configuration dialogs
 		ComputationConfigureDialog * computation_configure_dialog_;
 		LogPanelDialog             * log_panel_dialog_;
+		ControlPanelDialog         * control_panel_dialog_;
 
 		//
 		MarkerViewerDialog * marker_viewer_dialog_;

@@ -6,6 +6,8 @@
 #include <QSurfaceFormat>
 
 #include <MapCreator/MainWindow.h>
+#include <MapCreator/CloudPlayControlDialog.h>
+#include <MapCreator/ControlPanelDialog.h>
 
 int main ( int argc , char * argv[] ) {
 
@@ -18,7 +20,6 @@ int main ( int argc , char * argv[] ) {
 	f.setRenderableType ( QSurfaceFormat::OpenGL );
 	// f.setSamples (4);
 	QSurfaceFormat::setDefaultFormat ( f );
-
 
 	NiS::MainWindow w;
 	w.show ( );
