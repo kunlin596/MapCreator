@@ -25,13 +25,21 @@ namespace NiS {
 	signals:
 
 		void ResetCamera ( );
+
 		void ResetModel ( );
+
 		void ChangePointCloudDensity ( int );
+
 		void SetTopView ( int );
+
 		void SetSpinModel ( int );
+
 		void SetShowPointCloud ( int );
+
 		void SetShowTrajectory ( int );
+
 		void SetShowAnswer ( int );
+
 		void SetShowGrid ( int );
 
 	public:
@@ -51,7 +59,10 @@ namespace NiS {
 			connect ( ui_->CheckBox_ShowTrajectory , SIGNAL( stateChanged ( int ) ) , SIGNAL( SetShowTrajectory ( int ) ) );
 			connect ( ui_->CheckBox_ShowAnswer , SIGNAL( stateChanged ( int ) ) , SIGNAL( SetShowAnswer ( int ) ) );
 			connect ( ui_->CheckBox_ShowGrid , SIGNAL( stateChanged ( int ) ) , SIGNAL( SetShowGrid ( int ) ) );
+
 		}
+
+		int GetDensityValue ( ) const { return ui_->HorizontalSlider_PointCloudDensity->value ( ); }
 
 	private:
 

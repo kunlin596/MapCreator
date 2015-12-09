@@ -4,7 +4,7 @@
 #include "SLAM/Alignment.h"
 #include "SLAM/Calibrator.h"
 #include "SLAM/Transformation.h"
-#include "SLAM/GlobalOptimization.h"
+
 #include "SLAM/ArucoMarkerUtils.h"
 
 #include <limits>
@@ -26,229 +26,270 @@
 
 namespace NiS {
 
-    SlamComputer::SlamComputer(std::shared_ptr<KeyFrames> keyframes_ptr, QObject *parent) :
-            running_flag_(true),
-            has_answer_(false),
-            is_computation_configured_(false),
-            is_data_initialized_(false) {
+	SlamComputer::SlamComputer ( std::shared_ptr < KeyFrames > keyframes_ptr , QObject * parent ) :
+			running_flag_ ( true ) ,
+			has_answer_ ( false ) ,
+			is_computation_configured_ ( false ) ,
+			is_data_initialized_ ( false ) {
 
-        keyframes_ptr_ = keyframes_ptr;
+		keyframes_ptr_ = keyframes_ptr;
 
-    }
+	}
 
-    void SlamComputer::SetDataDir(const QDir &data_dir) {
+	void SlamComputer::SetDataDir ( const QDir & data_dir ) {
 
-        data_dir_ = data_dir;
-    }
+		data_dir_ = data_dir;
+	}
 
-    void SlamComputer::StartCompute() {
+	void SlamComputer::StartCompute ( ) {
 
-        running_flag_ = true;
+		running_flag_ = true;
 
-        if (auto keyframes = keyframes_ptr_.lock()) {
+		if ( auto keyframes = keyframes_ptr_.lock ( ) ) {
 
-            std::cout << "SlamComputer thread : " << QThread::currentThreadId() << std::endl;
-            std::cout << "SlamComputer thread - data size : " << keyframes->size() << std::endl;
+			std::cout << "SlamComputer thread : " << QThread::currentThreadId ( ) << std::endl;
+			std::cout << "SlamComputer thread - data size : " << keyframes->size ( ) << std::endl;
 
-            if (keyframes->size() < 2) {
-                return;
-            }
+			if ( keyframes->size ( ) < 2 ) {
+				return;
+			}
 
-            QTime timer;
-            timer.start();
 
-            emit Message("Computation begins...");
+			QTime timer;
+			timer.start ( );
 
-            switch (options_.type_) {
-                case TrackingType::OneByOne:
-                    ComputeHelper<TrackingType::OneByOne>();
-                    break;
-                case TrackingType::FixedFrameCount:
-                    ComputeHelper<TrackingType::FixedFrameCount>();
-                    break;
-                case TrackingType::PcaKeyFrame:
-                    ComputeHelper<TrackingType::PcaKeyFrame>();
-                    break;
-                case TrackingType::Unknown:
-                    emit Message("Setup computation options at first.");
-                    return;
-            }
+			emit Message ( "Computation begins..." );
 
-            emit Message(QString("Done computing %1 frames. (used %2)")
-                                 .arg(keyframes->size())
-                                 .arg(ConvertTime(timer.elapsed())));
-        }
-    }
+//			switch ( options_.type_ ) {
+//				case TrackingType::OneByOne:
+//					ComputeHelper < TrackingType::OneByOne > ( );
+//					break;
+//				case TrackingType::FixedFrameCount:
+//					ComputeHelper < TrackingType::FixedFrameCount > ( );
+//					break;
+//				case TrackingType::PcaKeyFrame:
+//					ComputeHelper < TrackingType::PcaKeyFrame > ( );
+//					break;
+//				case TrackingType::Unknown:
+//					emit Message ( "Setup computation options at first." );
+//					return;
+//			}
 
-    void SlamComputer::StartGenerateAnswer() {
+			switch ( options_.type_ ) {
+				case TrackingType::OneByOne:
+					tracker_ptr_ = std::unique_ptr < OneByOneTracker > ( new OneByOneTracker );
+					break;
+				case TrackingType::FixedFrameCount:
+					tracker_ptr_ = std::unique_ptr < FixedIntervalTracker > ( new FixedIntervalTracker );
+					break;
+				case TrackingType::PcaKeyFrame:
+					tracker_ptr_ = std::unique_ptr < PcaKeyFrameTracker > ( new PcaKeyFrameTracker );
+					break;
+				case TrackingType::Unknown:
+					emit Message ( "Setup computation options at first." );
+					return;
+			}
 
-        if (auto keyframes = keyframes_ptr_.lock()) {
+			tracker_ptr_->SetKeyframes ( keyframes );
+			tracker_ptr_->SetOptions ( options_ );
 
-            if (keyframes->size() < 2) {
-                return;
-            }
+			switch ( converter_choice_ ) {
+				case 0:
+					tracker_ptr_->SetConverter ( xtion_converter_ );
+					break;
+				case 1:
+					tracker_ptr_->SetConverter ( aist_converter_ );
+					break;
+				default:
+					return;
+			}
 
-            aruco::MarkerDetector marker_detector;
+			tracker_ptr_->Initialize ( );
 
-            QTime timer;
-            timer.start();
+			emit SetProgressRange ( 1 , keyframes->size ( ) - 1 );
 
-            all_markers_points_pairs_.clear();
+			connect ( tracker_ptr_.get ( ) , SIGNAL( SetProgressValue ( int ) ) , this , SIGNAL ( SetProgressValue ( int ) ) );
 
-            emit SetProgressRange(1, keyframes->size() - 1);
+			do {
+				tracker_ptr_->ComputeNext ( );
+			}
+			while ( tracker_ptr_->Update ( ) );
 
-            for (auto i = 1; i < keyframes->size(); ++i) {
+			emit Message ( QString ( "Done computing %1 frames. (used %2)" )
+					               .arg ( keyframes->size ( ) )
+					               .arg ( ConvertTime ( timer.elapsed ( ) ) ) );
+		}
+	}
 
-                auto &keyframe1 = keyframes->at(i - 1);
-                auto &keyframe2 = keyframes->at(i);
+	void SlamComputer::StartGenerateAnswer ( ) {
 
-                Markers markers1;
-                Markers markers2;
+		if ( auto keyframes = keyframes_ptr_.lock ( ) ) {
 
-                marker_detector.detect(keyframe1.GetColorImage(), markers1);
-                marker_detector.detect(keyframe2.GetColorImage(), markers2);
+			if ( keyframes->size ( ) < 2 ) {
+				return;
+			}
 
-                Points points1;
-                Points points2;
+			aruco::MarkerDetector marker_detector;
 
-                boost::tie(points1, points2) = ArucoMarkerUtils::CreatePoints(markers1, markers2, keyframe1, keyframe2);
+			QTime timer;
+			timer.start ( );
 
-                all_markers_points_pairs_.push_back(std::make_pair(points1, points2));
+			all_markers_points_pairs_.clear ( );
 
-                auto matrix = ComputeTransformationMatrix(points2, points1, 100,
-                                                          options_.options_one_by_one.threshold_outlier,
-                                                          options_.options_one_by_one.threshold_inlier);
+			emit SetProgressRange ( 1 , keyframes->size ( ) - 1 );
 
-                keyframe2.SetAnswerAlignmentMatrix(std::move(Convert_OpenCV_Matx44f_To_GLM_mat4(matrix)));
+			for ( auto i = 1 ; i < keyframes->size ( ) ; ++i ) {
 
-                emit SetProgressValue(i);
-            }
+				auto & keyframe1 = keyframes->at ( i - 1 );
+				auto & keyframe2 = keyframes->at ( i );
 
-            emit Message(QString("Done generating answers of  %1 frames. (used %2)")
-                                 .arg(keyframes_.size())
-                                 .arg(ConvertTime(timer.elapsed())));
-            has_answer_ = true;
-        }
-    }
+				Markers markers1;
+				Markers markers2;
 
-    bool SlamComputer::WriteResult(const std::pair<glm::vec3, glm::vec3> &point_pair) {
+				marker_detector.detect ( keyframe1.GetColorImage ( ) , markers1 );
+				marker_detector.detect ( keyframe2.GetColorImage ( ) , markers2 );
 
-        time_t time_stamp = time(nullptr);
+				Points points1;
+				Points points2;
 
-        QString result_name_prefix;
+				boost::tie ( points1 , points2 ) = ArucoMarkerUtils::CreatePoints ( markers1 , markers2 , keyframe1 , keyframe2 );
 
-        std::cout << options_.type_ << std::endl;
+				all_markers_points_pairs_.push_back ( std::make_pair ( points1 , points2 ) );
 
-        switch (options_.type_) {
-            case TrackingType::OneByOne:
-                result_name_prefix = QString("%1_%2").arg(time_stamp).arg("OneByOne");
-                break;
-            case TrackingType::PcaKeyFrame:
-                result_name_prefix = QString("%1_%2").arg(time_stamp).arg("PcaKeyFrame");
-                break;
-            case TrackingType::FixedFrameCount:
-                result_name_prefix = QString("%1_%2").arg(time_stamp).arg("FixedFrameCount");
-                break;
-            case TrackingType::Unknown:
-                emit Message("No result to be written.");
-                return false;
+				auto matrix = ComputeTransformationMatrix ( points2 , points1 , 100 ,
+				                                            options_.options_one_by_one.threshold_outlier ,
+				                                            options_.options_one_by_one.threshold_inlier );
 
-        }
+				keyframe2.SetAnswerAlignmentMatrix ( std::move ( Convert_OpenCV_Matx44f_To_GLM_mat4 ( matrix ) ) );
 
-        QString data_folder_path = data_dir_.absolutePath();
-        QDir dir(data_folder_path + "/Result");
-        if (!dir.exists()) dir.mkdir(data_folder_path + "/Result");
+				emit SetProgressValue ( i );
+			}
 
-        std::string result_file_name = QString(
-                data_folder_path + "/Result/" + result_name_prefix + ".txt").toStdString();
-        std::ofstream out(result_file_name);
+			emit Message ( QString ( "Done generating answers of  %1 frames. (used %2)" )
+					               .arg ( keyframes_.size ( ) )
+					               .arg ( ConvertTime ( timer.elapsed ( ) ) ) );
+			has_answer_ = true;
+		}
+	}
 
-        if (out) {
+	bool SlamComputer::WriteResult ( const std::pair < glm::vec3 , glm::vec3 > & point_pair ) {
 
-            out << "Current tracker type : " << static_cast<int>(options_.type_) << std::endl;
+		time_t time_stamp = time ( nullptr );
 
-            switch (options_.type_) {
+		QString result_name_prefix;
 
-                case TrackingType::OneByOne: {
-                    out << options_.options_one_by_one.Output().toStdString() << std::endl;
-                    break;
-                }
-                case TrackingType::PcaKeyFrame: {
-                    out << options_.options_pca_keyframe.Output().toStdString() << std::endl;
-                    break;
-                }
-                case TrackingType::FixedFrameCount : {
-                    out << options_.options_fixed_frame_count.Output().toStdString() << std::endl;
-                    break;
-                }
-                default:
-                    break;
-            }
+		std::cout << options_.type_ << std::endl;
 
-            out << "point1 " << glm::vec4(point_pair.first, 1.0f);
-            out << "point2 " << glm::vec4(point_pair.second, 1.0f);
+		switch ( options_.type_ ) {
+			case TrackingType::OneByOne:
+				result_name_prefix = QString ( "%1_%2" ).arg ( time_stamp ).arg ( "OneByOne" );
+				break;
+			case TrackingType::PcaKeyFrame:
+				result_name_prefix = QString ( "%1_%2" ).arg ( time_stamp ).arg ( "PcaKeyFrame" );
+				break;
+			case TrackingType::FixedFrameCount:
+				result_name_prefix = QString ( "%1_%2" ).arg ( time_stamp ).arg ( "FixedFrameCount" );
+				break;
+			case TrackingType::Unknown:
+				emit Message ( "No result to be written." );
+				return false;
 
-            out.close();
+		}
 
-            return true;
-        }
+		QString data_folder_path = data_dir_.absolutePath ( );
+		QDir    dir ( data_folder_path + "/Result" );
+		if ( !dir.exists ( ) ) dir.mkdir ( data_folder_path + "/Result" );
 
-        return false;
-    }
+		std::string   result_file_name = QString (
+				data_folder_path + "/Result/" + result_name_prefix + ".txt" ).toStdString ( );
+		std::ofstream out ( result_file_name );
 
-    bool SlamComputer::WriteResult() {
+		if ( out ) {
 
-        time_t time_stamp = time(nullptr);
+			out << "Current tracker type : " << static_cast<int>(options_.type_) << std::endl;
 
-        QString result_name_prefix;
+			switch ( options_.type_ ) {
 
-        std::cout << options_.type_ << std::endl;
+				case TrackingType::OneByOne: {
+					out << options_.options_one_by_one.Output ( ).toStdString ( ) << std::endl;
+					break;
+				}
+				case TrackingType::PcaKeyFrame: {
+					out << options_.options_pca_keyframe.Output ( ).toStdString ( ) << std::endl;
+					break;
+				}
+				case TrackingType::FixedFrameCount : {
+					out << options_.options_fixed_frame_count.Output ( ).toStdString ( ) << std::endl;
+					break;
+				}
+				default:
+					break;
+			}
 
-        switch (options_.type_) {
-            case TrackingType::OneByOne:
-                result_name_prefix = QString("%1_%2").arg(time_stamp).arg("OneByOne");
-                break;
-            case TrackingType::PcaKeyFrame:
-                result_name_prefix = QString("%1_%2").arg(time_stamp).arg("PcaKeyFrame");
-                break;
-            case TrackingType::FixedFrameCount:
-                result_name_prefix = QString("%1_%2").arg(time_stamp).arg("FixedFrameCount");
-                break;
-            case TrackingType::Unknown:
-                emit Message("No result to be written.");
-                return false;
+			out << "point1 " << glm::vec4 ( point_pair.first , 1.0f );
+			out << "point2 " << glm::vec4 ( point_pair.second , 1.0f );
 
-        }
+			out.close ( );
 
-        QString data_folder_path = data_dir_.absolutePath();
-        QDir dir(data_folder_path + "/Result");
-        if (!dir.exists()) dir.mkdir(data_folder_path + "/Result");
+			return true;
+		}
 
-        std::string result_file_name = QString(
-                data_folder_path + "/Result/" + result_name_prefix + ".txt").toStdString();
-        std::ofstream out(result_file_name);
+		return false;
+	}
 
-        if (out) {
+	bool SlamComputer::WriteResult ( ) {
 
-            out << "Current tracker type : " << static_cast<int>(options_.type_) << std::endl;
+		time_t time_stamp = time ( nullptr );
 
-            switch (options_.type_) {
+		QString result_name_prefix;
 
-                case TrackingType::OneByOne: {
-                    out << options_.options_one_by_one.Output().toStdString() << std::endl;
-                    break;
-                }
-                case TrackingType::PcaKeyFrame: {
-                    out << options_.options_pca_keyframe.Output().toStdString() << std::endl;
-                    break;
-                }
-                case TrackingType::FixedFrameCount : {
-                    out << options_.options_fixed_frame_count.Output().toStdString() << std::endl;
-                    break;
-                }
-                default:
-                    break;
-            }
+		std::cout << options_.type_ << std::endl;
+
+		switch ( options_.type_ ) {
+			case TrackingType::OneByOne:
+				result_name_prefix = QString ( "%1_%2" ).arg ( time_stamp ).arg ( "OneByOne" );
+				break;
+			case TrackingType::PcaKeyFrame:
+				result_name_prefix = QString ( "%1_%2" ).arg ( time_stamp ).arg ( "PcaKeyFrame" );
+				break;
+			case TrackingType::FixedFrameCount:
+				result_name_prefix = QString ( "%1_%2" ).arg ( time_stamp ).arg ( "FixedFrameCount" );
+				break;
+			case TrackingType::Unknown:
+				emit Message ( "No result to be written." );
+				return false;
+
+		}
+
+		QString data_folder_path = data_dir_.absolutePath ( );
+		QDir    dir ( data_folder_path + "/Result" );
+		if ( !dir.exists ( ) ) dir.mkdir ( data_folder_path + "/Result" );
+
+		std::string   result_file_name = QString (
+				data_folder_path + "/Result/" + result_name_prefix + ".txt" ).toStdString ( );
+		std::ofstream out ( result_file_name );
+
+		if ( out ) {
+
+			out << "Current tracker type : " << static_cast<int>(options_.type_) << std::endl;
+
+			switch ( options_.type_ ) {
+
+				case TrackingType::OneByOne: {
+					out << options_.options_one_by_one.Output ( ).toStdString ( ) << std::endl;
+					break;
+				}
+				case TrackingType::PcaKeyFrame: {
+					out << options_.options_pca_keyframe.Output ( ).toStdString ( ) << std::endl;
+					break;
+				}
+				case TrackingType::FixedFrameCount : {
+					out << options_.options_fixed_frame_count.Output ( ).toStdString ( ) << std::endl;
+					break;
+				}
+				default:
+					break;
+			}
 
 //			out << "id x(estimation) y(estimation) z(estimation) "
 //					"x'(estimation) y'(estimation) z'(estimation) "
@@ -269,52 +310,52 @@ namespace NiS {
 //			// marker apir
 //			glm::mat4 accumulated_matrix1_m;
 //			glm::mat4 accumulated_matrix2_m;
-            out << "CAUTION: The look at point has been translated to the origin." << std::endl;
-            out << "Position X (estimation),Position Y (estimation),Position Z (estimation),"
-                    "Position X (marker),Position Y (marker),Position Z (marker),"
-                    "Translation Error,"
-                    "LookatPoint X (estimation),LookatPoint Y (estimation),LookatPoint Z (estimation),"
-                    "LookatPoint X (marker),LookatPoint Y (marker),LookatPoint Z (marker),"
-                    "Rotation Error" << std::endl;
+			out << "CAUTION: The look at point has been translated to the origin." << std::endl;
+			out << "Position X (estimation),Position Y (estimation),Position Z (estimation),"
+					"Position X (marker),Position Y (marker),Position Z (marker),"
+					"Translation Error,"
+					"LookatPoint X (estimation),LookatPoint Y (estimation),LookatPoint Z (estimation),"
+					"LookatPoint X (marker),LookatPoint Y (marker),LookatPoint Z (marker),"
+					"Rotation Error" << std::endl;
 
-            auto position_estimation = glm::vec3();
-            auto position_marker = glm::vec3();
-            auto lookat_point_estimation = glm::vec3(0.0f, 0.0f, 1.0f);
-            auto lookat_point_marker = glm::vec3(0.0f, 0.0f, 1.0f);
+			auto position_estimation     = glm::vec3 ( );
+			auto position_marker         = glm::vec3 ( );
+			auto lookat_point_estimation = glm::vec3 ( 0.0f , 0.0f , 1.0f );
+			auto lookat_point_marker     = glm::vec3 ( 0.0f , 0.0f , 1.0f );
 
-            auto accumulated_matrix_estimation = glm::mat4();
-            auto accumulated_matrix_marker = glm::mat4();
+			auto accumulated_matrix_estimation = glm::mat4 ( );
+			auto accumulated_matrix_marker     = glm::mat4 ( );
 
-            for (const auto &keyframe : keyframes_) {
+			for ( const auto & keyframe : keyframes_ ) {
 
-                accumulated_matrix_estimation *= keyframe.GetAlignmentMatrix();
-                accumulated_matrix_marker *= keyframe.GetAnswerAlignmentMatrix();
+				accumulated_matrix_estimation *= keyframe.GetAlignmentMatrix ( );
+				accumulated_matrix_marker *= keyframe.GetAnswerAlignmentMatrix ( );
 
-                const auto _position_estimation = accumulated_matrix_estimation * glm::vec4(position_estimation, 1.0f);
-                const auto _position_marker = accumulated_matrix_marker * glm::vec4(position_marker, 1.0f);
+				const auto _position_estimation = accumulated_matrix_estimation * glm::vec4 ( position_estimation , 1.0f );
+				const auto _position_marker     = accumulated_matrix_marker * glm::vec4 ( position_marker , 1.0f );
 
-                const auto _lookat_point_estimation =
-                        accumulated_matrix_estimation * glm::vec4(lookat_point_estimation, 1.0f);
-                const auto _lookat_point_marker = accumulated_matrix_marker * glm::vec4(lookat_point_marker, 1.0f);
+				const auto _lookat_point_estimation =
+						           accumulated_matrix_estimation * glm::vec4 ( lookat_point_estimation , 1.0f );
+				const auto _lookat_point_marker     = accumulated_matrix_marker * glm::vec4 ( lookat_point_marker , 1.0f );
 
-                const auto __lookat_point_estimation = _lookat_point_estimation - _position_estimation;
-                const auto __lookat_point_marker = _lookat_point_marker - _position_marker;
+				const auto __lookat_point_estimation = _lookat_point_estimation - _position_estimation;
+				const auto __lookat_point_marker     = _lookat_point_marker - _position_marker;
 
-                out << _position_estimation.x << "," << _position_estimation.y << "," << _position_estimation.z << ",";
-                out << _position_marker.x << "," << _position_marker.y << "," << _position_marker.z << ",";
+				out << _position_estimation.x << "," << _position_estimation.y << "," << _position_estimation.z << ",";
+				out << _position_marker.x << "," << _position_marker.y << "," << _position_marker.z << ",";
 
-                if (keyframe.IsUsed()) out << glm::length(_position_estimation - _position_marker) << ",";
-                else out << 0 << ",";
+				if ( keyframe.IsUsed ( ) ) out << glm::length ( _position_estimation - _position_marker ) << ",";
+				else out << 0 << ",";
 
-                out << __lookat_point_estimation.x << "," << __lookat_point_estimation.y << "," <<
-                __lookat_point_estimation.z << ",";
-                out << __lookat_point_marker.x << "," << __lookat_point_marker.y << "," << __lookat_point_marker.z <<
-                ",";
+				out << __lookat_point_estimation.x << "," << __lookat_point_estimation.y << "," <<
+				__lookat_point_estimation.z << ",";
+				out << __lookat_point_marker.x << "," << __lookat_point_marker.y << "," << __lookat_point_marker.z <<
+				",";
 
-                if (keyframe.IsUsed()) out << glm::angle(__lookat_point_estimation, __lookat_point_marker) << std::endl;
-                else out << 0 << std::endl;
+				if ( keyframe.IsUsed ( ) ) out << glm::angle ( __lookat_point_estimation , __lookat_point_marker ) << std::endl;
+				else out << 0 << std::endl;
 
-            }
+			}
 
 //			for ( auto id = 0 ; id < all_markers_points_pairs_.size ( ) ; ++id ) {
 //
@@ -364,122 +405,121 @@ namespace NiS {
 //				}
 //			}
 
-            out.close();
-            return true;
-        }
+			out.close ( );
+			return true;
+		}
 
-        return false;
+		return false;
 
-    }
+	}
 
-    bool SlamComputer::CheckPreviousResult() {
+	bool SlamComputer::CheckPreviousResult ( ) {
 
-        std::cout << "Checking privious result." << std::endl;
+		std::cout << "Checking privious result." << std::endl;
 
-        result_cache_path_ = data_dir_.absolutePath() + "/Cache";
+		result_cache_path_ = data_dir_.absolutePath ( ) + "/Cache";
 
-        QDir dir(result_cache_path_);
-        if (!dir.exists()) {
-            dir.mkdir(result_cache_path_);
-            return false;
-        }
+		QDir dir ( result_cache_path_ );
+		if ( !dir.exists ( ) ) {
+			dir.mkdir ( result_cache_path_ );
+			return false;
+		}
 
-        QStringList filter_list;
-        filter_list.push_back(QString("*.cache"));
+		QStringList filter_list;
+		filter_list.push_back ( QString ( "*.cache" ) );
 
-        return !dir.entryInfoList(filter_list).empty();
-    }
+		return !dir.entryInfoList ( filter_list ).empty ( );
+	}
 
-    void SlamComputer::UsePreviousResult(const QString &result_cache_name) {
+	void SlamComputer::UsePreviousResult ( const QString & result_cache_name ) {
 
+		if ( auto keyframes = keyframes_ptr_.lock ( ) ) {
 
-        if (auto keyframes = keyframes_ptr_.lock()) {
+			if ( keyframes->empty ( ) ) {
+				emit Message ( "No data found, cannot apply matrices." );
+			}
 
-            if (keyframes->empty()) {
-                emit Message("No data found, cannot apply matrices.");
-            }
+			QTime timer;
+			timer.start ( );
 
-            QTime timer;
-            timer.start();
+			ComputationResultCache cache;
 
-            ComputationResultCache cache;
+			bool load_succeeded = LoadComputationResultCache ( result_cache_name.toStdString ( ) , cache );
+			if ( !load_succeeded ) { return; }
 
-            bool load_succeeded = LoadComputationResultCache(result_cache_name.toStdString(), cache);
-            if (!load_succeeded) { return; }
+			auto data_set_name    = cache.data_set_name;
+			auto computation_time = cache.computation_time;
 
-            auto data_set_name = cache.data_set_name;
-            auto computation_time = cache.computation_time;
+			options_ = cache.options;
 
-            options_ = cache.options;
+			for ( auto i = 0 ; i < cache.indices.size ( ) ; ++i ) {
 
-            for (auto i = 0; i < cache.indices.size(); ++i) {
+				auto id                = cache.indices[ i ];
+				auto is_used           = cache.used_status[ i ];
+				auto estimation_matrix = cache.estimation_matrices[ i ];
+				auto marker_matrix     = cache.marker_matrices[ i ];
 
-                auto id = cache.indices[i];
-                auto is_used = cache.used_status[i];
-                auto estimation_matrix = cache.estimation_matrices[i];
-                auto marker_matrix = cache.marker_matrices[i];
+				auto & kf = keyframes->at ( id );
 
-                auto &kf = keyframes->at(id);
+				kf.SetId ( id );
+				kf.SetUsed ( is_used );
+				kf.SetAlignmentMatrix ( estimation_matrix );
+				kf.SetAnswerAlignmentMatrix ( marker_matrix );
 
-                kf.SetId(id);
-                kf.SetUsed(is_used);
-                kf.SetAlignmentMatrix(estimation_matrix);
-                kf.SetAnswerAlignmentMatrix(marker_matrix);
+			}
 
-            }
+			emit Message ( QString ( "Done loading %1 frames' results. (used %2)" )
+					               .arg ( keyframes->size ( ) )
+					               .arg ( ConvertTime ( timer.elapsed ( ) ) ) );
+		}
+	}
 
-            emit Message(QString("Done loading %1 frames' results. (used %2)")
-                                 .arg(keyframes->size())
-                                 .arg(ConvertTime(timer.elapsed())));
-        }
-    }
+	void SlamComputer::StopCompute ( ) {
 
-    void SlamComputer::StopCompute() {
-
-        running_flag_ = false;
-    }
+		running_flag_ = false;
+	}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    bool SaveMatricesInfo(const std::string &file_name, const MatricesInfo &info) {
+	bool SaveMatricesInfo ( const std::string & file_name , const MatricesInfo & info ) {
 
-        std::ofstream out(file_name, std::ios::binary);
+		std::ofstream out ( file_name , std::ios::binary );
 
-        if (out) {
-            namespace bio = ::boost::iostreams;
+		if ( out ) {
+			namespace bio = ::boost::iostreams;
 
-            bio::filtering_ostream f;
-            f.push(bio::gzip_compressor());
-            f.push(out);
+			bio::filtering_ostream f;
+			f.push ( bio::gzip_compressor ( ) );
+			f.push ( out );
 
-            boost::archive::binary_oarchive ar(out);
-            ar << info;
+			boost::archive::binary_oarchive ar ( out );
+			ar << info;
 
-            return true;
-        }
+			return true;
+		}
 
-        return false;
-    }
+		return false;
+	}
 
-    bool LoadMatricesInfo(const std::string &file_name, MatricesInfo &info) {
+	bool LoadMatricesInfo ( const std::string & file_name , MatricesInfo & info ) {
 
-        std::ifstream in(file_name, std::ios::binary);
+		std::ifstream in ( file_name , std::ios::binary );
 
-        if (in) {
-            namespace bio = ::boost::iostreams;
+		if ( in ) {
+			namespace bio = ::boost::iostreams;
 
-            bio::filtering_istream f;
-            f.push(bio::gzip_decompressor());
-            f.push(in);
+			bio::filtering_istream f;
+			f.push ( bio::gzip_decompressor ( ) );
+			f.push ( in );
 
-            boost::archive::binary_iarchive ar(in);
-            ar >> info;
+			boost::archive::binary_iarchive ar ( in );
+			ar >> info;
 
-            return true;
-        }
+			return true;
+		}
 
-        return false;
-    }
+		return false;
+	}
 
 }
 

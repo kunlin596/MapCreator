@@ -104,7 +104,8 @@ namespace NiS {
 
 
 		if ( render_grid_ ) {
-			grid_->SetTransformationMatrix ( projection_matrix * view_matrix * model_translation_matrix_ * model_rotation_matrix_ );
+			grid_->SetTransformationMatrix (
+					projection_matrix * view_matrix * model_translation_matrix_ * model_rotation_matrix_ );
 			grid_->Render ( );
 		}
 
@@ -121,7 +122,8 @@ namespace NiS {
 
 						auto & keyframe_gl = keyframes_gl_->at ( i );
 
-						const auto m = ( render_answer_ ) ? ( keyframe_gl.GetAnswerAlignmentMatrix ( ) ) : ( keyframe_gl.GetAlignmentMatrix ( ) );
+						const auto m = ( render_answer_ ) ? ( keyframe_gl.GetAnswerAlignmentMatrix ( ) )
+						                                  : ( keyframe_gl.GetAlignmentMatrix ( ) );
 
 						accumulated_transformation_matrix *= m;
 					}
@@ -130,7 +132,8 @@ namespace NiS {
 
 						auto & keyframe_gl = keyframes_gl_->at ( i );
 
-						const auto m = ( render_answer_ ) ? ( keyframe_gl.GetAnswerAlignmentMatrix ( ) ) : ( keyframe_gl.GetAlignmentMatrix ( ) );
+						const auto m = ( render_answer_ ) ? ( keyframe_gl.GetAnswerAlignmentMatrix ( ) )
+						                                  : ( keyframe_gl.GetAlignmentMatrix ( ) );
 
 						accumulated_transformation_matrix *= m;
 
@@ -170,22 +173,26 @@ namespace NiS {
 				if ( render_point_cloud_ ) {
 					for ( auto & keyframe_for_inliers :  * keyframes_gl_for_inliers_ ) {
 
-						keyframe_for_inliers.SetTransformationMatrix ( transformation_matrix * left_translation_mat * scale_mat );
+						keyframe_for_inliers.SetTransformationMatrix (
+								transformation_matrix * left_translation_mat * scale_mat );
 						keyframe_for_inliers.Render ( );
 					}
 
 					for ( auto & keyframe_for_inliers : * keyframes_gl_for_inliers_ ) {
 
-						keyframe_for_inliers.SetTransformationMatrix ( transformation_matrix * right_translation_mat * scale_mat );
+						keyframe_for_inliers.SetTransformationMatrix (
+								transformation_matrix * right_translation_mat * scale_mat );
 						keyframe_for_inliers.Render ( );
 					}
 				}
 
 				if ( corresponding_points_pair_gl_ and inliers_pair_gl_ ) {
-					corresponding_points_pair_gl_->SetTransformationMatrix ( transformation_matrix * left_translation_mat * scale_mat );
+					corresponding_points_pair_gl_->SetTransformationMatrix (
+							transformation_matrix * left_translation_mat * scale_mat );
 					corresponding_points_pair_gl_->Render ( );
 
-					inliers_pair_gl_->SetTransformationMatrix ( transformation_matrix * right_translation_mat * scale_mat );
+					inliers_pair_gl_->SetTransformationMatrix (
+							transformation_matrix * right_translation_mat * scale_mat );
 					inliers_pair_gl_->Render ( );
 				}
 
@@ -326,44 +333,32 @@ namespace NiS {
 
 	void BasicViewer::onChangeDensity ( int value ) {
 
-		makeCurrent ( );
+		if ( keyframes_gl_ ) {
 
-		density_step_ = value;
+			makeCurrent ( );
 
-		for ( auto & frame : * keyframes_gl_ ) {
-			frame.SetPointDensityStep ( density_step_ );
-			frame.SetupData ( );
+			density_step_ = value;
+
+			for ( auto & frame : * keyframes_gl_ ) {
+				frame.SetPointDensityStep ( density_step_ );
+				frame.SetupData ( );
+			}
+
+			if ( not keyframes_gl_->empty ( ) ) {
+
+				auto points_per_frame = keyframes_gl_->at ( 0 ).GetVertexData ( ).size ( );
+				auto total_points     = points_per_frame * keyframes_gl_->size ( );
+
+				emit Message ( QString ( "#Frames : %1, #Points/Frame : %2, #Total Points %3." )
+						               .arg ( keyframes_gl_->size ( ) )
+						               .arg ( points_per_frame )
+						               .arg ( total_points ) );
+			}
+
+			emit repaint ( );
+
+			doneCurrent ( );
 		}
-
-//		for ( auto & frame : * keyframes_gl_for_inliers_ ) {
-//			frame.SetPointDensityStep ( density_step_ );
-//			frame.SetupData ( );
-//		}
-
-		if ( not keyframes_gl_->empty ( ) ) {
-
-			auto points_per_frame = keyframes_gl_->at ( 0 ).GetVertexData ( ).size ( );
-			auto total_points     = points_per_frame * keyframes_gl_->size ( );
-
-			emit Message ( QString ( "#Frames : %1, #Points/Frame : %2, #Total Points %3." )
-					               .arg ( keyframes_gl_->size ( ) )
-					               .arg ( points_per_frame )
-					               .arg ( total_points ) );
-		}
-
-//		if ( not keyframes_gl_for_inliers_->empty ( ) ) {
-//			auto points_per_frame = keyframes_gl_for_inliers_->at ( 0 ).GetVertexData ( ).size ( );
-//			auto total_points     = points_per_frame * keyframes_gl_for_inliers_->size ( );
-//
-//			emit Message ( QString ( "#Frames : %1, #Points/Frame : %2, #Total Points %3." )
-//					               .arg ( keyframes_gl_for_inliers_->size ( ) )
-//					               .arg ( points_per_frame )
-//					               .arg ( total_points ) );
-//		}
-
-		emit repaint ( );
-
-		doneCurrent ( );
 	}
 
 	void BasicViewer::onTopView ( int option ) {
@@ -438,7 +433,8 @@ namespace NiS {
 			auto estimation_color = glm::vec3 ( 1.0f , color_val , 1.0f );
 			auto marker_color     = glm::vec3 ( color_val , 1.0f , color_val );
 
-			LineSegmentGL line1 ( GL , estimation_accumulated_matrix1 , estimation_accumulated_matrix2 , estimation_color , estimation_color );
+			LineSegmentGL line1 ( GL , estimation_accumulated_matrix1 , estimation_accumulated_matrix2 , estimation_color ,
+			                      estimation_color );
 			LineSegmentGL line2 ( GL , marker_accumulated_matrix1 , marker_accumulated_matrix2 , marker_color , marker_color );
 
 			line1.SetShaderProgram ( shader_program_ );
@@ -450,9 +446,6 @@ namespace NiS {
 			estimation_trajectory_gl_->push_back ( line1 );
 			marker_trajectory_gl_->push_back ( line2 );
 		}
-
-		// Setup Keyframes
-		//		keyframes_gl_->clear ( );
 
 		for ( auto const & keyframe : * keyframes ) {
 
@@ -534,7 +527,8 @@ namespace NiS {
 
 //		corresponding_points_pair_gl_.clear ( );
 //		corresponding_points_pair_gl_.push_back ( CorrespondingPointsGL ( GL , corresponding_points_pair ) );
-		corresponding_points_pair_gl_ = std::unique_ptr < CorrespondingPointsGL > ( new CorrespondingPointsGL ( GL , corresponding_points_pair ) );
+		corresponding_points_pair_gl_ = std::unique_ptr < CorrespondingPointsGL > (
+				new CorrespondingPointsGL ( GL , corresponding_points_pair ) );
 		corresponding_points_pair_gl_->SetShaderProgram ( shader_program_ );
 		corresponding_points_pair_gl_->SetupData ( );
 

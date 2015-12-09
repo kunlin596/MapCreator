@@ -12,9 +12,12 @@
 #include "SLAM/KeyFrame.h"
 #include "SLAM/Transformation.h"
 #include "SLAM/CoordinateConverter.h"
+#include "SLAM/GlobalOptimization.h"
+#include "SLAM/Matcher.h"
+#include "SLAM/Transformation.h"
+#include "SLAM/GlobalOptimization.h"
 
 #include <Core/Utility.h>
-
 #include <iostream>
 #include <boost/tuple/tuple.hpp>
 
@@ -111,6 +114,54 @@ namespace NiS {
 	template < > void Tracker < TrackingType::OneByOne >::Initialize ( );
 	template < > void Tracker < TrackingType::FixedFrameCount >::Initialize ( );
 	template < > void Tracker < TrackingType::PcaKeyFrame >::Initialize ( );
+
+	class AbstractTracker : public QObject
+	{
+	Q_OBJECT
+
+	signals:
+
+		void SetProgressValue ( int );
+
+	public:
+
+		void SetKeyframes ( std::shared_ptr < KeyFrames > keyframes_ptr ) { keyframes_ptr_ = keyframes_ptr; }
+		void SetOptions ( const Options & options ) { options_ = options; }
+		void SetConverter ( XtionCoordinateConverter converter ) {
+
+			xtion_converter_ = converter;
+			converter_ptr_   = & xtion_converter_;
+		}
+		void SetConverter ( AistCoordinateConverter converter ) {
+
+			aist_converter_ = converter;
+			converter_ptr_  = & aist_converter_;
+		}
+
+		using KeyFramesIterator = KeyFrames::iterator;
+
+		virtual void Initialize ( ) { };
+		virtual bool Update ( ) { };
+		virtual void ComputeNext ( ) { };
+
+	protected:
+		std::weak_ptr < KeyFrames > keyframes_ptr_;
+		CoordinateConverter * converter_ptr_;
+		XtionCoordinateConverter xtion_converter_;
+		AistCoordinateConverter  aist_converter_;
+
+		CoordinateConverter converter_;
+
+		KeyFramesIterator iterator1_;
+		KeyFramesIterator iterator2_;
+
+		Points inliers1_;
+		Points inliers2_;
+
+		Options options_;
+		QString message_;
+	};
+
 
 }
 

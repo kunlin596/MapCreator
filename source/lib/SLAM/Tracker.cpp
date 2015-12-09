@@ -2,14 +2,7 @@
 // Created by LinKun on 10/9/15.
 //
 
-#include "SLAM/Matcher.h"
 #include "SLAM/Tracker.h"
-#include "SLAM/Transformation.h"
-#include "SLAM/GlobalOptimization.h"
-
-#include <Core/Utility.h>
-
-#include <boost/tuple/tuple.hpp>
 
 namespace NiS {
 

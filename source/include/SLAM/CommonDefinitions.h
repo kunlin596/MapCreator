@@ -24,6 +24,12 @@ namespace NiS {
 		FixedFrameCount
 	};
 
+	enum ConvertorType
+	{
+		XtionDefaultConvertor = 0 ,
+		AistConvertor
+	};
+
 	using PointPair = std::pair < glm::vec3 , glm::vec3 >;
 
 	using ScreenPoint = cv::Point2f;

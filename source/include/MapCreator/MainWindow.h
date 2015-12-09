@@ -22,6 +22,7 @@
 #include "MapCreator/MarkerViewerDialog.h"
 #include "MapCreator/UiDialogs.h"
 #include "MapCreator/ControlPanelDialog.h"
+#include "MapCreator/CloudPlayControlDialog.h"
 
 Q_DECLARE_METATYPE ( NiS::KeyFrames )
 
@@ -32,7 +33,7 @@ namespace NiS {
 	class MainWindow : public QMainWindow
 	{
 
-		Q_OBJECT
+	Q_OBJECT
 
 	public:
 
@@ -72,7 +73,7 @@ namespace NiS {
 		void OnSlamComputationCompleted ( );
 
 		void onPlayButtonClicked ( );
-		void onStopButtonClicked ( );
+		void onPauseButtonClicked ( );
 		void onRewindCloud ( );
 
 		void PrepareComputation ( );
@@ -82,6 +83,9 @@ namespace NiS {
 		void keyPressEvent ( QKeyEvent * e ) override;
 
 	private:
+
+		void ConnectCloudPlayControlDialog ( );
+		void ConnectControlPanelDialog ( );
 
 		friend class ImageHandler2;
 
@@ -113,6 +117,7 @@ namespace NiS {
 		ComputationConfigureDialog * computation_configure_dialog_;
 		LogPanelDialog             * log_panel_dialog_;
 		ControlPanelDialog         * control_panel_dialog_;
+		CloudPlayControlDialog     * cloud_play_control_dialog_;
 
 		//
 		MarkerViewerDialog * marker_viewer_dialog_;

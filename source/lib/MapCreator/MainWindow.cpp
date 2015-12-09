@@ -22,22 +22,20 @@ namespace NiS {
 			computation_done_ ( false ) ,
 			play_timer_ ( new QTimer ( this ) ) ,
 			watcher_ ( new QFutureWatcher < void > ( this ) ) ,
-			control_panel_dialog_ ( new ControlPanelDialog ( this ) ) {
+			log_panel_dialog_ ( new LogPanelDialog ( this ) ) ,
+			control_panel_dialog_ ( new ControlPanelDialog ( this ) ) ,
+			cloud_play_control_dialog_ ( new CloudPlayControlDialog ( this ) ) {
 
 		// Register object for Qt
 		qRegisterMetaType < KeyFrames > ( "KeyFrames" );
 		qRegisterMetaType < CorrespondingPointsPair > ( "CorrespondingPointsPair" );
 		qRegisterMetaType < CorrespondingPointsPair > ( "PointPair" );
 
-		keyframes_ptr_ = std::make_shared < KeyFrames > ( );
-
 		ui_.setupUi ( this );
 
-		log_panel_dialog_ = new LogPanelDialog ( this );
-		log_panel_dialog_->setWindowFlags ( Qt::WindowStaysOnTopHint );
+		keyframes_ptr_ = std::make_shared < KeyFrames > ( );
 
 		inliers_viewer_option_dialog_ = new InliersViewerOptionDialog ( this );
-		inliers_viewer_option_dialog_->setModal ( false );
 
 		ui_.actionOpenInliersViewMode->setChecked ( false );
 		ui_.actionStartSlamComputation->setEnabled ( false );
@@ -47,17 +45,11 @@ namespace NiS {
 		ui_.actionUsePreviousResult->setEnabled ( false );
 		ui_.actionConfigureSlamComputation->setEnabled ( false );
 
-		control_panel_dialog_->show ( );
+		ConnectCloudPlayControlDialog ( );
+		ConnectControlPanelDialog ( );
 
-		connect ( control_panel_dialog_ , SIGNAL ( ResetCamera ( ) ) , ui_.BasicViewer , SLOT ( onResetCamera ( ) ) );
-		connect ( control_panel_dialog_ , SIGNAL ( ResetModel ( ) ) , ui_.BasicViewer , SLOT ( onResetModel ( ) ) );
-		connect ( control_panel_dialog_ , SIGNAL ( ChangePointCloudDensity ( int ) ) , ui_.BasicViewer , SLOT ( onChangeDensity ( int ) ) );
-		connect ( control_panel_dialog_ , SIGNAL ( SetTopView ( int ) ) , ui_.BasicViewer , SLOT ( onTopView ( int ) ) );
-		connect ( control_panel_dialog_ , SIGNAL ( SetSpinModel ( int ) ) , ui_.BasicViewer , SLOT ( onSpin ( int ) ) );
-		connect ( control_panel_dialog_ , SIGNAL ( SetShowGrid ( int ) ) , ui_.BasicViewer , SLOT ( onRenderGrid ( int ) ) );
-		connect ( control_panel_dialog_ , SIGNAL ( SetShowPointCloud ( int ) ) , ui_.BasicViewer , SLOT ( onRenderPointCloud ( int ) ) );
-		connect ( control_panel_dialog_ , SIGNAL ( SetShowTrajectory ( int ) ) , ui_.BasicViewer , SLOT ( onRenderTrajectory ( int ) ) );
-		connect ( control_panel_dialog_ , SIGNAL ( SetShowAnswer ( int ) ) , ui_.BasicViewer , SLOT ( onRenderAnswer ( int ) ) );
+		control_panel_dialog_->show ( );
+		cloud_play_control_dialog_->show ( );
 
 		connect ( ui_.actionConfigureSlamComputation , SIGNAL ( triggered ( ) ) , this , SLOT ( onActionConfigureSlamComputation ( ) ) );
 		connect ( ui_.actionStartSlamComputation , SIGNAL ( triggered ( ) ) , this , SLOT ( onActionStartSlamComputation ( ) ) );
@@ -88,35 +80,46 @@ namespace NiS {
 
 		// Marker Image Viewer
 		marker_viewer_dialog_ = new MarkerViewerDialog ( this );
-		connect ( marker_viewer_dialog_ , SIGNAL ( SendEstimationPointPair ( PointPair ) ) , ui_.BasicViewer ,
-		          SLOT ( SetEstimationPointPair ( PointPair ) ) );
-		connect ( marker_viewer_dialog_ , SIGNAL ( SendMarkerPointPair ( PointPair ) ) , ui_.BasicViewer ,
-		          SLOT ( SetMarkerPointPair ( PointPair ) ) );
+		connect ( marker_viewer_dialog_ , SIGNAL ( SendEstimationPointPair ( PointPair ) ) , ui_.BasicViewer , SLOT ( SetEstimationPointPair ( PointPair ) ) );
+		connect ( marker_viewer_dialog_ , SIGNAL ( SendMarkerPointPair ( PointPair ) ) , ui_.BasicViewer , SLOT ( SetMarkerPointPair ( PointPair ) ) );
 
 		connect ( ui_.actionIShowMarkerViewer , SIGNAL ( triggered ( ) ) , this , SLOT ( onActionShowMarkerViewer ( ) ) );
 
 
-		connect ( ui_.SpinBox_BeginFrame , SIGNAL ( valueChanged ( int ) ) , ui_.HorizontalSlider_BeginFrame ,
-		          SLOT ( setValue ( int ) ) );
-		connect ( ui_.SpinBox_BeginFrame , SIGNAL ( valueChanged ( int ) ) , this , SLOT ( onBeginFrameIsBiggerThanEndFrame ( int ) ) );
-		connect ( ui_.SpinBox_EndFrame , SIGNAL ( valueChanged ( int ) ) , ui_.HorizontalSlider_EndFrame , SLOT ( setValue ( int ) ) );
-		connect ( ui_.SpinBox_EndFrame , SIGNAL ( valueChanged ( int ) ) , this , SLOT ( onEndFrameIsSmallerThanBeginFrame ( int ) ) );
-		connect ( ui_.HorizontalSlider_BeginFrame , SIGNAL ( valueChanged ( int ) ) , ui_.SpinBox_BeginFrame ,
-		          SLOT ( setValue ( int ) ) );
-		connect ( ui_.HorizontalSlider_BeginFrame , SIGNAL ( valueChanged ( int ) ) , this ,
-		          SLOT ( onBeginFrameIsBiggerThanEndFrame ( int ) ) );
-		connect ( ui_.HorizontalSlider_EndFrame , SIGNAL ( valueChanged ( int ) ) , ui_.SpinBox_EndFrame , SLOT ( setValue ( int ) ) );
-		connect ( ui_.HorizontalSlider_EndFrame , SIGNAL ( valueChanged ( int ) ) , this ,
-		          SLOT ( onEndFrameIsSmallerThanBeginFrame ( int ) ) );
+	}
 
-		connect ( ui_.SpinBox_BeginFrame , SIGNAL ( valueChanged ( int ) ) , ui_.BasicViewer , SLOT ( SetBeginFrame ( int ) ) );
-		connect ( ui_.SpinBox_EndFrame , SIGNAL ( valueChanged ( int ) ) , ui_.BasicViewer , SLOT ( SetEndFrame ( int ) ) );
+	void MainWindow::ConnectCloudPlayControlDialog ( ) {
 
+		auto dialog_singal_ptr1 = static_cast<void ( CloudPlayControlDialog::* ) ( int )> (& CloudPlayControlDialog::SetBeginFrame);
+		auto dialog_signal_ptr2 = static_cast<void ( CloudPlayControlDialog::* ) ( int )> (& CloudPlayControlDialog::SetEndFrame);
+		auto dialog_signal_ptr3 = static_cast<void ( CloudPlayControlDialog::* ) ( void )> (& CloudPlayControlDialog::StartPlay);
+		auto dialog_signal_ptr4 = static_cast<void ( CloudPlayControlDialog::* ) ( void )> (& CloudPlayControlDialog::PausePlay);
 
-		connect ( ui_.PushButton_Play , SIGNAL ( clicked ( ) ) , this , SLOT ( onPlayButtonClicked ( ) ) );
-		connect ( ui_.PushButton_Stop , SIGNAL ( clicked ( ) ) , this , SLOT ( onStopButtonClicked ( ) ) );
+		auto viewer_slot_ptr1 = static_cast<void ( BasicViewer::* ) ( int )> ( & BasicViewer::SetBeginFrame );
+		auto viewer_slot_ptr2 = static_cast<void ( BasicViewer::* ) ( int )> ( & BasicViewer::SetEndFrame );
+		auto main_slot_ptr1   = static_cast<void ( MainWindow::* ) ( void )>( & MainWindow::onPlayButtonClicked );
+		auto main_slot_ptr2   = static_cast<void ( MainWindow::* ) ( void )>( & MainWindow::onPauseButtonClicked );
+
+		connect ( cloud_play_control_dialog_ , dialog_singal_ptr1 , ui_.BasicViewer , viewer_slot_ptr1 );
+		connect ( cloud_play_control_dialog_ , dialog_signal_ptr2 , ui_.BasicViewer , viewer_slot_ptr2 );
+		connect ( cloud_play_control_dialog_ , dialog_signal_ptr3 , this , main_slot_ptr1 );
+		connect ( cloud_play_control_dialog_ , dialog_signal_ptr4 , this , main_slot_ptr2 );
+
 		connect ( play_timer_ , SIGNAL ( timeout ( ) ) , this , SLOT ( onRewindCloud ( ) ) );
 
+	}
+
+	void MainWindow::ConnectControlPanelDialog ( ) {
+
+		connect ( control_panel_dialog_ , SIGNAL ( ResetCamera ( ) ) , ui_.BasicViewer , SLOT ( onResetCamera ( ) ) );
+		connect ( control_panel_dialog_ , SIGNAL ( ResetModel ( ) ) , ui_.BasicViewer , SLOT ( onResetModel ( ) ) );
+		connect ( control_panel_dialog_ , SIGNAL ( ChangePointCloudDensity ( int ) ) , ui_.BasicViewer , SLOT ( onChangeDensity ( int ) ) );
+		connect ( control_panel_dialog_ , SIGNAL ( SetTopView ( int ) ) , ui_.BasicViewer , SLOT ( onTopView ( int ) ) );
+		connect ( control_panel_dialog_ , SIGNAL ( SetSpinModel ( int ) ) , ui_.BasicViewer , SLOT ( onSpin ( int ) ) );
+		connect ( control_panel_dialog_ , SIGNAL ( SetShowGrid ( int ) ) , ui_.BasicViewer , SLOT ( onRenderGrid ( int ) ) );
+		connect ( control_panel_dialog_ , SIGNAL ( SetShowPointCloud ( int ) ) , ui_.BasicViewer , SLOT ( onRenderPointCloud ( int ) ) );
+		connect ( control_panel_dialog_ , SIGNAL ( SetShowTrajectory ( int ) ) , ui_.BasicViewer , SLOT ( onRenderTrajectory ( int ) ) );
+		connect ( control_panel_dialog_ , SIGNAL ( SetShowAnswer ( int ) ) , ui_.BasicViewer , SLOT ( onRenderAnswer ( int ) ) );
 	}
 
 	MainWindow::~MainWindow ( ) {
@@ -146,8 +149,6 @@ namespace NiS {
 	void MainWindow::OnConversionFinished ( ) {
 
 		watcher_->disconnect ( this );
-
-//		keyframes_ = handler_->GetKeyFrames ( );
 
 		assert( not keyframes_ptr_->empty ( ) );
 
@@ -311,10 +312,8 @@ namespace NiS {
 		QProgressDialog dialog;
 		dialog.setModal ( true );
 		dialog.setAutoClose ( true );
-		dialog.setLabelText (
-				QString ( "Generating answers ... (using %1 thread(s).)" ).arg ( QThread::idealThreadCount ( ) ) );
+		dialog.setLabelText ( QString ( "Computing ... (using %1 thread(s).)" ).arg ( QThread::idealThreadCount ( ) ) );
 		dialog.setFixedSize ( dialog.sizeHint ( ) );
-
 
 		connect ( watcher_ , SIGNAL ( finished ( ) ) , this , SLOT ( OnSlamComputationCompleted ( ) ) );
 		connect ( computer_ , SIGNAL ( SetProgressValue ( int ) ) , & dialog , SLOT ( setValue ( int ) ) );
@@ -340,15 +339,7 @@ namespace NiS {
 
 		// Must important part
 		ui_.BasicViewer->SetKeyFrames ( keyframes_ptr_ );
-
-		ui_.HorizontalSlider_BeginFrame->setRange ( 0 , size - 1 );
-		ui_.HorizontalSlider_EndFrame->setRange ( 0 , size - 1 );
-
-		ui_.SpinBox_BeginFrame->setRange ( 0 , size - 1 );
-		ui_.SpinBox_EndFrame->setRange ( 0 , size - 1 );
-
-		ui_.HorizontalSlider_BeginFrame->setValue ( 0 );
-		ui_.HorizontalSlider_EndFrame->setValue ( size - 1 );
+		cloud_play_control_dialog_->SetupUiForNewFrames ( keyframes_ptr_ );
 
 	}
 
@@ -528,7 +519,7 @@ namespace NiS {
 
 	}
 
-	void MainWindow::onStopButtonClicked ( ) {
+	void MainWindow::onPauseButtonClicked ( ) {
 
 		play_timer_->stop ( );
 

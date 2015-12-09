@@ -20,6 +20,10 @@ find_package ( Boost COMPONENTS system filesystem serialization REQUIRED )
 find_package ( aruco REQUIRED )
 
 qt5_wrap_cpp ( SLAM_MOC_FILES "${NiS_INCLUDE_DIR}/SLAM/Alignment.h" )
+qt5_wrap_cpp ( SLAM_MOC_FILES "${NiS_INCLUDE_DIR}/SLAM/Tracker.h" )
+qt5_wrap_cpp ( SLAM_MOC_FILES "${NiS_INCLUDE_DIR}/SLAM/OneByOneTracker.h" )
+qt5_wrap_cpp ( SLAM_MOC_FILES "${NiS_INCLUDE_DIR}/SLAM/PcaKeyFrameTracker.h" )
+qt5_wrap_cpp ( SLAM_MOC_FILES "${NiS_INCLUDE_DIR}/SLAM/FixedIntervalTracker.h" )
 
 include_directories ( ${Boost_INCLUDE_DIR} ${OpenCV_INCLUDE_DIRS} )
 
