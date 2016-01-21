@@ -169,24 +169,27 @@ namespace NiS {
 			cache.computation_time = computation_time;
 			cache.options          = options_;
 
-			for_each ( std::begin ( keyframes_ ) , std::end ( keyframes_ ) ,
-			           [ &cache ] ( const KeyFrame & keyframe ) -> void {
-				           cache.indices.push_back ( std::move ( keyframe.GetId ( ) ) );
-				           cache.used_status.push_back ( keyframe.IsUsed ( ) );
-				           cache.estimation_matrices.push_back ( std::move ( keyframe.GetAlignmentMatrix ( ) ) );
-				           cache.marker_matrices.push_back ( std::move ( keyframe.GetAnswerAlignmentMatrix ( ) ) );
-			           } );
+			if ( auto keyframes = keyframes_ptr_.lock ( ) ) {
 
-			try {
+				for_each ( std::begin ( * keyframes ) , std::end ( * keyframes ) ,
+				           [ &cache ] ( const KeyFrame & keyframe ) -> void {
+					           cache.indices.push_back ( std::move ( keyframe.GetId ( ) ) );
+					           cache.used_status.push_back ( keyframe.IsUsed ( ) );
+					           cache.estimation_matrices.push_back ( std::move ( keyframe.GetAlignmentMatrix ( ) ) );
+					           cache.marker_matrices.push_back ( std::move ( keyframe.GetAnswerAlignmentMatrix ( ) ) );
+				           } );
 
-				SaveComputationResultCache ( cache_file_name.toStdString ( ) , cache );
+				try {
 
-			}
-			catch ( const boost::archive::archive_exception & e ) {
+					SaveComputationResultCache ( cache_file_name.toStdString ( ) , cache );
 
-				emit Message ( e.what ( ) );
-				return;
+				}
+				catch ( const boost::archive::archive_exception & e ) {
 
+					emit Message ( e.what ( ) );
+					return;
+
+				}
 			}
 
 

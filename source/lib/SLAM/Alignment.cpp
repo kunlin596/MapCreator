@@ -60,21 +60,6 @@ namespace NiS {
 
 			emit Message ( "Computation begins..." );
 
-//			switch ( options_.type_ ) {
-//				case TrackingType::OneByOne:
-//					ComputeHelper < TrackingType::OneByOne > ( );
-//					break;
-//				case TrackingType::FixedFrameCount:
-//					ComputeHelper < TrackingType::FixedFrameCount > ( );
-//					break;
-//				case TrackingType::PcaKeyFrame:
-//					ComputeHelper < TrackingType::PcaKeyFrame > ( );
-//					break;
-//				case TrackingType::Unknown:
-//					emit Message ( "Setup computation options at first." );
-//					return;
-//			}
-
 			switch ( options_.type_ ) {
 				case TrackingType::OneByOne:
 					tracker_ptr_ = std::unique_ptr < OneByOneTracker > ( new OneByOneTracker );
@@ -118,6 +103,8 @@ namespace NiS {
 			emit Message ( QString ( "Done computing %1 frames. (used %2)" )
 					               .arg ( keyframes->size ( ) )
 					               .arg ( ConvertTime ( timer.elapsed ( ) ) ) );
+
+			WriteCache ( timer.elapsed ( ) );
 		}
 	}
 
@@ -239,178 +226,111 @@ namespace NiS {
 
 	bool SlamComputer::WriteResult ( ) {
 
-		time_t time_stamp = time ( nullptr );
+		if ( auto keyframes = keyframes_ptr_.lock ( ) ) {
+			time_t time_stamp = time ( nullptr );
 
-		QString result_name_prefix;
+			QString result_name_prefix;
 
-		std::cout << options_.type_ << std::endl;
-
-		switch ( options_.type_ ) {
-			case TrackingType::OneByOne:
-				result_name_prefix = QString ( "%1_%2" ).arg ( time_stamp ).arg ( "OneByOne" );
-				break;
-			case TrackingType::PcaKeyFrame:
-				result_name_prefix = QString ( "%1_%2" ).arg ( time_stamp ).arg ( "PcaKeyFrame" );
-				break;
-			case TrackingType::FixedFrameCount:
-				result_name_prefix = QString ( "%1_%2" ).arg ( time_stamp ).arg ( "FixedFrameCount" );
-				break;
-			case TrackingType::Unknown:
-				emit Message ( "No result to be written." );
-				return false;
-
-		}
-
-		QString data_folder_path = data_dir_.absolutePath ( );
-		QDir    dir ( data_folder_path + "/Result" );
-		if ( !dir.exists ( ) ) dir.mkdir ( data_folder_path + "/Result" );
-
-		std::string   result_file_name = QString (
-				data_folder_path + "/Result/" + result_name_prefix + ".txt" ).toStdString ( );
-		std::ofstream out ( result_file_name );
-
-		if ( out ) {
-
-			out << "Current tracker type : " << static_cast<int>(options_.type_) << std::endl;
+			std::cout << options_.type_ << std::endl;
 
 			switch ( options_.type_ ) {
-
-				case TrackingType::OneByOne: {
-					out << options_.options_one_by_one.Output ( ).toStdString ( ) << std::endl;
+				case TrackingType::OneByOne:
+					result_name_prefix = QString ( "%1_%2" ).arg ( time_stamp ).arg ( "OneByOne" );
 					break;
-				}
-				case TrackingType::PcaKeyFrame: {
-					out << options_.options_pca_keyframe.Output ( ).toStdString ( ) << std::endl;
+				case TrackingType::PcaKeyFrame:
+					result_name_prefix = QString ( "%1_%2" ).arg ( time_stamp ).arg ( "PcaKeyFrame" );
 					break;
-				}
-				case TrackingType::FixedFrameCount : {
-					out << options_.options_fixed_frame_count.Output ( ).toStdString ( ) << std::endl;
+				case TrackingType::FixedFrameCount:
+					result_name_prefix = QString ( "%1_%2" ).arg ( time_stamp ).arg ( "FixedFrameCount" );
 					break;
-				}
-				default:
-					break;
+				case TrackingType::Unknown:
+					emit Message ( "No result to be written." );
+					return false;
 			}
 
-//			out << "id x(estimation) y(estimation) z(estimation) "
-//					"x'(estimation) y'(estimation) z'(estimation) "
-//					"x(marker) y(marker) z(marker) "
-//					"x'(marker) y'(marker) z'(marker) "
-//					"position_error(estimation) "
-//					"position_error(marker) "
-//					"d_estimation_d_marker "
-//					"angle_estimation "
-//					"angle_marker" << std::endl;
+			QString data_folder_path = data_dir_.absolutePath ( );
+			QDir    dir ( data_folder_path + "/Result" );
+			if ( !dir.exists ( ) ) dir.mkdir ( data_folder_path + "/Result" );
 
-//			std::cout << "all_markers_points_pairs_.size() : " << all_markers_points_pairs_.size ( ) << std::endl;
-//
-//			// estimation pair
-//			glm::mat4 accumulated_matrix1_e;
-//			glm::mat4 accumulated_matrix2_e;
-//
-//			// marker apir
-//			glm::mat4 accumulated_matrix1_m;
-//			glm::mat4 accumulated_matrix2_m;
-			out << "CAUTION: The look at point has been translated to the origin." << std::endl;
-			out << "Position X (estimation),Position Y (estimation),Position Z (estimation),"
-					"Position X (marker),Position Y (marker),Position Z (marker),"
-					"Translation Error,"
-					"LookatPoint X (estimation),LookatPoint Y (estimation),LookatPoint Z (estimation),"
-					"LookatPoint X (marker),LookatPoint Y (marker),LookatPoint Z (marker),"
-					"Rotation Error" << std::endl;
+			std::string   result_file_name = QString (
+					data_folder_path + "/Result/" + result_name_prefix + ".txt" ).toStdString ( );
+			std::ofstream out ( result_file_name );
 
-			auto position_estimation     = glm::vec3 ( );
-			auto position_marker         = glm::vec3 ( );
-			auto lookat_point_estimation = glm::vec3 ( 0.0f , 0.0f , 1.0f );
-			auto lookat_point_marker     = glm::vec3 ( 0.0f , 0.0f , 1.0f );
+			if ( out ) {
 
-			auto accumulated_matrix_estimation = glm::mat4 ( );
-			auto accumulated_matrix_marker     = glm::mat4 ( );
+				out << "Current tracker type : " << static_cast<int>(options_.type_) << std::endl;
 
-			for ( const auto & keyframe : keyframes_ ) {
+				switch ( options_.type_ ) {
 
-				accumulated_matrix_estimation *= keyframe.GetAlignmentMatrix ( );
-				accumulated_matrix_marker *= keyframe.GetAnswerAlignmentMatrix ( );
+					case TrackingType::OneByOne: {
+						out << options_.options_one_by_one.Output ( ).toStdString ( ) << std::endl;
+						break;
+					}
+					case TrackingType::PcaKeyFrame: {
+						out << options_.options_pca_keyframe.Output ( ).toStdString ( ) << std::endl;
+						break;
+					}
+					case TrackingType::FixedFrameCount : {
+						out << options_.options_fixed_frame_count.Output ( ).toStdString ( ) << std::endl;
+						break;
+					}
+					default:
+						break;
+				}
 
-				const auto _position_estimation = accumulated_matrix_estimation * glm::vec4 ( position_estimation , 1.0f );
-				const auto _position_marker     = accumulated_matrix_marker * glm::vec4 ( position_marker , 1.0f );
+				out << "CAUTION: The look at point has been translated to the origin." << std::endl;
+				out << "Position X (estimation),Position Y (estimation),Position Z (estimation),"
+						"Position X (marker),Position Y (marker),Position Z (marker),"
+						"Translation Error,"
+						"LookatPoint X (estimation),LookatPoint Y (estimation),LookatPoint Z (estimation),"
+						"LookatPoint X (marker),LookatPoint Y (marker),LookatPoint Z (marker),"
+						"Rotation Error" << std::endl;
 
-				const auto _lookat_point_estimation =
-						           accumulated_matrix_estimation * glm::vec4 ( lookat_point_estimation , 1.0f );
-				const auto _lookat_point_marker     = accumulated_matrix_marker * glm::vec4 ( lookat_point_marker , 1.0f );
+				auto position_estimation     = glm::vec3 ( );
+				auto position_marker         = glm::vec3 ( );
+				auto lookat_point_estimation = glm::vec3 ( 0.0f , 0.0f , 1.0f );
+				auto lookat_point_marker     = glm::vec3 ( 0.0f , 0.0f , 1.0f );
 
-				const auto __lookat_point_estimation = _lookat_point_estimation - _position_estimation;
-				const auto __lookat_point_marker     = _lookat_point_marker - _position_marker;
+				auto accumulated_matrix_estimation = glm::mat4 ( );
+				auto accumulated_matrix_marker     = glm::mat4 ( );
 
-				out << _position_estimation.x << "," << _position_estimation.y << "," << _position_estimation.z << ",";
-				out << _position_marker.x << "," << _position_marker.y << "," << _position_marker.z << ",";
+				for ( const auto & keyframe : * keyframes ) {
 
-				if ( keyframe.IsUsed ( ) ) out << glm::length ( _position_estimation - _position_marker ) << ",";
-				else out << 0 << ",";
+					accumulated_matrix_estimation *= keyframe.GetAlignmentMatrix ( );
+					accumulated_matrix_marker *= keyframe.GetAnswerAlignmentMatrix ( );
 
-				out << __lookat_point_estimation.x << "," << __lookat_point_estimation.y << "," <<
-				__lookat_point_estimation.z << ",";
-				out << __lookat_point_marker.x << "," << __lookat_point_marker.y << "," << __lookat_point_marker.z <<
-				",";
+					const auto _position_estimation = accumulated_matrix_estimation * glm::vec4 ( position_estimation , 1.0f );
+					const auto _position_marker     = accumulated_matrix_marker * glm::vec4 ( position_marker , 1.0f );
 
-				if ( keyframe.IsUsed ( ) ) out << glm::angle ( __lookat_point_estimation , __lookat_point_marker ) << std::endl;
-				else out << 0 << std::endl;
+					const auto _lookat_point_estimation =
+							           accumulated_matrix_estimation * glm::vec4 ( lookat_point_estimation , 1.0f );
+					const auto _lookat_point_marker     = accumulated_matrix_marker * glm::vec4 ( lookat_point_marker , 1.0f );
 
+					const auto __lookat_point_estimation = _lookat_point_estimation - _position_estimation;
+					const auto __lookat_point_marker     = _lookat_point_marker - _position_marker;
+
+					out << _position_estimation.x << "," << _position_estimation.y << "," << _position_estimation.z << ",";
+					out << _position_marker.x << "," << _position_marker.y << "," << _position_marker.z << ",";
+
+					if ( keyframe.IsUsed ( ) ) out << glm::length ( _position_estimation - _position_marker ) << ",";
+					else out << 0 << ",";
+
+					out << __lookat_point_estimation.x << "," << __lookat_point_estimation.y << "," <<
+					__lookat_point_estimation.z << ",";
+					out << __lookat_point_marker.x << "," << __lookat_point_marker.y << "," << __lookat_point_marker.z <<
+					",";
+
+					if ( keyframe.IsUsed ( ) ) out << glm::angle ( __lookat_point_estimation , __lookat_point_marker ) << std::endl;
+					else out << 0 << std::endl;
+
+				}
+
+				out.close ( );
+				return true;
 			}
 
-//			for ( auto id = 0 ; id < all_markers_points_pairs_.size ( ) ; ++id ) {
-//
-//				auto & markers_points_pair = all_markers_points_pairs_[ id ];
-//				auto & points1             = markers_points_pair.first;
-//				auto & points2             = markers_points_pair.second;
-//
-//				std::cout << id << " : points1.size() : " << points1.size ( ) << std::endl;
-//
-//				accumulated_matrix1_e *= keyframes_[ id ].GetAlignmentMatrix ( );               // estimation
-//				accumulated_matrix2_e *= keyframes_[ id + 1 ].GetAlignmentMatrix ( );           // estimation
-//
-//				accumulated_matrix1_m *= keyframes_[ id ].GetAnswerAlignmentMatrix ( );         // marker
-//				accumulated_matrix2_m *= keyframes_[ id + 1 ].GetAnswerAlignmentMatrix ( );     // marker
-//
-//				for ( auto i = 0 ; i < points1.size ( ) ; ++i ) {
-//
-//					const auto & point1 = points1[ i ];
-//					const auto & point2 = points2[ i ];
-//
-//					const auto glm_point1 = glm::vec4 ( point1.x , point1.y , point1.z , 1.0f );
-//					const auto glm_point2 = glm::vec4 ( point2.x , point2.y , point2.z , 1.0f );
-//
-//					// estimation pair
-//					const auto glm_point1_e_vec3 = glm::vec3 ( accumulated_matrix1_e * glm_point1 );
-//					const auto glm_point2_e_vec3 = glm::vec3 ( accumulated_matrix2_e * glm_point2 );
-//
-//					// marker pair
-//					const auto glm_point1_m_vec3 = glm::vec3 ( accumulated_matrix1_m * glm_point1 );
-//					const auto glm_point2_m_vec3 = glm::vec3 ( accumulated_matrix2_m * glm_point2 );
-//
-//					const auto angle_estimation = glm::angle ( glm_point1_e_vec3 , glm_point2_e_vec3 );
-//					const auto angle_marker     = glm::angle ( glm_point1_m_vec3 , glm_point2_m_vec3 );
-//
-//					out << id << " ";
-//
-//					// estimation pair
-//					out << glm_point1_e_vec3.x << " " << glm_point1_e_vec3.y << " " << glm_point1_e_vec3.z << " ";
-//					out << glm_point2_e_vec3.x << " " << glm_point2_e_vec3.y << " " << glm_point2_e_vec3.z << " ";
-//
-//					// marker pair
-//					out << glm_point1_m_vec3.x << " " << glm_point1_m_vec3.y << " " << glm_point1_m_vec3.z << " ";
-//					out << glm_point2_m_vec3.x << " " << glm_point2_m_vec3.y << " " << glm_point2_m_vec3.z << " ";
-//
-//					out << angle_estimation << " ";
-//					out << angle_marker << std::endl;
-//				}
-//			}
-
-			out.close ( );
-			return true;
 		}
-
 		return false;
-
 	}
 
 	bool SlamComputer::CheckPreviousResult ( ) {

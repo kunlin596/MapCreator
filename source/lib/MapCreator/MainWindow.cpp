@@ -80,11 +80,12 @@ namespace NiS {
 
 		// Marker Image Viewer
 		marker_viewer_dialog_ = new MarkerViewerDialog ( this );
-		connect ( marker_viewer_dialog_ , SIGNAL ( SendEstimationPointPair ( PointPair ) ) , ui_.BasicViewer , SLOT ( SetEstimationPointPair ( PointPair ) ) );
-		connect ( marker_viewer_dialog_ , SIGNAL ( SendMarkerPointPair ( PointPair ) ) , ui_.BasicViewer , SLOT ( SetMarkerPointPair ( PointPair ) ) );
+		connect ( marker_viewer_dialog_ , SIGNAL ( SendEstimationPointPair ( PointPair ) ) , ui_.BasicViewer ,
+		          SLOT ( SetEstimationPointPair ( PointPair ) ) );
+		connect ( marker_viewer_dialog_ , SIGNAL ( SendMarkerPointPair ( PointPair ) ) , ui_.BasicViewer ,
+		          SLOT ( SetMarkerPointPair ( PointPair ) ) );
 
 		connect ( ui_.actionIShowMarkerViewer , SIGNAL ( triggered ( ) ) , this , SLOT ( onActionShowMarkerViewer ( ) ) );
-
 
 	}
 
@@ -92,21 +93,12 @@ namespace NiS {
 
 		auto dialog_singal_ptr1 = static_cast<void ( CloudPlayControlDialog::* ) ( int )> (& CloudPlayControlDialog::SetBeginFrame);
 		auto dialog_signal_ptr2 = static_cast<void ( CloudPlayControlDialog::* ) ( int )> (& CloudPlayControlDialog::SetEndFrame);
-		auto dialog_signal_ptr3 = static_cast<void ( CloudPlayControlDialog::* ) ( void )> (& CloudPlayControlDialog::StartPlay);
-		auto dialog_signal_ptr4 = static_cast<void ( CloudPlayControlDialog::* ) ( void )> (& CloudPlayControlDialog::PausePlay);
 
 		auto viewer_slot_ptr1 = static_cast<void ( BasicViewer::* ) ( int )> ( & BasicViewer::SetBeginFrame );
 		auto viewer_slot_ptr2 = static_cast<void ( BasicViewer::* ) ( int )> ( & BasicViewer::SetEndFrame );
-		auto main_slot_ptr1   = static_cast<void ( MainWindow::* ) ( void )>( & MainWindow::onPlayButtonClicked );
-		auto main_slot_ptr2   = static_cast<void ( MainWindow::* ) ( void )>( & MainWindow::onPauseButtonClicked );
 
 		connect ( cloud_play_control_dialog_ , dialog_singal_ptr1 , ui_.BasicViewer , viewer_slot_ptr1 );
 		connect ( cloud_play_control_dialog_ , dialog_signal_ptr2 , ui_.BasicViewer , viewer_slot_ptr2 );
-		connect ( cloud_play_control_dialog_ , dialog_signal_ptr3 , this , main_slot_ptr1 );
-		connect ( cloud_play_control_dialog_ , dialog_signal_ptr4 , this , main_slot_ptr2 );
-
-		connect ( play_timer_ , SIGNAL ( timeout ( ) ) , this , SLOT ( onRewindCloud ( ) ) );
-
 	}
 
 	void MainWindow::ConnectControlPanelDialog ( ) {
@@ -445,7 +437,7 @@ namespace NiS {
 
 	void MainWindow::onActionOutputResult ( ) {
 
-		if ( keyframes_.empty ( ) ) {
+		if ( keyframes_ptr_->empty ( ) ) {
 
 			QMessageBox::information ( this , "Warning" , "No computation results found." , QMessageBox::Ok );
 
@@ -454,20 +446,19 @@ namespace NiS {
 		else {
 
 			computer_->WriteResult ( );
+			QMessageBox::information ( this , "Succeeded" , "Reuslt cache file has been written to \n\"./Caches\"." );
 
-			marker_viewer_dialog_->SetKeyFrames ( keyframes_ );
-			int result = marker_viewer_dialog_->exec ( );
+			// marker_viewer_dialog_->SetKeyFrames ( keyframes_ );
+			// int result = marker_viewer_dialog_->exec ( );
 
-			if ( result == QDialog::Accepted ) {
-
-				std::pair < glm::vec3 , glm::vec3 > marker_points_pair = marker_viewer_dialog_->GetPointPair ( );
-
-				WriteResult ( marker_points_pair );
-				QMessageBox::information ( this , "Succeeded" , "Reuslt file has been written to \nDATA_DIR/Results." );
-			}
-			else {
-				QMessageBox::information ( this , "Warning" , "You need to selected 2 marker points." , QMessageBox::Ok );
-			}
+//			if ( result == QDialog::Accepted ) {
+//
+//				// std::pair < glm::vec3 , glm::vec3 > marker_points_pair = marker_viewer_dialog_->GetPointPair ( );
+//				// WriteResult ( marker_points_pair );
+//			}
+//			else {
+//				QMessageBox::information ( this , "Warning" , "You need to selected 2 marker points." , QMessageBox::Ok );
+//			}
 		}
 
 	}
@@ -498,49 +489,4 @@ namespace NiS {
 
 		dialog.exec ( );
 	}
-
-	void MainWindow::onBeginFrameIsBiggerThanEndFrame ( int val ) {
-
-		if ( val > ui_.SpinBox_EndFrame->value ( ) ) {
-			ui_.SpinBox_EndFrame->setValue ( val );
-		}
-	}
-
-	void MainWindow::onEndFrameIsSmallerThanBeginFrame ( int val ) {
-
-		if ( val < ui_.SpinBox_BeginFrame->value ( ) ) {
-			ui_.SpinBox_BeginFrame->setValue ( val );
-		}
-	}
-
-	void MainWindow::onPlayButtonClicked ( ) {
-
-		play_timer_->start ( 33 );
-
-	}
-
-	void MainWindow::onPauseButtonClicked ( ) {
-
-		play_timer_->stop ( );
-
-	}
-
-	void MainWindow::onRewindCloud ( ) {
-
-		const auto begin_frame = ui_.SpinBox_BeginFrame->value ( );
-		const auto end_frame   = ui_.SpinBox_EndFrame->value ( );
-
-		static bool backwards = true;
-
-		if ( not backwards and end_frame != keyframes_.size ( ) - 1 ) {
-			ui_.SpinBox_EndFrame->setValue ( end_frame + 1 );
-		} else if ( not backwards and end_frame == keyframes_.size ( ) - 1 ) {
-			backwards = true;
-		} else if ( backwards and ui_.SpinBox_EndFrame->value ( ) != begin_frame ) {
-			ui_.SpinBox_EndFrame->setValue ( end_frame - 1 );
-		} else if ( backwards and ui_.SpinBox_EndFrame->value ( ) == begin_frame ) {
-			backwards = false;
-		}
-	}
-
 }

@@ -65,16 +65,11 @@ namespace NiS {
 		void onActionShowMarkerViewer ( );
 		void onActionOutputResult ( );
 		void onActionGenerateAnswer ( );
-		void onBeginFrameIsBiggerThanEndFrame ( int );
-		void onEndFrameIsSmallerThanBeginFrame ( int );
 
 		void OnReadingFinished ( );
 		void OnConversionFinished ( );
 		void OnSlamComputationCompleted ( );
 
-		void onPlayButtonClicked ( );
-		void onPauseButtonClicked ( );
-		void onRewindCloud ( );
 
 		void PrepareComputation ( );
 

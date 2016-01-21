@@ -123,7 +123,6 @@ namespace NiS {
 			iterator2_ = iterator1_;
 			offset_    = keyframes->size ( ) / ( options_.options_fixed_frame_count.frame_count - 1 ) + 1;
 		}
-
 	}
 	template < > void Tracker < TrackingType::PcaKeyFrame >::Initialize ( ) {
 

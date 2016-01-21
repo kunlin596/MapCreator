@@ -53,13 +53,12 @@ namespace NiS {
 			connect ( ui_->PushButton_ResetCamera , SIGNAL ( pressed ( ) ) , SIGNAL( ResetCamera ( ) ) );
 			connect ( ui_->PushButton_ResetModel , SIGNAL ( pressed ( ) ) , SIGNAL( ResetModel ( ) ) );
 			connect ( ui_->HorizontalSlider_PointCloudDensity , SIGNAL( valueChanged ( int ) ) , SIGNAL( ChangePointCloudDensity ( int ) ) );
-			connect ( ui_->CheckBox_ViewDirection_Top , SIGNAL( stateChanged ( int ) ) , SIGNAL( ChangePointCloudDensity ( int ) ) );
+			connect ( ui_->CheckBox_ViewDirection_Top , SIGNAL( stateChanged ( int ) ) , SIGNAL( SetTopView ( int ) ) );
 			connect ( ui_->CheckBox_SpinModel , SIGNAL( stateChanged ( int ) ) , SIGNAL( SetSpinModel ( int ) ) );
 			connect ( ui_->CheckBox_ShowPointCloud , SIGNAL( stateChanged ( int ) ) , SIGNAL( SetShowPointCloud ( int ) ) );
 			connect ( ui_->CheckBox_ShowTrajectory , SIGNAL( stateChanged ( int ) ) , SIGNAL( SetShowTrajectory ( int ) ) );
 			connect ( ui_->CheckBox_ShowAnswer , SIGNAL( stateChanged ( int ) ) , SIGNAL( SetShowAnswer ( int ) ) );
 			connect ( ui_->CheckBox_ShowGrid , SIGNAL( stateChanged ( int ) ) , SIGNAL( SetShowGrid ( int ) ) );
-
 		}
 
 		int GetDensityValue ( ) const { return ui_->HorizontalSlider_PointCloudDensity->value ( ); }

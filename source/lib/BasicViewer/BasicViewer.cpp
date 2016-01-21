@@ -341,7 +341,7 @@ namespace NiS {
 
 			for ( auto & frame : * keyframes_gl_ ) {
 				frame.SetPointDensityStep ( density_step_ );
-				frame.SetupData ( );
+				if ( frame.IsUsed ( ) ) frame.SetupData ( );
 			}
 
 			if ( not keyframes_gl_->empty ( ) ) {
@@ -369,7 +369,6 @@ namespace NiS {
 		static glm::mat4 last_model_rotation_matrix;
 		static glm::mat4 last_model_translation_matrix;
 
-
 		if ( option == Qt::CheckState::Checked ) {
 
 			last_model_rotation_matrix    = model_rotation_matrix_;
@@ -388,10 +387,9 @@ namespace NiS {
 
 			camera_.UpdateCameraPosition ( old_camera_position );
 			camera_.UpdateCameraLookAt ( old_camera_lookat );
-			old_camera_position = camera_.GetPosition ( );
-			old_camera_lookat   = camera_.GetLookAt ( );
-			top_view_           = false;
-
+//			old_camera_position = camera_.GetPosition ( );
+//			old_camera_lookat   = camera_.GetLookAt ( );
+			top_view_ = false;
 		}
 		emit repaint ( );
 	}
@@ -451,7 +449,7 @@ namespace NiS {
 
 			KeyFrameGL keyframe_gl ( GL , keyframe , density_step_ );
 			keyframe_gl.SetShaderProgram ( shader_program_ );
-			keyframe_gl.SetupData ( );
+			if ( keyframe.IsUsed ( ) ) keyframe_gl.SetupData ( );
 			keyframes_gl_->push_back ( keyframe_gl );
 		}
 
