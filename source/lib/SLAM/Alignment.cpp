@@ -384,10 +384,11 @@ namespace NiS {
 
 				auto q = CreateQuaternion ( r );
 
-				auto degree = acos ( q ( 0 ) ) * 2;
-				auto x      = q ( 1 ) / sin ( 0.5 * degree );
-				auto y      = q ( 2 ) / sin ( 0.5 * degree );
-				auto z      = q ( 3 ) / sin ( 0.5 * degree );
+				auto radian = acos ( q ( 0 ) ) * 2;
+				auto degree = radian * 180.0f / M_PI;
+				auto x      = q ( 1 ) / sin ( 0.5 * radian );
+				auto y      = q ( 2 ) / sin ( 0.5 * radian );
+				auto z      = q ( 3 ) / sin ( 0.5 * radian );
 
 				cout << "Rotation by Quaternion (t; x y z) :" << q ( 0 ) << " " << q ( 1 ) << " " << q ( 2 ) << " " << q ( 3 ) << endl;
 				cout << "Translation Vector : " << t ( 0 ) << " " << t ( 1 ) << " " << t ( 2 ) << endl;

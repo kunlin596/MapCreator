@@ -19,9 +19,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="26c6f326-4e90-4b7f-8507-02339ac4f915" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/SLAM/Alignment.h" afterPath="$PROJECT_DIR$/include/SLAM/Alignment.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/include/SLAM/KeyFrame.h" afterPath="$PROJECT_DIR$/include/SLAM/KeyFrame.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/Core/MyMath.cpp" afterPath="$PROJECT_DIR$/lib/Core/MyMath.cpp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/SLAM/Alignment.cpp" afterPath="$PROJECT_DIR$/lib/SLAM/Alignment.cpp" />
     </list>
     <ignored path="source.iws" />
@@ -63,14 +60,14 @@
       <file leaf-file-name="Alignment.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/lib/SLAM/Alignment.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.4448052">
-              <caret line="388" column="61" selection-start-line="388" selection-start-column="61" selection-end-line="388" selection-end-column="61" />
+            <state vertical-scroll-proportion="0.51785713">
+              <caret line="391" column="0" selection-start-line="391" selection-start-column="0" selection-end-line="391" selection-end-column="0" />
               <folding>
                 <element signature="e#40#67#0" expanded="true" />
                 <element signature="e#2732#4283#0" expanded="false" />
                 <element signature="e#4286#6149#0" expanded="false" />
-                <element signature="e#13551#13975#0" expanded="false" />
-                <element signature="e#13978#15221#0" expanded="false" />
+                <element signature="e#13593#14017#0" expanded="false" />
+                <element signature="e#14020#15263#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -586,7 +583,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23500353" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" x="654" y="128" width="619" height="593" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32725528" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -596,7 +593,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.34096387" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3246295" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22048193" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22048193" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3759036" sideWeight="0.49752998" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -718,13 +715,6 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/lib/BasicViewer/KeyFrameGL.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5137157">
-          <caret line="64" column="36" selection-start-line="64" selection-start-column="36" selection-end-line="64" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/lib/MapCreator/MarkerViewerDialog.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.61977184">
@@ -1108,16 +1098,24 @@
         </state>
       </provider>
     </entry>
+    <entry file="file:///Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/cmath">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.2840909">
+          <caret line="676" column="0" selection-start-line="676" selection-start-column="0" selection-end-line="676" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/lib/SLAM/Alignment.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4448052">
-          <caret line="388" column="61" selection-start-line="388" selection-start-column="61" selection-end-line="388" selection-end-column="61" />
+        <state vertical-scroll-proportion="0.51785713">
+          <caret line="391" column="0" selection-start-line="391" selection-start-column="0" selection-end-line="391" selection-end-column="0" />
           <folding>
             <element signature="e#40#67#0" expanded="true" />
             <element signature="e#2732#4283#0" expanded="false" />
             <element signature="e#4286#6149#0" expanded="false" />
-            <element signature="e#13551#13975#0" expanded="false" />
-            <element signature="e#13978#15221#0" expanded="false" />
+            <element signature="e#13593#14017#0" expanded="false" />
+            <element signature="e#14020#15263#0" expanded="false" />
           </folding>
         </state>
       </provider>
