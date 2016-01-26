@@ -30,9 +30,25 @@ namespace NiS {
 
 			CreateFeature ( );
 		}
-		
+
 		KeyFrame ( ) = default;
 		~KeyFrame ( ) = default;
+
+		KeyFrame Clone ( ) const {
+
+			KeyFrame new_keyframe;
+			new_keyframe.id_                      = id_;
+			new_keyframe.is_used_                 = is_used_;
+			new_keyframe.marker_alignment_matrix_ = marker_alignment_matrix_;
+			new_keyframe.alignment_matrix_        = alignment_matrix_;
+			new_keyframe.name_                    = name_;
+			new_keyframe.feature_                 = feature_;
+			new_keyframe.type_                    = type_;
+			new_keyframe.point_image_             = point_image_.clone ( );
+			new_keyframe.color_image_             = color_image_.clone ( );
+
+			return new_keyframe;
+		}
 
 		// Setters
 		void SetId ( const int & id ) { id_ = id; }

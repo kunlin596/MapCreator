@@ -51,6 +51,8 @@ namespace NiS {
 
 		void SetRunningFLag ( bool running_flag ) { running_flag_ = running_flag; }
 
+		glm::mat4 ComputeTransformationMatrixOf ( const KeyFrame & from , const KeyFrame & to );
+
 		Options GetOptions ( ) const { return options_; }
 
 	public slots:

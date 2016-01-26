@@ -1,6 +1,7 @@
 //
 // Created by LinKun on 9/13/15.
 //
+
 #include "SLAM/Alignment.h"
 #include "SLAM/Calibrator.h"
 #include "SLAM/Transformation.h"
@@ -105,6 +106,7 @@ namespace NiS {
 					               .arg ( ConvertTime ( timer.elapsed ( ) ) ) );
 
 			WriteCache ( timer.elapsed ( ) );
+			WriteResult ( );
 		}
 	}
 
@@ -294,36 +296,110 @@ namespace NiS {
 				auto accumulated_matrix_estimation = glm::mat4 ( );
 				auto accumulated_matrix_marker     = glm::mat4 ( );
 
+//				for ( const auto & keyframe : * keyframes ) {
+//
+//					accumulated_matrix_estimation *= keyframe.GetAlignmentMatrix ( );
+//					accumulated_matrix_marker *= keyframe.GetAnswerAlignmentMatrix ( );
+//
+//					const auto _position_estimation = accumulated_matrix_estimation * glm::vec4 ( position_estimation , 1.0f );
+//					const auto _position_marker     = accumulated_matrix_marker * glm::vec4 ( position_marker , 1.0f );
+//
+//					const auto _lookat_point_estimation =
+//							           accumulated_matrix_estimation * glm::vec4 ( lookat_point_estimation , 1.0f );
+//					const auto _lookat_point_marker     = accumulated_matrix_marker * glm::vec4 ( lookat_point_marker , 1.0f );
+//
+//					const auto __lookat_point_estimation = _lookat_point_estimation - _position_estimation;
+//					const auto __lookat_point_marker     = _lookat_point_marker - _position_marker;
+//
+//					out << _position_estimation.x << "," << _position_estimation.y << "," << _position_estimation.z << ",";
+//					out << _position_marker.x << "," << _position_marker.y << "," << _position_marker.z << ",";
+//
+//					if ( keyframe.IsUsed ( ) ) out << glm::length ( _position_estimation - _position_marker ) << ",";
+//					else out << 0 << ",";
+//
+//					out << __lookat_point_estimation.x << "," << __lookat_point_estimation.y << "," <<
+//					__lookat_point_estimation.z << ",";
+//					out << __lookat_point_marker.x << "," << __lookat_point_marker.y << "," << __lookat_point_marker.z <<
+//					",";
+//
+//					if ( keyframe.IsUsed ( ) ) out << glm::angle ( __lookat_point_estimation , __lookat_point_marker ) << std::endl;
+//					else out << 0 << std::endl;
+//
+//				}
+
+
+				// Last -> first
 				for ( const auto & keyframe : * keyframes ) {
-
 					accumulated_matrix_estimation *= keyframe.GetAlignmentMatrix ( );
-					accumulated_matrix_marker *= keyframe.GetAnswerAlignmentMatrix ( );
-
-					const auto _position_estimation = accumulated_matrix_estimation * glm::vec4 ( position_estimation , 1.0f );
-					const auto _position_marker     = accumulated_matrix_marker * glm::vec4 ( position_marker , 1.0f );
-
-					const auto _lookat_point_estimation =
-							           accumulated_matrix_estimation * glm::vec4 ( lookat_point_estimation , 1.0f );
-					const auto _lookat_point_marker     = accumulated_matrix_marker * glm::vec4 ( lookat_point_marker , 1.0f );
-
-					const auto __lookat_point_estimation = _lookat_point_estimation - _position_estimation;
-					const auto __lookat_point_marker     = _lookat_point_marker - _position_marker;
-
-					out << _position_estimation.x << "," << _position_estimation.y << "," << _position_estimation.z << ",";
-					out << _position_marker.x << "," << _position_marker.y << "," << _position_marker.z << ",";
-
-					if ( keyframe.IsUsed ( ) ) out << glm::length ( _position_estimation - _position_marker ) << ",";
-					else out << 0 << ",";
-
-					out << __lookat_point_estimation.x << "," << __lookat_point_estimation.y << "," <<
-					__lookat_point_estimation.z << ",";
-					out << __lookat_point_marker.x << "," << __lookat_point_marker.y << "," << __lookat_point_marker.z <<
-					",";
-
-					if ( keyframe.IsUsed ( ) ) out << glm::angle ( __lookat_point_estimation , __lookat_point_marker ) << std::endl;
-					else out << 0 << std::endl;
-
 				}
+
+				auto last_frame_1 = ( keyframes->end ( ) - 1 )->Clone ( );
+				auto last_frame_2 = ( keyframes->end ( ) - 1 )->Clone ( );
+
+				// Apply estimated matrix to last frame
+				auto point_image2 = last_frame_2.GetPointImage ( );
+
+				for ( auto row = 0 ; row < point_image2.rows ; ++row ) {
+					for ( auto col = 0 ; col < point_image2.cols ; ++col ) {
+
+						auto point = point_image2.at < cv::Vec3f > ( row , col );
+
+						auto transformed_point = accumulated_matrix_estimation * glm::vec4 ( point ( 0 ) , point ( 1 ) , point ( 2 ) , 1.0f );
+
+						point_image2.at < cv::Vec3f > ( row , col ) = cv::Vec3f ( transformed_point.x , transformed_point.y , transformed_point.z );
+					}
+				}
+				last_frame_2.SetPointImage ( point_image2 );
+
+				// Apply real matrix to last frame
+
+				auto answer_matrix_of_last_frame = ComputeTransformationMatrixOf ( last_frame_1 , ( * keyframes )[ 0 ] );
+
+				auto point_image1 = last_frame_1.GetPointImage ( );
+
+				for ( auto row = 0 ; row < point_image1.rows ; ++row ) {
+					for ( auto col = 0 ; col < point_image1.cols ; ++col ) {
+
+						auto point = point_image1.at < cv::Vec3f > ( row , col );
+
+						auto transformed_point = answer_matrix_of_last_frame * glm::vec4 ( point ( 0 ) , point ( 1 ) , point ( 2 ) , 1.0f );
+
+						point_image1.at < cv::Vec3f > ( row , col ) = cv::Vec3f ( transformed_point.x , transformed_point.y , transformed_point.z );
+					}
+				}
+				last_frame_1.SetPointImage ( point_image1 );
+
+				// Compute the error
+
+				auto error_matrix = ComputeTransformationMatrixOf ( last_frame_2 , last_frame_1 );
+
+				auto m = Convert_GLM_mat4_To_OpenCV_Matx44f ( error_matrix );
+
+				cv::Matx33f r = cv::Mat ( m ) ( cv::Rect ( 0 , 0 , 3 , 3 ) );
+				cv::Vec3f   t = cv::Mat ( m , false ) ( cv::Rect ( 0 , 3 , 3 , 1 ) );
+
+				cout << "m : " << m << endl;
+				cout << r << endl;
+				cout << t << endl;
+
+				auto q = CreateQuaternion ( r );
+
+				auto degree = acos ( q ( 0 ) ) * 2;
+				auto x      = q ( 1 ) / sin ( 0.5 * degree );
+				auto y      = q ( 2 ) / sin ( 0.5 * degree );
+				auto z      = q ( 3 ) / sin ( 0.5 * degree );
+
+				cout << "Rotation by Quaternion (t; x y z) :" << q ( 0 ) << " " << q ( 1 ) << " " << q ( 2 ) << " " << q ( 3 ) << endl;
+				cout << "Translation Vector : " << t ( 0 ) << " " << t ( 1 ) << " " << t ( 2 ) << endl;
+				cout << "Distance           : " << glm::length ( glm::vec3 ( t ( 0 ) , t ( 1 ) , t ( 2 ) ) ) << endl;
+				cout << "Rotation Axis      : " << x << ", " << y << ", " << z << endl;
+				cout << "Rotation Degree    : " << degree << endl;
+
+				out << "Rotation by Quaternion (t; x y z) :" << q ( 0 ) << " " << q ( 1 ) << " " << q ( 2 ) << " " << q ( 3 ) << endl;
+				out << "Translation Vector : " << t ( 0 ) << " " << t ( 1 ) << " " << t ( 2 ) << endl;
+				out << "Distance           : " << glm::length ( glm::vec3 ( t ( 0 ) , t ( 1 ) , t ( 2 ) ) ) << endl;
+				out << "Rotation Axis      : " << x << ", " << y << ", " << z << endl;
+				out << "Rotation Degree    : " << degree << endl;
 
 				out.close ( );
 				return true;
@@ -439,6 +515,40 @@ namespace NiS {
 		}
 
 		return false;
+	}
+
+
+	glm::mat4 SlamComputer::ComputeTransformationMatrixOf ( const KeyFrame & from , const KeyFrame & to ) {
+
+		auto keyframes = std::shared_ptr < KeyFrames > ( new KeyFrames ( 2 ) );
+
+		( * keyframes )[ 0 ] = to.Clone ( );
+		( * keyframes )[ 1 ] = from.Clone ( );
+
+		OneByOneTracker tracker;
+		tracker.SetKeyframes ( keyframes );
+		tracker.SetOptions ( options_ );
+
+		tracker.Initialize ( );
+
+		switch ( converter_choice_ ) {
+			case 0:
+				tracker.SetConverter ( xtion_converter_ );
+				break;
+			case 1:
+				tracker.SetConverter ( aist_converter_ );
+				break;
+			default:
+				return glm::mat4 ( );
+		}
+
+
+		do {
+			tracker.ComputeNext ( );
+		}
+		while ( tracker.Update ( ) );
+
+		return ( * keyframes )[ 1 ].GetAlignmentMatrix ( );
 	}
 
 }
