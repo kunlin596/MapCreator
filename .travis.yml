@@ -4,17 +4,17 @@ language: cpp
 
 compiler:
   - clang
-  - gcc
+  # - gcc TODO: only test clang for now
 
 before_script:
   # install glm
   - git clone https://github.com/g-truc/glm.git
-  - cd glm && mkdir build && cd build && cmake .. && make install
+  - cd glm && mkdir build && cd build && cmake .. && sudo make install
   - cd ../..
   
   # install opencv
   - git clone https://github.com/opencv/opencv.git
-  - cd opencv && mkdir build && cd build && cmake -DOPENCV_ENABLE_NONFREE .. && make install
+  - cd opencv && mkdir build && cd build && cmake -DOPENCV_ENABLE_NONFREE .. && sudo make install
   - cd ../..
 
   # configure project
