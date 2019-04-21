@@ -8,7 +8,7 @@ compiler:
 
 before_script:
   # install glm
-  - git clone ttps://github.com/kunlin596/glm.git
+  - git clone https://github.com/g-truc/glm.git
   - cd glm && mkdir build && cd build && cmake .. && make install
   - cd ../..
   
