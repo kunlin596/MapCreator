@@ -9,12 +9,12 @@ compiler:
 before_script:
   # install glm
   - git clone ttps://github.com/kunlin596/glm.git
-  - cd glm && mkdir build && cmake .. && make install
+  - cd glm && mkdir build && cd build && cmake .. && make install
   - cd ../..
   
   # install opencv
   - git clone https://github.com/opencv/opencv.git
-  - cd opencv && mkdir build && cmake -DOPENCV_ENABLE_NONFREE .. && make install
+  - cd opencv && mkdir build && cd build && cmake -DOPENCV_ENABLE_NONFREE .. && make install
   - cd ../..
 
   # configure project
