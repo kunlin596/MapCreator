@@ -1,26 +1,23 @@
 cmake_minimum_required ( VERSION 2.8 )
+
 project (MapCreator)
 
-set (NIS_VERSION_MAJOR 0)
-set (NIS_VERSION_MINOR 1)
-set (NIS_VERSION_PATCH 0)
-set (NIS_VERSION 0)
+set (MapCreator_VERSION_MAJOR 0)
+set (MapCreator_VERSION_MINOR 1)
+set (MapCreator_VERSION_PATCH 0)
+set (MapCreator_VERSION 0)
 
 set ( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11" )
-#set ( CMAKE_INSTALL_PREFIX "../install" )
-set ( NIS_INCLUDE_DIR "${NiS_SOURCE_DIR}/include" )
-set ( NIS_LIB_DIR "${NiS_SOURCE_DIR}/lib" )
+set ( MapCreator_INSTALL_INCLUDE_DIR "${MapCreator_SOURCE_DIR}/include" )
+set ( MapCreator_LIB_DIR "${MapCreator_SOURCE_DIR}/lib" )
 
-set ( INSTALL_NAME_DIR ${CMAKE_INSTALL_PREFIX}/lib )
+set ( MapCreator_INSTALL_BIN_DIR ${CMAKE_INSTALL_PREFIX}/lib )
 set ( CMAKE_MACOSX_RPATH ${CMAKE_INSTALL_PREFIX}/lib )
 
-include_directories ( ${NIS_INCLUDE_DIR} )
+include_directories ( ${MapCreator_INSTALL_LINCLUDE_DIR} )
 
 set ( CMAKE_INCLUDE_CURRENT_DIR ON )
 set ( CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "/usr/local/Qt5" )
 
-add_subdirectory ( include )
-add_subdirectory ( lib )
-add_subdirectory ( tool )
 add_subdirectory ( src )
 
