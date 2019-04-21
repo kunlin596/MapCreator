@@ -6,7 +6,7 @@
 #define LK_SLAM_FEATURE_H
 
 #include <opencv2/opencv.hpp>
-#include <opencv2/nonfree/nonfree.hpp>
+#include <opencv2/features2d.hpp>
 #include <fstream>
 #include <QDebug>
 #include "Serialize.h"

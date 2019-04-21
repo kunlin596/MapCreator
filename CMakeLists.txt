@@ -14,10 +14,10 @@ set ( MapCreator_LIB_DIR "${MapCreator_SOURCE_DIR}/lib" )
 set ( MapCreator_INSTALL_BIN_DIR ${CMAKE_INSTALL_PREFIX}/lib )
 set ( CMAKE_MACOSX_RPATH ${CMAKE_INSTALL_PREFIX}/lib )
 
-include_directories ( ${MapCreator_INSTALL_LINCLUDE_DIR} )
+include_directories ( ${MapCreator_INSTALL_INCLUDE_DIR} )
 
 set ( CMAKE_INCLUDE_CURRENT_DIR ON )
-set ( CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "/usr/local/Qt5" )
+# set ( CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "/usr/local/Qt5" )
 
 add_subdirectory ( src )
 
