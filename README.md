@@ -1,5 +1,7 @@
 # MapCreator
 
+[![Build Status](https://travis-ci.org/kunlin596/MapCreator.svg?branch=master)](https://travis-ci.org/kunlin596/MapCreator)
+
 This is my personal RGBD-SLAM related experimental toolset.
 
 It can read a saved Xtion frames (with or without calibration infos) and run map creation using them.
