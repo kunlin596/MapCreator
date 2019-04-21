@@ -1,0 +1,11 @@
+sudo: required
+
+language: cpp
+
+compiler:
+  - clang
+  - gcc
+
+# Build steps
+script: 
+  - cmake .. && make -j8
