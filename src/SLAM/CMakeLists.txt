@@ -17,7 +17,6 @@ find_package ( Qt5Widgets REQUIRED )
 find_package ( Qt5OpenGL REQUIRED )
 find_package ( OpenCV REQUIRED )
 find_package ( Boost COMPONENTS system filesystem serialization REQUIRED )
-find_package ( aruco REQUIRED )
 
 qt5_wrap_cpp ( SLAM_MOC_FILES "${NiS_INCLUDE_DIR}/SLAM/Alignment.h" )
 

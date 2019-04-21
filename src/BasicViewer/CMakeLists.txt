@@ -18,7 +18,6 @@ find_package ( OpenCV REQUIRED )
 find_package ( Qt5Widgets REQUIRED )
 find_package ( Qt5Concurrent REQUIRED )
 find_package ( Qt5OpenGL REQUIRED )
-find_package ( aruco REQUIRED )
 
 qt5_wrap_ui ( BasicViewer_UIC_FILES
 	"${NiS_LIB_DIR}/BasicViewer/form/BasicViewer.ui"
