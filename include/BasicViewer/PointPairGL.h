@@ -8,7 +8,7 @@
 #include "BasicViewer/PrimitiveGL.h"
 #include <SLAM/KeyFrame.h>
 
-namespace NiS {
+namespace MapCreator {
 
 	class PointPairGL : public PrimitiveGL
 	{

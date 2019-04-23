@@ -15,7 +15,7 @@
 
 namespace Ui { class ComputationConfigureDialog; }
 
-namespace NiS {
+namespace MapCreator {
 
 	class ComputationConfigureDialog : public QDialog
 	{

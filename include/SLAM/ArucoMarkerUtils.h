@@ -12,7 +12,7 @@
 #include "SLAM/KeyFrame.h"
 #include "SLAM/CommonDefinitions.h"
 
-namespace NiS {
+namespace MapCreator {
 
 	using Markers = std::vector < aruco::Marker >;
 

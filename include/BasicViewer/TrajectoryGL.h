@@ -9,7 +9,7 @@
 
 #include <SLAM/KeyFrame.h>
 
-namespace NiS {
+namespace MapCreator {
 
 	class TrajectoryGL : public PrimitiveGL
 	{

@@ -5,7 +5,7 @@
 #include "BasicViewer/CorrespondingPointsGL.h"
 
 
-namespace NiS {
+namespace MapCreator {
 
 
     CorrespondingPointsGL::CorrespondingPointsGL(QOpenGLFunctions_4_1_Core *GL,

@@ -4,7 +4,7 @@
 
 #include "Core/MyMath.h"
 
-namespace NiS {
+namespace MapCreator {
 
     // クォータニオン作成
     Quaternion CreateQuaternion(const cv::Vec3f &axis, float theta) {
@@ -273,4 +273,4 @@ namespace NiS {
     }
 
 
-}    // NiS
+}    // MapCreator

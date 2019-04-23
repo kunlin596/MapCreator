@@ -7,7 +7,7 @@
 
 #include "PrimitiveGL.h"
 
-namespace NiS {
+namespace MapCreator {
 
     class GridGL : public PrimitiveGL {
     public:

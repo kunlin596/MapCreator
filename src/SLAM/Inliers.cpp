@@ -4,7 +4,7 @@
 
 #include "SLAM/Inliers.h"
 
-namespace NiS {
+namespace MapCreator {
 
     Inliers::Inliers(QOpenGLFunctions_4_1_Core *GL, const Points &points1, const Points &points2) :
             PrimitiveGL(GL) {

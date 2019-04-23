@@ -20,11 +20,11 @@
 #include "MapCreator/MarkerViewerDialog.h"
 #include "MapCreator/UiDialogs.h"
 
-Q_DECLARE_METATYPE ( NiS::KeyFrames )
+Q_DECLARE_METATYPE ( MapCreator::KeyFrames )
 
 namespace Ui { class MainWindow; }
 
-namespace NiS {
+namespace MapCreator {
 
 	class MainWindow : public QMainWindow
 	{

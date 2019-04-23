@@ -7,7 +7,7 @@
 #include <boost/iostreams/filtering_stream.hpp>
 #include <boost/iostreams/filter/gzip.hpp>
 
-namespace NiS {
+namespace MapCreator {
 
     template<>
     void Feature::Detect<cv::SiftFeatureDetector, cv::SiftDescriptorExtractor>(const cv::Mat_<uchar> &image,

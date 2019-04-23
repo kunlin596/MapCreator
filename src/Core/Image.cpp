@@ -4,7 +4,7 @@
 
 #include "Core/Image.h"
 
-namespace NiS {
+namespace MapCreator {
 
     // RGB→BGR（またはその逆）
     cv::Mat_<cv::Vec3b> SwapChannel(const cv::Mat_<cv::Vec3b> &image) {

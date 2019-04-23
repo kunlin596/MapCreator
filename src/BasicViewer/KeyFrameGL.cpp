@@ -6,7 +6,7 @@
 
 #include <limits>
 
-namespace NiS {
+namespace MapCreator {
 
 
 	KeyFrameGL::KeyFrameGL ( QOpenGLFunctions_4_1_Core * GL ,

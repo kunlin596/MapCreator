@@ -18,7 +18,7 @@
 #include<mutex>
 
 
-namespace NiS {
+namespace MapCreator {
 
 	const float ImageHandler2::XtionFrameProperty::kXtionHorizontalFOV = 1.0225999f;
 	const float ImageHandler2::XtionFrameProperty::kXtionVerticalFOV   = 0.79661566f;
@@ -26,14 +26,14 @@ namespace NiS {
 	const float ImageHandler2::XtionFrameProperty::kXtionHeight        = 480;
 
 
-	NiS::RawDataFrame ImageHandler2::ReadFrame ( const QString & file_name ) {
+	MapCreator::RawDataFrame ImageHandler2::ReadFrame ( const QString & file_name ) {
 
 		RawDataFrame frame;
 
 		ifstream in ( file_name.toStdString ( ) , ios::binary );
 		if ( in ) {
 
-			frame = ( NiS::Read < RawDataFrames > ( in ) )[ 0 ];
+			frame = ( MapCreator::Read < RawDataFrames > ( in ) )[ 0 ];
 			frame.name = file_name.toStdString ( );
 			frame.id   = -1;
 		}
@@ -65,7 +65,7 @@ namespace NiS {
 
 			if ( in ) {
 
-				RawDataFrame raw_data_frame = ( NiS::Read < RawDataFrames > ( in ) )[ 0 ];
+				RawDataFrame raw_data_frame = ( MapCreator::Read < RawDataFrames > ( in ) )[ 0 ];
 
 				raw_data_frame.id   = i;
 				raw_data_frame.name = std_path;

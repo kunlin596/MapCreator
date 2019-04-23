@@ -24,7 +24,7 @@
 #include <QTime>
 #include <QWaitCondition>
 
-namespace NiS {
+namespace MapCreator {
 
 	SlamComputer::SlamComputer ( QObject * parent ) :
 			running_flag_ ( true ) ,

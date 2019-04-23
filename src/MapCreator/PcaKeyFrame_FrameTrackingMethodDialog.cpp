@@ -4,7 +4,7 @@
 
 #include "MapCreator/PcaKeyFrame_FrameTrackingMethodDialog.h"
 
-namespace NiS {
+namespace MapCreator {
 
 
 	PcaKeyFrame_FrameTrackingMethodDialog::PcaKeyFrame_FrameTrackingMethodDialog ( QWidget * parent ) {

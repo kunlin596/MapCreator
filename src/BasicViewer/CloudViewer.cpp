@@ -5,7 +5,7 @@
 #include "BasicViewer/CloudViewer.h"
 
 
-namespace NiS {
+namespace MapCreator {
 
     void CloudViewer::initializeGL() {
     }

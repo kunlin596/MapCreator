@@ -16,7 +16,7 @@
 #include "SLAM/CommonDefinitions.h"
 
 
-namespace NiS {
+namespace MapCreator {
 
 	// ２つの点群間の変換行列（point1 → points2）を求める
 	cv::Matx44f ComputeTransformationMatrix (
@@ -45,6 +45,6 @@ namespace NiS {
 	                                                                   const double outlier_threshold ,
 	                                                                   const double inlier_threshold );
 
-}    // NiS
+}    // MapCreator
 
 #endif //LK_SLAM_TRANFORMATION_H

@@ -4,7 +4,7 @@
 
 #include "BasicViewer/EvaluationViewer.h"
 
-namespace NiS {
+namespace MapCreator {
 
     EvaluationViewer::EvaluationViewer(QWidget *parent) {
 

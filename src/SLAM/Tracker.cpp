@@ -11,10 +11,10 @@
 
 #include <boost/tuple/tuple.hpp>
 
-namespace NiS {
+namespace MapCreator {
 
-	CorrespondingPointsPair CreateCorrespondingPointsPair ( const NiS::KeyFrame & key_frame1 ,
-	                                                        const NiS::KeyFrame & key_frame2 ) {
+	CorrespondingPointsPair CreateCorrespondingPointsPair ( const MapCreator::KeyFrame & key_frame1 ,
+	                                                        const MapCreator::KeyFrame & key_frame2 ) {
 
 		std::vector < cv::Point3f > points1;
 		std::vector < cv::Point3f > points2;
@@ -27,7 +27,7 @@ namespace NiS {
 
 		assert ( !key_frame1.GetFeature ( ).GetKeyPoints ( ).empty ( ) );
 
-		const NiS::Matcher matcher ( feature1 , feature2 , true );
+		const MapCreator::Matcher matcher ( feature1 , feature2 , true );
 		const auto & matches = matcher.GetMatches ( );
 
 		assert ( !matches.empty ( ) );

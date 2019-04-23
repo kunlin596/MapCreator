@@ -19,7 +19,7 @@ namespace Ui {
 	class MarkerViewerDialog;
 }
 
-namespace NiS {
+namespace MapCreator {
 
 	class MarkerViewerDialog : public QDialog
 	{

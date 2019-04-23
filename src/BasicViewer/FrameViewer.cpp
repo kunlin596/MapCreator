@@ -17,7 +17,7 @@
 #include <qtimer.h>
 
 
-namespace NiS {
+namespace MapCreator {
 
 	FrameViewer::FrameViewer ( QWidget * parent ) {
 
@@ -80,7 +80,7 @@ namespace NiS {
 
 		std::cout << ui_.ListWidget_FileList->item ( row )->data ( Qt::UserRole ).toString ( ).toStdString ( ) << std::endl;
 
-		NiS::RawDataFrame frame = NiS::ImageHandler2::ReadFrame ( ui_.ListWidget_FileList->item ( row )->data ( Qt::UserRole ).toString ( ) );
+		MapCreator::RawDataFrame frame = MapCreator::ImageHandler2::ReadFrame ( ui_.ListWidget_FileList->item ( row )->data ( Qt::UserRole ).toString ( ) );
 
 		color_image_ = frame.color_image;
 		depth_image_ = frame.depth_image;

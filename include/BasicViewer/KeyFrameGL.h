@@ -9,7 +9,7 @@
 #include <SLAM/KeyFrame.h>
 #include <memory>
 
-namespace NiS {
+namespace MapCreator {
 
 	/***
 	 *  This is the wrapper of KeyFrame data for OpenGL rendering

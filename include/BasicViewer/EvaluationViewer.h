@@ -16,7 +16,7 @@ namespace Ui {
     class EvaluationViewer;
 }
 
-namespace NiS {
+namespace MapCreator {
 
     class EvaluationViewer : public QOpenGLWidget {
 

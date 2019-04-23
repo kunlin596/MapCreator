@@ -5,7 +5,7 @@
 #include "SLAM/ComputationResultCache.h"
 
 
-namespace NiS {
+namespace MapCreator {
 
     bool SaveComputationResultCache(const std::string &file_name, const ComputationResultCache &cache) {
 

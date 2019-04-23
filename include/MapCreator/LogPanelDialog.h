@@ -11,7 +11,7 @@
 
 namespace Ui { class LogPanelDialog; }
 
-namespace NiS {
+namespace MapCreator {
 
 	class LogPanelDialog : public QDialog
 	{

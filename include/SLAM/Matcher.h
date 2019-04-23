@@ -10,7 +10,7 @@
 
 #include <numeric>
 
-namespace NiS {
+namespace MapCreator {
 
     class Matcher {
 

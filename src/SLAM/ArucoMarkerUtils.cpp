@@ -6,7 +6,7 @@
 #include <algorithm>
 
 
-namespace NiS {
+namespace MapCreator {
 
 	CorrespondingPointsPair ArucoMarkerUtils::CreatePoints ( Markers & markers_set_1 , Markers & markers_set_2 ,
 	                                                         const KeyFrame & keyframe1 , const KeyFrame & keyframe2 ) {

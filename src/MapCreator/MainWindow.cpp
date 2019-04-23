@@ -14,7 +14,7 @@
 #include <QDir>
 #include <QThread>
 
-namespace NiS {
+namespace MapCreator {
 
 	MainWindow::MainWindow ( QWidget * parent ) :
 			computation_configured_ ( false ) ,

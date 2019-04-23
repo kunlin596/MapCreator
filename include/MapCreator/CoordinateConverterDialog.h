@@ -13,7 +13,7 @@ namespace Ui {
 	class CoordinateConverterDialog;
 }
 
-namespace NiS {
+namespace MapCreator {
 
 	class CoordinateConverterDialog : public QDialog
 	{

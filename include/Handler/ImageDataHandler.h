@@ -19,7 +19,7 @@
 
 #include <QFutureWatcher>
 
-namespace NiS {
+namespace MapCreator {
 
 	class ImageHandler2 : public QObject
 	{
@@ -49,7 +49,7 @@ namespace NiS {
 
 		inline const KeyFrames & GetKeyFrames ( ) const { return keyframes_; }
 
-		static NiS::RawDataFrame ReadFrame ( const QString & file_name );
+		static MapCreator::RawDataFrame ReadFrame ( const QString & file_name );
 
 	signals:
 

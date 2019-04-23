@@ -5,7 +5,7 @@
 #include <iostream>
 #include "BasicViewer/GridGL.h"
 
-namespace NiS {
+namespace MapCreator {
 
     void GridGL::Render() {
 

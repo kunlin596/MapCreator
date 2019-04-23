@@ -12,7 +12,7 @@
 
 #include "SLAM/Calibrator.h"
 
-namespace NiS {
+namespace MapCreator {
 
 
 	class CoordinateConverter

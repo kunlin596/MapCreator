@@ -8,7 +8,7 @@
 #include <BasicViewer/PrimitiveGL.h>
 #include "SLAM/CommonDefinitions.h"
 
-namespace NiS {
+namespace MapCreator {
 
     class Inliers : public PrimitiveGL {
     public:

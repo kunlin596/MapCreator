@@ -7,7 +7,7 @@
 
 #include <glm/glm.hpp>
 
-namespace NiS {
+namespace MapCreator {
 
 	class Camera
 	{

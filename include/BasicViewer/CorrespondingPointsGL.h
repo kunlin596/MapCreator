@@ -9,7 +9,7 @@
 #include "BasicViewer/PrimitiveGL.h"
 #include <SLAM/CommonDefinitions.h>
 
-namespace NiS {
+namespace MapCreator {
 
     class CorrespondingPointsGL : public PrimitiveGL {
     public:

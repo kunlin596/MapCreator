@@ -4,7 +4,7 @@
 
 #include "BasicViewer/LineSegmentGL.h"
 
-namespace NiS {
+namespace MapCreator {
 
 	LineSegmentGL::LineSegmentGL ( QOpenGLFunctions_4_1_Core * GL ,
 	                               const glm::mat4 transformation_matrix1 , // for frame1

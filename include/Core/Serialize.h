@@ -146,7 +146,7 @@ namespace boost {
 
 }
 
-namespace NiS {
+namespace MapCreator {
 	// Xtion data frame definitions
 
 	struct RawDataFrame

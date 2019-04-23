@@ -4,6 +4,6 @@
 
 #include "MapCreator/CoordinateConverterDialog.h"
 
-namespace NiS {
+namespace MapCreator {
 
 }

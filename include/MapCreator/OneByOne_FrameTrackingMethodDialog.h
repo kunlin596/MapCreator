@@ -16,7 +16,7 @@ namespace Ui {
 	class OneByOne_FrameTrackingMethodDialog;
 }
 
-namespace NiS {
+namespace MapCreator {
 
 	class OneByOne_FrameTrackingMethodDialog : public QDialog
 	{

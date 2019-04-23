@@ -4,7 +4,7 @@
 
 #include "Core/PointCloud.h"
 
-namespace NiS {
+namespace MapCreator {
 
     PointCloud::PointCloud() { }
 

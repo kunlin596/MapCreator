@@ -13,7 +13,7 @@ namespace {
 
 }
 
-namespace NiS {
+namespace MapCreator {
 
     Calibrator::Calibrator(const std::string &path) {
 
@@ -58,15 +58,15 @@ namespace NiS {
 
         if (in) {
 
-            const std::string head = NiS::ReadString(in, static_cast < unsigned int >( kFileHeader.size()));
-            const int version = NiS::Read<int>(in);
+            const std::string head = MapCreator::ReadString(in, static_cast < unsigned int >( kFileHeader.size()));
+            const int version = MapCreator::Read<int>(in);
 
-            LocalCalibrationTable table(static_cast<unsigned long>(NiS::Read<int>(in)));
+            LocalCalibrationTable table(static_cast<unsigned long>(MapCreator::Read<int>(in)));
 
             for (auto &coef_line : table) {
-                coef_line.resize(static_cast<unsigned long>(NiS::Read<int>(in)));
+                coef_line.resize(static_cast<unsigned long>(MapCreator::Read<int>(in)));
                 for (auto &coef : coef_line) {
-                    coef = NiS::ReadVector<CoefficientsVector::value_type>(in);
+                    coef = MapCreator::ReadVector<CoefficientsVector::value_type>(in);
                 }
 
             }
@@ -74,11 +74,11 @@ namespace NiS {
             data.local_calibration_table = table;
 
             //
-            data.global_calibration_vector = NiS::ReadVector<CoefficientsVector::value_type>(in);
+            data.global_calibration_vector = MapCreator::ReadVector<CoefficientsVector::value_type>(in);
 
             //
-            data.hfov_calibration_vector = NiS::ReadVector<CoefficientsVector::value_type>(in);
-            data.vfov_calibration_vector = NiS::ReadVector<CoefficientsVector::value_type>(in);
+            data.hfov_calibration_vector = MapCreator::ReadVector<CoefficientsVector::value_type>(in);
+            data.vfov_calibration_vector = MapCreator::ReadVector<CoefficientsVector::value_type>(in);
 
         }
 

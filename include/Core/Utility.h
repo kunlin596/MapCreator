@@ -16,7 +16,7 @@
 
 #include <QString>
 
-namespace NiS {
+namespace MapCreator {
 
 	using namespace std;
 

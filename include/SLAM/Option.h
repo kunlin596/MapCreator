@@ -10,7 +10,7 @@
 #include <Core/Serialize.h>
 #include "SLAM/CommonDefinitions.h"
 
-namespace NiS {
+namespace MapCreator {
 
 	struct Options
 	{

@@ -13,7 +13,7 @@
 
 #include "SLAM/Option.h"
 
-namespace NiS {
+namespace MapCreator {
 
 	struct ComputationResultCache
 	{

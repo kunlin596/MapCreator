@@ -7,7 +7,7 @@
 
 #include <opencv2/opencv.hpp>
 
-namespace NiS {
+namespace MapCreator {
 	/// 画像のサイズ変更
 	template < typename T >
 	cv::Mat_ < T > Resize ( const cv::Mat_ < T > & image , int w , int h , int interpolation = cv::INTER_LINEAR ) {

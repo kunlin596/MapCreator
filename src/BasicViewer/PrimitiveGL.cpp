@@ -7,6 +7,6 @@
 #include <QResource>
 #include <Core/Utility.h>
 
-namespace NiS {
+namespace MapCreator {
 
 }

@@ -4,7 +4,7 @@
 
 #include "MapCreator/FixedFrameCount_FrameTrackingMethodDialog.h"
 
-namespace NiS {
+namespace MapCreator {
 
 	FixedFrameCount_FrameTrackingMethodDialog::FixedFrameCount_FrameTrackingMethodDialog ( QWidget * parent ) {
 

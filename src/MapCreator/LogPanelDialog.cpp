@@ -4,7 +4,7 @@
 
 #include "MapCreator/LogPanelDialog.h"
 
-namespace NiS {
+namespace MapCreator {
 
 	LogPanelDialog::LogPanelDialog ( QWidget * parent ) {
 

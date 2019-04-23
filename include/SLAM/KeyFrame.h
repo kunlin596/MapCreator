@@ -14,7 +14,7 @@
 #include <QDir>
 #include <QFileInfo>
 
-namespace NiS {
+namespace MapCreator {
 
 	class KeyFrame
 	{
@@ -53,8 +53,8 @@ namespace NiS {
 		const ColorImage & GetColorImage ( ) const { return color_image_; }
 		const PointImage & GetPointImage ( ) const { return point_image_; }
 		const std::string & GetName ( ) const { return name_; }
-		const NiS::Feature & GetFeature ( ) const { return feature_; }
-		const NiS::Feature::Type & GetFeatureType ( ) const { return type_; }
+		const MapCreator::Feature & GetFeature ( ) const { return feature_; }
+		const MapCreator::Feature::Type & GetFeatureType ( ) const { return type_; }
 		const glm::mat4 & GetAlignmentMatrix ( ) const { return alignment_matrix_; }
 		const glm::mat4 & GetAnswerAlignmentMatrix ( ) const { return marker_alignment_matrix_; }
 		const bool IsUsed ( ) const { return is_used_; }
@@ -129,7 +129,7 @@ namespace NiS {
 				assert( !color_image_.empty ( ) );
 				cv::Mat cvt_color_image;
 				cv::cvtColor ( color_image_ , cvt_color_image , cv::COLOR_RGB2GRAY );
-				feature_ = NiS::Feature ( cvt_color_image , type_ );
+				feature_ = MapCreator::Feature ( cvt_color_image , type_ );
 				SaveFeature ( QString ( feature_folder_path + name + ".feature" ).toStdString ( ) , feature_ );
 			}
 		}
@@ -141,8 +141,8 @@ namespace NiS {
 		glm::mat4          marker_alignment_matrix_;
 		glm::mat4          alignment_matrix_;
 		std::string        name_;
-		NiS::Feature       feature_;
-		NiS::Feature::Type type_;
+		MapCreator::Feature       feature_;
+		MapCreator::Feature::Type type_;
 		PointImage         point_image_;
 		ColorImage         color_image_;
 

@@ -16,7 +16,7 @@ namespace Ui {
 	class InliersViewerOptionDialog;
 }
 
-namespace NiS {
+namespace MapCreator {
 
 	class InliersViewerOptionDialog : public QDialog
 	{

@@ -16,7 +16,7 @@ namespace Ui {
     class FixedFrameCount_FrameTrackingMethodDialog;
 }
 
-namespace NiS {
+namespace MapCreator {
 
     class FixedFrameCount_FrameTrackingMethodDialog : public QDialog {
 

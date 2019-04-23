@@ -19,7 +19,7 @@
 
 namespace {
 
-	using NiS::Points;
+	using MapCreator::Points;
 	using Errors = std::vector < double >;
 
 	template < typename T = float >
@@ -228,7 +228,7 @@ namespace {
 				_3points2.push_back ( points2[ sample ] );
 			}
 
-			const auto temp_matrix = NiS::ComputeTransformationMatrix ( _3points1 , _3points2 );
+			const auto temp_matrix = MapCreator::ComputeTransformationMatrix ( _3points1 , _3points2 );
 			const auto errors      = ComputeErrors ( points1 , points2 , temp_matrix );
 
 			int vote = 0;
@@ -281,7 +281,7 @@ namespace {
 				p2.push_back ( points2[ sample ] );
 			}
 
-			const auto m = NiS::ComputeTransformationMatrix ( p1 , p2 );
+			const auto m = MapCreator::ComputeTransformationMatrix ( p1 , p2 );
 
 			// 対応点ペアのフローを評価する
 			const auto flow_errors = ComputeFlowErrors ( points1 , points2 );
@@ -314,7 +314,7 @@ namespace {
 
 }    // namespace
 
-namespace NiS {
+namespace MapCreator {
 
 	// ２つの点群間の変換行列（point1 → points2）を求める
 	cv::Matx44f ComputeTransformationMatrix ( const Points & points1 ,

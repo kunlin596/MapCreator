@@ -7,7 +7,7 @@
 
 #include <opencv2/opencv.hpp>
 
-namespace NiS {
+namespace MapCreator {
 
     class PointCloud {
 

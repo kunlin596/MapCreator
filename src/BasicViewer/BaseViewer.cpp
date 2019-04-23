@@ -10,7 +10,7 @@
 #include <QMouseEvent>
 #include <QEasingCurve>
 
-namespace NiS {
+namespace MapCreator {
 
     BaseViewer::BaseViewer(QWidget *parent) {
 
@@ -27,9 +27,9 @@ namespace NiS {
         QResource vertex_shader_resource(vertex_shader_source_path);
         QResource fragment_shader_resource(fragment_shader_source_path);
 
-        auto vertex_shader_code = NiS::ConvertConstCStrToStdString(vertex_shader_resource.data(),
+        auto vertex_shader_code = MapCreator::ConvertConstCStrToStdString(vertex_shader_resource.data(),
                                                                    vertex_shader_resource.size());
-        auto fragment_shader_code = NiS::ConvertConstCStrToStdString(fragment_shader_resource.data(),
+        auto fragment_shader_code = MapCreator::ConvertConstCStrToStdString(fragment_shader_resource.data(),
                                                                      fragment_shader_resource.size());
 
         QOpenGLShader vertex_shader(QOpenGLShader::Vertex, 0);

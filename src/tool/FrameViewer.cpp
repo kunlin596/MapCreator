@@ -10,7 +10,7 @@ int main ( int argc , char ** argv ) {
 
 	QApplication app ( argc , argv );
 
-	NiS::FrameViewer viewer;
+	MapCreator::FrameViewer viewer;
 
 	viewer.show ( );
 

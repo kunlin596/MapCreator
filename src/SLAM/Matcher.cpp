@@ -7,9 +7,9 @@
 
 namespace {
 
-	using Feature = NiS::Feature;
-	using Match = NiS::Matcher::Match;
-	using Matches = NiS::Matcher::Matches;
+	using Feature = MapCreator::Feature;
+	using Match = MapCreator::Matcher::Match;
+	using Matches = MapCreator::Matcher::Matches;
 
 	template < class MatcherType >
 	Matches CreateMatches ( const Feature & feature1 , const Feature & feature2 , bool cross_check ) {
@@ -62,7 +62,7 @@ namespace {
 }    // namespace
 
 
-namespace NiS {
+namespace MapCreator {
 
 	Matcher::Matcher ( const Feature & feature1 , const Feature & feature2 , bool cross_check ) {
 

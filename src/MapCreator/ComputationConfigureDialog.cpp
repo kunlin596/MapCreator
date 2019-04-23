@@ -4,7 +4,7 @@
 
 #include "MapCreator/ComputationConfigureDialog.h"
 
-namespace NiS {
+namespace MapCreator {
 
     ComputationConfigureDialog::ComputationConfigureDialog(QWidget *parent) :
             options_configured_(false) {

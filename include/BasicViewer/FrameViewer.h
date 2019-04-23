@@ -13,7 +13,7 @@ namespace Ui {
 	class FrameViewer;
 }
 
-namespace NiS {
+namespace MapCreator {
 
 	class FrameViewer : public QWidget
 	{

@@ -14,7 +14,7 @@
 #include <opencv2/opencv.hpp>
 #include <glm/glm.hpp>
 
-namespace NiS {
+namespace MapCreator {
 
 	// πをかけた値を返す
 	inline float PI ( float x ) {

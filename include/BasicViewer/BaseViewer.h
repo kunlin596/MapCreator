@@ -14,7 +14,7 @@
 
 #include "BasicViewer/Camera.h"
 
-namespace NiS {
+namespace MapCreator {
 
     class BaseViewer : public QOpenGLWidget {
     Q_OBJECT

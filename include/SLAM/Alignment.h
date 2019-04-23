@@ -22,7 +22,7 @@ namespace {
 
 };
 
-namespace NiS {
+namespace MapCreator {
 
 
 	class SlamComputer : public QObject

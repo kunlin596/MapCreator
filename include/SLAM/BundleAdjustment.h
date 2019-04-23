@@ -9,7 +9,7 @@
 #include <unsupported/Eigen/NonLinearOptimization>
 #include <unsupported/Eigen/NumericalDiff>
 
-namespace NiS {
+namespace MapCreator {
 
     class BundleAdjustment {
     public:

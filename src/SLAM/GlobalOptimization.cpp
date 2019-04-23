@@ -9,7 +9,7 @@
 #include <boost/accumulators/accumulators.hpp>
 #include <boost/accumulators/statistics.hpp>
 
-namespace NiS {
+namespace MapCreator {
 
 	cv::Matx44f LevenbergMarquardt::Compute ( const cv::Matx44f & m ,
 	                                          const CoordinateConverter & coordinate_converter ,

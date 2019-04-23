@@ -19,7 +19,7 @@ namespace {
 
 }
 
-namespace NiS {
+namespace MapCreator {
 
 
     struct InternalCalibrationInfo {
@@ -54,24 +54,24 @@ namespace NiS {
 
             if (in) {
 
-                const auto head = NiS::ReadString(in, static_cast < unsigned long >( kFileHeader.size()));
-                const auto version = NiS::Read<int>(in);
+                const auto head = MapCreator::ReadString(in, static_cast < unsigned long >( kFileHeader.size()));
+                const auto version = MapCreator::Read<int>(in);
 
-                InternalCalibrationInfo::LocalCalibrationTable table(static_cast<unsigned long>(NiS::Read<int>(in)));
+                InternalCalibrationInfo::LocalCalibrationTable table(static_cast<unsigned long>(MapCreator::Read<int>(in)));
 
                 for (auto &coef_line : table) {
-                    coef_line.resize(static_cast<unsigned long>(NiS::Read<int>(in)));
+                    coef_line.resize(static_cast<unsigned long>(MapCreator::Read<int>(in)));
                     for (auto &coef : coef_line) {
-                        coef = NiS::ReadVector<InternalCalibrationInfo::CoefficientsVector::value_type>(in);
+                        coef = MapCreator::ReadVector<InternalCalibrationInfo::CoefficientsVector::value_type>(in);
                     }
                 }
 
                 info.local_calibration_table = table;
-                info.global_calibration_vector = NiS::ReadVector<InternalCalibrationInfo::CoefficientsVector::value_type>(
+                info.global_calibration_vector = MapCreator::ReadVector<InternalCalibrationInfo::CoefficientsVector::value_type>(
                         in);
-                info.hfov_calibration_vector = NiS::ReadVector<InternalCalibrationInfo::CoefficientsVector::value_type>(
+                info.hfov_calibration_vector = MapCreator::ReadVector<InternalCalibrationInfo::CoefficientsVector::value_type>(
                         in);
-                info.vfov_calibration_vector = NiS::ReadVector<InternalCalibrationInfo::CoefficientsVector::value_type>(
+                info.vfov_calibration_vector = MapCreator::ReadVector<InternalCalibrationInfo::CoefficientsVector::value_type>(
                         in);
 
             }

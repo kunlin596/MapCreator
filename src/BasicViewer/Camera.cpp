@@ -11,7 +11,7 @@
 
 using namespace std;
 
-namespace NiS {
+namespace MapCreator {
 
 	Camera::Camera ( ) {
 

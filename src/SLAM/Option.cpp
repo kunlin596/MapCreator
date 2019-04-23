@@ -4,7 +4,7 @@
 
 #include "SLAM/Option.h"
 
-namespace NiS {
+namespace MapCreator {
 
     template<>
     Options::Options_OneByOne Options::GetOptions() { return options_one_by_one; }

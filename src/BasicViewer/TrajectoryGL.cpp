@@ -6,7 +6,7 @@
 
 #include <Core/Utility.h>
 
-namespace NiS {
+namespace MapCreator {
 
 
 	TrajectoryGL::TrajectoryGL ( QOpenGLFunctions_4_1_Core * GL , const KeyFrames & keyframes ) :

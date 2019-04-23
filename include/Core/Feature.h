@@ -12,7 +12,7 @@
 #include "Serialize.h"
 
 
-namespace NiS {
+namespace MapCreator {
 
 	class Feature
 	{

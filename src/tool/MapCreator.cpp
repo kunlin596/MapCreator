@@ -20,7 +20,7 @@ int main ( int argc , char * argv[] ) {
 	QSurfaceFormat::setDefaultFormat ( f );
 
 
-	NiS::MainWindow w;
+	MapCreator::MainWindow w;
 	w.show ( );
 
 	return app.exec ( );

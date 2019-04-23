@@ -5,7 +5,7 @@
 #include "SLAM/CoordinateConverter.h"
 
 
-namespace NiS {
+namespace MapCreator {
 
 	const float CoordinateConverter::XtionFrameProperty::kXtionHorizontalFOV = 1.0225999f;
 	const float CoordinateConverter::XtionFrameProperty::kXtionVerticalFOV   = 0.79661566f;

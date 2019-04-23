@@ -18,7 +18,7 @@ namespace Ui {
 	class MarkerSelectorDialog;
 }
 
-namespace NiS {
+namespace MapCreator {
 	class MarkerSelectorDialog : public QDialog
 	{
 	Q_OBJECT

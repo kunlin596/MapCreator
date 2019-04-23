@@ -6,7 +6,7 @@
 
 #include <iostream>
 
-namespace NiS {
+namespace MapCreator {
 
 	OneByOne_FrameTrackingMethodDialog::OneByOne_FrameTrackingMethodDialog ( QWidget * parent ) {
 

@@ -8,7 +8,7 @@
 #include <QMessageBox>
 
 
-namespace NiS {
+namespace MapCreator {
 
 	MarkerViewerDialog::MarkerViewerDialog ( QWidget * parent ) {
 

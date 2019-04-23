@@ -14,7 +14,7 @@
 
 #include <glm/glm.hpp>
 
-namespace NiS {
+namespace MapCreator {
 
 	struct VertexGL
 	{

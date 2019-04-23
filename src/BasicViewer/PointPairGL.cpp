@@ -4,7 +4,7 @@
 
 #include "BasicViewer/PointPairGL.h"
 
-namespace NiS {
+namespace MapCreator {
 
 	PointPairGL::PointPairGL ( QOpenGLFunctions_4_1_Core * GL ,
 	                           const std::pair < glm::vec3 , glm::vec3 > & point_pair ) :

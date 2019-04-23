@@ -7,7 +7,7 @@
 
 #include "BaseViewer.h"
 
-namespace NiS {
+namespace MapCreator {
 	class CloudViewer : public BaseViewer
 	{
 	Q_OBJECT

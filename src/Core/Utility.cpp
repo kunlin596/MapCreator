@@ -7,7 +7,7 @@
 #include <iostream>
 
 
-namespace NiS {
+namespace MapCreator {
 
 	void PrintMessage ( const std::string msg , int status ) {
 

@@ -4,7 +4,7 @@
 #include <opencv2/opencv.hpp>
 #include <glm/glm.hpp>
 
-namespace NiS {
+namespace MapCreator {
 
 	using Matrices = std::vector < glm::mat4 >;
 	using KeyPoints = std::vector < cv::KeyPoint >;

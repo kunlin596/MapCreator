@@ -4,7 +4,7 @@
 
 #include "MapCreator/MarkerSelectorDialog.h"
 
-namespace NiS {
+namespace MapCreator {
 
     MarkerSelectorDialog::MarkerSelectorDialog(QWidget *parent) {
 

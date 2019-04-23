@@ -7,7 +7,7 @@
 #include <SLAM/Tracker.h>
 #include <QFileDialog>
 
-namespace NiS {
+namespace MapCreator {
 
 	InliersViewerOptionDialog::InliersViewerOptionDialog ( QWidget * parent ) :
 			has_frame1_ ( false ) ,

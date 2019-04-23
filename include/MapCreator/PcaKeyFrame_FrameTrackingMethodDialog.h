@@ -17,7 +17,7 @@ namespace Ui {
 }
 
 
-namespace NiS {
+namespace MapCreator {
 
 	class PcaKeyFrame_FrameTrackingMethodDialog : public QDialog
 	{

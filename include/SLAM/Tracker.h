@@ -18,9 +18,9 @@
 #include <iostream>
 #include <boost/tuple/tuple.hpp>
 
-namespace NiS {
+namespace MapCreator {
 
-	CorrespondingPointsPair CreateCorrespondingPointsPair ( const NiS::KeyFrame & key_frame1 , const NiS::KeyFrame & key_frame2 );
+	CorrespondingPointsPair CreateCorrespondingPointsPair ( const MapCreator::KeyFrame & key_frame1 , const MapCreator::KeyFrame & key_frame2 );
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
