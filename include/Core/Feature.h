@@ -2,15 +2,18 @@
 // Created by LinKun on 9/12/15.
 //
 
-#ifndef LK_SLAM_FEATURE_H
-#define LK_SLAM_FEATURE_H
+#ifndef MAPCREATOR_FEATURE_H
+#define MAPCREATOR_FEATURE_H
+
+#include "Serialize.h"
 
 #include <opencv2/opencv.hpp>
 #include <opencv2/features2d.hpp>
-#include <fstream>
-#include <QDebug>
-#include "Serialize.h"
+#include <opencv2/xfeatures2d.hpp>
 
+#include <fstream>
+
+#include <QDebug>
 
 namespace MapCreator {
 
@@ -20,15 +23,15 @@ namespace MapCreator {
 
 		enum Type
 		{
-			kTypeUnknown = -1 ,     ///< 不明（未初期化）
+			kTypeUnknown = -1 ,     ///< Unknown
 			kTypeORB     = 0 ,      ///< ORB
 			kTypeFREAK ,            ///< FREAK
 			kTypeSIFT ,             ///< SIFT
 			kTypeSURF ,             ///< SURF
 		};
 
-		using KeyPoints = std::vector < cv::KeyPoint >;     ///< キーポイント
-		using Descriptors = cv::Mat;                        ///< キーポイントディスクリプタ
+		using KeyPoints = std::vector < cv::KeyPoint >;     ///< Keypoints
+		using Descriptors = cv::Mat;                        ///< Keypoint descriptors
 
 		Feature ( );
 
@@ -45,8 +48,9 @@ namespace MapCreator {
 	private:
 
 		Type        type_;
-		KeyPoints   key_points_;        // キーポイント
-		Descriptors descriptors_;       // キーポイントディスクリプタ
+		KeyPoints   key_points_;        ///< Keypoints
+		Descriptors descriptors_;       ///< Keypoint descriptors
+                cv::Ptr<cv::FeatureDetector> detector_;
 
 		template < class Detector , class Extractor >
 		void Detect ( const cv::Mat_ < uchar > & image , KeyPoints * key_points , Descriptors * descriptors ) {
@@ -69,7 +73,6 @@ namespace MapCreator {
 
 		template < class Archive >
 		void save ( Archive & ar , const unsigned int version ) const {
-
 			const cv::Mat m = descriptors_;
 			ar & type_;
 			ar & key_points_;
@@ -78,7 +81,6 @@ namespace MapCreator {
 
 		template < class Archive >
 		void load ( Archive & ar , const unsigned int version ) {
-
 			cv::Mat m;
 			ar & type_;
 			ar & key_points_;
@@ -94,7 +96,7 @@ namespace MapCreator {
 
 	// This template impelemtation is just for reference
 	template < >
-	void Feature::Detect < cv::SiftFeatureDetector , cv::SiftDescriptorExtractor > ( const cv::Mat_ < uchar > & image ,
+	void Feature::Detect < cv::xfeatures2d::SIFT, cv::xfeatures2d::SiftDescriptorExtractor > ( const cv::Mat_ < uchar > & image ,
 	                                                                                 KeyPoints * key_points ,
 	                                                                                 Descriptors * descriptors );
 
@@ -104,4 +106,4 @@ namespace MapCreator {
 }
 
 
-#endif //LK_SLAM_FEATURE_H
+#endif //MAPCREATOR_FEATURE_H

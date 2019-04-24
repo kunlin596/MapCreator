@@ -9,24 +9,6 @@
 
 namespace MapCreator {
 
-    template<>
-    void Feature::Detect<cv::SiftFeatureDetector, cv::SiftDescriptorExtractor>(const cv::Mat_<uchar> &image,
-                                                                               KeyPoints *key_points,
-                                                                               Descriptors *descriptors) {
-
-        if (!image.empty()) {
-
-            // detecting keypoints
-            cv::SiftFeatureDetector detector;
-            detector.detect(image, *key_points);
-
-            // computing descriptors
-            cv::SiftDescriptorExtractor extractor;
-            extractor.compute(image, *key_points, *descriptors);
-        }
-    };
-
-
     Feature::Feature()
             : type_(kTypeUnknown) { }
 
@@ -34,26 +16,14 @@ namespace MapCreator {
             : type_(type) {
 
         switch (type_) {
-
-            case kTypeORB:
-                Detect<cv::OrbFeatureDetector, cv::OrbDescriptorExtractor>(image, &key_points_, &descriptors_);
-                break;
-
-            case kTypeFREAK:
-                Detect<cv::SurfFeatureDetector, cv::FREAK>(image, &key_points_, &descriptors_);
-                break;
-
-            case kTypeSIFT:
-                Detect<cv::SiftFeatureDetector, cv::SiftDescriptorExtractor>(image, &key_points_, &descriptors_);
-                break;
-
-            case kTypeSURF:
-                Detect<cv::SurfFeatureDetector, cv::SurfDescriptorExtractor>(image, &key_points_, &descriptors_);
-                break;
-
-            default:
-                break;
+            case kTypeORB: { detector_ = cv::ORB::create(); break; }
+            case kTypeFREAK: { detector_ = cv::xfeatures2d::FREAK::create(); break; }
+            case kTypeSIFT: { detector_ = cv::xfeatures2d::SIFT::create(); break; }
+            case kTypeSURF: { detector_ = cv::xfeatures2d::SURF::create(); break; }
+            default: break;
         }
+
+        detector_->detectAndCompute(image, cv::Mat(), key_points_, descriptors_);
     }
 
     Feature::~Feature() { }
