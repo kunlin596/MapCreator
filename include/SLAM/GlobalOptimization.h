@@ -11,7 +11,9 @@
 #include "SLAM/CommonDefinitions.h"
 #include "SLAM/CoordinateConverter.h"
 
-#include <eigen3/Eigen/Dense>
+#include <Eigen/Dense>
+#include <unsupported/Eigen/LevenbergMarquardt>
+#include <unsupported/Eigen/NumericalDiff>
 
 namespace MapCreator {
 

@@ -9,8 +9,6 @@
 #include <boost/accumulators/accumulators.hpp>
 #include <boost/accumulators/statistics.hpp>
 
-#include <unsupported/Eigen/NumericalDiff>
-#include <unsupported/Eigen/LevenbergMarquardt>
 
 namespace MapCreator {
 

@@ -26,9 +26,9 @@ target_link_libraries ( MapCreatorHandler
         MapCreatorCore
         MapCreatorSlam
         ${OpenCV_LIBS}
-	${Boost_LIBRARIES}
-	Qt5::Core
-	Qt5::Concurrent )
+    	${Boost_LIBRARIES}
+    	Qt5::Core
+    	Qt5::Concurrent )
 
 install ( TARGETS
         MapCreatorHandler
