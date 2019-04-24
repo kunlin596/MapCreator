@@ -2,8 +2,8 @@
 // Created by LinKun on 10/28/15.
 //
 
-#ifndef NIS_BASEVIEWER_H
-#define NIS_BASEVIEWER_H
+#ifndef MAPCREATOR_BASEVIEWER_H
+#define MAPCREATOR_BASEVIEWER_H
 
 #include <QOpenGLFunctions_4_1_Core>
 #include <QOpenGLWidget>
@@ -75,4 +75,4 @@ namespace MapCreator {
 }
 
 
-#endif //NIS_BASEVIEWER_H
+#endif //MAPCREATOR_BASEVIEWER_H

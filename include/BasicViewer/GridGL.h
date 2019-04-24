@@ -2,8 +2,8 @@
 // Created by LinKun on 10/5/15.
 //
 
-#ifndef NIS_GRID_H
-#define NIS_GRID_H
+#ifndef MAPCREATOR_GRID_H
+#define MAPCREATOR_GRID_H
 
 #include "PrimitiveGL.h"
 
@@ -91,4 +91,4 @@ namespace MapCreator {
 //    };
 }
 
-#endif //NIS_GRID_H
+#endif //MAPCREATOR_GRID_H

@@ -2,8 +2,8 @@
 // Created by LinKun on 10/28/15.
 //
 
-#ifndef NIS_CLOUDVIEWER_H
-#define NIS_CLOUDVIEWER_H
+#ifndef MAPCREATOR_CLOUDVIEWER_H
+#define MAPCREATOR_CLOUDVIEWER_H
 
 #include "BaseViewer.h"
 
@@ -22,4 +22,4 @@ namespace MapCreator {
 }
 
 
-#endif //NIS_CLOUDVIEWER_H
+#endif //MAPCREATOR_CLOUDVIEWER_H

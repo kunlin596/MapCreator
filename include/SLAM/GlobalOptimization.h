@@ -2,8 +2,8 @@
 // Created by LinKun on 10/29/15.
 //
 
-#ifndef NIS_GLOBALOPTIMAZATION_H
-#define NIS_GLOBALOPTIMAZATION_H
+#ifndef MAPCREATOR_GLOBALOPTIMAZATION_H
+#define MAPCREATOR_GLOBALOPTIMAZATION_H
 
 
 #include <opencv2/opencv.hpp>
@@ -94,4 +94,4 @@ namespace MapCreator {
 }
 
 
-#endif //NIS_GLOBALOPTIMAZATION_H
+#endif //MAPCREATOR_GLOBALOPTIMAZATION_H

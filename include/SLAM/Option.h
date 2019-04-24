@@ -2,8 +2,8 @@
 // Created by LinKun on 10/5/15.
 //
 
-#ifndef NIS_OPTION_H
-#define NIS_OPTION_H
+#ifndef MAPCREATOR_OPTION_H
+#define MAPCREATOR_OPTION_H
 
 #include <QString>
 
@@ -200,4 +200,4 @@ namespace MapCreator {
 
 }
 
-#endif //NIS_OPTION_H
+#endif //MAPCREATOR_OPTION_H

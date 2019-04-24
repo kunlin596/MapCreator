@@ -2,8 +2,8 @@
 // Created by LinKun on 10/28/15.
 //
 
-#ifndef NIS_EVALUTATIONVIEWER_H
-#define NIS_EVALUTATIONVIEWER_H
+#ifndef MAPCREATOR_EVALUTATIONVIEWER_H
+#define MAPCREATOR_EVALUTATIONVIEWER_H
 
 
 #include <QOpenGLFunctions_4_1_Core>
@@ -35,4 +35,4 @@ namespace MapCreator {
 }
 
 
-#endif //NIS_EVALUTATIONVIEWER_H
+#endif //MAPCREATOR_EVALUTATIONVIEWER_H

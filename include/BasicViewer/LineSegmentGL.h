@@ -2,8 +2,8 @@
 // Created by LinKun on 11/24/15.
 //
 
-#ifndef NIS_LINESEGMENTGL_H
-#define NIS_LINESEGMENTGL_H
+#ifndef MAPCREATOR_LINESEGMENTGL_H
+#define MAPCREATOR_LINESEGMENTGL_H
 
 
 #include "PrimitiveGL.h"
@@ -37,4 +37,4 @@ namespace MapCreator {
 }
 
 
-#endif //NIS_LINESEGMENTGL_H
+#endif //MAPCREATOR_LINESEGMENTGL_H

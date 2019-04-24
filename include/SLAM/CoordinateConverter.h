@@ -2,8 +2,8 @@
 // Created by LinKun on 11/4/15.
 //
 
-#ifndef NIS_COORDINATECONVERTER_H
-#define NIS_COORDINATECONVERTER_H
+#ifndef MAPCREATOR_COORDINATECONVERTER_H
+#define MAPCREATOR_COORDINATECONVERTER_H
 
 #include <Core/Serialize.h>
 
@@ -108,4 +108,4 @@ namespace MapCreator {
 };
 
 
-#endif //NIS_COORDINATECONVERTER_H
+#endif //MAPCREATOR_COORDINATECONVERTER_H

@@ -2,8 +2,8 @@
 // Created by LinKun on 10/22/15.
 //
 
-#ifndef NIS_MARKERSELECTORDIALOG_H
-#define NIS_MARKERSELECTORDIALOG_H
+#ifndef MAPCREATOR_MARKERSELECTORDIALOG_H
+#define MAPCREATOR_MARKERSELECTORDIALOG_H
 
 #include "../../../bin/lib/MapCreator/ui_MarkerSelectorDialog.h"
 
@@ -53,4 +53,4 @@ namespace MapCreator {
 }
 
 
-#endif //NIS_MARKERSELECTORDIALOG_H
+#endif //MAPCREATOR_MARKERSELECTORDIALOG_H

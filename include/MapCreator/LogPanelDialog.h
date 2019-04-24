@@ -2,8 +2,8 @@
 // Created by LinKun on 10/21/15.
 //
 
-#ifndef NIS_LOGPANELDIALOG_H
-#define NIS_LOGPANELDIALOG_H
+#ifndef MAPCREATOR_LOGPANELDIALOG_H
+#define MAPCREATOR_LOGPANELDIALOG_H
 
 #include <QDialog>
 
@@ -34,4 +34,4 @@ namespace MapCreator {
 }
 
 
-#endif //NIS_LOGPANELDIALOG_H
+#endif //MAPCREATOR_LOGPANELDIALOG_H

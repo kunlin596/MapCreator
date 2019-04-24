@@ -2,8 +2,8 @@
 // Created by LinKun on 10/28/15.
 //
 
-#ifndef NIS_POINTPAIRGL_H
-#define NIS_POINTPAIRGL_H
+#ifndef MAPCREATOR_POINTPAIRGL_H
+#define MAPCREATOR_POINTPAIRGL_H
 
 #include "BasicViewer/PrimitiveGL.h"
 #include <SLAM/KeyFrame.h>
@@ -38,4 +38,4 @@ namespace MapCreator {
 	};
 
 }
-#endif //NIS_POINTPAIRGL_H
+#endif //MAPCREATOR_POINTPAIRGL_H

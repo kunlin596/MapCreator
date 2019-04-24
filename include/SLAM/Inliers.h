@@ -2,8 +2,8 @@
 // Created by LinKun on 10/7/15.
 //
 
-#ifndef NIS_INLIERS_H
-#define NIS_INLIERS_H
+#ifndef MAPCREATOR_INLIERS_H
+#define MAPCREATOR_INLIERS_H
 
 #include <BasicViewer/PrimitiveGL.h>
 #include "SLAM/CommonDefinitions.h"
@@ -29,4 +29,4 @@ namespace MapCreator {
 }
 
 
-#endif //NIS_INLIERS_H
+#endif //MAPCREATOR_INLIERS_H

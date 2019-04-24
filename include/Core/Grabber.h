@@ -2,8 +2,8 @@
 //// Created by LinKun on 10/25/15.
 ////
 //
-//#ifndef NIS_GRABBER_H
-//#define NIS_GRABBER_H
+//#ifndef MAPCREATOR_GRABBER_H
+//#define MAPCREATOR_GRABBER_H
 //
 //#include <QWidget>
 //#include <QDir>
@@ -65,4 +65,4 @@
 //};
 //
 //
-//#endif //NIS_GRABBER_H
+//#endif //MAPCREATOR_GRABBER_H

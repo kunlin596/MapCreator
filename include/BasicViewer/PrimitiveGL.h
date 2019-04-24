@@ -2,8 +2,8 @@
 // Created by LinKun on 10/6/15.
 //
 
-#ifndef NIS_PRIMITIVEGL_H
-#define NIS_PRIMITIVEGL_H
+#ifndef MAPCREATOR_PRIMITIVEGL_H
+#define MAPCREATOR_PRIMITIVEGL_H
 
 #include <memory>
 
@@ -126,4 +126,4 @@ namespace MapCreator {
 }
 
 
-#endif //NIS_PRIMITIVEGL_H
+#endif //MAPCREATOR_PRIMITIVEGL_H

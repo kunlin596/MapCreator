@@ -2,8 +2,8 @@
 // Created by LinKun on 11/4/15.
 //
 
-#ifndef NIS_BUNDDLEADJUSTMENT_H
-#define NIS_BUNDDLEADJUSTMENT_H
+#ifndef MAPCREATOR_BUNDDLEADJUSTMENT_H
+#define MAPCREATOR_BUNDDLEADJUSTMENT_H
 
 #include <Eigen/Dense>
 #include <unsupported/Eigen/NonLinearOptimization>
@@ -60,4 +60,4 @@ namespace MapCreator {
 }
 
 
-#endif //NIS_BUNDDLEADJUSTMENT_H
+#endif //MAPCREATOR_BUNDDLEADJUSTMENT_H

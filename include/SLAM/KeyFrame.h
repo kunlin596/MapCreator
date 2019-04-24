@@ -2,8 +2,8 @@
 // Created by LinKun on 10/6/15.
 //
 
-#ifndef NIS_KEYFRAME_H
-#define NIS_KEYFRAME_H
+#ifndef MAPCREATOR_KEYFRAME_H
+#define MAPCREATOR_KEYFRAME_H
 
 #include <Core/Serialize.h>
 #include <Core/Feature.h>
@@ -152,4 +152,4 @@ namespace MapCreator {
 
 }
 
-#endif //NIS_KEYFRAME_H
+#endif //MAPCREATOR_KEYFRAME_H

@@ -2,8 +2,8 @@
 // Created by LinKun on 10/5/15.
 //
 
-#ifndef NIS_MAINWINDOW_H
-#define NIS_MAINWINDOW_H
+#ifndef MAPCREATOR_MAINWINDOW_H
+#define MAPCREATOR_MAINWINDOW_H
 
 
 #include <QMainWindow>
@@ -114,4 +114,4 @@ namespace MapCreator {
 	};
 }
 
-#endif //NIS_MAINWINDOW_H
+#endif //MAPCREATOR_MAINWINDOW_H

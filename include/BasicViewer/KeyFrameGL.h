@@ -2,8 +2,8 @@
 // Created by LinKun on 10/11/15.
 //
 
-#ifndef NIS_KEYFRAMEGL_H
-#define NIS_KEYFRAMEGL_H
+#ifndef MAPCREATOR_KEYFRAMEGL_H
+#define MAPCREATOR_KEYFRAMEGL_H
 
 #include "BasicViewer/PrimitiveGL.h"
 #include <SLAM/KeyFrame.h>
@@ -50,4 +50,4 @@ namespace MapCreator {
 }
 
 
-#endif //NIS_KEYFRAMEGL_H
+#endif //MAPCREATOR_KEYFRAMEGL_H

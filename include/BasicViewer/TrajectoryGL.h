@@ -2,8 +2,8 @@
 // Created by LinKun on 10/12/15.
 //
 
-#ifndef NIS_TRAJECTORYGL_H
-#define NIS_TRAJECTORYGL_H
+#ifndef MAPCREATOR_TRAJECTORYGL_H
+#define MAPCREATOR_TRAJECTORYGL_H
 
 #include "PrimitiveGL.h"
 
@@ -39,4 +39,4 @@ namespace MapCreator {
 	};
 }
 
-#endif //NIS_TRAJECTORYGL_H
+#endif //MAPCREATOR_TRAJECTORYGL_H

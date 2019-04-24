@@ -2,8 +2,8 @@
 // Created by LinKun on 10/10/15.
 //
 
-#ifndef NIS_POINTCLOUDGL_H
-#define NIS_POINTCLOUDGL_H
+#ifndef MAPCREATOR_POINTCLOUDGL_H
+#define MAPCREATOR_POINTCLOUDGL_H
 
 
 class PointCloudGL
@@ -12,4 +12,4 @@ class PointCloudGL
 };
 
 
-#endif //NIS_POINTCLOUDGL_H
+#endif //MAPCREATOR_POINTCLOUDGL_H

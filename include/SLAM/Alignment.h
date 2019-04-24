@@ -2,8 +2,8 @@
 // Created by LinKun on 9/13/15.
 //
 
-#ifndef NIS_MAPCREATOR_H
-#define NIS_MAPCREATOR_H
+#ifndef MAPCREATOR_MAPCREATOR_H
+#define MAPCREATOR_MAPCREATOR_H
 
 #include <Core/Feature.h>
 
@@ -179,4 +179,4 @@ namespace MapCreator {
 
 }
 
-#endif //NIS_MAPCREATOR_H
+#endif //MAPCREATOR_MAPCREATOR_H

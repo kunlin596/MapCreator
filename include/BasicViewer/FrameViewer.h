@@ -2,8 +2,8 @@
 // Created by LinKun on 11/15/15.
 //
 
-#ifndef NIS_FRAMEVIEWER_H
-#define NIS_FRAMEVIEWER_H
+#ifndef MAPCREATOR_FRAMEVIEWER_H
+#define MAPCREATOR_FRAMEVIEWER_H
 
 #include <SLAM/CommonDefinitions.h>
 #include <QWidget>
@@ -60,4 +60,4 @@ namespace MapCreator {
 }
 
 
-#endif //NIS_FRAMEVIEWER_H
+#endif //MAPCREATOR_FRAMEVIEWER_H

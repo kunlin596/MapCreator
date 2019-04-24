@@ -1,5 +1,5 @@
-#ifndef NIS_COMMON_DEFINITIONS_H
-#define NIS_COMMON_DEFINITIONS_H
+#ifndef MAPCREATOR_COMMON_DEFINITIONS_H
+#define MAPCREATOR_COMMON_DEFINITIONS_H
 
 #include <opencv2/opencv.hpp>
 #include <glm/glm.hpp>

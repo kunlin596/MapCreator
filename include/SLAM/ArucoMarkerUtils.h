@@ -2,8 +2,8 @@
 // Created by LinKun on 11/15/15.
 //
 
-#ifndef NIS_ARUCOMARKERUTILS_H
-#define NIS_ARUCOMARKERUTILS_H
+#ifndef MAPCREATOR_ARUCOMARKERUTILS_H
+#define MAPCREATOR_ARUCOMARKERUTILS_H
 
 #include <aruco/aruco.h>
 #include <aruco/cvdrawingutils.h>
@@ -27,4 +27,4 @@ namespace MapCreator {
 
 }
 
-#endif //NIS_ARUCOMARKERUTILS_H
+#endif //MAPCREATOR_ARUCOMARKERUTILS_H

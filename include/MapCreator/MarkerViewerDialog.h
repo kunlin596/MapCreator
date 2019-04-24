@@ -2,8 +2,8 @@
 // Created by LinKun on 10/22/15.
 //
 
-#ifndef NIS_MARKERVIEWERDIALOG_H
-#define NIS_MARKERVIEWERDIALOG_H
+#ifndef MAPCREATOR_MARKERVIEWERDIALOG_H
+#define MAPCREATOR_MARKERVIEWERDIALOG_H
 
 
 #include <QDialog>
@@ -72,4 +72,4 @@ namespace MapCreator {
 }
 
 
-#endif //NIS_MARKERVIEWERDIALOG_H
+#endif //MAPCREATOR_MARKERVIEWERDIALOG_H
