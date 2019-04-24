@@ -5,10 +5,6 @@ aux_source_directory ( . MapCreatorSlam_SOURCE_FILES )
 set ( CMAKE_INCLUDE_CURRENT_DIR ON )
 set ( CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "/usr/local/Qt5" )
 
-# For aruco settings
-# http://www.uco.es/investiga/grupos/ava/node/26
-set ( CMAKE_MODULE_PATH /usr/local/lib/cmake )
-
 find_package ( Boost COMPONENTS system filesystem serialization REQUIRED )
 find_package ( Eigen3 REQUIRED NO_MODULE )
 
