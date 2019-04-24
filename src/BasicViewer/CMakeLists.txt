@@ -18,19 +18,19 @@ find_package ( Qt5Concurrent REQUIRED )
 find_package ( Qt5OpenGL REQUIRED )
 
 qt5_wrap_ui ( BasicViewer_UIC_FILES
-	"${MapCreator_SOURCE_DIR}/src/BasicViewer/form/BasicViewer.ui"
-	"${MapCreator_SOURCE_DIR}/src/BasicViewer/form/FrameViewer.ui"
-	"${MapCreator_SOURCE_DIR}/src/BasicViewer/form/EvaluationViewer.ui" )
+	${MapCreator_SOURCE_DIR}/src/BasicViewer/form/BasicViewer.ui
+	${MapCreator_SOURCE_DIR}/src/BasicViewer/form/FrameViewer.ui
+	${MapCreator_SOURCE_DIR}/src/BasicViewer/form/EvaluationViewer.ui )
 
 qt5_add_resources ( BasicViewer_RCC_FILES
-	"${MapCreator_SOURCE_DIR}/src/BasicViewer/rsc/Shaders.qrc" )
+	${MapCreator_SOURCE_DIR}/src/BasicViewer/rsc/Shaders.qrc )
 
 qt5_wrap_cpp ( BasicViewer_MOC_FILES
-	"${MapCreator_INCLUDE_DIR}/BasicViewer/BasicViewer.h"
-	"${MapCreator_INCLUDE_DIR}/BasicViewer/FrameViewer.h"
-	"${MapCreator_INCLUDE_DIR}/BasicViewer/BaseViewer.h"
-	"${MapCreator_INCLUDE_DIR}/BasicViewer/CloudViewer.h"
-	"${MapCreator_INCLUDE_DIR}/BasicViewer/EvaluationViewer.h" )
+	${MapCreator_INCLUDE_DIR}/BasicViewer/BasicViewer.h
+	${MapCreator_INCLUDE_DIR}/BasicViewer/FrameViewer.h
+	${MapCreator_INCLUDE_DIR}/BasicViewer/BaseViewer.h
+	${MapCreator_INCLUDE_DIR}/BasicViewer/CloudViewer.h
+	${MapCreator_INCLUDE_DIR}/BasicViewer/EvaluationViewer.h )
 
 include_directories ( ${OpenCV_INCLUDE_DIRS} ${Boost_INCLUDE_DIR} )
 
