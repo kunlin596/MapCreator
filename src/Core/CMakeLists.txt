@@ -16,7 +16,7 @@ find_package ( OpenCV REQUIRED )
 find_package ( glm REQUIRED )
 find_package ( Boost COMPONENTS system filesystem serialization iostreams REQUIRED )
 
-include_directories ( ${OpenCV_INCLUDE_DIRS} ${Boost_INCLUDE_DIR} ${NiS_INCLUDE_DIR} )
+include_directories ( ${OpenCV_INCLUDE_DIRS} ${Boost_INCLUDE_DIR} ${MapCreator_INCLUDE_DIR} )
 
 add_library ( MapCreatorCore SHARED ${Core_SOURCE_FILES} )
 target_link_libraries ( MapCreatorCore 
@@ -24,7 +24,7 @@ target_link_libraries ( MapCreatorCore
 	${Boost_LIBRARIES}
 	Qt5::Core
 	Qt5::OpenGL
-    glm )
+        glm )
 
 install ( TARGETS
     MapCreatorCore	

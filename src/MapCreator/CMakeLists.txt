@@ -1,6 +1,6 @@
 cmake_minimum_required ( VERSION 2.8 )
 
-project ( NiSMapCreator )
+project (MapCreator)
 
 aux_source_directory ( . MapCreator_SOURCE_FILES )
 
@@ -17,34 +17,34 @@ find_package ( Qt5Concurrent REQUIRED )
 find_package ( Qt5OpenGL REQUIRED )
 
 qt5_wrap_ui ( MapCreator_UIC_FILES
-	${NiS_LIB_DIR}/MapCreator/form/LogPanelDialog.ui
-	${NiS_LIB_DIR}/MapCreator/form/MarkerViewerDialog.ui
-	${NiS_LIB_DIR}/MapCreator/form/MarkerSelectorDialog.ui
-	${NiS_LIB_DIR}/MapCreator/form/CoordinateConverterDialog.ui
-	${NiS_LIB_DIR}/MapCreator/form/ComputationConfigureDialog.ui
-	${NiS_LIB_DIR}/MapCreator/form/FixedFrameCount_FrameTrackingMethodDialog.ui
-	${NiS_LIB_DIR}/MapCreator/form/OneByOne_FrameTrackingMethodDialog.ui
-	${NiS_LIB_DIR}/MapCreator/form/PcaKeyFrame_FrameTrackingMethodDialog.ui
-	${NiS_LIB_DIR}/MapCreator/form/InliersViewerOptionDialog.ui
-	${NiS_LIB_DIR}/MapCreator/form/SlamComputationDialog.ui
-	${NiS_LIB_DIR}/MapCreator/form/MainWindow.ui )
+	${MapCreator_SOURCE_DIR}/form/LogPanelDialog.ui
+	${MapCreator_SOURCE_DIR}/form/MarkerViewerDialog.ui
+	${MapCreator_SOURCE_DIR}/form/MarkerSelectorDialog.ui
+	${MapCreator_SOURCE_DIR}/form/CoordinateConverterDialog.ui
+	${MapCreator_SOURCE_DIR}/form/ComputationConfigureDialog.ui
+	${MapCreator_SOURCE_DIR}/form/FixedFrameCount_FrameTrackingMethodDialog.ui
+	${MapCreator_SOURCE_DIR}/form/OneByOne_FrameTrackingMethodDialog.ui
+	${MapCreator_SOURCE_DIR}/form/PcaKeyFrame_FrameTrackingMethodDialog.ui
+	${MapCreator_SOURCE_DIR}/form/InliersViewerOptionDialog.ui
+	${MapCreator_SOURCE_DIR}/form/SlamComputationDialog.ui
+	${MapCreator_SOURCE_DIR}/form/MainWindow.ui )
 
 qt5_wrap_cpp ( MapCreator_MOC_FILES
-	${NiS_INCLUDE_DIR}/MapCreator/ComputationConfigureDialog.h
-	${NiS_INCLUDE_DIR}/MapCreator/CoordinateConverterDialog.h
-	${NiS_INCLUDE_DIR}/MapCreator/PcaKeyFrame_FrameTrackingMethodDialog.h
-	${NiS_INCLUDE_DIR}/MapCreator/OneByOne_FrameTrackingMethodDialog.h
-	${NiS_INCLUDE_DIR}/MapCreator/FixedFrameCount_FrameTrackingMethodDialog.h
-	${NiS_INCLUDE_DIR}/MapCreator/LogPanelDialog.h
-	${NiS_INCLUDE_DIR}/MapCreator/MarkerViewerDialog.h
-	${NiS_INCLUDE_DIR}/MapCreator/MarkerSelectorDialog.h
-	${NiS_INCLUDE_DIR}/MapCreator/InliersViewerOptionDialog.h
-	${NiS_INCLUDE_DIR}/MapCreator/MainWindow.h )
+	${MapCreator_INCLUDE_DIR}/MapCreator/ComputationConfigureDialog.h
+	${MapCreator_INCLUDE_DIR}/MapCreator/CoordinateConverterDialog.h
+	${MapCreator_INCLUDE_DIR}/MapCreator/PcaKeyFrame_FrameTrackingMethodDialog.h
+	${MapCreator_INCLUDE_DIR}/MapCreator/OneByOne_FrameTrackingMethodDialog.h
+	${MapCreator_INCLUDE_DIR}/MapCreator/FixedFrameCount_FrameTrackingMethodDialog.h
+	${MapCreator_INCLUDE_DIR}/MapCreator/LogPanelDialog.h
+	${MapCreator_INCLUDE_DIR}/MapCreator/MarkerViewerDialog.h
+	${MapCreator_INCLUDE_DIR}/MapCreator/MarkerSelectorDialog.h
+	${MapCreator_INCLUDE_DIR}/MapCreator/InliersViewerOptionDialog.h
+	${MapCreator_INCLUDE_DIR}/MapCreator/MainWindow.h )
 
 qt5_add_resources ( MapCreator_RCC_FILES
-	${NiS_LIB_DIR}/MapCreator/rsc/Resource.qrc )
+	${MapCreator_SOURCE_DIR}/rsc/Resource.qrc )
 
-include_directories ( ${OpenCV_INCLUDE_DIRS} ${Boost_INCLUDE_DIR} ${NiS_INCLUDE_DIR} )
+include_directories ( ${OpenCV_INCLUDE_DIRS} ${Boost_INCLUDE_DIR} ${MapCreator_INCLUDE_DIR} )
 
 # Build library
 add_library ( NiSMapCreator SHARED

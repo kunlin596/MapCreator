@@ -1,10 +1,6 @@
-cmake_minimum_required ( VERSION 2.8 )
-
-project ( NiSSLAM )
-
 #set ( CMAKE_MACOSX_RPATH 1 )
 
-aux_source_directory ( . SLAM_SOURCE_FILES )
+aux_source_directory ( . MapCreatorSlam_SOURCE_FILES )
 
 set ( CMAKE_INCLUDE_CURRENT_DIR ON )
 set ( CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "/usr/local/Qt5" )
@@ -18,16 +14,14 @@ find_package ( Qt5OpenGL REQUIRED )
 find_package ( OpenCV REQUIRED )
 find_package ( Boost COMPONENTS system filesystem serialization REQUIRED )
 
-qt5_wrap_cpp ( SLAM_MOC_FILES "${NiS_INCLUDE_DIR}/SLAM/Alignment.h" )
+include_directories ( ${Boost_INCLUDE_DIR} ${OpenCV_INCLUDE_DIRS} ${MapCreator_INSTALL_INCLUDE_DIR} )
 
-include_directories ( ${Boost_INCLUDE_DIR} ${OpenCV_INCLUDE_DIRS} )
+add_library ( MapCreatorSlam SHARED
+        ${MapCreatorSlam_SOURCE_FILES}
+        ${MapCreatorSlam_MOC_FILES} )
 
-add_library ( NiSSLAM SHARED
-	${SLAM_SOURCE_FILES}
-	${SLAM_MOC_FILES} )
-
-target_link_libraries ( NiSSLAM
-	NiSCore
+target_link_libraries ( MapCreatorSlam
+        MapCreatorCore
 	${OpenCV_LIBS}
 	${aruco_LIBS}
 	${Boost_LIBRARIES}
@@ -35,6 +29,6 @@ target_link_libraries ( NiSSLAM
 	Qt5::OpenGL )
 
 install ( TARGETS
-	NiSSLAM
+        MapCreatorSlam
 	DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" )
 
