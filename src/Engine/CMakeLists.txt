@@ -2,15 +2,12 @@ cmake_minimum_required ( VERSION 2.8 )
 
 aux_source_directory ( . Engine_SOURCE_FILES )
 
-#set ( CMAKE_MACOSX_RPATH 1 )
+# set ( CMAKE_MACOSX_RPATH 1 )
 
 set ( CMAKE_INCLUDE_CURRENT_DIR ON )
 set ( CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "/usr/local/Qt5" )
 
 find_package ( Boost COMPONENTS system filesystem REQUIRED )
-find_package ( OpenCV REQUIRED )
-find_package ( Qt5Widgets REQUIRED )
-find_package ( Qt5Core REQUIRED )
 find_package ( Qt5Concurrent REQUIRED )
 find_package ( Qt5OpenGL REQUIRED )
 

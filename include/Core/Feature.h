@@ -9,7 +9,10 @@
 
 #include <opencv2/opencv.hpp>
 #include <opencv2/features2d.hpp>
+
+#ifdef ENABLE_OPENCV_CONTRIB
 #include <opencv2/xfeatures2d.hpp>
+#endif
 
 #include <fstream>
 
@@ -25,9 +28,11 @@ namespace MapCreator {
 		{
 			kTypeUnknown = -1 ,     ///< Unknown
 			kTypeORB     = 0 ,      ///< ORB
+#ifdef ENABLE_OPENCV_CONTRIB
 			kTypeFREAK ,            ///< FREAK
 			kTypeSIFT ,             ///< SIFT
 			kTypeSURF ,             ///< SURF
+#endif
 		};
 
 		using KeyPoints = std::vector < cv::KeyPoint >;     ///< Keypoints
@@ -89,16 +94,6 @@ namespace MapCreator {
 		}
 
 	};
-
-	// Forward delacration of member template functions.
-	// Need to be inplemented in .cpp file.
-	// Have a look at the .cpp file for detail implementation.
-
-	// This template impelemtation is just for reference
-	template < >
-	void Feature::Detect < cv::xfeatures2d::SIFT, cv::xfeatures2d::SiftDescriptorExtractor > ( const cv::Mat_ < uchar > & image ,
-	                                                                                 KeyPoints * key_points ,
-	                                                                                 Descriptors * descriptors );
 
 	bool SaveFeature ( const std::string & name , const Feature & feature );
 	bool LoadFeature ( const std::string & name , Feature & feature );

@@ -9,9 +9,7 @@ set ( CMAKE_INCLUDE_CURRENT_DIR ON )
 set ( CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "/usr/local/Qt5" )
 
 find_package ( Boost COMPONENTS system filesystem REQUIRED )
-find_package ( Qt5Core REQUIRED )
 find_package ( Qt5Concurrent REQUIRED )
-find_package ( OpenCV REQUIRED )
 
 include_directories (
 	${OpenCV_INCLUDE_DIRS}

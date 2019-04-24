@@ -6,7 +6,10 @@
 #define MAPCREATOR_ARUCOMARKERUTILS_H
 
 #include <opencv2/opencv.hpp>
+
+#ifdef ENABLE_ARUCO
 #include <opencv2/aruco/charuco.hpp>
+#endif
 
 #include "SLAM/KeyFrame.h"
 #include "SLAM/CommonDefinitions.h"

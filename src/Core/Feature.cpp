@@ -17,9 +17,11 @@ namespace MapCreator {
 
         switch (type_) {
             case kTypeORB: { detector_ = cv::ORB::create(); break; }
+#ifdef ENABLE_OPENCV_CONTRIB
             case kTypeFREAK: { detector_ = cv::xfeatures2d::FREAK::create(); break; }
             case kTypeSIFT: { detector_ = cv::xfeatures2d::SIFT::create(); break; }
             case kTypeSURF: { detector_ = cv::xfeatures2d::SURF::create(); break; }
+#endif
             default: break;
         }
 

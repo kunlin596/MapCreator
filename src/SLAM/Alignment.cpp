@@ -9,9 +9,9 @@
 
 #include <limits>
 
-#include <Core/Serialize.h>
-#include <Core/Utility.h>
-#include <Core/MyMath.h>
+#include "Core/Serialize.h"
+#include "Core/Utility.h"
+#include "Core/MyMath.h"
 
 #include <boost/tuple/tuple.hpp>
 #include <boost/iostreams/filtering_stream.hpp>
@@ -308,8 +308,9 @@ namespace MapCreator {
 				out << __lookat_point_estimation.x << "," << __lookat_point_estimation.y << "," << __lookat_point_estimation.z << ",";
 				out << __lookat_point_marker.x << "," << __lookat_point_marker.y << "," << __lookat_point_marker.z << ",";
 
-				if ( keyframe.IsUsed ( ) ) out << glm::angle ( __lookat_point_estimation , __lookat_point_marker ) << std::endl;
-				else out << 0 << std::endl;
+				// FIXME glm issue
+				// if ( keyframe.IsUsed ( ) ) out << glm::angle ( __lookat_point_estimation , __lookat_point_marker ) << std::endl;
+				// else out << 0 << std::endl;
 
 			}
 

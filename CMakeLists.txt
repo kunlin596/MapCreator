@@ -7,9 +7,11 @@ set (MapCreator_VERSION_MINOR 1)
 set (MapCreator_VERSION_PATCH 0)
 set (MapCreator_VERSION 0)
 
+option(ENABLE_OPENCV_CONTRIB "Enable Opencv contrib module" OFF)
+
 set ( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11" )
 set ( MapCreator_INSTALL_INCLUDE_DIR "${MapCreator_SOURCE_DIR}/include" )
-set ( MapCreator_LIB_DIR "${MapCreator_SOURCE_DIR}/lib" )
+# set ( MapCreator_LIB_DIR "${MapCreator_SOURCE_DIR}/lib" )
 
 set ( MapCreator_INSTALL_BIN_DIR ${CMAKE_INSTALL_PREFIX}/lib )
 set ( CMAKE_MACOSX_RPATH ${CMAKE_INSTALL_PREFIX}/lib )
@@ -18,6 +20,10 @@ include_directories ( ${MapCreator_INSTALL_INCLUDE_DIR} )
 
 set ( CMAKE_INCLUDE_CURRENT_DIR ON )
 # set ( CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "/usr/local/Qt5" )
+
+if (ENABLE_OPENCV_CONTRIB)
+    add_definitions(-DENABLE_OPENCV_CONTRIB)
+endif()
 
 add_subdirectory ( src )
 

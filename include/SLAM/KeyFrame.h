@@ -5,8 +5,8 @@
 #ifndef MAPCREATOR_KEYFRAME_H
 #define MAPCREATOR_KEYFRAME_H
 
-#include <Core/Serialize.h>
-#include <Core/Feature.h>
+#include "Core/Serialize.h"
+#include "Core/Feature.h"
 
 #include "SLAM/Calibrator.h"
 #include "SLAM/CommonDefinitions.h"
@@ -21,7 +21,7 @@ namespace MapCreator {
 	public:
 
 		KeyFrame ( const std::string & name , const PointImage & point_image , const ColorImage & color_image ,
-		           const Feature::Type & type = Feature::Type::kTypeSIFT ) :
+		           const Feature::Type & type = Feature::Type::kTypeORB) :
 				name_ ( name ) ,
 				point_image_ ( point_image ) ,
 				color_image_ ( color_image ) ,
@@ -37,7 +37,7 @@ namespace MapCreator {
 		// Setters
 		void SetId ( const int & id ) { id_ = id; }
 		void SetName ( const std::string & name ) { name_ = name; }
-		void SetColorImage ( const ColorImage & color_image , const Feature::Type & type = Feature::Type::kTypeSIFT ) {
+		void SetColorImage ( const ColorImage & color_image , const Feature::Type & type = Feature::Type::kTypeORB ) {
 
 			type_        = type;
 			color_image_ = color_image;
@@ -104,6 +104,10 @@ namespace MapCreator {
 
 			QString feature_prefix;
 			switch ( type_ ) {
+				case Feature::Type::kTypeORB:
+					feature_prefix = "ORB/orb_";
+					break;
+#ifdef ENABLE_OPENCV_CONTRIB
 				case Feature::Type::kTypeSIFT:
 					feature_prefix = "SIFT/sift_";
 					break;
@@ -113,9 +117,7 @@ namespace MapCreator {
 				case Feature::Type::kTypeFREAK:
 					feature_prefix = "FREAK/freak_";
 					break;
-				case Feature::Type::kTypeORB:
-					feature_prefix = "ORB/orb_";
-					break;
+#endif
 				default:
 					break;
 			}

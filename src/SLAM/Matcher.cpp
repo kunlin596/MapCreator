@@ -93,13 +93,16 @@ namespace MapCreator {
 		if ( !feature1.GetKeyPoints ( ).empty ( ) && !feature2.GetKeyPoints ( ).empty ( ) &&
 		     feature1.GetType ( ) == feature2.GetType ( ) ) {
 			switch ( feature1.GetType ( ) ) {
-
+#ifdef ENABLE_OPENCV_CONTRIB
 				case Feature::kTypeSIFT:
 				case Feature::kTypeSURF:
 					matches = ::CreateMatches < cv::FlannBasedMatcher > ( feature1 , feature2 , cross_check );
 					break;
+#endif
 				case Feature::kTypeORB:
+#ifdef ENABLE_OPENCV_CONTRIB
 				case Feature::kTypeFREAK:
+#endif
                     matches = ::CreateMatches < cv::BFMatcher >
 					          ( feature1 , feature2 , cross_check );
 					break;

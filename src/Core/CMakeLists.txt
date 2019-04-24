@@ -10,9 +10,6 @@ aux_source_directory ( . MapCreatorCore_SOURCE_FILES )
 set ( CMAKE_INCLUDE_CURRENT_DIR ON )
 set ( CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "/usr/local/Qt5" )
 
-find_package ( Qt5Core REQUIRED )
-find_package ( Qt5OpenGL REQUIRED )
-find_package ( OpenCV REQUIRED )
 find_package ( glm REQUIRED )
 find_package ( Boost COMPONENTS system filesystem serialization iostreams REQUIRED )
 
@@ -24,7 +21,7 @@ target_link_libraries ( MapCreatorCore
 	${Boost_LIBRARIES}
 	Qt5::Core
 	Qt5::OpenGL
-        glm )
+    glm )
 
 install ( TARGETS
     MapCreatorCore	

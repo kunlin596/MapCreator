@@ -9,12 +9,8 @@ set ( CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "/usr/local/Qt5" )
 # http://www.uco.es/investiga/grupos/ava/node/26
 set ( CMAKE_MODULE_PATH /usr/local/lib/cmake )
 
-find_package ( Qt5Widgets REQUIRED )
-find_package ( Qt5OpenGL REQUIRED )
-find_package ( OpenCV REQUIRED )
 find_package ( Boost COMPONENTS system filesystem serialization REQUIRED )
 find_package ( Eigen3 REQUIRED NO_MODULE )
-
 
 include_directories ( ${EIGEN3_INCLUDE_DIR} ${Boost_INCLUDE_DIR} ${OpenCV_INCLUDE_DIRS} ${MapCreator_INSTALL_INCLUDE_DIR} )
 
@@ -24,13 +20,13 @@ add_library ( MapCreatorSlam SHARED
 
 target_link_libraries ( MapCreatorSlam
         MapCreatorCore
-	${OpenCV_LIBS}
-	${aruco_LIBS}
-	${Boost_LIBRARIES}
-	Qt5::Widgets
-	Qt5::OpenGL )
+        ${OpenCV_LIBS}
+        ${aruco_LIBS}
+        ${Boost_LIBRARIES}
+        Qt5::Widgets
+        Qt5::OpenGL )
 
 install ( TARGETS
-        MapCreatorSlam
+    MapCreatorSlam
 	DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" )
 
