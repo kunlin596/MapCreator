@@ -9,6 +9,9 @@
 #include <boost/accumulators/accumulators.hpp>
 #include <boost/accumulators/statistics.hpp>
 
+#include <unsupported/Eigen/NumericalDiff>
+#include <unsupported/Eigen/LevenbergMarquardt>
+
 namespace MapCreator {
 
 	cv::Matx44f LevenbergMarquardt::Compute ( const cv::Matx44f & m ,
@@ -38,11 +41,12 @@ namespace MapCreator {
 		                               world_points1 ,
 		                               world_points2 );
 
-		Eigen::NumericalDiff < NumericalDiffFunctor > diff ( functor );
+        Eigen::NumericalDiff < NumericalDiffFunctor > diff ( functor );
 
-		Eigen::LevenbergMarquardt < Eigen::NumericalDiff < NumericalDiffFunctor > , NumericalDiffFunctor::Scalar > lm ( diff );
+// FIXME
+//        Eigen::LevenbergMarquardt < Eigen::NumericalDiff < NumericalDiffFunctor > , NumericalDiffFunctor::Scalar > lm ( diff );
 
-		const auto status = lm.minimize ( parameters );
+//		const auto status = lm.minimize ( parameters );
 
 		return ToCvMat ( parameters );
 	}

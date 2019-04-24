@@ -5,9 +5,7 @@
 #ifndef MAPCREATOR_BUNDDLEADJUSTMENT_H
 #define MAPCREATOR_BUNDDLEADJUSTMENT_H
 
-#include <Eigen/Dense>
-#include <unsupported/Eigen/NonLinearOptimization>
-#include <unsupported/Eigen/NumericalDiff>
+#include <eigen3/Eigen/Dense>
 
 namespace MapCreator {
 

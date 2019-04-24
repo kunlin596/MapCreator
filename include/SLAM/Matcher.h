@@ -42,6 +42,6 @@ namespace MapCreator {
                                    const PointImage &point_image1, const PointImage &point_image2,
                                    bool cross_check) const;
     };
-};
+}
 
 #endif //LK_SLAM_MATCHER_H

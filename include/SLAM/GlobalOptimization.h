@@ -11,10 +11,7 @@
 #include "SLAM/CommonDefinitions.h"
 #include "SLAM/CoordinateConverter.h"
 
-// Eigen library includes
-#include <Eigen/Dense>
-#include <unsupported/Eigen/NonLinearOptimization>
-#include <unsupported/Eigen/NumericalDiff>
+#include <eigen3/Eigen/Dense>
 
 namespace MapCreator {
 

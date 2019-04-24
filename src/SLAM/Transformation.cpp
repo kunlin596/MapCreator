@@ -7,6 +7,7 @@
 
 #include <random>
 #include <fstream>
+#include <set>
 
 #include <opencv2/opencv.hpp>
 

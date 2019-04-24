@@ -5,23 +5,23 @@
 #ifndef MAPCREATOR_ARUCOMARKERUTILS_H
 #define MAPCREATOR_ARUCOMARKERUTILS_H
 
-#include <aruco/aruco.h>
-#include <aruco/cvdrawingutils.h>
 #include <opencv2/opencv.hpp>
+#include <opencv2/aruco/charuco.hpp>
 
 #include "SLAM/KeyFrame.h"
 #include "SLAM/CommonDefinitions.h"
 
 namespace MapCreator {
 
-	using Markers = std::vector < aruco::Marker >;
+//        using Markers = std::vector < aruco::Markers >;
 
 	struct ArucoMarkerUtils
 	{
-		static CorrespondingPointsPair CreatePoints ( Markers & markers_set_1 ,
-		                                              Markers & markers_set_2 ,
-		                                              const KeyFrame & keyframe1 ,
-		                                              const KeyFrame & keyframe2 );
+// TODO: Fix aruco markers
+//		static CorrespondingPointsPair CreatePoints ( Markers & markers_set_1 ,
+//		                                              Markers & markers_set_2 ,
+//		                                              const KeyFrame & keyframe1 ,
+//		                                              const KeyFrame & keyframe2 );
 	};
 
 

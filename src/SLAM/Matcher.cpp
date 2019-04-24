@@ -3,7 +3,6 @@
 //
 
 #include "SLAM/Matcher.h"
-#include <opencv2/legacy/legacy.hpp>
 
 namespace {
 
@@ -101,7 +100,7 @@ namespace MapCreator {
 					break;
 				case Feature::kTypeORB:
 				case Feature::kTypeFREAK:
-					matches = ::CreateMatches < cv::BruteForceMatcher < cv::Hamming > >
+                    matches = ::CreateMatches < cv::BFMatcher >
 					          ( feature1 , feature2 , cross_check );
 					break;
 				case Feature::kTypeUnknown:

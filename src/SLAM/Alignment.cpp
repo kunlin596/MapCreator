@@ -5,7 +5,7 @@
 #include "SLAM/Calibrator.h"
 #include "SLAM/Transformation.h"
 #include "SLAM/GlobalOptimization.h"
-#include "SLAM/ArucoMarkerUtils.h"
+//#include "SLAM/ArucoMarkerUtils.h"
 
 #include <limits>
 
@@ -21,6 +21,7 @@
 #include <QMap>
 #include <QFileDialog>
 #include <QThread>
+#include <QTimer>
 #include <QTime>
 #include <QWaitCondition>
 
@@ -51,7 +52,7 @@ namespace MapCreator {
 			return;
 		}
 
-		QTime timer;
+        QTimer timer;
 		timer.start ( );
 
 		emit Message ( "Computation begins..." );
@@ -71,14 +72,14 @@ namespace MapCreator {
 				return;
 		}
 
-		emit Message ( QString ( "Done computing %1 frames. (used %2)" )
-				               .arg ( keyframes_.size ( ) )
-				               .arg ( ConvertTime ( timer.elapsed ( ) ) ) );
+//		emit Message ( QString ( "Done computing %1 frames. (used %2)" )
+//				               .arg ( keyframes_.size ( ) )
+//				               .arg ( ConvertTime ( timer.elapsed ( ) ) ) );
 
 		emit SendData ( keyframes_ );
 
-		if ( has_answer_ ) WriteCache ( timer.elapsed ( ) , "WithAnswer" );
-		else WriteCache ( timer.elapsed ( ) );
+//		if ( has_answer_ ) WriteCache ( timer.elapsed ( ) , "WithAnswer" );
+//		else WriteCache ( timer.elapsed ( ) );
 
 	}
 
@@ -93,39 +94,39 @@ namespace MapCreator {
 			return;
 		}
 
-		aruco::MarkerDetector marker_detector;
+//        aruco::MarkerDetector marker_detector;
 
-		QTime timer;
-		timer.start ( );
+        QTimer timer;
+        timer.start ( );
 
-		all_markers_points_pairs_.clear ( );
+        all_markers_points_pairs_.clear ( );
 
-		for ( auto i = 1 ; i < keyframes_.size ( ) ; ++i ) {
+        for ( auto i = 1 ; i < keyframes_.size ( ) ; ++i ) {
 
-			auto & keyframe1 = keyframes_[ i - 1 ];
-			auto & keyframe2 = keyframes_[ i ];
+            auto & keyframe1 = keyframes_[ i - 1 ];
+            auto & keyframe2 = keyframes_[ i ];
 
-			Markers markers1;
-			Markers markers2;
+//            Markers markers1;
+//            Markers markers2;
 
-			marker_detector.detect ( keyframe1.GetColorImage ( ) , markers1 );
-			marker_detector.detect ( keyframe2.GetColorImage ( ) , markers2 );
+//            marker_detector.detect ( keyframe1.GetColorImage ( ) , markers1 );
+//            marker_detector.detect ( keyframe2.GetColorImage ( ) , markers2 );
 
-			Points points1;
-			Points points2;
+            Points points1;
+            Points points2;
 
-			boost::tie ( points1 , points2 ) = ArucoMarkerUtils::CreatePoints ( markers1 , markers2 , keyframe1 , keyframe2 );
+//            boost::tie ( points1 , points2 ) = ArucoMarkerUtils::CreatePoints ( markers1 , markers2 , keyframe1 , keyframe2 );
 
-			all_markers_points_pairs_.push_back ( std::make_pair ( points1 , points2 ) );
+//            all_markers_points_pairs_.push_back ( std::make_pair ( points1 , points2 ) );
 
-			auto matrix = ComputeTransformationMatrix ( points2 , points1 );
+//            auto matrix = ComputeTransformationMatrix ( points2 , points1 );
 
-			keyframe2.SetAnswerAlignmentMatrix ( std::move ( Convert_OpenCV_Matx44f_To_GLM_mat4 ( matrix ) ) );
-		}
+//            keyframe2.SetAnswerAlignmentMatrix ( std::move ( Convert_OpenCV_Matx44f_To_GLM_mat4 ( matrix ) ) );
+        }
 
-		emit Message ( QString ( "Done generating answers of  %1 frames. (used %2)" )
-				               .arg ( keyframes_.size ( ) )
-				               .arg ( ConvertTime ( timer.elapsed ( ) ) ) );
+//		emit Message ( QString ( "Done generating answers of  %1 frames. (used %2)" )
+//				               .arg ( keyframes_.size ( ) )
+//				               .arg ( ConvertTime ( timer.elapsed ( ) ) ) );
 
 		emit SendData ( keyframes_ );
 
@@ -394,7 +395,7 @@ namespace MapCreator {
 
 //		result_keyframes_.clear ( );
 
-		QTime timer;
+        QTimer timer;
 		timer.start ( );
 
 		ComputationResultCache cache;
@@ -425,9 +426,9 @@ namespace MapCreator {
 		}
 
 		emit SendData ( keyframes_ );
-		emit Message ( QString ( "Done loading %1 frames' results. (used %2)" )
-				               .arg ( keyframes_.size ( ) )
-				               .arg ( ConvertTime ( timer.elapsed ( ) ) ) );
+//		emit Message ( QString ( "Done loading %1 frames' results. (used %2)" )
+//				               .arg ( keyframes_.size ( ) )
+//				               .arg ( ConvertTime ( timer.elapsed ( ) ) ) );
 	}
 
 	void SlamComputer::StopCompute ( ) {
