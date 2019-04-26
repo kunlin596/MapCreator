@@ -27,72 +27,72 @@
 
 namespace MapCreator {
 
-	SlamAlgorithm::SlamAlgorithm ( QObject * parent ) :
-			running_flag_ ( true ) ,
-			has_answer_ ( false ) ,
-			is_computation_configured_ ( false ) ,
-			is_data_initialized_ ( false ) {
+    SlamAlgorithm::SlamAlgorithm ( QObject * parent ) :
+            running_flag_ ( true ) ,
+            has_answer_ ( false ) ,
+            is_computation_configured_ ( false ) ,
+            is_data_initialized_ ( false ) {
 
-	}
+    }
 
-	void SlamAlgorithm::SetDataDir ( const QDir & data_dir ) {
+    void SlamAlgorithm::SetDataDir ( const QDir & data_dir ) {
 
-		data_dir_ = data_dir;
-	}
+        data_dir_ = data_dir;
+    }
 
-	void SlamAlgorithm::StartCompute ( ) {
+    void SlamAlgorithm::StartCompute ( ) {
 
-		running_flag_ = true;
+        running_flag_ = true;
 
-		std::cout << "SlamAlgorithm thread : " << QThread::currentThreadId ( ) << std::endl;
-		std::cout << "SlamAlgorithm thread - data size : " << keyframes_.size ( ) << std::endl;
+        std::cout << "SlamAlgorithm thread : " << QThread::currentThreadId ( ) << std::endl;
+        std::cout << "SlamAlgorithm thread - data size : " << keyframes_.size ( ) << std::endl;
 
-		if ( keyframes_.size ( ) < 2 ) {
-			emit SendData ( keyframes_ );
-			return;
-		}
+        if ( keyframes_.size ( ) < 2 ) {
+            // emit SendData ( keyframes_ );
+            return;
+        }
 
         QTimer timer;
-		timer.start ( );
+        timer.start ( );
 
-		emit Message ( "Computation begins..." );
+        // emit Message ( "Computation begins..." );
 
-		switch ( options_.type_ ) {
-			case TrackingType::OneByOne:
-				ComputeHelper < TrackingType::OneByOne > ( );
-				break;
-			case TrackingType::FixedFrameCount:
-				ComputeHelper < TrackingType::FixedFrameCount > ( );
-				break;
-			case TrackingType::PcaKeyFrame:
-				ComputeHelper < TrackingType::PcaKeyFrame > ( );
-				break;
-			case TrackingType::Unknown:
-				emit Message ( "Setup computation options at first." );
-				return;
-		}
+        switch ( options_.type_ ) {
+            case TrackingType::OneByOne:
+                ComputeHelper < TrackingType::OneByOne > ( );
+                break;
+            case TrackingType::FixedFrameCount:
+                ComputeHelper < TrackingType::FixedFrameCount > ( );
+                break;
+            case TrackingType::PcaKeyFrame:
+                ComputeHelper < TrackingType::PcaKeyFrame > ( );
+                break;
+            case TrackingType::Unknown:
+                // emit Message ( "Setup computation options at first." );
+                return;
+        }
 
-//		emit Message ( QString ( "Done computing %1 frames. (used %2)" )
-//				               .arg ( keyframes_.size ( ) )
-//				               .arg ( ConvertTime ( timer.elapsed ( ) ) ) );
+//      emit Message ( QString ( "Done computing %1 frames. (used %2)" )
+//                             .arg ( keyframes_.size ( ) )
+//                             .arg ( ConvertTime ( timer.elapsed ( ) ) ) );
 
-		emit SendData ( keyframes_ );
+        // emit SendData ( keyframes_ );
 
-//		if ( has_answer_ ) WriteCache ( timer.elapsed ( ) , "WithAnswer" );
-//		else WriteCache ( timer.elapsed ( ) );
+//      if ( has_answer_ ) WriteCache ( timer.elapsed ( ) , "WithAnswer" );
+//      else WriteCache ( timer.elapsed ( ) );
 
-	}
+    }
 
-	void SlamAlgorithm::StartGenerateAnswer ( ) {
+    void SlamAlgorithm::StartGenerateAnswer ( ) {
 
-		if ( keyframes_.empty ( ) ) {
-			return;
-		}
+        if ( keyframes_.empty ( ) ) {
+            return;
+        }
 
-		if ( keyframes_.size ( ) < 2 ) {
-			emit SendData ( keyframes_ );
-			return;
-		}
+        if ( keyframes_.size ( ) < 2 ) {
+            // emit SendData ( keyframes_ );
+            return;
+        }
 
 //        aruco::MarkerDetector marker_detector;
 
@@ -124,360 +124,360 @@ namespace MapCreator {
 //            keyframe2.SetAnswerAlignmentMatrix ( std::move ( Convert_OpenCV_Matx44f_To_GLM_mat4 ( matrix ) ) );
         }
 
-//		emit Message ( QString ( "Done generating answers of  %1 frames. (used %2)" )
-//				               .arg ( keyframes_.size ( ) )
-//				               .arg ( ConvertTime ( timer.elapsed ( ) ) ) );
+//      emit Message ( QString ( "Done generating answers of  %1 frames. (used %2)" )
+//                             .arg ( keyframes_.size ( ) )
+//                             .arg ( ConvertTime ( timer.elapsed ( ) ) ) );
 
-		emit SendData ( keyframes_ );
+        // emit SendData ( keyframes_ );
 
-		has_answer_ = true;
-	}
+        has_answer_ = true;
+    }
 
-	bool SlamAlgorithm::WriteResult ( const std::pair < glm::vec3 , glm::vec3 > & point_pair ) {
+    bool SlamAlgorithm::WriteResult ( const std::pair < glm::vec3 , glm::vec3 > & point_pair ) {
 
-		time_t time_stamp = time ( nullptr );
+        time_t time_stamp = time ( nullptr );
 
-		QString result_name_prefix;
+        QString result_name_prefix;
 
-		std::cout << options_.type_ << std::endl;
+        std::cout << options_.type_ << std::endl;
 
-		switch ( options_.type_ ) {
-			case TrackingType::OneByOne:
-				result_name_prefix = QString ( "%1_%2" ).arg ( time_stamp ).arg ( "OneByOne" );
-				break;
-			case TrackingType::PcaKeyFrame:
-				result_name_prefix = QString ( "%1_%2" ).arg ( time_stamp ).arg ( "PcaKeyFrame" );
-				break;
-			case TrackingType::FixedFrameCount:
-				result_name_prefix = QString ( "%1_%2" ).arg ( time_stamp ).arg ( "FixedFrameCount" );
-				break;
-			case TrackingType::Unknown:
-				emit Message ( "No result to be written." );
-				return false;
+        switch ( options_.type_ ) {
+            case TrackingType::OneByOne:
+                result_name_prefix = QString ( "%1_%2" ).arg ( time_stamp ).arg ( "OneByOne" );
+                break;
+            case TrackingType::PcaKeyFrame:
+                result_name_prefix = QString ( "%1_%2" ).arg ( time_stamp ).arg ( "PcaKeyFrame" );
+                break;
+            case TrackingType::FixedFrameCount:
+                result_name_prefix = QString ( "%1_%2" ).arg ( time_stamp ).arg ( "FixedFrameCount" );
+                break;
+            case TrackingType::Unknown:
+                // emit Message ( "No result to be written." );
+                return false;
 
-		}
+        }
 
-		QString data_folder_path = data_dir_.absolutePath ( );
-		QDir    dir ( data_folder_path + "/Result" );
-		if ( !dir.exists ( ) ) dir.mkdir ( data_folder_path + "/Result" );
+        QString data_folder_path = data_dir_.absolutePath ( );
+        QDir    dir ( data_folder_path + "/Result" );
+        if ( !dir.exists ( ) ) dir.mkdir ( data_folder_path + "/Result" );
 
-		std::string   result_file_name = QString ( data_folder_path + "/Result/" + result_name_prefix + ".txt" ).toStdString ( );
-		std::ofstream out ( result_file_name );
+        std::string   result_file_name = QString ( data_folder_path + "/Result/" + result_name_prefix + ".txt" ).toStdString ( );
+        std::ofstream out ( result_file_name );
 
-		if ( out ) {
+        if ( out ) {
 
-			out << "Current tracker type : " << static_cast<int>(options_.type_) << std::endl;
+            out << "Current tracker type : " << static_cast<int>(options_.type_) << std::endl;
 
-			switch ( options_.type_ ) {
+            switch ( options_.type_ ) {
 
-				case TrackingType::OneByOne: {
-					out << options_.options_one_by_one.Output ( ).toStdString ( ) << std::endl;
-					break;
-				}
-				case TrackingType::PcaKeyFrame: {
-					out << options_.options_pca_keyframe.Output ( ).toStdString ( ) << std::endl;
-					break;
-				}
-				case TrackingType::FixedFrameCount : {
-					out << options_.options_fixed_frame_count.Output ( ).toStdString ( ) << std::endl;
-					break;
-				}
-				default:
-					break;
-			}
+                case TrackingType::OneByOne: {
+                    out << options_.options_one_by_one.Output ( ).toStdString ( ) << std::endl;
+                    break;
+                }
+                case TrackingType::PcaKeyFrame: {
+                    out << options_.options_pca_keyframe.Output ( ).toStdString ( ) << std::endl;
+                    break;
+                }
+                case TrackingType::FixedFrameCount : {
+                    out << options_.options_fixed_frame_count.Output ( ).toStdString ( ) << std::endl;
+                    break;
+                }
+                default:
+                    break;
+            }
 
-			out << "point1 " << glm::vec4 ( point_pair.first , 1.0f );
-			out << "point2 " << glm::vec4 ( point_pair.second , 1.0f );
+            out << "point1 " << glm::vec4 ( point_pair.first , 1.0f );
+            out << "point2 " << glm::vec4 ( point_pair.second , 1.0f );
 
-			out.close ( );
+            out.close ( );
 
-			return true;
-		}
+            return true;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	bool SlamAlgorithm::WriteResult ( ) {
+    bool SlamAlgorithm::WriteResult ( ) {
 
-		time_t time_stamp = time ( nullptr );
+        time_t time_stamp = time ( nullptr );
 
-		QString result_name_prefix;
+        QString result_name_prefix;
 
-		std::cout << options_.type_ << std::endl;
+        std::cout << options_.type_ << std::endl;
 
-		switch ( options_.type_ ) {
-			case TrackingType::OneByOne:
-				result_name_prefix = QString ( "%1_%2" ).arg ( time_stamp ).arg ( "OneByOne" );
-				break;
-			case TrackingType::PcaKeyFrame:
-				result_name_prefix = QString ( "%1_%2" ).arg ( time_stamp ).arg ( "PcaKeyFrame" );
-				break;
-			case TrackingType::FixedFrameCount:
-				result_name_prefix = QString ( "%1_%2" ).arg ( time_stamp ).arg ( "FixedFrameCount" );
-				break;
-			case TrackingType::Unknown:
-				emit Message ( "No result to be written." );
-				return false;
+        switch ( options_.type_ ) {
+            case TrackingType::OneByOne:
+                result_name_prefix = QString ( "%1_%2" ).arg ( time_stamp ).arg ( "OneByOne" );
+                break;
+            case TrackingType::PcaKeyFrame:
+                result_name_prefix = QString ( "%1_%2" ).arg ( time_stamp ).arg ( "PcaKeyFrame" );
+                break;
+            case TrackingType::FixedFrameCount:
+                result_name_prefix = QString ( "%1_%2" ).arg ( time_stamp ).arg ( "FixedFrameCount" );
+                break;
+            case TrackingType::Unknown:
+                // emit Message ( "No result to be written." );
+                return false;
 
-		}
+        }
 
-		QString data_folder_path = data_dir_.absolutePath ( );
-		QDir    dir ( data_folder_path + "/Result" );
-		if ( !dir.exists ( ) ) dir.mkdir ( data_folder_path + "/Result" );
+        QString data_folder_path = data_dir_.absolutePath ( );
+        QDir    dir ( data_folder_path + "/Result" );
+        if ( !dir.exists ( ) ) dir.mkdir ( data_folder_path + "/Result" );
 
-		std::string   result_file_name = QString ( data_folder_path + "/Result/" + result_name_prefix + ".txt" ).toStdString ( );
-		std::ofstream out ( result_file_name );
+        std::string   result_file_name = QString ( data_folder_path + "/Result/" + result_name_prefix + ".txt" ).toStdString ( );
+        std::ofstream out ( result_file_name );
 
-		if ( out ) {
+        if ( out ) {
 
-			out << "Current tracker type : " << static_cast<int>(options_.type_) << std::endl;
+            out << "Current tracker type : " << static_cast<int>(options_.type_) << std::endl;
 
-			switch ( options_.type_ ) {
+            switch ( options_.type_ ) {
 
-				case TrackingType::OneByOne: {
-					out << options_.options_one_by_one.Output ( ).toStdString ( ) << std::endl;
-					break;
-				}
-				case TrackingType::PcaKeyFrame: {
-					out << options_.options_pca_keyframe.Output ( ).toStdString ( ) << std::endl;
-					break;
-				}
-				case TrackingType::FixedFrameCount : {
-					out << options_.options_fixed_frame_count.Output ( ).toStdString ( ) << std::endl;
-					break;
-				}
-				default:
-					break;
-			}
+                case TrackingType::OneByOne: {
+                    out << options_.options_one_by_one.Output ( ).toStdString ( ) << std::endl;
+                    break;
+                }
+                case TrackingType::PcaKeyFrame: {
+                    out << options_.options_pca_keyframe.Output ( ).toStdString ( ) << std::endl;
+                    break;
+                }
+                case TrackingType::FixedFrameCount : {
+                    out << options_.options_fixed_frame_count.Output ( ).toStdString ( ) << std::endl;
+                    break;
+                }
+                default:
+                    break;
+            }
 
-//			out << "id x(estimation) y(estimation) z(estimation) "
-//					"x'(estimation) y'(estimation) z'(estimation) "
-//					"x(marker) y(marker) z(marker) "
-//					"x'(marker) y'(marker) z'(marker) "
-//					"position_error(estimation) "
-//					"position_error(marker) "
-//					"d_estimation_d_marker "
-//					"angle_estimation "
-//					"angle_marker" << std::endl;
+//          out << "id x(estimation) y(estimation) z(estimation) "
+//                  "x'(estimation) y'(estimation) z'(estimation) "
+//                  "x(marker) y(marker) z(marker) "
+//                  "x'(marker) y'(marker) z'(marker) "
+//                  "position_error(estimation) "
+//                  "position_error(marker) "
+//                  "d_estimation_d_marker "
+//                  "angle_estimation "
+//                  "angle_marker" << std::endl;
 
-//			std::cout << "all_markers_points_pairs_.size() : " << all_markers_points_pairs_.size ( ) << std::endl;
+//          std::cout << "all_markers_points_pairs_.size() : " << all_markers_points_pairs_.size ( ) << std::endl;
 //
-//			// estimation pair
-//			glm::mat4 accumulated_matrix1_e;
-//			glm::mat4 accumulated_matrix2_e;
+//          // estimation pair
+//          glm::mat4 accumulated_matrix1_e;
+//          glm::mat4 accumulated_matrix2_e;
 //
-//			// marker apir
-//			glm::mat4 accumulated_matrix1_m;
-//			glm::mat4 accumulated_matrix2_m;
-			out << "CAUTION: The look at point has been translated to the origin." << std::endl;
-			out << "Position X (estimation),Position Y (estimation),Position Z (estimation),"
-					"Position X (marker),Position Y (marker),Position Z (marker),"
-					"Translation Error,"
-					"LookatPoint X (estimation),LookatPoint Y (estimation),LookatPoint Z (estimation),"
-					"LookatPoint X (marker),LookatPoint Y (marker),LookatPoint Z (marker),"
-					"Rotation Error" << std::endl;
+//          // marker apir
+//          glm::mat4 accumulated_matrix1_m;
+//          glm::mat4 accumulated_matrix2_m;
+            out << "CAUTION: The look at point has been translated to the origin." << std::endl;
+            out << "Position X (estimation),Position Y (estimation),Position Z (estimation),"
+                    "Position X (marker),Position Y (marker),Position Z (marker),"
+                    "Translation Error,"
+                    "LookatPoint X (estimation),LookatPoint Y (estimation),LookatPoint Z (estimation),"
+                    "LookatPoint X (marker),LookatPoint Y (marker),LookatPoint Z (marker),"
+                    "Rotation Error" << std::endl;
 
-			auto position_estimation     = glm::vec3 ( );
-			auto position_marker         = glm::vec3 ( );
-			auto lookat_point_estimation = glm::vec3 ( 0.0f , 0.0f , 1.0f );
-			auto lookat_point_marker     = glm::vec3 ( 0.0f , 0.0f , 1.0f );
+            auto position_estimation     = glm::vec3 ( );
+            auto position_marker         = glm::vec3 ( );
+            auto lookat_point_estimation = glm::vec3 ( 0.0f , 0.0f , 1.0f );
+            auto lookat_point_marker     = glm::vec3 ( 0.0f , 0.0f , 1.0f );
 
-			auto accumulated_matrix_estimation = glm::mat4 ( );
-			auto accumulated_matrix_marker     = glm::mat4 ( );
+            auto accumulated_matrix_estimation = glm::mat4 ( );
+            auto accumulated_matrix_marker     = glm::mat4 ( );
 
-			for ( const auto & keyframe : keyframes_ ) {
+            for ( const auto & keyframe : keyframes_ ) {
 
-				accumulated_matrix_estimation *= keyframe.GetAlignmentMatrix ( );
-				accumulated_matrix_marker *= keyframe.GetAnswerAlignmentMatrix ( );
+                accumulated_matrix_estimation *= keyframe.GetAlignmentMatrix ( );
+                accumulated_matrix_marker *= keyframe.GetAnswerAlignmentMatrix ( );
 
-				const auto _position_estimation = accumulated_matrix_estimation * glm::vec4 ( position_estimation , 1.0f );
-				const auto _position_marker     = accumulated_matrix_marker * glm::vec4 ( position_marker , 1.0f );
+                const auto _position_estimation = accumulated_matrix_estimation * glm::vec4 ( position_estimation , 1.0f );
+                const auto _position_marker     = accumulated_matrix_marker * glm::vec4 ( position_marker , 1.0f );
 
-				const auto _lookat_point_estimation = accumulated_matrix_estimation * glm::vec4 ( lookat_point_estimation , 1.0f );
-				const auto _lookat_point_marker     = accumulated_matrix_marker * glm::vec4 ( lookat_point_marker , 1.0f );
+                const auto _lookat_point_estimation = accumulated_matrix_estimation * glm::vec4 ( lookat_point_estimation , 1.0f );
+                const auto _lookat_point_marker     = accumulated_matrix_marker * glm::vec4 ( lookat_point_marker , 1.0f );
 
-				const auto __lookat_point_estimation = _lookat_point_estimation - _position_estimation;
-				const auto __lookat_point_marker     = _lookat_point_marker - _position_marker;
+                const auto __lookat_point_estimation = _lookat_point_estimation - _position_estimation;
+                const auto __lookat_point_marker     = _lookat_point_marker - _position_marker;
 
-				out << _position_estimation.x << "," << _position_estimation.y << "," << _position_estimation.z << ",";
-				out << _position_marker.x << "," << _position_marker.y << "," << _position_marker.z << ",";
+                out << _position_estimation.x << "," << _position_estimation.y << "," << _position_estimation.z << ",";
+                out << _position_marker.x << "," << _position_marker.y << "," << _position_marker.z << ",";
 
-				if ( keyframe.IsUsed ( ) ) out << glm::length ( _position_estimation - _position_marker ) << ",";
-				else out << 0 << ",";
+                if ( keyframe.IsUsed ( ) ) out << glm::length ( _position_estimation - _position_marker ) << ",";
+                else out << 0 << ",";
 
-				out << __lookat_point_estimation.x << "," << __lookat_point_estimation.y << "," << __lookat_point_estimation.z << ",";
-				out << __lookat_point_marker.x << "," << __lookat_point_marker.y << "," << __lookat_point_marker.z << ",";
+                out << __lookat_point_estimation.x << "," << __lookat_point_estimation.y << "," << __lookat_point_estimation.z << ",";
+                out << __lookat_point_marker.x << "," << __lookat_point_marker.y << "," << __lookat_point_marker.z << ",";
 
-				// FIXME glm issue
-				// if ( keyframe.IsUsed ( ) ) out << glm::angle ( __lookat_point_estimation , __lookat_point_marker ) << std::endl;
-				// else out << 0 << std::endl;
+                // FIXME glm issue
+                // if ( keyframe.IsUsed ( ) ) out << glm::angle ( __lookat_point_estimation , __lookat_point_marker ) << std::endl;
+                // else out << 0 << std::endl;
 
-			}
+            }
 
-//			for ( auto id = 0 ; id < all_markers_points_pairs_.size ( ) ; ++id ) {
+//          for ( auto id = 0 ; id < all_markers_points_pairs_.size ( ) ; ++id ) {
 //
-//				auto & markers_points_pair = all_markers_points_pairs_[ id ];
-//				auto & points1             = markers_points_pair.first;
-//				auto & points2             = markers_points_pair.second;
+//              auto & markers_points_pair = all_markers_points_pairs_[ id ];
+//              auto & points1             = markers_points_pair.first;
+//              auto & points2             = markers_points_pair.second;
 //
-//				std::cout << id << " : points1.size() : " << points1.size ( ) << std::endl;
+//              std::cout << id << " : points1.size() : " << points1.size ( ) << std::endl;
 //
-//				accumulated_matrix1_e *= keyframes_[ id ].GetAlignmentMatrix ( );               // estimation
-//				accumulated_matrix2_e *= keyframes_[ id + 1 ].GetAlignmentMatrix ( );           // estimation
+//              accumulated_matrix1_e *= keyframes_[ id ].GetAlignmentMatrix ( );               // estimation
+//              accumulated_matrix2_e *= keyframes_[ id + 1 ].GetAlignmentMatrix ( );           // estimation
 //
-//				accumulated_matrix1_m *= keyframes_[ id ].GetAnswerAlignmentMatrix ( );         // marker
-//				accumulated_matrix2_m *= keyframes_[ id + 1 ].GetAnswerAlignmentMatrix ( );     // marker
+//              accumulated_matrix1_m *= keyframes_[ id ].GetAnswerAlignmentMatrix ( );         // marker
+//              accumulated_matrix2_m *= keyframes_[ id + 1 ].GetAnswerAlignmentMatrix ( );     // marker
 //
-//				for ( auto i = 0 ; i < points1.size ( ) ; ++i ) {
+//              for ( auto i = 0 ; i < points1.size ( ) ; ++i ) {
 //
-//					const auto & point1 = points1[ i ];
-//					const auto & point2 = points2[ i ];
+//                  const auto & point1 = points1[ i ];
+//                  const auto & point2 = points2[ i ];
 //
-//					const auto glm_point1 = glm::vec4 ( point1.x , point1.y , point1.z , 1.0f );
-//					const auto glm_point2 = glm::vec4 ( point2.x , point2.y , point2.z , 1.0f );
+//                  const auto glm_point1 = glm::vec4 ( point1.x , point1.y , point1.z , 1.0f );
+//                  const auto glm_point2 = glm::vec4 ( point2.x , point2.y , point2.z , 1.0f );
 //
-//					// estimation pair
-//					const auto glm_point1_e_vec3 = glm::vec3 ( accumulated_matrix1_e * glm_point1 );
-//					const auto glm_point2_e_vec3 = glm::vec3 ( accumulated_matrix2_e * glm_point2 );
+//                  // estimation pair
+//                  const auto glm_point1_e_vec3 = glm::vec3 ( accumulated_matrix1_e * glm_point1 );
+//                  const auto glm_point2_e_vec3 = glm::vec3 ( accumulated_matrix2_e * glm_point2 );
 //
-//					// marker pair
-//					const auto glm_point1_m_vec3 = glm::vec3 ( accumulated_matrix1_m * glm_point1 );
-//					const auto glm_point2_m_vec3 = glm::vec3 ( accumulated_matrix2_m * glm_point2 );
+//                  // marker pair
+//                  const auto glm_point1_m_vec3 = glm::vec3 ( accumulated_matrix1_m * glm_point1 );
+//                  const auto glm_point2_m_vec3 = glm::vec3 ( accumulated_matrix2_m * glm_point2 );
 //
-//					const auto angle_estimation = glm::angle ( glm_point1_e_vec3 , glm_point2_e_vec3 );
-//					const auto angle_marker     = glm::angle ( glm_point1_m_vec3 , glm_point2_m_vec3 );
+//                  const auto angle_estimation = glm::angle ( glm_point1_e_vec3 , glm_point2_e_vec3 );
+//                  const auto angle_marker     = glm::angle ( glm_point1_m_vec3 , glm_point2_m_vec3 );
 //
-//					out << id << " ";
+//                  out << id << " ";
 //
-//					// estimation pair
-//					out << glm_point1_e_vec3.x << " " << glm_point1_e_vec3.y << " " << glm_point1_e_vec3.z << " ";
-//					out << glm_point2_e_vec3.x << " " << glm_point2_e_vec3.y << " " << glm_point2_e_vec3.z << " ";
+//                  // estimation pair
+//                  out << glm_point1_e_vec3.x << " " << glm_point1_e_vec3.y << " " << glm_point1_e_vec3.z << " ";
+//                  out << glm_point2_e_vec3.x << " " << glm_point2_e_vec3.y << " " << glm_point2_e_vec3.z << " ";
 //
-//					// marker pair
-//					out << glm_point1_m_vec3.x << " " << glm_point1_m_vec3.y << " " << glm_point1_m_vec3.z << " ";
-//					out << glm_point2_m_vec3.x << " " << glm_point2_m_vec3.y << " " << glm_point2_m_vec3.z << " ";
+//                  // marker pair
+//                  out << glm_point1_m_vec3.x << " " << glm_point1_m_vec3.y << " " << glm_point1_m_vec3.z << " ";
+//                  out << glm_point2_m_vec3.x << " " << glm_point2_m_vec3.y << " " << glm_point2_m_vec3.z << " ";
 //
-//					out << angle_estimation << " ";
-//					out << angle_marker << std::endl;
-//				}
-//			}
+//                  out << angle_estimation << " ";
+//                  out << angle_marker << std::endl;
+//              }
+//          }
 
-			out.close ( );
-			return true;
-		}
+            out.close ( );
+            return true;
+        }
 
-		return false;
+        return false;
 
-	}
+    }
 
-	bool SlamAlgorithm::CheckPreviousResult ( ) {
+    bool SlamAlgorithm::CheckPreviousResult ( ) {
 
-		std::cout << "Checking privious result." << std::endl;
+        std::cout << "Checking privious result." << std::endl;
 
-		result_cache_path_ = data_dir_.absolutePath ( ) + "/Cache";
+        result_cache_path_ = data_dir_.absolutePath ( ) + "/Cache";
 
-		QDir dir ( result_cache_path_ );
-		if ( !dir.exists ( ) ) {
-			dir.mkdir ( result_cache_path_ );
-			return false;
-		}
+        QDir dir ( result_cache_path_ );
+        if ( !dir.exists ( ) ) {
+            dir.mkdir ( result_cache_path_ );
+            return false;
+        }
 
-		QStringList filter_list;
-		filter_list.push_back ( QString ( "*.cache" ) );
+        QStringList filter_list;
+        filter_list.push_back ( QString ( "*.cache" ) );
 
-		return !dir.entryInfoList ( filter_list ).empty ( );
-	}
+        return !dir.entryInfoList ( filter_list ).empty ( );
+    }
 
-	void SlamAlgorithm::UsePreviousResult ( const QString & result_cache_name ) {
+    void SlamAlgorithm::UsePreviousResult ( const QString & result_cache_name ) {
 
-		if ( keyframes_.empty ( ) ) {
-			emit Message ( "No data found, cannot apply matrices." );
-		}
+        if ( keyframes_.empty ( ) ) {
+            // emit Message ( "No data found, cannot apply matrices." );
+        }
 
-//		result_keyframes_.clear ( );
+//      result_keyframes_.clear ( );
 
         QTimer timer;
-		timer.start ( );
+        timer.start ( );
 
-		ComputationResultCache cache;
+        ComputationResultCache cache;
 
-		bool load_succeeded = LoadComputationResultCache ( result_cache_name.toStdString ( ) , cache );
-		if ( !load_succeeded ) { return; }
+        bool load_succeeded = LoadComputationResultCache ( result_cache_name.toStdString ( ) , cache );
+        if ( !load_succeeded ) { return; }
 
-		auto data_set_name    = cache.data_set_name;
-		auto computation_time = cache.computation_time;
+        auto data_set_name    = cache.data_set_name;
+        auto computation_time = cache.computation_time;
 
-		options_ = cache.options;
+        options_ = cache.options;
 
-		for ( auto i = 0 ; i < cache.indices.size ( ) ; ++i ) {
+        for ( auto i = 0 ; i < cache.indices.size ( ) ; ++i ) {
 
-			auto id                = cache.indices[ i ];
-			auto is_used           = cache.used_status[ i ];
-			auto estimation_matrix = cache.estimation_matrices[ i ];
-			auto marker_matrix     = cache.marker_matrices[ i ];
+            auto id                = cache.indices[ i ];
+            auto is_used           = cache.used_status[ i ];
+            auto estimation_matrix = cache.estimation_matrices[ i ];
+            auto marker_matrix     = cache.marker_matrices[ i ];
 
-			auto & kf = keyframes_[ id ];
+            auto & kf = keyframes_[ id ];
 
-			kf.SetId ( id );
-			kf.SetUsed ( is_used );
-			kf.SetAlignmentMatrix ( estimation_matrix );
-			kf.SetAnswerAlignmentMatrix ( marker_matrix );
+            kf.SetId ( id );
+            kf.SetUsed ( is_used );
+            kf.SetAlignmentMatrix ( estimation_matrix );
+            kf.SetAnswerAlignmentMatrix ( marker_matrix );
 
-//			result_keyframes_.push_back ( kf );
-		}
+//          result_keyframes_.push_back ( kf );
+        }
 
-		emit SendData ( keyframes_ );
-//		emit Message ( QString ( "Done loading %1 frames' results. (used %2)" )
-//				               .arg ( keyframes_.size ( ) )
-//				               .arg ( ConvertTime ( timer.elapsed ( ) ) ) );
-	}
+        // emit SendData ( keyframes_ );
+//      emit Message ( QString ( "Done loading %1 frames' results. (used %2)" )
+//                             .arg ( keyframes_.size ( ) )
+//                             .arg ( ConvertTime ( timer.elapsed ( ) ) ) );
+    }
 
-	void SlamAlgorithm::StopCompute ( ) {
+    void SlamAlgorithm::StopCompute ( ) {
 
-		running_flag_ = false;
-	}
+        running_flag_ = false;
+    }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	bool SaveMatricesInfo ( const std::string & file_name , const MatricesInfo & info ) {
+    bool SaveMatricesInfo ( const std::string & file_name , const MatricesInfo & info ) {
 
-		std::ofstream out ( file_name , std::ios::binary );
+        std::ofstream out ( file_name , std::ios::binary );
 
-		if ( out ) {
-			namespace bio = ::boost::iostreams;
+        if ( out ) {
+            namespace bio = ::boost::iostreams;
 
-			bio::filtering_ostream f;
-			f.push ( bio::gzip_compressor ( ) );
-			f.push ( out );
+            bio::filtering_ostream f;
+            f.push ( bio::gzip_compressor ( ) );
+            f.push ( out );
 
-			boost::archive::binary_oarchive ar ( out );
-			ar << info;
+            boost::archive::binary_oarchive ar ( out );
+            ar << info;
 
-			return true;
-		}
+            return true;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	bool LoadMatricesInfo ( const std::string & file_name , MatricesInfo & info ) {
+    bool LoadMatricesInfo ( const std::string & file_name , MatricesInfo & info ) {
 
-		std::ifstream in ( file_name , std::ios::binary );
+        std::ifstream in ( file_name , std::ios::binary );
 
-		if ( in ) {
-			namespace bio = ::boost::iostreams;
+        if ( in ) {
+            namespace bio = ::boost::iostreams;
 
-			bio::filtering_istream f;
-			f.push ( bio::gzip_decompressor ( ) );
-			f.push ( in );
+            bio::filtering_istream f;
+            f.push ( bio::gzip_decompressor ( ) );
+            f.push ( in );
 
-			boost::archive::binary_iarchive ar ( in );
-			ar >> info;
+            boost::archive::binary_iarchive ar ( in );
+            ar >> info;
 
-			return true;
-		}
+            return true;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
 }
 
