@@ -79,7 +79,7 @@ namespace MapCreator {
 		computation_configure_dialog_ = new ComputationConfigureDialog ( this );
 		computation_configure_dialog_->setFixedSize ( computation_configure_dialog_->sizeHint ( ) );
 
-		computer_ = new SlamComputer ( this );
+		computer_ = new SlamAlgorithm ( this );
 		connect ( computer_ , SIGNAL ( Message ( QString ) ) , log_panel_dialog_ , SLOT ( AppendMessage ( QString ) ) );
 		connect ( computer_ , SIGNAL ( SendData ( KeyFrames ) ) , ui_.BasicViewer , SLOT ( SetKeyFrames ( KeyFrames ) ) );
 
@@ -311,7 +311,7 @@ namespace MapCreator {
 		assert ( !computer_->GetKeyFrames ( ).empty ( ) );
 
 		connect ( watcher_ , SIGNAL ( finished ( ) ) , this , SLOT ( OnSlamComputationCompleted ( ) ) );
-		QFuture < void > compute_result = QtConcurrent::run ( computer_ , & SlamComputer::StartCompute );
+		QFuture < void > compute_result = QtConcurrent::run ( computer_ , & SlamAlgorithm::StartCompute );
 
 		watcher_->setFuture ( compute_result );
 
@@ -478,7 +478,7 @@ namespace MapCreator {
 		assert ( !computer_->GetKeyFrames ( ).empty ( ) );
 
 		connect ( watcher_ , SIGNAL ( finished ( ) ) , this , SLOT ( OnSlamComputationCompleted ( ) ) );
-		QFuture < void > compute_result = QtConcurrent::run ( computer_ , & SlamComputer::StartGenerateAnswer );
+		QFuture < void > compute_result = QtConcurrent::run ( computer_ , & SlamAlgorithm::StartGenerateAnswer );
 
 		watcher_->setFuture ( compute_result );
 		ui_.CheckBox_ShowAnswer->setChecked ( true );

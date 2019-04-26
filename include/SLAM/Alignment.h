@@ -25,14 +25,14 @@ namespace {
 namespace MapCreator {
 
 
-	class SlamComputer : public QObject
+	class SlamAlgorithm : public QObject
 	{
 
 	Q_OBJECT
 
 	public:
 
-		SlamComputer ( QObject * parent = 0 );
+		SlamAlgorithm ( QObject * parent = 0 );
 
 		void SetDataDir ( const QDir & data_dir );
 		void SetFeatureType ( Feature::Type type );
@@ -167,9 +167,9 @@ namespace MapCreator {
 
 	};
 
-//	template < > void SlamComputer::WriteCache < TrackingType::OneByOne > ( );
-//	template < > void SlamComputer::WriteCache < TrackingType::FixedFrameCount > ( );
-//	template < > void SlamComputer::WriteCache < TrackingType::PcaKeyFrame > ( );
+//	template < > void SlamAlgorithm::WriteCache < TrackingType::OneByOne > ( );
+//	template < > void SlamAlgorithm::WriteCache < TrackingType::FixedFrameCount > ( );
+//	template < > void SlamAlgorithm::WriteCache < TrackingType::PcaKeyFrame > ( );
 
 	// Serialize
 	bool LoadMatricesInfo ( const std::string & file_name , MatricesInfo & info );

@@ -27,7 +27,7 @@
 
 namespace MapCreator {
 
-	SlamComputer::SlamComputer ( QObject * parent ) :
+	SlamAlgorithm::SlamAlgorithm ( QObject * parent ) :
 			running_flag_ ( true ) ,
 			has_answer_ ( false ) ,
 			is_computation_configured_ ( false ) ,
@@ -35,17 +35,17 @@ namespace MapCreator {
 
 	}
 
-	void SlamComputer::SetDataDir ( const QDir & data_dir ) {
+	void SlamAlgorithm::SetDataDir ( const QDir & data_dir ) {
 
 		data_dir_ = data_dir;
 	}
 
-	void SlamComputer::StartCompute ( ) {
+	void SlamAlgorithm::StartCompute ( ) {
 
 		running_flag_ = true;
 
-		std::cout << "SlamComputer thread : " << QThread::currentThreadId ( ) << std::endl;
-		std::cout << "SlamComputer thread - data size : " << keyframes_.size ( ) << std::endl;
+		std::cout << "SlamAlgorithm thread : " << QThread::currentThreadId ( ) << std::endl;
+		std::cout << "SlamAlgorithm thread - data size : " << keyframes_.size ( ) << std::endl;
 
 		if ( keyframes_.size ( ) < 2 ) {
 			emit SendData ( keyframes_ );
@@ -83,7 +83,7 @@ namespace MapCreator {
 
 	}
 
-	void SlamComputer::StartGenerateAnswer ( ) {
+	void SlamAlgorithm::StartGenerateAnswer ( ) {
 
 		if ( keyframes_.empty ( ) ) {
 			return;
@@ -133,7 +133,7 @@ namespace MapCreator {
 		has_answer_ = true;
 	}
 
-	bool SlamComputer::WriteResult ( const std::pair < glm::vec3 , glm::vec3 > & point_pair ) {
+	bool SlamAlgorithm::WriteResult ( const std::pair < glm::vec3 , glm::vec3 > & point_pair ) {
 
 		time_t time_stamp = time ( nullptr );
 
@@ -197,7 +197,7 @@ namespace MapCreator {
 		return false;
 	}
 
-	bool SlamComputer::WriteResult ( ) {
+	bool SlamAlgorithm::WriteResult ( ) {
 
 		time_t time_stamp = time ( nullptr );
 
@@ -370,7 +370,7 @@ namespace MapCreator {
 
 	}
 
-	bool SlamComputer::CheckPreviousResult ( ) {
+	bool SlamAlgorithm::CheckPreviousResult ( ) {
 
 		std::cout << "Checking privious result." << std::endl;
 
@@ -388,7 +388,7 @@ namespace MapCreator {
 		return !dir.entryInfoList ( filter_list ).empty ( );
 	}
 
-	void SlamComputer::UsePreviousResult ( const QString & result_cache_name ) {
+	void SlamAlgorithm::UsePreviousResult ( const QString & result_cache_name ) {
 
 		if ( keyframes_.empty ( ) ) {
 			emit Message ( "No data found, cannot apply matrices." );
@@ -432,7 +432,7 @@ namespace MapCreator {
 //				               .arg ( ConvertTime ( timer.elapsed ( ) ) ) );
 	}
 
-	void SlamComputer::StopCompute ( ) {
+	void SlamAlgorithm::StopCompute ( ) {
 
 		running_flag_ = false;
 	}

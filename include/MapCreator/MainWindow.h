@@ -94,7 +94,7 @@ namespace MapCreator {
 		KeyFrames keyframes_;
 
 		ImageHandler2 * handler_;
-		SlamComputer  * computer_;
+		SlamAlgorithm  * computer_;
 
 		QTimer                  * play_timer_;
 		QFutureWatcher < void > * watcher_;
