@@ -53,11 +53,11 @@ namespace MapCreator {
 
 	signals:
 
-		void SendData ( KeyFrames );
+		// void SendData ( KeyFrames );
 
-		void DoneReading ( );
+		// void DoneReading ( );
 
-		void Message ( QString );
+		// void Message ( QString );
 
 	public slots:
 

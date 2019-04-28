@@ -27,13 +27,13 @@
 
 namespace MapCreator {
 
-    SlamAlgorithm::SlamAlgorithm ( QObject * parent ) :
-            running_flag_ ( true ) ,
-            has_answer_ ( false ) ,
-            is_computation_configured_ ( false ) ,
-            is_data_initialized_ ( false ) {
+    // SlamAlgorithm::SlamAlgorithm ( QObject * parent ) :
+    //         running_flag_ ( true ) ,
+    //         has_answer_ ( false ) ,
+    //         is_computation_configured_ ( false ) ,
+    //         is_data_initialized_ ( false ) {
 
-    }
+    // }
 
     void SlamAlgorithm::SetDataDir ( const QDir & data_dir ) {
 

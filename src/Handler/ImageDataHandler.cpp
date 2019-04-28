@@ -50,7 +50,7 @@ namespace MapCreator {
 		std::cerr << "Handler thread (Reading) : " << QThread::currentThreadId ( ) << std::endl;
 
 		assert( !file_list_.empty ( ) );
-		emit Message ( QString ( "Start Reading ... " ) );
+		// emit Message ( QString ( "Start Reading ... " ) );
 
 		QTime timer;
 		timer.start ( );
@@ -74,7 +74,7 @@ namespace MapCreator {
 
 				std::cout << "Reading - id : " << raw_data_frame.id << ", name : " << raw_data_frame.name << std::endl;
 
-				emit Message ( file_list_[ i ].absoluteFilePath ( ) );
+				// emit Message ( file_list_[ i ].absoluteFilePath ( ) );
 
 				in.close ( );
 
@@ -85,11 +85,11 @@ namespace MapCreator {
 
 		}
 
-		emit Message ( QString ( "Done reading %1 frames. (used %2)" )
-				               .arg ( raw_data_frames_.size ( ) )
-				               .arg ( ConvertTime ( timer.elapsed ( ) ) ) );
+		// emit Message ( QString ( "Done reading %1 frames. (used %2)" )
+				               // .arg ( raw_data_frames_.size ( ) )
+				               // .arg ( ConvertTime ( timer.elapsed ( ) ) ) );
 
-		emit DoneReading ( );
+		// emit DoneReading ( );
 	}
 
 	void ImageHandler2::ConvertToPointImages ( int choice ) {
@@ -109,11 +109,11 @@ namespace MapCreator {
 
 			std::cout << "Converted (" << choice << ")." << i << std::endl;
 
-			emit Message (
-					QString ( "Converted %1. KP size : %2" ).arg ( kf.GetId ( ) ).arg ( kf.GetFeature ( ).GetKeyPoints ( ).size ( ) ) );
+			// emit Message (
+			// 		QString ( "Converted %1. KP size : %2" ).arg ( kf.GetId ( ) ).arg ( kf.GetFeature ( ).GetKeyPoints ( ).size ( ) ) );
 		}
 
-		emit SendData ( keyframes_ );
+		// emit SendData ( keyframes_ );
 	}
 
 	void ImageHandler2::ConvertToPointImagesWithInternalCalibration ( ) {
@@ -136,12 +136,12 @@ namespace MapCreator {
 
 				keyframes_.push_back ( kf );
 
-				emit Message ( QString ( "Converted %1 (Calibrated). KP size : %2" )
-						               .arg ( kf.GetId ( ) )
-						               .arg ( kf.GetFeature ( ).GetKeyPoints ( ).size ( ) ) );
+				// emit Message ( QString ( "Converted %1 (Calibrated). KP size : %2" )
+				// 		               .arg ( kf.GetId ( ) )
+				// 		               .arg ( kf.GetFeature ( ).GetKeyPoints ( ).size ( ) ) );
 			}
 
-			emit SendData ( keyframes_ );
+			// emit SendData ( keyframes_ );
 		}
 	}
 

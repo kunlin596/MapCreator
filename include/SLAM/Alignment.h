@@ -33,7 +33,8 @@ namespace MapCreator {
 
     public:
 
-        SlamAlgorithm ( QObject * parent = 0 );
+        SlamAlgorithm ( QObject * parent = 0 ) {
+        }
 
         void SetDataDir ( const QDir & data_dir );
         void SetFeatureType ( Feature::Type type );
