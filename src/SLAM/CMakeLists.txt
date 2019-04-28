@@ -10,6 +10,10 @@ find_package ( Eigen3 REQUIRED NO_MODULE )
 
 include_directories ( ${EIGEN3_INCLUDE_DIR} ${Boost_INCLUDE_DIR} ${OpenCV_INCLUDE_DIRS} ${MapCreator_INSTALL_INCLUDE_DIR} )
 
+qt5_wrap_cpp ( MapCreatorSlam_MOC_FILES
+    ${MapCreator_INSTALL_INCLUDE_DIR}/SLAM/Alignment.h
+)
+
 add_library ( MapCreatorSlam SHARED
         ${MapCreatorSlam_SOURCE_FILES}
         ${MapCreatorSlam_MOC_FILES} )

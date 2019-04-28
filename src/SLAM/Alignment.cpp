@@ -48,14 +48,14 @@ namespace MapCreator {
         std::cout << "SlamAlgorithm thread - data size : " << keyframes_.size ( ) << std::endl;
 
         if ( keyframes_.size ( ) < 2 ) {
-            // emit SendData ( keyframes_ );
+            emit SendData ( keyframes_ );
             return;
         }
 
         QTimer timer;
         timer.start ( );
 
-        // emit Message ( "Computation begins..." );
+        emit Message ( "Computation begins..." );
 
         switch ( options_.type_ ) {
             case TrackingType::OneByOne:
@@ -68,19 +68,18 @@ namespace MapCreator {
                 ComputeHelper < TrackingType::PcaKeyFrame > ( );
                 break;
             case TrackingType::Unknown:
-                // emit Message ( "Setup computation options at first." );
+                emit Message ( "Setup computation options at first." );
                 return;
         }
 
-//      emit Message ( QString ( "Done computing %1 frames. (used %2)" )
-//                             .arg ( keyframes_.size ( ) )
-//                             .arg ( ConvertTime ( timer.elapsed ( ) ) ) );
+        // emit Message ( QString ( "Done computing %1 frames. (used %2)" )
+        //                         .arg ( keyframes_.size ( ) )
+        //                         .arg ( ConvertTime ( timer.elapsed ( ) ) ) );
 
-        // emit SendData ( keyframes_ );
+        emit SendData ( keyframes_ );
 
-//      if ( has_answer_ ) WriteCache ( timer.elapsed ( ) , "WithAnswer" );
-//      else WriteCache ( timer.elapsed ( ) );
-
+     // if ( has_answer_ ) WriteCache ( timer.elapsed ( ) , "WithAnswer" );
+     // else WriteCache ( timer.elapsed ( ) );
     }
 
     void SlamAlgorithm::StartGenerateAnswer ( ) {
@@ -90,7 +89,7 @@ namespace MapCreator {
         }
 
         if ( keyframes_.size ( ) < 2 ) {
-            // emit SendData ( keyframes_ );
+            emit SendData ( keyframes_ );
             return;
         }
 
@@ -124,11 +123,11 @@ namespace MapCreator {
 //            keyframe2.SetAnswerAlignmentMatrix ( std::move ( Convert_OpenCV_Matx44f_To_GLM_mat4 ( matrix ) ) );
         }
 
-//      emit Message ( QString ( "Done generating answers of  %1 frames. (used %2)" )
-//                             .arg ( keyframes_.size ( ) )
-//                             .arg ( ConvertTime ( timer.elapsed ( ) ) ) );
+        // emit Message ( QString ( "Done generating answers of  %1 frames. (used %2)" )
+        //                         .arg ( keyframes_.size ( ) )
+        //                         .arg ( ConvertTime ( timer.elapsed ( ) ) ) );
 
-        // emit SendData ( keyframes_ );
+        emit SendData ( keyframes_ );
 
         has_answer_ = true;
     }
@@ -152,7 +151,7 @@ namespace MapCreator {
                 result_name_prefix = QString ( "%1_%2" ).arg ( time_stamp ).arg ( "FixedFrameCount" );
                 break;
             case TrackingType::Unknown:
-                // emit Message ( "No result to be written." );
+                emit Message ( "No result to be written." );
                 return false;
 
         }
@@ -216,7 +215,7 @@ namespace MapCreator {
                 result_name_prefix = QString ( "%1_%2" ).arg ( time_stamp ).arg ( "FixedFrameCount" );
                 break;
             case TrackingType::Unknown:
-                // emit Message ( "No result to be written." );
+                emit Message ( "No result to be written." );
                 return false;
 
         }
@@ -391,7 +390,7 @@ namespace MapCreator {
     void SlamAlgorithm::UsePreviousResult ( const QString & result_cache_name ) {
 
         if ( keyframes_.empty ( ) ) {
-            // emit Message ( "No data found, cannot apply matrices." );
+            emit Message ( "No data found, cannot apply matrices." );
         }
 
 //      result_keyframes_.clear ( );
@@ -426,10 +425,10 @@ namespace MapCreator {
 //          result_keyframes_.push_back ( kf );
         }
 
-        // emit SendData ( keyframes_ );
-//      emit Message ( QString ( "Done loading %1 frames' results. (used %2)" )
-//                             .arg ( keyframes_.size ( ) )
-//                             .arg ( ConvertTime ( timer.elapsed ( ) ) ) );
+        emit SendData ( keyframes_ );
+        // emit Message ( QString ( "Done loading %1 frames' results. (used %2)" )
+        //                         .arg ( keyframes_.size ( ) )
+        //                         .arg ( ConvertTime ( timer.elapsed ( ) ) ) );
     }
 
     void SlamAlgorithm::StopCompute ( ) {
