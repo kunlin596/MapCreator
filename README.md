@@ -15,6 +15,10 @@ It can read a saved Xtion frames (with or without calibration infos) and run map
 
 ## Installation
 
+### MacOS
+
+If `MacPort` is being used, please make sure that Qt5's `moc` and `rcc` are in `PATH`, otherwise, the Qt objects won't compile.
+
 ```
 mkdir build && cd build
 cmake ..
