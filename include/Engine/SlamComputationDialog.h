@@ -5,7 +5,7 @@
 #ifndef MAPCREATOR_SLAMCOMPUTATIONDIALOG_H
 #define MAPCREATOR_SLAMCOMPUTATIONDIALOG_H
 
-#include "../../../bin/lib/MapCreator/ui_SlamComputationDialog.h"
+#include "ui_SlamComputationDialog.h"
 
 #include <QDialog>
 

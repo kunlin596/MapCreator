@@ -5,13 +5,13 @@
 #ifndef MAPCREATOR_MARKERSELECTORDIALOG_H
 #define MAPCREATOR_MARKERSELECTORDIALOG_H
 
-#include "../../../bin/lib/MapCreator/ui_MarkerSelectorDialog.h"
+#include "ui_MarkerSelectorDialog.h"
+
+#include "SLAM/KeyFrame.h"
 
 #include <QDialog>
-
-#include <SLAM/KeyFrame.h>
-
 #include <QMouseEvent>
+
 #include <glm/glm.hpp>
 
 namespace Ui {

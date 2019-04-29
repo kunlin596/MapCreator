@@ -2,7 +2,7 @@
 // Created by LinKun on 10/20/15.
 //
 
-#include "MapCreator/ComputationConfigureDialog.h"
+#include "Engine/ComputationConfigureDialog.h"
 
 namespace MapCreator {
 

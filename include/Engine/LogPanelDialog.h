@@ -7,7 +7,7 @@
 
 #include <QDialog>
 
-#include "../../../bin/lib/MapCreator/ui_LogPanelDialog.h"
+#include "ui_LogPanelDialog.h"
 
 namespace Ui { class LogPanelDialog; }
 

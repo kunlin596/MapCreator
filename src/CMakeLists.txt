@@ -8,6 +8,5 @@ find_package ( Qt5Widgets REQUIRED )
 add_subdirectory(Core)
 add_subdirectory(SLAM)
 add_subdirectory(Handler)
-
-# add_subdirectory(BasicViewer)
-# add_subdirectory(Engine)
+add_subdirectory(BasicViewer)
+add_subdirectory(Engine)

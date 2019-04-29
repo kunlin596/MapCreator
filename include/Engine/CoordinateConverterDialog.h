@@ -7,7 +7,7 @@
 
 #include <QDialog>
 
-#include "../../../bin/lib/MapCreator/ui_CoordinateConverterDialog.h"
+#include "ui_CoordinateConverterDialog.h"
 
 namespace Ui {
 	class CoordinateConverterDialog;

@@ -7,7 +7,7 @@
 
 #include <QDialog>
 
-#include "../../../bin/lib/MapCreator/ui_PcaKeyFrame_FrameTrackingMethodDialog.h"
+#include "ui_PcaKeyFrame_FrameTrackingMethodDialog.h"
 
 #include <SLAM/Option.h>
 

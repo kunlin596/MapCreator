@@ -4,6 +4,7 @@
 
 #include "BasicViewer/BasicViewer.h"
 #include "BasicViewer/PointPairGL.h"
+#include "ui_BasicViewer.h"
 
 #include <iostream>
 #include <algorithm>

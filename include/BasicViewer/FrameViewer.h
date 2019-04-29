@@ -5,9 +5,10 @@
 #ifndef MAPCREATOR_FRAMEVIEWER_H
 #define MAPCREATOR_FRAMEVIEWER_H
 
-#include <SLAM/CommonDefinitions.h>
+#include "SLAM/CommonDefinitions.h"
 #include <QWidget>
-#include "../../../bin/lib/BasicViewer/ui_FrameViewer.h"
+
+#include "ui_FrameViewer.h"
 
 namespace Ui {
 	class FrameViewer;

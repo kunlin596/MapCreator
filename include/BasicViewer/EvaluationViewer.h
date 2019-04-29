@@ -9,7 +9,7 @@
 #include <QOpenGLFunctions_4_1_Core>
 #include <QOpenGLWidget>
 
-#include "../../../bin/lib/BasicViewer/ui_EvaluationViewer.h"
+#include "ui_EvaluationViewer.h"
 
 namespace Ui {
 

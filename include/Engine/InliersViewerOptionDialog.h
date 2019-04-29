@@ -7,7 +7,7 @@
 
 #include <QDialog>
 
-#include "../../../bin/lib/MapCreator/ui_InliersViewerOptionDialog.h"
+#include "ui_InliersViewerOptionDialog.h"
 
 #include <SLAM/KeyFrame.h>
 #include <SLAM/Option.h>

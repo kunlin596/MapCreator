@@ -2,8 +2,9 @@
 // Created by LinKun on 10/5/15.
 //
 
-#include "MapCreator/MainWindow.h"
-#include "MapCreator/CoordinateConverterDialog.h"
+#include "Engine/MainWindow.h"
+#include "Engine/CoordinateConverterDialog.h"
+#include "ui_BasicViewer.h"
 
 #include <SLAM/Tracker.h>
 #include <SLAM/CoordinateConverter.h>

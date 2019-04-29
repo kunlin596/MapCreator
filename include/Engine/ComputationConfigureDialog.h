@@ -11,7 +11,7 @@
 #include "FixedFrameCount_FrameTrackingMethodDialog.h"
 #include "OneByOne_FrameTrackingMethodDialog.h"
 
-#include "../../../bin/lib/MapCreator/ui_ComputationConfigureDialog.h"
+#include "ui_ComputationConfigureDialog.h"
 
 namespace Ui { class ComputationConfigureDialog; }
 

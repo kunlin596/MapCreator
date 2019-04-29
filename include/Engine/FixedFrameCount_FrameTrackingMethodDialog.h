@@ -7,7 +7,7 @@
 
 #include <QDialog>
 
-#include "../../../bin/lib/MapCreator/ui_FixedFrameCount_FrameTrackingMethodDialog.h"
+#include "ui_FixedFrameCount_FrameTrackingMethodDialog.h"
 
 #include <SLAM/Option.h>
 

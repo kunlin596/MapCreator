@@ -2,7 +2,7 @@
 // Created by LinKun on 10/20/15.
 //
 
-#include "MapCreator/FixedFrameCount_FrameTrackingMethodDialog.h"
+#include "Engine/FixedFrameCount_FrameTrackingMethodDialog.h"
 
 namespace MapCreator {
 

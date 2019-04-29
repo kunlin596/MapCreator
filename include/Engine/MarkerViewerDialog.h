@@ -8,11 +8,11 @@
 
 #include <QDialog>
 
-#include "../../../bin/lib/MapCreator/ui_MarkerViewerDialog.h"
+#include "ui_MarkerViewerDialog.h"
 
-#include <SLAM/KeyFrame.h>
+#include "SLAM/KeyFrame.h"
+#include "Engine/MarkerSelectorDialog.h"
 
-#include <MapCreator/MarkerSelectorDialog.h>
 #include <glm/glm.hpp>
 
 namespace Ui {

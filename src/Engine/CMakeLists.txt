@@ -25,21 +25,21 @@ qt5_wrap_ui ( Engine_UIC_FILES
 	${MapCreator_SOURCE_DIR}/src/Engine/form/MainWindow.ui )
 
 qt5_wrap_cpp ( Engine_MOC_FILES
-	${MapCreator_INCLUDE_DIR}/Engine/ComputationConfigureDialog.h
-	${MapCreator_INCLUDE_DIR}/Engine/CoordinateConverterDialog.h
-	${MapCreator_INCLUDE_DIR}/Engine/PcaKeyFrame_FrameTrackingMethodDialog.h
-	${MapCreator_INCLUDE_DIR}/Engine/OneByOne_FrameTrackingMethodDialog.h
-	${MapCreator_INCLUDE_DIR}/Engine/FixedFrameCount_FrameTrackingMethodDialog.h
-	${MapCreator_INCLUDE_DIR}/Engine/LogPanelDialog.h
-	${MapCreator_INCLUDE_DIR}/Engine/MarkerViewerDialog.h
-	${MapCreator_INCLUDE_DIR}/Engine/MarkerSelectorDialog.h
-	${MapCreator_INCLUDE_DIR}/Engine/InliersViewerOptionDialog.h
-	${MapCreator_INCLUDE_DIR}/Engine/MainWindow.h )
+	${MapCreator_INSTALL_INCLUDE_DIR}/Engine/ComputationConfigureDialog.h
+	${MapCreator_INSTALL_INCLUDE_DIR}/Engine/CoordinateConverterDialog.h
+	${MapCreator_INSTALL_INCLUDE_DIR}/Engine/PcaKeyFrame_FrameTrackingMethodDialog.h
+	${MapCreator_INSTALL_INCLUDE_DIR}/Engine/OneByOne_FrameTrackingMethodDialog.h
+	${MapCreator_INSTALL_INCLUDE_DIR}/Engine/FixedFrameCount_FrameTrackingMethodDialog.h
+	${MapCreator_INSTALL_INCLUDE_DIR}/Engine/LogPanelDialog.h
+	${MapCreator_INSTALL_INCLUDE_DIR}/Engine/MarkerViewerDialog.h
+	${MapCreator_INSTALL_INCLUDE_DIR}/Engine/MarkerSelectorDialog.h
+	${MapCreator_INSTALL_INCLUDE_DIR}/Engine/InliersViewerOptionDialog.h
+	${MapCreator_INSTALL_INCLUDE_DIR}/Engine/MainWindow.h )
 
 qt5_add_resources ( Engine_RCC_FILES
 	${MapCreator_SOURCE_DIR}/src/Engine/rsc/Resource.qrc )
 
-include_directories ( ${OpenCV_INCLUDE_DIRS} ${Boost_INCLUDE_DIR} ${MapCreator_INCLUDE_DIR} )
+include_directories ( ${OpenCV_INCLUDE_DIRS} ${Boost_INCLUDE_DIR} ${MapCreator_INSTALL_INCLUDE_DIR} ${Engine_UIC_FILES} )
 
 # Build library
 add_library ( Engine SHARED

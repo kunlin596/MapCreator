@@ -2,7 +2,7 @@
 // Created by LinKun on 10/21/15.
 //
 
-#include "MapCreator/LogPanelDialog.h"
+#include "Engine/LogPanelDialog.h"
 
 namespace MapCreator {
 

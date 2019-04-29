@@ -2,7 +2,7 @@
 // Created by LinKun on 10/13/15.
 //
 
-#include"MapCreator/InliersViewerOptionDialog.h"
+#include "Engine/InliersViewerOptionDialog.h"
 #include <SLAM/Transformation.h>
 #include <SLAM/Tracker.h>
 #include <QFileDialog>

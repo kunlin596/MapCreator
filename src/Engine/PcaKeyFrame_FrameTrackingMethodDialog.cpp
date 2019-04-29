@@ -2,7 +2,7 @@
 // Created by LinKun on 10/20/15.
 //
 
-#include "MapCreator/PcaKeyFrame_FrameTrackingMethodDialog.h"
+#include "Engine/PcaKeyFrame_FrameTrackingMethodDialog.h"
 
 namespace MapCreator {
 

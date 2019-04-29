@@ -26,13 +26,13 @@ qt5_add_resources ( BasicViewer_RCC_FILES
 	${MapCreator_SOURCE_DIR}/src/BasicViewer/rsc/Shaders.qrc )
 
 qt5_wrap_cpp ( BasicViewer_MOC_FILES
-	${MapCreator_INCLUDE_DIR}/BasicViewer/BasicViewer.h
-	${MapCreator_INCLUDE_DIR}/BasicViewer/FrameViewer.h
-	${MapCreator_INCLUDE_DIR}/BasicViewer/BaseViewer.h
-	${MapCreator_INCLUDE_DIR}/BasicViewer/CloudViewer.h
-	${MapCreator_INCLUDE_DIR}/BasicViewer/EvaluationViewer.h )
+	${MapCreator_INSTALL_INCLUDE_DIR}/BasicViewer/BasicViewer.h
+	${MapCreator_INSTALL_INCLUDE_DIR}/BasicViewer/FrameViewer.h
+	${MapCreator_INSTALL_INCLUDE_DIR}/BasicViewer/BaseViewer.h
+	${MapCreator_INSTALL_INCLUDE_DIR}/BasicViewer/CloudViewer.h
+	${MapCreator_INSTALL_INCLUDE_DIR}/BasicViewer/EvaluationViewer.h )
 
-include_directories ( ${OpenCV_INCLUDE_DIRS} ${Boost_INCLUDE_DIR} )
+include_directories ( ${OpenCV_INCLUDE_DIRS} ${Boost_INCLUDE_DIR} ${BasicViewer_UIC_FILES} )
 
 add_library ( MapCreatorViewer SHARED
 	${BasicViewer_SOURCE_FILES}
@@ -42,7 +42,7 @@ add_library ( MapCreatorViewer SHARED
 
 target_link_libraries ( MapCreatorViewer
 	MapCreatorCore
-	MapCreatorSLAM
+	MapCreatorSlam
 	MapCreatorHandler
 	${OpenCV_LIBS}
 	${Boost_LIBRARIES}

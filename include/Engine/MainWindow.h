@@ -5,20 +5,18 @@
 #ifndef MAPCREATOR_MAINWINDOW_H
 #define MAPCREATOR_MAINWINDOW_H
 
-
+#include <unique_ptr>
 #include <QMainWindow>
 #include <QtConcurrent>
 #include <QThread>
 
-#include "../../../bin/lib/MapCreator/ui_MainWindow.h"
-
-#include <SLAM/Option.h>
-#include <SLAM/KeyFrame.h>
-#include <Handler/ImageDataHandler.h>
-#include "MapCreator/InliersViewerOptionDialog.h"
-#include "MapCreator/LogPanelDialog.h"
-#include "MapCreator/MarkerViewerDialog.h"
-#include "MapCreator/UiDialogs.h"
+#include "SLAM/Option.h"
+#include "SLAM/KeyFrame.h"
+#include "Handler/ImageDataHandler.h"
+#include "Engine/InliersViewerOptionDialog.h"
+#include "Engine/LogPanelDialog.h"
+#include "Engine/MarkerViewerDialog.h"
+#include "Engine/UiDialogs.h"
 
 Q_DECLARE_METATYPE ( MapCreator::KeyFrames )
 
@@ -81,7 +79,7 @@ namespace MapCreator {
 
 	private:
 
-		Ui::MainWindow ui_;
+		std::unique_ptr<Ui::MainWindow> ui_;
 
 		void WriteResult ( const std::pair < glm::vec3 , glm::vec3 > & marker_points_pair );
 		void ResetWatcher ( );

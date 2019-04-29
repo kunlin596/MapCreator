@@ -23,9 +23,6 @@
 
 #include <boost/tuple/tuple.hpp>
 
-//#include "../../Build/BasicViewer/Source/ui_BasicViewer.h"
-#include "../../../bin/lib/BasicViewer/ui_BasicViewer.h"
-
 namespace Ui {
 
 	class BasicViewer;
