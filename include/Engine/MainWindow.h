@@ -5,7 +5,7 @@
 #ifndef MAPCREATOR_MAINWINDOW_H
 #define MAPCREATOR_MAINWINDOW_H
 
-#include <unique_ptr>
+#include <memory>
 #include <QMainWindow>
 #include <QtConcurrent>
 #include <QThread>
