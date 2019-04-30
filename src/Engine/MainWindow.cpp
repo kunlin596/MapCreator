@@ -18,6 +18,7 @@
 namespace MapCreator {
 
 	MainWindow::MainWindow ( QWidget * parent ) :
+			ui_(new Ui::MainWindow)
 			computation_configured_ ( false ) ,
 			computation_done_ ( false ) ,
 			play_timer_ ( new QTimer ( this ) ) ,
@@ -28,7 +29,7 @@ namespace MapCreator {
 		qRegisterMetaType < CorrespondingPointsPair > ( "CorrespondingPointsPair" );
 		qRegisterMetaType < CorrespondingPointsPair > ( "PointPair" );
 
-		ui_.setupUi ( this );
+		ui_->setupUi ( this );
 
 		log_panel_dialog_ = new LogPanelDialog ( this );
 		log_panel_dialog_->setWindowFlags ( Qt::WindowStaysOnTopHint );
@@ -36,45 +37,45 @@ namespace MapCreator {
 		inliers_viewer_option_dialog_ = new InliersViewerOptionDialog ( this );
 		inliers_viewer_option_dialog_->setModal ( false );
 
-		ui_.actionOpenInliersViewMode->setChecked ( false );
-		ui_.Frame_ControlPanel->hide ( );
-		ui_.actionStartSlamComputation->setEnabled ( false );
-		ui_.actionInternalCalibration->setEnabled ( false );
-		ui_.HorizontalSlider_PointCloudDensity->setEnabled ( false );
-		ui_.actionOpenInliersViewMode->setEnabled ( false );
-		ui_.actionCaptureModelMage->setEnabled ( false );
-		ui_.actionUsePreviousResult->setEnabled ( false );
-		ui_.actionConfigureSlamComputation->setEnabled ( false );
+		ui_->actionOpenInliersViewMode->setChecked ( false );
+		ui_->Frame_ControlPanel->hide ( );
+		ui_->actionStartSlamComputation->setEnabled ( false );
+		ui_->actionInternalCalibration->setEnabled ( false );
+		ui_->HorizontalSlider_PointCloudDensity->setEnabled ( false );
+		ui_->actionOpenInliersViewMode->setEnabled ( false );
+		ui_->actionCaptureModelMage->setEnabled ( false );
+		ui_->actionUsePreviousResult->setEnabled ( false );
+		ui_->actionConfigureSlamComputation->setEnabled ( false );
 
-		connect ( ui_.PushButton_ResetCamera , SIGNAL ( pressed ( ) ) , ui_.BasicViewer , SLOT ( onResetCamera ( ) ) );
-		connect ( ui_.PushButton_ResetModel , SIGNAL ( pressed ( ) ) , ui_.BasicViewer , SLOT ( onResetModel ( ) ) );
-		connect ( ui_.HorizontalSlider_PointCloudDensity , SIGNAL ( valueChanged ( int ) ) , ui_.BasicViewer ,
+		connect ( ui_->PushButton_ResetCamera , SIGNAL ( pressed ( ) ) , ui_->BasicViewer , SLOT ( onResetCamera ( ) ) );
+		connect ( ui_->PushButton_ResetModel , SIGNAL ( pressed ( ) ) , ui_->BasicViewer , SLOT ( onResetModel ( ) ) );
+		connect ( ui_->HorizontalSlider_PointCloudDensity , SIGNAL ( valueChanged ( int ) ) , ui_->BasicViewer ,
 		          SLOT ( onChangeDensity ( int ) ) );
-		connect ( ui_.CheckBox_ViewDirection_Top , SIGNAL ( stateChanged ( int ) ) , ui_.BasicViewer , SLOT ( onTopView ( int ) ) );
-		connect ( ui_.CheckBox_SpinModel , SIGNAL ( stateChanged ( int ) ) , ui_.BasicViewer , SLOT ( onSpin ( int ) ) );
+		connect ( ui_->CheckBox_ViewDirection_Top , SIGNAL ( stateChanged ( int ) ) , ui_->BasicViewer , SLOT ( onTopView ( int ) ) );
+		connect ( ui_->CheckBox_SpinModel , SIGNAL ( stateChanged ( int ) ) , ui_->BasicViewer , SLOT ( onSpin ( int ) ) );
 
-		connect ( ui_.CheckBox_ShowGrid , SIGNAL ( stateChanged ( int ) ) , ui_.BasicViewer , SLOT ( onRenderGrid ( int ) ) );
-		connect ( ui_.CheckBox_ShowPointCloud , SIGNAL ( stateChanged ( int ) ) , ui_.BasicViewer , SLOT ( onRenderPointCloud ( int ) ) );
-		connect ( ui_.CheckBox_ShowTrajectory , SIGNAL ( stateChanged ( int ) ) , ui_.BasicViewer , SLOT ( onRenderTrajectory ( int ) ) );
-		connect ( ui_.CheckBox_ShowAnswer , SIGNAL ( stateChanged ( int ) ) , ui_.BasicViewer , SLOT ( onRenderAnswer ( int ) ) );
+		connect ( ui_->CheckBox_ShowGrid , SIGNAL ( stateChanged ( int ) ) , ui_->BasicViewer , SLOT ( onRenderGrid ( int ) ) );
+		connect ( ui_->CheckBox_ShowPointCloud , SIGNAL ( stateChanged ( int ) ) , ui_->BasicViewer , SLOT ( onRenderPointCloud ( int ) ) );
+		connect ( ui_->CheckBox_ShowTrajectory , SIGNAL ( stateChanged ( int ) ) , ui_->BasicViewer , SLOT ( onRenderTrajectory ( int ) ) );
+		connect ( ui_->CheckBox_ShowAnswer , SIGNAL ( stateChanged ( int ) ) , ui_->BasicViewer , SLOT ( onRenderAnswer ( int ) ) );
 
-		connect ( ui_.actionConfigureSlamComputation , SIGNAL ( triggered ( ) ) , this ,
+		connect ( ui_->actionConfigureSlamComputation , SIGNAL ( triggered ( ) ) , this ,
 		          SLOT ( onActionConfigureSlamComputation ( ) ) );
-		connect ( ui_.actionStartSlamComputation , SIGNAL ( triggered ( ) ) , this , SLOT ( onActionStartSlamComputation ( ) ) );
-		connect ( ui_.actionOpenDataFiles , SIGNAL ( triggered ( ) ) , this , SLOT ( onActionOpenDataFiles ( ) ) );
-		connect ( ui_.actionShowControlPanel , SIGNAL ( triggered ( ) ) , this , SLOT ( onActionShowControlPanel ( ) ) );
-		connect ( ui_.actionOpenLogPanel , SIGNAL ( triggered ( ) ) , this , SLOT ( onActionOpenLogPanel ( ) ) );
-		connect ( ui_.actionInternalCalibration , SIGNAL ( triggered ( ) ) , this , SLOT ( onActionInternalCalibration ( ) ) );
-		connect ( ui_.actionOpenInliersViewMode , SIGNAL ( triggered ( bool ) ) , this ,
+		connect ( ui_->actionStartSlamComputation , SIGNAL ( triggered ( ) ) , this , SLOT ( onActionStartSlamComputation ( ) ) );
+		connect ( ui_->actionOpenDataFiles , SIGNAL ( triggered ( ) ) , this , SLOT ( onActionOpenDataFiles ( ) ) );
+		connect ( ui_->actionShowControlPanel , SIGNAL ( triggered ( ) ) , this , SLOT ( onActionShowControlPanel ( ) ) );
+		connect ( ui_->actionOpenLogPanel , SIGNAL ( triggered ( ) ) , this , SLOT ( onActionOpenLogPanel ( ) ) );
+		connect ( ui_->actionInternalCalibration , SIGNAL ( triggered ( ) ) , this , SLOT ( onActionInternalCalibration ( ) ) );
+		connect ( ui_->actionOpenInliersViewMode , SIGNAL ( triggered ( bool ) ) , this ,
 		          SLOT ( onActionOpenInliersViewerMode ( bool ) ) );
-		connect ( ui_.actionCaptureModelMage , SIGNAL ( triggered ( bool ) ) , this , SLOT ( onActionCaptureModelImage ( ) ) );
-		connect ( ui_.actionUsePreviousResult , SIGNAL ( triggered ( ) ) , this , SLOT ( onActionUsePreviousResult ( ) ) );
-		connect ( ui_.actionOutputResult , SIGNAL ( triggered ( ) ) , this , SLOT ( onActionOutputResult ( ) ) );
+		connect ( ui_->actionCaptureModelMage , SIGNAL ( triggered ( bool ) ) , this , SLOT ( onActionCaptureModelImage ( ) ) );
+		connect ( ui_->actionUsePreviousResult , SIGNAL ( triggered ( ) ) , this , SLOT ( onActionUsePreviousResult ( ) ) );
+		connect ( ui_->actionOutputResult , SIGNAL ( triggered ( ) ) , this , SLOT ( onActionOutputResult ( ) ) );
 
-		connect ( ui_.actionGenerateAnswer , SIGNAL ( triggered ( ) ) , this , SLOT ( onActionGenerateAnswer ( ) ) );
+		connect ( ui_->actionGenerateAnswer , SIGNAL ( triggered ( ) ) , this , SLOT ( onActionGenerateAnswer ( ) ) );
 
 		connect ( this , SIGNAL ( ConfigurationDone ( ) ) , this , SLOT ( PrepareComputation ( ) ) );
-		connect ( this , SIGNAL ( ChangeViewerMode ( int ) ) , ui_.BasicViewer , SLOT ( SetViewerMode ( int ) ) );
+		connect ( this , SIGNAL ( ChangeViewerMode ( int ) ) , ui_->BasicViewer , SLOT ( SetViewerMode ( int ) ) );
 
 		// UI dialogs initialization
 		computation_configure_dialog_ = new ComputationConfigureDialog ( this );
@@ -82,36 +83,36 @@ namespace MapCreator {
 
 		computer_ = new SlamAlgorithm ( this );
 		connect ( computer_ , SIGNAL ( Message ( QString ) ) , log_panel_dialog_ , SLOT ( AppendMessage ( QString ) ) );
-		connect ( computer_ , SIGNAL ( SendData ( KeyFrames ) ) , ui_.BasicViewer , SLOT ( SetKeyFrames ( KeyFrames ) ) );
+		connect ( computer_ , SIGNAL ( SendData ( KeyFrames ) ) , ui_->BasicViewer , SLOT ( SetKeyFrames ( KeyFrames ) ) );
 
-		connect ( ui_.BasicViewer , SIGNAL ( Message ( QString ) ) , log_panel_dialog_ , SLOT ( AppendMessage ( QString ) ) );
-		connect ( ui_.actionStopSlamComputation , SIGNAL ( triggered ( ) ) , computer_ , SLOT ( StopCompute ( ) ) );
+		connect ( ui_->BasicViewer , SIGNAL ( Message ( QString ) ) , log_panel_dialog_ , SLOT ( AppendMessage ( QString ) ) );
+		connect ( ui_->actionStopSlamComputation , SIGNAL ( triggered ( ) ) , computer_ , SLOT ( StopCompute ( ) ) );
 
 		// Marker Image Viewer
 		marker_viewer_dialog_ = new MarkerViewerDialog ( this );
-		connect ( marker_viewer_dialog_ , SIGNAL ( SendEstimationPointPair ( PointPair ) ) , ui_.BasicViewer ,
+		connect ( marker_viewer_dialog_ , SIGNAL ( SendEstimationPointPair ( PointPair ) ) , ui_->BasicViewer ,
 		          SLOT ( SetEstimationPointPair ( PointPair ) ) );
-		connect ( marker_viewer_dialog_ , SIGNAL ( SendMarkerPointPair ( PointPair ) ) , ui_.BasicViewer ,
+		connect ( marker_viewer_dialog_ , SIGNAL ( SendMarkerPointPair ( PointPair ) ) , ui_->BasicViewer ,
 		          SLOT ( SetMarkerPointPair ( PointPair ) ) );
 
-		connect ( ui_.actionIShowMarkerViewer , SIGNAL ( triggered ( ) ) , this , SLOT ( onActionShowMarkerViewer ( ) ) );
+		connect ( ui_->actionIShowMarkerViewer , SIGNAL ( triggered ( ) ) , this , SLOT ( onActionShowMarkerViewer ( ) ) );
 
 
-		connect ( ui_.SpinBox_BeginFrame , SIGNAL ( valueChanged ( int ) ) , ui_.HorizontalSlider_BeginFrame , SLOT( setValue ( int ) ) );
-		connect ( ui_.SpinBox_BeginFrame , SIGNAL( valueChanged ( int ) ) , this , SLOT( onBeginFrameIsBiggerThanEndFrame ( int ) ) );
-		connect ( ui_.SpinBox_EndFrame , SIGNAL ( valueChanged ( int ) ) , ui_.HorizontalSlider_EndFrame , SLOT( setValue ( int ) ) );
-		connect ( ui_.SpinBox_EndFrame , SIGNAL ( valueChanged ( int ) ) , this , SLOT( onEndFrameIsSmallerThanBeginFrame ( int ) ) );
-		connect ( ui_.HorizontalSlider_BeginFrame , SIGNAL ( valueChanged ( int ) ) , ui_.SpinBox_BeginFrame , SLOT( setValue ( int ) ) );
-		connect ( ui_.HorizontalSlider_BeginFrame , SIGNAL( valueChanged ( int ) ) , this , SLOT( onBeginFrameIsBiggerThanEndFrame ( int ) ) );
-		connect ( ui_.HorizontalSlider_EndFrame , SIGNAL ( valueChanged ( int ) ) , ui_.SpinBox_EndFrame , SLOT( setValue ( int ) ) );
-		connect ( ui_.HorizontalSlider_EndFrame , SIGNAL ( valueChanged ( int ) ) , this , SLOT( onEndFrameIsSmallerThanBeginFrame ( int ) ) );
+		connect ( ui_->SpinBox_BeginFrame , SIGNAL ( valueChanged ( int ) ) , ui_->HorizontalSlider_BeginFrame , SLOT( setValue ( int ) ) );
+		connect ( ui_->SpinBox_BeginFrame , SIGNAL( valueChanged ( int ) ) , this , SLOT( onBeginFrameIsBiggerThanEndFrame ( int ) ) );
+		connect ( ui_->SpinBox_EndFrame , SIGNAL ( valueChanged ( int ) ) , ui_->HorizontalSlider_EndFrame , SLOT( setValue ( int ) ) );
+		connect ( ui_->SpinBox_EndFrame , SIGNAL ( valueChanged ( int ) ) , this , SLOT( onEndFrameIsSmallerThanBeginFrame ( int ) ) );
+		connect ( ui_->HorizontalSlider_BeginFrame , SIGNAL ( valueChanged ( int ) ) , ui_->SpinBox_BeginFrame , SLOT( setValue ( int ) ) );
+		connect ( ui_->HorizontalSlider_BeginFrame , SIGNAL( valueChanged ( int ) ) , this , SLOT( onBeginFrameIsBiggerThanEndFrame ( int ) ) );
+		connect ( ui_->HorizontalSlider_EndFrame , SIGNAL ( valueChanged ( int ) ) , ui_->SpinBox_EndFrame , SLOT( setValue ( int ) ) );
+		connect ( ui_->HorizontalSlider_EndFrame , SIGNAL ( valueChanged ( int ) ) , this , SLOT( onEndFrameIsSmallerThanBeginFrame ( int ) ) );
 
-		connect ( ui_.SpinBox_BeginFrame , SIGNAL( valueChanged ( int ) ) , ui_.BasicViewer , SLOT( SetBeginFrame ( int ) ) );
-		connect ( ui_.SpinBox_EndFrame , SIGNAL( valueChanged ( int ) ) , ui_.BasicViewer , SLOT( SetEndFrame ( int ) ) );
+		connect ( ui_->SpinBox_BeginFrame , SIGNAL( valueChanged ( int ) ) , ui_->BasicViewer , SLOT( SetBeginFrame ( int ) ) );
+		connect ( ui_->SpinBox_EndFrame , SIGNAL( valueChanged ( int ) ) , ui_->BasicViewer , SLOT( SetEndFrame ( int ) ) );
 
 
-		connect ( ui_.PushButton_Play , SIGNAL( clicked ( ) ) , this , SLOT( onPlayButtonClicked ( ) ) );
-		connect ( ui_.PushButton_Stop , SIGNAL( clicked ( ) ) , this , SLOT( onStopButtonClicked ( ) ) );
+		connect ( ui_->PushButton_Play , SIGNAL( clicked ( ) ) , this , SLOT( onPlayButtonClicked ( ) ) );
+		connect ( ui_->PushButton_Stop , SIGNAL( clicked ( ) ) , this , SLOT( onStopButtonClicked ( ) ) );
 		connect ( play_timer_ , SIGNAL( timeout ( ) ) , this , SLOT( onRewindCloud ( ) ) );
 
 	}
@@ -126,18 +127,18 @@ namespace MapCreator {
 
 		computation_configured_ = true;
 
-		ui_.actionStartSlamComputation->setEnabled ( true );
+		ui_->actionStartSlamComputation->setEnabled ( true );
 
 	}
 
 	void MainWindow::EnableDensitySlider ( ) {
 
-		ui_.HorizontalSlider_PointCloudDensity->setEnabled ( true );
+		ui_->HorizontalSlider_PointCloudDensity->setEnabled ( true );
 	}
 
 	void MainWindow::OnReadingFinished ( ) {
 
-		ui_.actionInternalCalibration->setEnabled ( true );
+		ui_->actionInternalCalibration->setEnabled ( true );
 
 	}
 
@@ -151,11 +152,11 @@ namespace MapCreator {
 
 		std::cout << "OnConversionFinished - data size : " << keyframes_.size ( ) << std::endl;
 
-		ui_.actionStartSlamComputation->setEnabled ( true );
-		ui_.actionOpenInliersViewMode->setEnabled ( true );
-		ui_.actionCaptureModelMage->setEnabled ( true );
-		ui_.actionUsePreviousResult->setEnabled ( true );
-		ui_.actionConfigureSlamComputation->setEnabled ( true );
+		ui_->actionStartSlamComputation->setEnabled ( true );
+		ui_->actionOpenInliersViewMode->setEnabled ( true );
+		ui_->actionCaptureModelMage->setEnabled ( true );
+		ui_->actionUsePreviousResult->setEnabled ( true );
+		ui_->actionConfigureSlamComputation->setEnabled ( true );
 
 		computer_->SetDataDir ( data_dir_ );
 		computer_->SetFrameData ( keyframes_ );
@@ -173,7 +174,7 @@ namespace MapCreator {
 
 		watcher_->disconnect ( this );
 
-		ui_.actionStartSlamComputation->setEnabled ( false );
+		ui_->actionStartSlamComputation->setEnabled ( false );
 
 		std::cerr << "Main thread : " << QThread::currentThreadId ( ) << std::endl;
 
@@ -190,7 +191,7 @@ namespace MapCreator {
 
 			connect ( watcher_ , SIGNAL ( finished ( ) ) , this , SLOT ( OnReadingFinished ( ) ) );
 			connect ( handler_ , SIGNAL ( Message ( QString ) ) , log_panel_dialog_ , SLOT ( AppendMessage ( QString ) ) );
-			connect ( handler_ , SIGNAL ( Message ( QString ) ) , ui_.statusbar , SLOT ( showMessage ( QString ) ) );
+			connect ( handler_ , SIGNAL ( Message ( QString ) ) , ui_->statusbar , SLOT ( showMessage ( QString ) ) );
 
 			QFuture < void > reading_result = QtConcurrent::run ( this->handler_ , & ImageHandler2::StartReading );
 			watcher_->setFuture ( reading_result );
@@ -212,7 +213,7 @@ namespace MapCreator {
 
 			handler_->SetAistCoordinateConverter ( std::move ( AistCoordinateConverter ( path.toStdString ( ) ) ) );
 
-			ui_.actionInternalCalibration->setEnabled ( true );
+			ui_->actionInternalCalibration->setEnabled ( true );
 
 			log_panel_dialog_->AppendMessage ( QString ( "Internal calibration file loaded :\n%1" ).arg ( path ) );
 		}
@@ -223,7 +224,7 @@ namespace MapCreator {
 
 		// ResetWatcher ( );
 
-		ui_.actionStartSlamComputation->setEnabled ( false );
+		ui_->actionStartSlamComputation->setEnabled ( false );
 
 		std::cerr << "Main thread : " << QThread::currentThreadId ( ) << std::endl;
 
@@ -275,11 +276,11 @@ namespace MapCreator {
 
 	void MainWindow::onActionShowControlPanel ( ) {
 
-		if ( ui_.Frame_ControlPanel->isHidden ( ) ) {
-			ui_.Frame_ControlPanel->show ( );
+		if ( ui_->Frame_ControlPanel->isHidden ( ) ) {
+			ui_->Frame_ControlPanel->show ( );
 		}
 		else {
-			ui_.Frame_ControlPanel->hide ( );
+			ui_->Frame_ControlPanel->hide ( );
 		}
 	}
 
@@ -300,7 +301,7 @@ namespace MapCreator {
 		watcher_->disconnect ( this );
 
 		if ( !computation_configured_ ) {
-			ui_.statusbar->showMessage ( "SLAM computation not configured, configure at first." );
+			ui_->statusbar->showMessage ( "SLAM computation not configured, configure at first." );
 			QMessageBox::warning ( this , "Warning" , "SLAM computation not configured." );
 			return;
 		}
@@ -316,27 +317,27 @@ namespace MapCreator {
 
 		watcher_->setFuture ( compute_result );
 
-		ui_.CheckBox_ShowAnswer->setChecked ( false );
+		ui_->CheckBox_ShowAnswer->setChecked ( false );
 
 	}
 
 	void MainWindow::OnSlamComputationCompleted ( ) {
 
-		ui_.HorizontalSlider_PointCloudDensity->setEnabled ( true );
+		ui_->HorizontalSlider_PointCloudDensity->setEnabled ( true );
 
 		keyframes_ = computer_->GetKeyFrames ( );
 		assert ( !keyframes_.empty ( ) );
 
-		ui_.HorizontalSlider_BeginFrame->setRange ( 0 , static_cast<int>(keyframes_.size ( ) - 1 ) );
-		ui_.HorizontalSlider_EndFrame->setRange ( 0 , static_cast<int>(keyframes_.size ( ) - 1 ) );
+		ui_->HorizontalSlider_BeginFrame->setRange ( 0 , static_cast<int>(keyframes_.size ( ) - 1 ) );
+		ui_->HorizontalSlider_EndFrame->setRange ( 0 , static_cast<int>(keyframes_.size ( ) - 1 ) );
 
-		ui_.SpinBox_BeginFrame->setRange ( 0 , static_cast<int>(keyframes_.size ( ) - 1 ) );
-		ui_.SpinBox_EndFrame->setRange ( 0 , static_cast<int>(keyframes_.size ( ) - 1 ) );
+		ui_->SpinBox_BeginFrame->setRange ( 0 , static_cast<int>(keyframes_.size ( ) - 1 ) );
+		ui_->SpinBox_EndFrame->setRange ( 0 , static_cast<int>(keyframes_.size ( ) - 1 ) );
 
-		ui_.HorizontalSlider_BeginFrame->setValue ( 0 );
-		ui_.HorizontalSlider_EndFrame->setValue ( static_cast<int>(keyframes_.size ( ) - 1 ) );
+		ui_->HorizontalSlider_BeginFrame->setValue ( 0 );
+		ui_->HorizontalSlider_EndFrame->setValue ( static_cast<int>(keyframes_.size ( ) - 1 ) );
 
-		ui_.HorizontalSlider_PointCloudDensity->setValue ( 5 );
+		ui_->HorizontalSlider_PointCloudDensity->setValue ( 5 );
 	}
 
 	void MainWindow::onActionOpenInliersViewerMode ( bool checked ) {
@@ -347,19 +348,19 @@ namespace MapCreator {
 
 			connect ( inliers_viewer_option_dialog_ , SIGNAL( Message ( QString ) ) , log_panel_dialog_ , SLOT( AppendMessage ( QString ) ) );
 
-			connect ( inliers_viewer_option_dialog_ , SIGNAL ( SendData ( KeyFrames ) ) , ui_.BasicViewer ,
+			connect ( inliers_viewer_option_dialog_ , SIGNAL ( SendData ( KeyFrames ) ) , ui_->BasicViewer ,
 			          SLOT ( SetKeyFramesForInliers ( KeyFrames ) ) );
-			connect ( inliers_viewer_option_dialog_ , SIGNAL ( SendInliers ( CorrespondingPointsPair ) ) , ui_.BasicViewer ,
+			connect ( inliers_viewer_option_dialog_ , SIGNAL ( SendInliers ( CorrespondingPointsPair ) ) , ui_->BasicViewer ,
 			          SLOT ( SetInliers ( CorrespondingPointsPair ) ) );
 			connect ( inliers_viewer_option_dialog_ , SIGNAL ( SendCorrespondingPoints ( CorrespondingPointsPair ) ) ,
-			          ui_.BasicViewer ,
+			          ui_->BasicViewer ,
 			          SLOT ( SetCorrespondingPoints ( CorrespondingPointsPair ) ) );
 
 			inliers_viewer_option_dialog_->SetKeyFrames ( keyframes_ );
 			inliers_viewer_option_dialog_->SetOptions ( computer_->GetOptions ( ) );
 
 			inliers_viewer_option_dialog_->show ( );
-			ui_.HorizontalSlider_PointCloudDensity->setEnabled ( true );
+			ui_->HorizontalSlider_PointCloudDensity->setEnabled ( true );
 
 		}
 		else {
@@ -393,7 +394,7 @@ namespace MapCreator {
 		QDir dir ( data_dir_.absolutePath ( ) + "/ScreenShots" );
 		if ( !dir.exists ( ) ) dir.mkdir ( dir.absolutePath ( ) );
 
-		ui_.BasicViewer->grabFramebuffer ( ).save ( QString ( "%1/%2.png" )
+		ui_->BasicViewer->grabFramebuffer ( ).save ( QString ( "%1/%2.png" )
 				                                            .arg ( dir.absolutePath ( ) )
 				                                            .arg ( time ( nullptr ) ) );
 
@@ -482,7 +483,7 @@ namespace MapCreator {
 		QFuture < void > compute_result = QtConcurrent::run ( computer_ , & SlamAlgorithm::StartGenerateAnswer );
 
 		watcher_->setFuture ( compute_result );
-		ui_.CheckBox_ShowAnswer->setChecked ( true );
+		ui_->CheckBox_ShowAnswer->setChecked ( true );
 
 	}
 
@@ -492,15 +493,15 @@ namespace MapCreator {
 
 	void MainWindow::onBeginFrameIsBiggerThanEndFrame ( int val ) {
 
-		if ( val > ui_.SpinBox_EndFrame->value ( ) ) {
-			ui_.SpinBox_EndFrame->setValue ( val );
+		if ( val > ui_->SpinBox_EndFrame->value ( ) ) {
+			ui_->SpinBox_EndFrame->setValue ( val );
 		}
 	}
 
 	void MainWindow::onEndFrameIsSmallerThanBeginFrame ( int val ) {
 
-		if ( val < ui_.SpinBox_BeginFrame->value ( ) ) {
-			ui_.SpinBox_BeginFrame->setValue ( val );
+		if ( val < ui_->SpinBox_BeginFrame->value ( ) ) {
+			ui_->SpinBox_BeginFrame->setValue ( val );
 		}
 	}
 
@@ -520,18 +521,18 @@ namespace MapCreator {
 
 	void MainWindow::onRewindCloud ( ) {
 
-		const auto begin_frame = ui_.SpinBox_BeginFrame->value ( );
-		const auto end_frame   = ui_.SpinBox_EndFrame->value ( );
+		const auto begin_frame = ui_->SpinBox_BeginFrame->value ( );
+		const auto end_frame   = ui_->SpinBox_EndFrame->value ( );
 
 		static bool backwards = true;
 
 		if ( not backwards and end_frame != keyframes_.size ( ) - 1 ) {
-			ui_.SpinBox_EndFrame->setValue ( end_frame + 1 );
+			ui_->SpinBox_EndFrame->setValue ( end_frame + 1 );
 		} else if ( not backwards and end_frame == keyframes_.size ( ) - 1 ) {
 			backwards = true;
-		} else if ( backwards and ui_.SpinBox_EndFrame->value ( ) != begin_frame ) {
-			ui_.SpinBox_EndFrame->setValue ( end_frame - 1 );
-		} else if ( backwards and ui_.SpinBox_EndFrame->value ( ) == begin_frame ) {
+		} else if ( backwards and ui_->SpinBox_EndFrame->value ( ) != begin_frame ) {
+			ui_->SpinBox_EndFrame->setValue ( end_frame - 1 );
+		} else if ( backwards and ui_->SpinBox_EndFrame->value ( ) == begin_frame ) {
 			backwards = false;
 		}
 	}

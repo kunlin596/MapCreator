@@ -5,13 +5,13 @@
 #ifndef MAPCREATOR_MAINWINDOW_H
 #define MAPCREATOR_MAINWINDOW_H
 
-#include <memory>
 #include <QMainWindow>
 #include <QtConcurrent>
 #include <QThread>
 
 #include "SLAM/Option.h"
 #include "SLAM/KeyFrame.h"
+#include "SLAM/Alignment.h"
 #include "Handler/ImageDataHandler.h"
 #include "Engine/InliersViewerOptionDialog.h"
 #include "Engine/LogPanelDialog.h"
@@ -79,7 +79,7 @@ namespace MapCreator {
 
 	private:
 
-		std::unique_ptr<Ui::MainWindow> ui_;
+		Ui::MainWindow* ui_;
 
 		void WriteResult ( const std::pair < glm::vec3 , glm::vec3 > & marker_points_pair );
 		void ResetWatcher ( );
