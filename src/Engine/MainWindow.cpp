@@ -4,7 +4,7 @@
 
 #include "Engine/MainWindow.h"
 #include "Engine/CoordinateConverterDialog.h"
-#include "ui_BasicViewer.h"
+#include "ui_MainWindow.h"
 
 #include <SLAM/Tracker.h>
 #include <SLAM/CoordinateConverter.h>
@@ -18,7 +18,7 @@
 namespace MapCreator {
 
 	MainWindow::MainWindow ( QWidget * parent ) :
-			ui_(new Ui::MainWindow)
+			ui_(new Ui::MainWindow),
 			computation_configured_ ( false ) ,
 			computation_done_ ( false ) ,
 			play_timer_ ( new QTimer ( this ) ) ,

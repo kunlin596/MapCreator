@@ -28,7 +28,7 @@ add_library ( MapCreatorSlam SHARED
 target_link_libraries ( MapCreatorSlam
     MapCreatorCore
     ${OpenCV_LIBS}
-    ${aruco_LIBS}
+    # ${aruco_LIBS}
     ${Boost_LIBRARIES}
     Qt5::Widgets
     Qt5::OpenGL

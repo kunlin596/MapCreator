@@ -16,17 +16,14 @@
 #include "BasicViewer/KeyFrameGL.h"
 #include "BasicViewer/LineSegmentGL.h"
 
-#include <SLAM/KeyFrame.h>
-#include <SLAM/Inliers.h>
-#include <SLAM/Alignment.h>
-#include <SLAM/Transformation.h>
+#include "SLAM/KeyFrame.h"
+#include "SLAM/Inliers.h"
+#include "SLAM/Alignment.h"
+#include "SLAM/Transformation.h"
 
 #include <boost/tuple/tuple.hpp>
 
-namespace Ui {
-
-	class BasicViewer;
-}
+namespace Ui { class BasicViewer; }
 
 namespace MapCreator {
 
@@ -99,7 +96,7 @@ namespace MapCreator {
 
 	private:
 
-		Ui::BasicViewer ui_;
+		Ui::BasicViewer* ui_;
 
 		Camera camera_;
 		int    mode_;

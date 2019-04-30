@@ -2,8 +2,8 @@
 // Created by LinKun on 9/12/15.
 //
 
-#ifndef LK_SLAM_UTILITY_H
-#define LK_SLAM_UTILITY_H
+#ifndef MAPCREATOR_UTILITY_H
+#define MAPCREATOR_UTILITY_H
 
 #include <algorithm>
 #include <string>
@@ -89,4 +89,4 @@ namespace MapCreator {
 
 }
 
-#endif //LK_SLAM_UTILITY_H
+#endif //MAPCREATOR_UTILITY_H

@@ -2,8 +2,8 @@
 // Created by LinKun on 9/12/15.
 //
 
-#ifndef LK_SLAM_MATH_H
-#define LK_SLAM_MATH_H
+#ifndef MAPCREATOR_MATH_H
+#define MAPCREATOR_MATH_H
 
 #if !defined(_USE_MATH_DEFINES)
 #define    _USE_MATH_DEFINES
@@ -265,4 +265,4 @@ inline glm::vec3 ExtractTranslationVector ( const glm::mat4 & m ) {
 //}
 
 
-#endif //LK_SLAM_MATH_H
+#endif //MAPCREATOR_MATH_H

@@ -37,6 +37,7 @@ namespace MapCreator {
 
 	BasicViewer::BasicViewer ( QWidget * parent ) :
 			QOpenGLWidget ( parent ) ,
+			ui_(new Ui::BasicViewer),
 			mode_ ( 0 ) ,
 			render_grid_ ( true ) ,
 			render_inliers_ ( true ) ,
@@ -51,7 +52,7 @@ namespace MapCreator {
 			end_frame_ ( -1 ) ,
 			spin_timer_ ( new QTimer ( this ) ) {
 
-		ui_.setupUi ( this );
+		ui_->setupUi ( this );
 
 		connect ( spin_timer_ , SIGNAL( timeout ( ) ) ,
 		          this , SLOT( onSpin ( ) ) );

@@ -2,8 +2,8 @@
 // Created by LinKun on 9/12/15.
 //
 
-#ifndef LK_SLAM_POINTCLOUD_H
-#define LK_SLAM_POINTCLOUD_H
+#ifndef MAPCREATOR_POINTCLOUD_H
+#define MAPCREATOR_POINTCLOUD_H
 
 #include <opencv2/opencv.hpp>
 
@@ -39,4 +39,4 @@ namespace MapCreator {
     using PointClouds = std::vector<PointCloud>;
 }
 
-#endif //LK_SLAM_POINTCLOUD_H
+#endif //MAPCREATOR_POINTCLOUD_H

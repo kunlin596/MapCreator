@@ -2,8 +2,8 @@
 // Created by LinKun on 9/12/15.
 //
 
-#ifndef LK_SLAM_SERIALIZE_H
-#define LK_SLAM_SERIALIZE_H
+#ifndef MAPCREATOR_SERIALIZE_H
+#define MAPCREATOR_SERIALIZE_H
 
 #include <opencv2/opencv.hpp>
 #include <fstream>
@@ -330,4 +330,4 @@ namespace MapCreator {
 	}
 }
 
-#endif //LK_SLAM_SERIALIZE_H
+#endif //MAPCREATOR_SERIALIZE_H

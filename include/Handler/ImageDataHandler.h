@@ -2,22 +2,20 @@
 // Created by LinKun on 9/13/15.
 //
 
-#ifndef LK_SLAM_IMAGEDATAHANDLER_H
-#define LK_SLAM_IMAGEDATAHANDLER_H
-
-// Core library includes
+#ifndef MAPCREATOR_IMAGEDATAHANDLER_H
+#define MAPCREATOR_IMAGEDATAHANDLER_H
 
 #include <QObject>
 #include <QFileInfoList>
-#include <Core/Serialize.h>
+#include <QFutureWatcher>
+
 #include <boost/tuple/tuple.hpp>
 
-#include <SLAM/CommonDefinitions.h>
-#include <SLAM/KeyFrame.h>
-#include <SLAM/Calibrator.h>
-#include <SLAM/CoordinateConverter.h>
-
-#include <QFutureWatcher>
+#include "Core/Serialize.h"
+#include "SLAM/CommonDefinitions.h"
+#include "SLAM/KeyFrame.h"
+#include "SLAM/Calibrator.h"
+#include "SLAM/CoordinateConverter.h"
 
 namespace MapCreator {
 
@@ -53,11 +51,11 @@ namespace MapCreator {
 
 	signals:
 
-		// void SendData ( KeyFrames );
+		void SendData ( KeyFrames );
 
-		// void DoneReading ( );
+		void DoneReading ( );
 
-		// void Message ( QString );
+		void Message ( QString );
 
 	public slots:
 
@@ -126,4 +124,4 @@ namespace MapCreator {
 }
 
 
-#endif //LK_SLAM_IMAGEDATAHANDLER_H
+#endif //MAPCREATOR_IMAGEDATAHANDLER_H

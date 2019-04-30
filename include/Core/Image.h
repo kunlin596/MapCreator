@@ -2,8 +2,8 @@
 // Created by LinKun on 9/12/15.
 //
 
-#ifndef LK_SLAM_IMAGE_H
-#define LK_SLAM_IMAGE_H
+#ifndef MAPCREATOR_IMAGE_H
+#define MAPCREATOR_IMAGE_H
 
 #include <opencv2/opencv.hpp>
 
@@ -59,4 +59,4 @@ namespace MapCreator {
 }
 
 
-#endif //LK_SLAM_IMAGE_H
+#endif //MAPCREATOR_IMAGE_H

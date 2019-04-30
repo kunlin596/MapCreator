@@ -50,7 +50,7 @@ add_library ( Engine SHARED
 
 target_link_libraries ( Engine
 	MapCreatorCore
-	MapCreatorBasicViewer
+	MapCreatorViewer
 	${OpenCV_LIBS}
 	${Boost_LIBRARIES}
 	Qt5::Widgets

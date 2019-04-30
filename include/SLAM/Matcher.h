@@ -2,8 +2,8 @@
 // Created by LinKun on 9/13/15.
 //
 
-#ifndef LK_SLAM_MATCHER_H
-#define LK_SLAM_MATCHER_H
+#ifndef MAPCREATOR_MATCHER_H
+#define MAPCREATOR_MATCHER_H
 
 #include <Core/Feature.h>
 #include <Core/PointCloud.h>
@@ -44,4 +44,4 @@ namespace MapCreator {
     };
 }
 
-#endif //LK_SLAM_MATCHER_H
+#endif //MAPCREATOR_MATCHER_H

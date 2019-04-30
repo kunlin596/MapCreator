@@ -13,7 +13,7 @@ set ( CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "/usr/local/Qt5" )
 find_package ( glm REQUIRED )
 find_package ( Boost COMPONENTS system filesystem serialization iostreams REQUIRED )
 
-include_directories ( ${OpenCV_INCLUDE_DIRS} ${Boost_INCLUDE_DIR} ${MapCreator_INCLUDE_DIR} )
+include_directories ( ${OpenCV_INCLUDE_DIRS} ${Boost_INCLUDE_DIR} ${MapCreator_INSTALL_INCLUDE_DIR} )
 
 add_library ( MapCreatorCore SHARED ${MapCreatorCore_SOURCE_FILES} )
 target_link_libraries ( MapCreatorCore 

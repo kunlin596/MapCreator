@@ -2,8 +2,8 @@
 //// Created by LinKun on 9/13/15.
 ////
 //
-//#ifndef LK_SLAM_TREEHANDLER_H
-//#define LK_SLAM_TREEHANDLER_H
+//#ifndef MAPCREATOR_TREEHANDLER_H
+//#define MAPCREATOR_TREEHANDLER_H
 //
 //
 //#include <octomap/ScanGraph.h>
@@ -62,4 +62,4 @@
 //
 //}
 //
-//#endif //LK_SLAM_TREEHANDLER_H
+//#endif //MAPCREATOR_TREEHANDLER_H

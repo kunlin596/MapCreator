@@ -2,8 +2,8 @@
 // Created by LinKun on 9/20/15.
 //
 
-#ifndef LK_SLAM_TRACKER_H
-#define LK_SLAM_TRACKER_H
+#ifndef MAPCREATOR_TRACKER_H
+#define MAPCREATOR_TRACKER_H
 
 #include <QObject>
 
@@ -116,4 +116,4 @@ namespace MapCreator {
 }
 
 
-#endif //LK_SLAM_TRACKER_H
+#endif //MAPCREATOR_TRACKER_H

@@ -2,8 +2,8 @@
 // Created by LinKun on 9/13/15.
 //
 
-#ifndef LK_SLAM_CALIBRATOR_H
-#define LK_SLAM_CALIBRATOR_H
+#ifndef MAPCREATOR_CALIBRATOR_H
+#define MAPCREATOR_CALIBRATOR_H
 
 
 #include <string>
@@ -155,4 +155,4 @@ namespace MapCreator {
 }
 
 
-#endif //LK_SLAM_CALIBRATOR_H
+#endif //MAPCREATOR_CALIBRATOR_H

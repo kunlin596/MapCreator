@@ -8,11 +8,8 @@
 #include "SLAM/CommonDefinitions.h"
 #include <QWidget>
 
-#include "ui_FrameViewer.h"
 
-namespace Ui {
-	class FrameViewer;
-}
+namespace Ui { class FrameViewer; }
 
 namespace MapCreator {
 
@@ -31,7 +28,8 @@ namespace MapCreator {
 
 	protected:
 
-		void resizeEvent ( QResizeEvent * e ) override;
+		// FIXME
+		// void resizeEvent ( QResizeEvent * e ) override;
 
 	private slots:
 
@@ -40,13 +38,16 @@ namespace MapCreator {
 		void onClearButtonPushed ( );
 		void onFileListCurrentItemChanged ( int );
 		void onDetectMarkerButtonPushed ( );
-		void onTryDetection ( );
+
+		// FIXME
+		// void onTryDetection ( );
 
 	private:
 
+		// FIXME
 		void UpdateDisplayImage ( );
 
-		Ui::FrameViewer ui_;
+		Ui::FrameViewer* ui_;
 
 		ColorImage color_image_;
 		ColorImage depth_image_rgb_;
@@ -56,8 +57,6 @@ namespace MapCreator {
 		QStringList file_list_;
 
 	};
-
-
 }
 
 

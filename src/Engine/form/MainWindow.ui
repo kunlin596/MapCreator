@@ -72,7 +72,7 @@
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
-       <widget class="NiS::BasicViewer" name="BasicViewer">
+       <widget class="MapCreator::BasicViewer" name="BasicViewer">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
           <horstretch>0</horstretch>
@@ -787,9 +787,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>NiS::BasicViewer</class>
+   <class>MapCreator::BasicViewer</class>
    <extends>QOpenGLWidget</extends>
-   <header>../../../source/include/BasicViewer/BasicViewer.h</header>
+   <header>BasicViewer/BasicViewer.h</header>
   </customwidget>
  </customwidgets>
  <resources>

@@ -2,8 +2,8 @@
 // Created by LinKun on 9/13/15.
 //
 
-#ifndef LK_SLAM_TRANFORMATION_H
-#define LK_SLAM_TRANFORMATION_H
+#ifndef MAPCREATOR_TRANFORMATION_H
+#define MAPCREATOR_TRANFORMATION_H
 
 
 #include <Core/MyMath.h>
@@ -47,4 +47,4 @@ namespace MapCreator {
 
 }    // MapCreator
 
-#endif //LK_SLAM_TRANFORMATION_H
+#endif //MAPCREATOR_TRANFORMATION_H
