@@ -7,14 +7,12 @@ compiler:
   # - gcc TODO: only test clang for now
 
 before_script:
-  # install glm
-  - git clone https://github.com/g-truc/glm.git
-  - cd glm && mkdir build && cd build && cmake .. && sudo make install
-  - cd ../..
-  
+  - sudo apt update && sudo apt upgrade
+  - sudo apt install libboost-dev libglm-dev libqt5-default
+
   # install opencv
   - git clone https://github.com/opencv/opencv.git
-  - cd opencv && mkdir build && cd build && cmake -DOPENCV_ENABLE_NONFREE .. && sudo make install
+  - cd opencv && mkdir build && cd build && cmake -DOPENCV_ENABLE_NONFREE=ON .. && sudo make install
   - cd ../..
 
   # configure project
