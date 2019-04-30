@@ -7,14 +7,11 @@
 
 #include <QDialog>
 
-#include "ui_InliersViewerOptionDialog.h"
 
 #include <SLAM/KeyFrame.h>
 #include <SLAM/Option.h>
 
-namespace Ui {
-	class InliersViewerOptionDialog;
-}
+namespace Ui { class InliersViewerOptionDialog; }
 
 namespace MapCreator {
 
@@ -53,7 +50,7 @@ namespace MapCreator {
 		void SetFrame2 ( const KeyFrame & frame2 ) { keyframes_for_inliers_[ 1 ] = frame2; };
 		void ComputeCorrespondingPoints ( );
 
-		Ui::InliersViewerOptionDialog ui_;
+		Ui::InliersViewerOptionDialog* ui_;
 
 		KeyFrames keyframes_;
 

@@ -7,22 +7,20 @@
 
 
 #include <QDialog>
-
-#include "ui_MarkerViewerDialog.h"
+#include <QAbstractButton>
 
 #include "SLAM/KeyFrame.h"
 #include "Engine/MarkerSelectorDialog.h"
 
 #include <glm/glm.hpp>
 
-namespace Ui {
-	class MarkerViewerDialog;
-}
+namespace Ui { class MarkerViewerDialog; }
 
 namespace MapCreator {
 
 	class MarkerViewerDialog : public QDialog
 	{
+
 	Q_OBJECT
 
 	public:
@@ -62,7 +60,7 @@ namespace MapCreator {
 
 		KeyFrames keyframes_;
 
-		Ui::MarkerViewerDialog ui_;
+		Ui::MarkerViewerDialog* ui_;
 
 		MarkerSelectorDialog * dialog1_;
 		MarkerSelectorDialog * dialog2_;

@@ -1,6 +1,6 @@
 cmake_minimum_required ( VERSION 2.8 )
 
-aux_source_directory ( . Engine_SOURCE_FILES )
+aux_source_directory ( . MapCreatorEngine_SOURCE_FILES )
 
 # set ( CMAKE_MACOSX_RPATH 1 )
 
@@ -11,7 +11,7 @@ find_package ( Boost COMPONENTS system filesystem REQUIRED )
 find_package ( Qt5Concurrent REQUIRED )
 find_package ( Qt5OpenGL REQUIRED )
 
-qt5_wrap_ui ( Engine_UIC_FILES
+qt5_wrap_ui ( MapCreatorEngine_UIC_FILES
 	${MapCreator_SOURCE_DIR}/src/Engine/form/LogPanelDialog.ui
 	${MapCreator_SOURCE_DIR}/src/Engine/form/MarkerViewerDialog.ui
 	${MapCreator_SOURCE_DIR}/src/Engine/form/MarkerSelectorDialog.ui
@@ -24,7 +24,7 @@ qt5_wrap_ui ( Engine_UIC_FILES
 	${MapCreator_SOURCE_DIR}/src/Engine/form/SlamComputationDialog.ui
 	${MapCreator_SOURCE_DIR}/src/Engine/form/MainWindow.ui )
 
-qt5_wrap_cpp ( Engine_MOC_FILES
+qt5_wrap_cpp ( MapCreatorEngine_MOC_FILES
 	${MapCreator_INSTALL_INCLUDE_DIR}/Engine/ComputationConfigureDialog.h
 	${MapCreator_INSTALL_INCLUDE_DIR}/Engine/CoordinateConverterDialog.h
 	${MapCreator_INSTALL_INCLUDE_DIR}/Engine/PcaKeyFrame_FrameTrackingMethodDialog.h
@@ -36,19 +36,18 @@ qt5_wrap_cpp ( Engine_MOC_FILES
 	${MapCreator_INSTALL_INCLUDE_DIR}/Engine/InliersViewerOptionDialog.h
 	${MapCreator_INSTALL_INCLUDE_DIR}/Engine/MainWindow.h )
 
-qt5_add_resources ( Engine_RCC_FILES
+qt5_add_resources ( MapCreatorEngine_RCC_FILES
 	${MapCreator_SOURCE_DIR}/src/Engine/rsc/Resource.qrc )
 
-include_directories ( ${OpenCV_INCLUDE_DIRS} ${Boost_INCLUDE_DIR} ${MapCreator_INSTALL_INCLUDE_DIR} ${Engine_UIC_FILES} )
+include_directories ( ${OpenCV_INCLUDE_DIRS} ${Boost_INCLUDE_DIR} ${MapCreator_INSTALL_INCLUDE_DIR} ${MapCreatorEngine_UIC_FILES} )
 
 # Build library
-add_library ( Engine SHARED
-	${Engine_SOURCE_FILES}
-	${Engine_UIC_FILES}
-	${Engine_MOC_FILES}
-	${Engine_RCC_FILES} )
+add_library ( MapCreatorEngine SHARED
+	${MapCreatorEngine_SOURCE_FILES}
+	${MapCreatorEngine_MOC_FILES}
+	${MapCreatorEngine_RCC_FILES} )
 
-target_link_libraries ( Engine
+target_link_libraries ( MapCreatorEngine
 	MapCreatorCore
 	MapCreatorViewer
 	${OpenCV_LIBS}
@@ -58,5 +57,5 @@ target_link_libraries ( Engine
 	Qt5::Concurrent )
 
 install ( TARGETS
-	Engine
+	MapCreatorEngine
 	DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" )

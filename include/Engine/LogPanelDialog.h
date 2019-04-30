@@ -7,8 +7,6 @@
 
 #include <QDialog>
 
-#include "ui_LogPanelDialog.h"
-
 namespace Ui { class LogPanelDialog; }
 
 namespace MapCreator {
@@ -28,7 +26,7 @@ namespace MapCreator {
 
 	private:
 
-		Ui::LogPanelDialog ui_;
+		Ui::LogPanelDialog* ui_;
 
 	};
 }

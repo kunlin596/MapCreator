@@ -2,16 +2,18 @@
 // Created by LinKun on 10/20/15.
 //
 
+#include "ui_PcaKeyFrame_FrameTrackingMethodDialog.h"
 #include "Engine/PcaKeyFrame_FrameTrackingMethodDialog.h"
 
 namespace MapCreator {
 
 
-	PcaKeyFrame_FrameTrackingMethodDialog::PcaKeyFrame_FrameTrackingMethodDialog ( QWidget * parent ) {
+	PcaKeyFrame_FrameTrackingMethodDialog::PcaKeyFrame_FrameTrackingMethodDialog ( QWidget * parent ):
+		ui_(new Ui::PcaKeyFrame_FrameTrackingMethodDialog) {
 
-		ui_.setupUi ( this );
+		ui_->setupUi ( this );
 
-		connect ( ui_.ButtonBox_ResultButtons , SIGNAL ( clicked ( QAbstractButton * ) ) , this ,
+		connect ( ui_->ButtonBox_ResultButtons , SIGNAL ( clicked ( QAbstractButton * ) ) , this ,
 		          SLOT( onResultButtonBoxClicked ( QAbstractButton * ) ) );
 
 
@@ -21,29 +23,29 @@ namespace MapCreator {
 
 		bool conversion_succeeded;
 
-		int val1 = ui_.LineEdit_NumRansacIteration->text ( ).toInt ( & conversion_succeeded , 10 );
+		int val1 = ui_->LineEdit_NumRansacIteration->text ( ).toInt ( & conversion_succeeded , 10 );
 		if ( !conversion_succeeded ) return false;
 
-		float val2 = ui_.LineEdit_OutlierThreshold->text ( ).toFloat ( & conversion_succeeded );
+		float val2 = ui_->LineEdit_OutlierThreshold->text ( ).toFloat ( & conversion_succeeded );
 
 		if ( !conversion_succeeded ) return false;
 
-		float val3 = ui_.LineEdit_InlierThreshold->text ( ).toFloat ( & conversion_succeeded );
+		float val3 = ui_->LineEdit_InlierThreshold->text ( ).toFloat ( & conversion_succeeded );
 		if ( !conversion_succeeded ) return false;
 
-		float val4 = ui_.LineEdit_Threshold_1st_PC_Contribution->text ( ).toFloat ( & conversion_succeeded );
+		float val4 = ui_->LineEdit_Threshold_1st_PC_Contribution->text ( ).toFloat ( & conversion_succeeded );
 		if ( !conversion_succeeded ) return false;
 
-		float val5 = ui_.LineEdit_Threshold_1st_PC_Variance->text ( ).toFloat ( & conversion_succeeded );
+		float val5 = ui_->LineEdit_Threshold_1st_PC_Variance->text ( ).toFloat ( & conversion_succeeded );
 		if ( !conversion_succeeded ) return false;
 
-		float val6 = ui_.LineEdit_Threshold_2nd_PC_Variance->text ( ).toFloat ( & conversion_succeeded );
+		float val6 = ui_->LineEdit_Threshold_2nd_PC_Variance->text ( ).toFloat ( & conversion_succeeded );
 		if ( !conversion_succeeded ) return false;
 
-		float val7 = ui_.LineEdit_Threshold_3rd_PC_Variance->text ( ).toFloat ( & conversion_succeeded );
+		float val7 = ui_->LineEdit_Threshold_3rd_PC_Variance->text ( ).toFloat ( & conversion_succeeded );
 		if ( !conversion_succeeded ) return false;
 
-		int val8 = ui_.LineEdit_Threshold_InliersNumber->text ( ).toInt ( & conversion_succeeded , 10 );
+		int val8 = ui_->LineEdit_Threshold_InliersNumber->text ( ).toInt ( & conversion_succeeded , 10 );
 		if ( !conversion_succeeded ) return false;
 
 		if ( val1 < 0 or val2 < 0 or val3 < 0 or val4 < 0 or val5 < 0 or val6 < 0 or val7 < 0 or val8 < 0 )
@@ -66,15 +68,15 @@ namespace MapCreator {
 
 		QPushButton * _button = ( QPushButton * ) ( button );
 
-		if ( _button == ( ui_.ButtonBox_ResultButtons->button ( QDialogButtonBox::RestoreDefaults ) ) ) {
+		if ( _button == ( ui_->ButtonBox_ResultButtons->button ( QDialogButtonBox::RestoreDefaults ) ) ) {
 			RestoreDefaultSettings ( );
 		}
 
-		else if ( _button == ( ui_.ButtonBox_ResultButtons->button ( QDialogButtonBox::Apply ) ) ) {
+		else if ( _button == ( ui_->ButtonBox_ResultButtons->button ( QDialogButtonBox::Apply ) ) ) {
 			AcceptDialog ( );
 		}
 
-		else if ( _button == ( ui_.ButtonBox_ResultButtons->button ( QDialogButtonBox::Cancel ) ) ) {
+		else if ( _button == ( ui_->ButtonBox_ResultButtons->button ( QDialogButtonBox::Cancel ) ) ) {
 			RejectDialog ( );
 		}
 	}
@@ -94,15 +96,15 @@ namespace MapCreator {
 
 	void PcaKeyFrame_FrameTrackingMethodDialog::RestoreDefaultSettings ( ) {
 
-		ui_.LineEdit_NumRansacIteration->setText ( QString::number ( 10000 ) );
-		ui_.LineEdit_OutlierThreshold->setText ( QString::number ( 0.035 ) );
-		ui_.LineEdit_InlierThreshold->setText ( QString::number ( 0.035 ) );
+		ui_->LineEdit_NumRansacIteration->setText ( QString::number ( 10000 ) );
+		ui_->LineEdit_OutlierThreshold->setText ( QString::number ( 0.035 ) );
+		ui_->LineEdit_InlierThreshold->setText ( QString::number ( 0.035 ) );
 
-		ui_.LineEdit_Threshold_1st_PC_Contribution->setText ( QString::number ( 0.85 ) );
-		ui_.LineEdit_Threshold_1st_PC_Variance->setText ( QString::number ( 0.1 ) );
-		ui_.LineEdit_Threshold_2nd_PC_Variance->setText ( QString::number ( 0.05 ) );
-		ui_.LineEdit_Threshold_3rd_PC_Variance->setText ( QString::number ( 0.0 ) );
-		ui_.LineEdit_Threshold_InliersNumber->setText ( QString::number ( 3 ) );
+		ui_->LineEdit_Threshold_1st_PC_Contribution->setText ( QString::number ( 0.85 ) );
+		ui_->LineEdit_Threshold_1st_PC_Variance->setText ( QString::number ( 0.1 ) );
+		ui_->LineEdit_Threshold_2nd_PC_Variance->setText ( QString::number ( 0.05 ) );
+		ui_->LineEdit_Threshold_3rd_PC_Variance->setText ( QString::number ( 0.0 ) );
+		ui_->LineEdit_Threshold_InliersNumber->setText ( QString::number ( 3 ) );
 	}
 
 

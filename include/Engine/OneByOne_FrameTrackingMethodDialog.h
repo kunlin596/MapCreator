@@ -6,9 +6,7 @@
 #define MAPCREATOR_ONEBYONE_FRAMETRACKINGMETHODDIALOG_H
 
 #include <QDialog>
-
-#include "ui_OneByOne_FrameTrackingMethodDialog.h"
-
+#include <QAbstractButton>
 #include <SLAM/Option.h>
 
 namespace Ui {
@@ -41,7 +39,7 @@ namespace MapCreator {
 
 	private:
 
-		Ui::OneByOne_FrameTrackingMethodDialog ui_;
+		Ui::OneByOne_FrameTrackingMethodDialog* ui_;
 
 		Options::Options_OneByOne options_;
 

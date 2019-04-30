@@ -11,8 +11,6 @@
 #include "FixedFrameCount_FrameTrackingMethodDialog.h"
 #include "OneByOne_FrameTrackingMethodDialog.h"
 
-#include "ui_ComputationConfigureDialog.h"
-
 namespace Ui { class ComputationConfigureDialog; }
 
 namespace MapCreator {
@@ -40,7 +38,7 @@ namespace MapCreator {
 
 	private:
 
-		Ui::ComputationConfigureDialog ui_;
+		Ui::ComputationConfigureDialog* ui_;
 
 		bool use_bundle_adjustment_;
 		bool options_configured_;

@@ -5,7 +5,7 @@
 #include <QApplication>
 #include <QSurfaceFormat>
 
-#include <MapCreator/MainWindow.h>
+#include "Engine/MainWindow.h"
 
 int main ( int argc , char * argv[] ) {
 

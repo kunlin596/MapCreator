@@ -6,13 +6,11 @@
 #define MAPCREATOR_PCAKEYFRAME_FRAMETRACKINGMETHODDIALOG_H
 
 #include <QDialog>
+#include <QAbstractButton>
 
-#include "ui_PcaKeyFrame_FrameTrackingMethodDialog.h"
-
-#include <SLAM/Option.h>
+#include "SLAM/Option.h"
 
 namespace Ui {
-
 	class PcaKeyFrame_FrameTrackingMethodDialog;
 }
 
@@ -41,7 +39,7 @@ namespace MapCreator {
 		void RejectDialog ( );
 		void RestoreDefaultSettings ( );
 
-		Ui::PcaKeyFrame_FrameTrackingMethodDialog ui_;
+		Ui::PcaKeyFrame_FrameTrackingMethodDialog* ui_;
 
 		Options::Options_PcaKeyFrame options_;
 

@@ -2,6 +2,8 @@
 // Created by LinKun on 10/22/15.
 //
 
+
+#include "ui_MarkerViewerDialog.h"
 #include "Engine/MarkerViewerDialog.h"
 
 #include <QMouseEvent>
@@ -10,9 +12,10 @@
 
 namespace MapCreator {
 
-	MarkerViewerDialog::MarkerViewerDialog ( QWidget * parent ) {
+	MarkerViewerDialog::MarkerViewerDialog ( QWidget * parent ):
+		ui_(new Ui::MarkerViewerDialog) {
 
-		ui_.setupUi ( this );
+		ui_->setupUi ( this );
 
 		setMouseTracking ( true );
 
@@ -21,7 +24,7 @@ namespace MapCreator {
 
 		setFixedSize ( sizeHint ( ) );
 
-		connect ( ui_.ButtonBox_ResultButtons , SIGNAL ( clicked ( QAbstractButton * ) ) , this ,
+		connect ( ui_->ButtonBox_ResultButtons , SIGNAL ( clicked ( QAbstractButton * ) ) , this ,
 		          SLOT ( onResultButtonsClicked ( QAbstractButton * ) ) );
 
 	}
@@ -29,7 +32,7 @@ namespace MapCreator {
 	MarkerViewerDialog::MarkerViewerDialog ( const KeyFrames & keyframes , QWidget * parent ) :
 			keyframes_ ( keyframes ) {
 
-		ui_.setupUi ( this );
+		ui_->setupUi ( this );
 
 		SetKeyFrames ( keyframes );
 		setMouseTracking ( true );
@@ -45,23 +48,23 @@ namespace MapCreator {
 
 		keyframes_ = keyframes;
 
-		ui_.HorizontalSlider_MarkerImage1->setRange ( 0 , keyframes_.size ( ) - 1 );
-		ui_.HorizontalSlider_MarkerImage2->setRange ( 0 , keyframes_.size ( ) - 1 );
+		ui_->HorizontalSlider_MarkerImage1->setRange ( 0 , keyframes_.size ( ) - 1 );
+		ui_->HorizontalSlider_MarkerImage2->setRange ( 0 , keyframes_.size ( ) - 1 );
 
-		ui_.HorizontalSlider_MarkerImage1->setValue ( 0 );
-		ui_.HorizontalSlider_MarkerImage2->setValue ( 0 );
+		ui_->HorizontalSlider_MarkerImage1->setValue ( 0 );
+		ui_->HorizontalSlider_MarkerImage2->setValue ( 0 );
 
-		ui_.SpinBox_MarkerImage1->setRange ( 0 , keyframes_.size ( ) - 1 );
-		ui_.SpinBox_MarkerImage2->setRange ( 0 , keyframes_.size ( ) - 1 );
+		ui_->SpinBox_MarkerImage1->setRange ( 0 , keyframes_.size ( ) - 1 );
+		ui_->SpinBox_MarkerImage2->setRange ( 0 , keyframes_.size ( ) - 1 );
 
-		ui_.SpinBox_MarkerImage1->setValue ( 0 );
-		ui_.SpinBox_MarkerImage2->setValue ( 0 );
+		ui_->SpinBox_MarkerImage1->setValue ( 0 );
+		ui_->SpinBox_MarkerImage2->setValue ( 0 );
 
-		ui_.Label_MinImage1->setText ( QString::number ( 0 ) );
-		ui_.Label_MinImage2->setText ( QString::number ( 0 ) );
+		ui_->Label_MinImage1->setText ( QString::number ( 0 ) );
+		ui_->Label_MinImage2->setText ( QString::number ( 0 ) );
 
-		ui_.Label_MaxImage1->setText ( QString::number ( keyframes_.size ( ) - 1 ) );
-		ui_.Label_MaxImage2->setText ( QString::number ( keyframes_.size ( ) - 1 ) );
+		ui_->Label_MaxImage1->setText ( QString::number ( keyframes_.size ( ) - 1 ) );
+		ui_->Label_MaxImage2->setText ( QString::number ( keyframes_.size ( ) - 1 ) );
 
 		SetImage1 ( 0 );
 		SetImage2 ( 0 );
@@ -77,10 +80,10 @@ namespace MapCreator {
 
 		QImage display_image = QImage ( color.data , color.cols , color.rows , QImage::Format::Format_RGB888 );
 
-		ui_.Label_MarkerImage1->setPixmap ( QPixmap::fromImage ( display_image ).scaled ( ui_.Label_MarkerImage1->width ( ) ,
-		                                                                                  ui_.Label_MarkerImage1->height ( ) ,
+		ui_->Label_MarkerImage1->setPixmap ( QPixmap::fromImage ( display_image ).scaled ( ui_->Label_MarkerImage1->width ( ) ,
+		                                                                                  ui_->Label_MarkerImage1->height ( ) ,
 		                                                                                  Qt::KeepAspectRatio ) );
-		ui_.CheckBox_HasPoint1->setChecked ( false );
+		ui_->CheckBox_HasPoint1->setChecked ( false );
 	}
 
 	void MarkerViewerDialog::SetImage2 ( int index ) {
@@ -90,21 +93,21 @@ namespace MapCreator {
 
 		QImage display_image = QImage ( color.data , color.cols , color.rows , QImage::Format::Format_RGB888 );
 
-		ui_.Label_MarkerImage2->setPixmap ( QPixmap::fromImage ( display_image ).scaled ( ui_.Label_MarkerImage2->width ( ) ,
-		                                                                                  ui_.Label_MarkerImage2->height ( ) , Qt::KeepAspectRatio ) );
-		ui_.CheckBox_HasPoint2->setChecked ( false );
+		ui_->Label_MarkerImage2->setPixmap ( QPixmap::fromImage ( display_image ).scaled ( ui_->Label_MarkerImage2->width ( ) ,
+		                                                                                  ui_->Label_MarkerImage2->height ( ) , Qt::KeepAspectRatio ) );
+		ui_->CheckBox_HasPoint2->setChecked ( false );
 	}
 
 	void MarkerViewerDialog::InitializeConnections ( ) {
 
-		connect ( ui_.HorizontalSlider_MarkerImage1 , SIGNAL( valueChanged ( int ) ) , this , SLOT( SetImage1 ( int ) ) );
-		connect ( ui_.HorizontalSlider_MarkerImage2 , SIGNAL( valueChanged ( int ) ) , this , SLOT( SetImage2 ( int ) ) );
+		connect ( ui_->HorizontalSlider_MarkerImage1 , SIGNAL( valueChanged ( int ) ) , this , SLOT( SetImage1 ( int ) ) );
+		connect ( ui_->HorizontalSlider_MarkerImage2 , SIGNAL( valueChanged ( int ) ) , this , SLOT( SetImage2 ( int ) ) );
 
-		connect ( ui_.SpinBox_MarkerImage1 , SIGNAL( valueChanged ( int ) ) , ui_.HorizontalSlider_MarkerImage1 , SLOT( setValue ( int ) ) );
-		connect ( ui_.SpinBox_MarkerImage2 , SIGNAL( valueChanged ( int ) ) , ui_.HorizontalSlider_MarkerImage2 , SLOT( setValue ( int ) ) );
+		connect ( ui_->SpinBox_MarkerImage1 , SIGNAL( valueChanged ( int ) ) , ui_->HorizontalSlider_MarkerImage1 , SLOT( setValue ( int ) ) );
+		connect ( ui_->SpinBox_MarkerImage2 , SIGNAL( valueChanged ( int ) ) , ui_->HorizontalSlider_MarkerImage2 , SLOT( setValue ( int ) ) );
 
-		connect ( ui_.HorizontalSlider_MarkerImage1 , SIGNAL( valueChanged ( int ) ) , ui_.SpinBox_MarkerImage1 , SLOT( setValue ( int ) ) );
-		connect ( ui_.HorizontalSlider_MarkerImage2 , SIGNAL( valueChanged ( int ) ) , ui_.SpinBox_MarkerImage2 , SLOT( setValue ( int ) ) );
+		connect ( ui_->HorizontalSlider_MarkerImage1 , SIGNAL( valueChanged ( int ) ) , ui_->SpinBox_MarkerImage1 , SLOT( setValue ( int ) ) );
+		connect ( ui_->HorizontalSlider_MarkerImage2 , SIGNAL( valueChanged ( int ) ) , ui_->SpinBox_MarkerImage2 , SLOT( setValue ( int ) ) );
 
 		connect ( dialog1_ , SIGNAL( FetchPointDone ( ) ) , this , SLOT( onFetchPoint1Done ( ) ) );
 		connect ( dialog2_ , SIGNAL( FetchPointDone ( ) ) , this , SLOT( onFetchPoint2Done ( ) ) );
@@ -114,21 +117,21 @@ namespace MapCreator {
 	void MarkerViewerDialog::onFetchPoint1Done ( ) {
 
 		point1_ = dialog1_->GetPoint ( );
-		ui_.LineEdit_MarkerImage1_Point->setText ( QString ( "%1, %2, %3" ).arg ( point1_.x ).arg ( point1_.y ).arg ( point1_.z ) );
-		ui_.CheckBox_HasPoint1->setChecked ( true );
+		ui_->LineEdit_MarkerImage1_Point->setText ( QString ( "%1, %2, %3" ).arg ( point1_.x ).arg ( point1_.y ).arg ( point1_.z ) );
+		ui_->CheckBox_HasPoint1->setChecked ( true );
 	}
 
 	void MarkerViewerDialog::onFetchPoint2Done ( ) {
 
 		point2_ = dialog2_->GetPoint ( );
-		ui_.LineEdit_MarkerImage2_Point->setText ( QString ( "%1, %2, %3" ).arg ( point2_.x ).arg ( point2_.y ).arg ( point2_.z ) );
-		ui_.CheckBox_HasPoint2->setChecked ( true );
+		ui_->LineEdit_MarkerImage2_Point->setText ( QString ( "%1, %2, %3" ).arg ( point2_.x ).arg ( point2_.y ).arg ( point2_.z ) );
+		ui_->CheckBox_HasPoint2->setChecked ( true );
 	}
 
 	void MarkerViewerDialog::mouseDoubleClickEvent ( QMouseEvent * e ) {
 
-		if ( ui_.Label_MarkerImage1->geometry ( ).contains ( e->pos ( ) ) ) {
-			int index = ui_.HorizontalSlider_MarkerImage1->value ( );
+		if ( ui_->Label_MarkerImage1->geometry ( ).contains ( e->pos ( ) ) ) {
+			int index = ui_->HorizontalSlider_MarkerImage1->value ( );
 
 			dialog1_->SetKeyFrame ( keyframes_[ index ] );
 			dialog1_->exec ( );
@@ -136,8 +139,8 @@ namespace MapCreator {
 
 		}
 
-		else if ( ui_.Label_MarkerImage2->geometry ( ).contains ( e->pos ( ) ) ) {
-			int index = ui_.HorizontalSlider_MarkerImage2->value ( );
+		else if ( ui_->Label_MarkerImage2->geometry ( ).contains ( e->pos ( ) ) ) {
+			int index = ui_->HorizontalSlider_MarkerImage2->value ( );
 
 			dialog2_->SetKeyFrame ( keyframes_[ index ] );
 			dialog2_->exec ( );
@@ -150,8 +153,8 @@ namespace MapCreator {
 
 		QPushButton * _button = ( QPushButton * ) ( button );
 
-		if ( _button == ( ui_.ButtonBox_ResultButtons->button ( QDialogButtonBox::Ok ) ) ) {
-			if ( ui_.CheckBox_HasPoint1->isChecked ( ) and ui_.CheckBox_HasPoint2->isChecked ( ) ) {
+		if ( _button == ( ui_->ButtonBox_ResultButtons->button ( QDialogButtonBox::Ok ) ) ) {
+			if ( ui_->CheckBox_HasPoint1->isChecked ( ) and ui_->CheckBox_HasPoint2->isChecked ( ) ) {
 
 				QDialog::accept ( );
 
@@ -174,7 +177,7 @@ namespace MapCreator {
 			}
 		}
 
-		else if ( _button == ( ui_.ButtonBox_ResultButtons->button ( QDialogButtonBox::Cancel ) ) ) {
+		else if ( _button == ( ui_->ButtonBox_ResultButtons->button ( QDialogButtonBox::Cancel ) ) ) {
 			QDialog::reject ( );
 		}
 	}

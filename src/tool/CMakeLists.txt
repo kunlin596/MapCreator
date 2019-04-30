@@ -14,27 +14,27 @@ include_directories ( ${OpenCV_INCLUDE_DIRS} ${Boost_INCLUDE_DIR} ${NiS_INCLUDE_
 
 set ( CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib" )
 
-add_executable ( NiSMapCreatorTool
+add_executable ( MapCreator
 	MapCreator.cpp )
 
-target_link_libraries ( NiSMapCreatorTool
-	NiSCore
-	NiSHandler
-	NiSSLAM
-	NiSMapCreator
+target_link_libraries ( MapCreator
+	MapCreatorCore
+	MapCreatorHandler
+	MapCreatorSlam
+	MapCreatorEngine
 	${OpenCV_LIBS}
 	${Boost_LIBRARIES}
 	Qt5::Widgets
 	Qt5::Concurrent
 	Qt5::OpenGL )
 
-add_executable ( NiSViewer Viewer.cpp )
+add_executable ( Viewer Viewer.cpp )
+add_executable ( FrameViewer FrameViewer.cpp )
 
-add_executable ( NiSFrameViewer FrameViewer.cpp )
-target_link_libraries ( NiSFrameViewer
-	NiSHandler
-	NiSSLAM
-	NiSMapCreator
+target_link_libraries ( FrameViewer
+	MapCreatorCore
+	MapCreatorSlam
+	MapCreatorEngine
 	${OpenCV_LIBS}
 	${Boost_LIBRARIES}
 	Qt5::Widgets
@@ -43,6 +43,6 @@ target_link_libraries ( NiSFrameViewer
 
 
 install ( TARGETS
-	NiSMapCreatorTool
-	NiSViewer
+	MapCreator
+	FrameViewer
 	DESTINATION "${CMAKE_INSTALL_PREFIX}/bin" )

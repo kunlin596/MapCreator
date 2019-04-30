@@ -2,6 +2,7 @@
 // Created by LinKun on 10/13/15.
 //
 
+#include "ui_InliersViewerOptionDialog.h"
 #include "Engine/InliersViewerOptionDialog.h"
 #include <SLAM/Transformation.h>
 #include <SLAM/Tracker.h>
@@ -10,14 +11,15 @@
 namespace MapCreator {
 
 	InliersViewerOptionDialog::InliersViewerOptionDialog ( QWidget * parent ) :
+			ui_(new Ui::InliersViewerOptionDialog),
 			has_frame1_ ( false ) ,
 			has_frame2_ ( false ) {
 
-		ui_.setupUi ( this );
+		ui_->setupUi ( this );
 		setWindowFlags ( Qt::WindowStaysOnTopHint );
 		setFixedSize ( sizeHint ( ) );
 
-		// connect ( ui_.PushButton_OpenDataFileFolder , & QPushButton::clicked , this , & InliersViewerOptionDialog::OpenDataFileFolder );
+		// connect ( ui_->PushButton_OpenDataFileFolder , & QPushButton::clicked , this , & InliersViewerOptionDialog::OpenDataFileFolder );
 
 		keyframes_for_inliers_.resize ( 2 );
 
@@ -48,35 +50,35 @@ namespace MapCreator {
 			// The solution is that to disconnect the connection at first, and after you set up the new data,
 			// re-connect the connection again. This should work fine.
 
-//			disconnect ( ui_.SpinBox_IndexFrame1 , SIGNAL( valueChanged ( int ) ) , ui_.HorizontalSlider_IndexFrame1 , SLOT( setValue ( int ) ) );
-//			disconnect ( ui_.SpinBox_IndexFrame2 , SIGNAL( valueChanged ( int ) ) , ui_.HorizontalSlider_IndexFrame2 , SLOT( setValue ( int ) ) );
-//			disconnect ( ui_.HorizontalSlider_IndexFrame1 , SIGNAL( valueChanged ( int ) ) , ui_.SpinBox_IndexFrame1 , SLOT( setValue ( int ) ) );
-//			disconnect ( ui_.HorizontalSlider_IndexFrame1 , SIGNAL( valueChanged ( int ) ) , ui_.SpinBox_IndexFrame2 , SLOT( setValue ( int ) ) );
+//			disconnect ( ui_->SpinBox_IndexFrame1 , SIGNAL( valueChanged ( int ) ) , ui_->HorizontalSlider_IndexFrame1 , SLOT( setValue ( int ) ) );
+//			disconnect ( ui_->SpinBox_IndexFrame2 , SIGNAL( valueChanged ( int ) ) , ui_->HorizontalSlider_IndexFrame2 , SLOT( setValue ( int ) ) );
+//			disconnect ( ui_->HorizontalSlider_IndexFrame1 , SIGNAL( valueChanged ( int ) ) , ui_->SpinBox_IndexFrame1 , SLOT( setValue ( int ) ) );
+//			disconnect ( ui_->HorizontalSlider_IndexFrame1 , SIGNAL( valueChanged ( int ) ) , ui_->SpinBox_IndexFrame2 , SLOT( setValue ( int ) ) );
 //
-//			disconnect ( ui_.HorizontalSlider_IndexFrame1 , SIGNAL( valueChanged ( int ) ) , this , SLOT( onSetNewFrame1 ( int ) ) );
-//			disconnect ( ui_.HorizontalSlider_IndexFrame2 , SIGNAL( valueChanged ( int ) ) , this , SLOT( onSetNewFrame2 ( int ) ) );
+//			disconnect ( ui_->HorizontalSlider_IndexFrame1 , SIGNAL( valueChanged ( int ) ) , this , SLOT( onSetNewFrame1 ( int ) ) );
+//			disconnect ( ui_->HorizontalSlider_IndexFrame2 , SIGNAL( valueChanged ( int ) ) , this , SLOT( onSetNewFrame2 ( int ) ) );
 //
 
-			ui_.LineEdit_TotalFrameCount->setText ( QString::number ( keyframes.size ( ) ) );
+			ui_->LineEdit_TotalFrameCount->setText ( QString::number ( keyframes.size ( ) ) );
 
-			ui_.HorizontalSlider_IndexFrame1->setRange ( 0 , static_cast<int> (keyframes_.size ( ) ) - 1 );
-			ui_.HorizontalSlider_IndexFrame2->setRange ( 0 , static_cast<int> (keyframes_.size ( ) ) - 1 );
-			ui_.SpinBox_IndexFrame1->setRange ( 0 , static_cast<int> (keyframes_.size ( ) ) - 1 );
-			ui_.SpinBox_IndexFrame2->setRange ( 0 , static_cast<int> (keyframes_.size ( ) ) - 1 );
+			ui_->HorizontalSlider_IndexFrame1->setRange ( 0 , static_cast<int> (keyframes_.size ( ) ) - 1 );
+			ui_->HorizontalSlider_IndexFrame2->setRange ( 0 , static_cast<int> (keyframes_.size ( ) ) - 1 );
+			ui_->SpinBox_IndexFrame1->setRange ( 0 , static_cast<int> (keyframes_.size ( ) ) - 1 );
+			ui_->SpinBox_IndexFrame2->setRange ( 0 , static_cast<int> (keyframes_.size ( ) ) - 1 );
 
 
-			connect ( ui_.SpinBox_IndexFrame1 , SIGNAL( valueChanged ( int ) ) , ui_.HorizontalSlider_IndexFrame1 , SLOT( setValue ( int ) ) );
-			connect ( ui_.SpinBox_IndexFrame2 , SIGNAL( valueChanged ( int ) ) , ui_.HorizontalSlider_IndexFrame2 , SLOT( setValue ( int ) ) );
-			connect ( ui_.HorizontalSlider_IndexFrame1 , SIGNAL( valueChanged ( int ) ) , ui_.SpinBox_IndexFrame1 , SLOT( setValue ( int ) ) );
-			connect ( ui_.HorizontalSlider_IndexFrame2 , SIGNAL( valueChanged ( int ) ) , ui_.SpinBox_IndexFrame2 , SLOT( setValue ( int ) ) );
+			connect ( ui_->SpinBox_IndexFrame1 , SIGNAL( valueChanged ( int ) ) , ui_->HorizontalSlider_IndexFrame1 , SLOT( setValue ( int ) ) );
+			connect ( ui_->SpinBox_IndexFrame2 , SIGNAL( valueChanged ( int ) ) , ui_->HorizontalSlider_IndexFrame2 , SLOT( setValue ( int ) ) );
+			connect ( ui_->HorizontalSlider_IndexFrame1 , SIGNAL( valueChanged ( int ) ) , ui_->SpinBox_IndexFrame1 , SLOT( setValue ( int ) ) );
+			connect ( ui_->HorizontalSlider_IndexFrame2 , SIGNAL( valueChanged ( int ) ) , ui_->SpinBox_IndexFrame2 , SLOT( setValue ( int ) ) );
 
-			connect ( ui_.PushButton_Show , SIGNAL( clicked ( ) ) , this , SLOT( onShowButtonClicked ( ) ) );
+			connect ( ui_->PushButton_Show , SIGNAL( clicked ( ) ) , this , SLOT( onShowButtonClicked ( ) ) );
 
-//			connect ( ui_.HorizontalSlider_IndexFrame1 , SIGNAL( valueChanged ( int ) ) , this , SLOT( onSetNewFrame1 ( int ) ) );
-//			connect ( ui_.HorizontalSlider_IndexFrame2 , SIGNAL( valueChanged ( int ) ) , this , SLOT( onSetNewFrame2 ( int ) ) );
+//			connect ( ui_->HorizontalSlider_IndexFrame1 , SIGNAL( valueChanged ( int ) ) , this , SLOT( onSetNewFrame1 ( int ) ) );
+//			connect ( ui_->HorizontalSlider_IndexFrame2 , SIGNAL( valueChanged ( int ) ) , this , SLOT( onSetNewFrame2 ( int ) ) );
 
-			ui_.HorizontalSlider_IndexFrame1->setValue ( 0 );
-			ui_.HorizontalSlider_IndexFrame2->setValue ( 0 );
+			ui_->HorizontalSlider_IndexFrame1->setValue ( 0 );
+			ui_->HorizontalSlider_IndexFrame2->setValue ( 0 );
 
 //			emit SendData ( keyframes_for_inliers_ );
 		}
@@ -87,7 +89,7 @@ namespace MapCreator {
 
 		if ( 0 <= index and index < keyframes_.size ( ) ) {
 			SetFrame1 ( keyframes_[ index ] );
-			if ( ui_.SpinBox_IndexFrame1->value ( ) != ui_.SpinBox_IndexFrame2->value ( ) )
+			if ( ui_->SpinBox_IndexFrame1->value ( ) != ui_->SpinBox_IndexFrame2->value ( ) )
 				ComputeCorrespondingPoints ( );
 		}
 
@@ -97,7 +99,7 @@ namespace MapCreator {
 
 		if ( 0 <= index and index < keyframes_.size ( ) ) {
 			SetFrame2 ( keyframes_[ index ] );
-			if ( ui_.SpinBox_IndexFrame1->value ( ) != ui_.SpinBox_IndexFrame2->value ( ) )
+			if ( ui_->SpinBox_IndexFrame1->value ( ) != ui_->SpinBox_IndexFrame2->value ( ) )
 				ComputeCorrespondingPoints ( );
 		}
 	}
@@ -188,8 +190,8 @@ namespace MapCreator {
 		emit Message ( _message );
 
 
-		ui_.LineEdit_NumberOfInitialCorrespondingPoints->setText ( QString::number ( static_cast<int>(corresponding_points_pair.first.size ( )) ) );
-		ui_.LineEdit_NumberOfInliers->setText ( QString::number ( static_cast<int>(inliers_pair.first.size ( )) ) );
+		ui_->LineEdit_NumberOfInitialCorrespondingPoints->setText ( QString::number ( static_cast<int>(corresponding_points_pair.first.size ( )) ) );
+		ui_->LineEdit_NumberOfInliers->setText ( QString::number ( static_cast<int>(inliers_pair.first.size ( )) ) );
 
 		assert( keyframes_for_inliers_.size ( ) == 2 );
 
@@ -201,8 +203,8 @@ namespace MapCreator {
 
 	void InliersViewerOptionDialog::onShowButtonClicked ( ) {
 
-		onSetNewFrame1 ( ui_.SpinBox_IndexFrame1->value ( ) );
-		onSetNewFrame2 ( ui_.SpinBox_IndexFrame2->value ( ) );
+		onSetNewFrame1 ( ui_->SpinBox_IndexFrame1->value ( ) );
+		onSetNewFrame2 ( ui_->SpinBox_IndexFrame2->value ( ) );
 
 	}
 

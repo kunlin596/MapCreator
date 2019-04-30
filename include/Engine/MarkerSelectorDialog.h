@@ -4,9 +4,6 @@
 
 #ifndef MAPCREATOR_MARKERSELECTORDIALOG_H
 #define MAPCREATOR_MARKERSELECTORDIALOG_H
-
-#include "ui_MarkerSelectorDialog.h"
-
 #include "SLAM/KeyFrame.h"
 
 #include <QDialog>
@@ -47,7 +44,7 @@ namespace MapCreator {
 
 		glm::vec3 point_;
 
-		Ui::MarkerSelectorDialog ui_;
+		Ui::MarkerSelectorDialog* ui_;
 
 	};
 }
