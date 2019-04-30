@@ -8,7 +8,7 @@ compiler:
   # - gcc TODO: only test clang for now
 
 before_script:
-  - sudo apt update && sudo apt upgrade
+  - sudo apt update
   - sudo apt install libboost-all-dev libglm-dev libqt5-default
 
   # install opencv
