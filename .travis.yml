@@ -9,7 +9,7 @@ compiler:
 
 before_script:
   - sudo apt update
-  - sudo apt install libboost-all-dev libglm-dev libqt5-default
+  - sudo apt install libboost-all-dev libglm-dev qt5-default
 
   # install opencv
   - git clone https://github.com/opencv/opencv.git
