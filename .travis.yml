@@ -9,7 +9,13 @@ compiler:
 
 before_script:
   - sudo apt update
-  - sudo apt install -y libboost-all-dev libglm-dev qt5-default qtbase5-dev qtdeclarative5-dev libqt5opengl5-dev
+  - sudo apt install -y libboost-all-dev qt5-default qtbase5-dev qtdeclarative5-dev libqt5opengl5-dev
+
+  - git clone https://github.com/g-truc/glm.git
+  - cd glm && mkdir build && cd build
+  - cmake ..
+  - sudo make -j4 install
+  - cd ../..
 
   # install opencv
   - git clone https://github.com/opencv/opencv.git
