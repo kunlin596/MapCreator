@@ -9,7 +9,7 @@ namespace MapCreator {
     // RGB→BGR（またはその逆）
     cv::Mat_<cv::Vec3b> SwapChannel(const cv::Mat_<cv::Vec3b> &image) {
         cv::Mat_<cv::Vec3b> cvt_image;
-        cv::cvtColor(image, cvt_image, CV_RGB2BGR);
+        cv::cvtColor(image, cvt_image, cv::CV_RGB2BGR);
         return cvt_image;
     }
 
@@ -17,7 +17,7 @@ namespace MapCreator {
     // RGB 画像(24bit)をグレースケール(8bit)に変換する
     cv::Mat_<uchar> RGBToGray(const cv::Mat_<cv::Vec3b> &image) {
         cv::Mat_<uchar> cvt_image;
-        cv::cvtColor(image, cvt_image, CV_RGB2GRAY);
+        cv::cvtColor(image, cvt_image, cv::CV_RGB2GRAY);
         return cvt_image;
     }
 
@@ -25,7 +25,7 @@ namespace MapCreator {
     // BGR 画像(24bit)をグレースケール(8bit)に変換する
     cv::Mat_<uchar> BGRToGray(const cv::Mat_<cv::Vec3b> &image) {
         cv::Mat_<uchar> cvt_image;
-        cv::cvtColor(image, cvt_image, CV_BGR2GRAY);
+        cv::cvtColor(image, cvt_image, cv::CV_BGR2GRAY);
         return cvt_image;
     }
 
@@ -33,7 +33,7 @@ namespace MapCreator {
     // グレースケール(8bit)をカラー画像(24bit)に変換する
     cv::Mat_<cv::Vec3b> GrayToColor(const cv::Mat_<uchar> &image) {
         cv::Mat_<cv::Vec3b> cvt_image;
-        cv::cvtColor(image, cvt_image, CV_GRAY2BGR);
+        cv::cvtColor(image, cvt_image, cv::CV_GRAY2BGR);
         return cvt_image;
     }
 }    // a
