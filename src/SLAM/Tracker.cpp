@@ -8,6 +8,7 @@
 #include "SLAM/GlobalOptimization.h"
 
 #include <Core/Utility.h>
+#include <opencv/core/core_c.h>
 
 #include <boost/tuple/tuple.hpp>
 
