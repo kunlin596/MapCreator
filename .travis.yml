@@ -25,14 +25,14 @@ before_script:
   - cd opencv 
   - git checkout 4.1.0
   - mkdir build && cd build
-  - cmake -D CMAKE_BUILD_TYPE=RELEASE -DBUILD_EXAMPLES=OFF -DBUILD_opencv_apps=OFF -DBUILD_DOCS=OFF -DBUILD_PERF_TESTS=OFF -DBUILD_TESTS=OFF -DOPENCV_ENABLE_NONFREE=ON -DOPENCV_EXTRA_MODULES_PATH=`pwd`/../opencv_contrib/modules ..
+  - cmake -D CMAKE_BUILD_TYPE=RELEASE -DBUILD_EXAMPLES=OFF -DBUILD_opencv_apps=OFF -DBUILD_DOCS=OFF -DBUILD_PERF_TESTS=OFF -DBUILD_TESTS=OFF -DOPENCV_EXTRA_MODULES_PATH=../../opencv_contrib/modules ..
   - sudo make -j8 install
   - cd ../..
 
   # configure project
   - mkdir build
   - cd build
-  - cmake ..
+  - cmake -DOPENCV_ENABLE_NONFREE=ON ..
 
 # Build steps
 script: 
