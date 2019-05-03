@@ -3,6 +3,9 @@ sudo: required
 dist: xenial
 language: cpp
 
+# to cache $HOME/.ccache and automatically add /usr/lib/ccache to your $PATH.
+cache: ccache
+
 compiler:
   - clang
   # - gcc TODO: only test clang for now
