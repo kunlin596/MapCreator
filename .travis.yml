@@ -20,11 +20,11 @@ before_script:
   # install opencv
   - git clone https://github.com/opencv/opencv.git
   - cd opencv && mkdir build && cd build
-  - cmake -D CMAKE_BUILD_TYPE=RELEASE -DBUILD_EXAMPLES=OFF -DBUILD_opencv_apps=OFF -DBUILD_DOCS=OFF -DBUILD_PERF_TESTS=OFF -DBUILD_TESTS=OFF -DCMAKE_INSTALL_PREFIX=/usr/local -DOPENCV_ENABLE_NONFREE=ON ..
-  - sudo make -j4 install
+  - cmake -D CMAKE_BUILD_TYPE=RELEASE -DBUILD_EXAMPLES=OFF -DBUILD_opencv_apps=OFF -DBUILD_DOCS=OFF -DBUILD_PERF_TESTS=OFF -DBUILD_TESTS=OFF -DOPENCV_ENABLE_NONFREE=ON ..
+  - sudo make -j8 install
   # Add configuration to OpenCV to tell it where the library files are located on the file system (/usr/local/lib)
-  - sudo sh -c 'echo "/usr/local/lib" > /etc/ld.so.conf.d/opencv.conf'
-  - sudo ldconfig
+  # - sudo sh -c 'echo "/usr/local/lib" > /etc/ld.so.conf.d/opencv.conf'
+  # - sudo ldconfig
 
   - cd ../..
 
@@ -35,4 +35,4 @@ before_script:
 
 # Build steps
 script: 
-  - make -j4
+  - make -j8
