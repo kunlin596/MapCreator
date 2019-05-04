@@ -18,14 +18,14 @@ namespace MapCreator {
 
 //        using Markers = std::vector < aruco::Markers >;
 
-	struct ArucoMarkerUtils
-	{
+    struct ArucoMarkerUtils
+    {
 // TODO: Fix aruco markers
-//		static CorrespondingPointsPair CreatePoints ( Markers & markers_set_1 ,
-//		                                              Markers & markers_set_2 ,
-//		                                              const KeyFrame & keyframe1 ,
-//		                                              const KeyFrame & keyframe2 );
-	};
+//      static CorrespondingPointsPair CreatePoints ( Markers & markers_set_1 ,
+//                                                    Markers & markers_set_2 ,
+//                                                    const KeyFrame & keyframe1 ,
+//                                                    const KeyFrame & keyframe2 );
+    };
 
 
 }
