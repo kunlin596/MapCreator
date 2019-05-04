@@ -44,6 +44,7 @@ include_directories ( ${OpenCV_INCLUDE_DIRS} ${Boost_INCLUDE_DIR} ${MapCreator_I
 # Build library
 add_library ( MapCreatorEngine SHARED
 	${MapCreatorEngine_SOURCE_FILES}
+	${MapCreatorEngine_UIC_FILES}
 	${MapCreatorEngine_MOC_FILES}
 	${MapCreatorEngine_RCC_FILES} )
 
