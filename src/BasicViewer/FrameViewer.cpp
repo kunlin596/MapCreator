@@ -103,7 +103,7 @@ namespace MapCreator {
 
 			cv::Mat depth_image_rgb;
 			depth_image_.convertTo ( depth_image_rgb , CV_8UC1 , 255.0f / 10000.0f );
-			cv::cvtColor ( depth_image_rgb , depth_image_rgb , CV_GRAY2RGB );
+			cv::cvtColor ( depth_image_rgb , depth_image_rgb , cv::COLOR_GRAY2RGB );
 
 			depth_image_rgb_ = depth_image_rgb;
 
