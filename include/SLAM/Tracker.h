@@ -101,17 +101,17 @@ namespace MapCreator {
 
 	};
 
-	template < > bool Tracker < TrackingType::OneByOne >::Update ( );
-	template < > bool Tracker < TrackingType::FixedFrameCount >::Update ( );
-	template < > bool Tracker < TrackingType::PcaKeyFrame >::Update ( );
+	template < > bool Tracker < TrackingType::Consecutive >::Update ( );
+	template < > bool Tracker < TrackingType::FixedNumber >::Update ( );
+	template < > bool Tracker < TrackingType::KeyFrameOnly >::Update ( );
 
-	template < > void Tracker < TrackingType::OneByOne >::ComputeNext ( );
-	template < > void Tracker < TrackingType::FixedFrameCount >::ComputeNext ( );
-	template < > void Tracker < TrackingType::PcaKeyFrame >::ComputeNext ( );
+	template < > void Tracker < TrackingType::Consecutive >::ComputeNext ( );
+	template < > void Tracker < TrackingType::FixedNumber >::ComputeNext ( );
+	template < > void Tracker < TrackingType::KeyFrameOnly >::ComputeNext ( );
 
-	template < > void Tracker < TrackingType::OneByOne >::Initialize ( );
-	template < > void Tracker < TrackingType::FixedFrameCount >::Initialize ( );
-	template < > void Tracker < TrackingType::PcaKeyFrame >::Initialize ( );
+	template < > void Tracker < TrackingType::Consecutive >::Initialize ( );
+	template < > void Tracker < TrackingType::FixedNumber >::Initialize ( );
+	template < > void Tracker < TrackingType::KeyFrameOnly >::Initialize ( );
 
 }
 

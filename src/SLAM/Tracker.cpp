@@ -107,7 +107,7 @@ namespace MapCreator {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	template < > void Tracker < TrackingType::OneByOne >::Initialize ( ) {
+	template < > void Tracker < TrackingType::Consecutive >::Initialize ( ) {
 
 		for ( auto & keyframe : keyframes_ ) {
 			keyframe.SetAlignmentMatrix ( std::move ( glm::mat4 ( ) ) );
@@ -117,7 +117,7 @@ namespace MapCreator {
 		iterator1_ = keyframes_.begin ( );
 		iterator2_ = iterator1_;
 	}
-	template < > void Tracker < TrackingType::FixedFrameCount >::Initialize ( ) {
+	template < > void Tracker < TrackingType::FixedNumber >::Initialize ( ) {
 
 		for ( auto & keyframe : keyframes_ ) {
 			keyframe.SetAlignmentMatrix ( std::move ( glm::mat4 ( ) ) );
@@ -129,7 +129,7 @@ namespace MapCreator {
 		offset_    = keyframes_.size ( ) / ( params_.paramsFixedNumber.frame_count - 1 ) + 1;
 
 	}
-	template < > void Tracker < TrackingType::PcaKeyFrame >::Initialize ( ) {
+	template < > void Tracker < TrackingType::KeyFrameOnly >::Initialize ( ) {
 
 		for ( auto & keyframe : keyframes_ ) {
 			keyframe.SetAlignmentMatrix ( std::move ( glm::mat4 ( ) ) );
@@ -149,7 +149,7 @@ namespace MapCreator {
 		                                                        params_.paramsKeyFramesOnly.threshold_inlier );
 	}
 
-	template < > bool Tracker < TrackingType::OneByOne >::Update ( ) {
+	template < > bool Tracker < TrackingType::Consecutive >::Update ( ) {
 
 
 		if ( iterator1_ == iterator2_ ) {
@@ -163,7 +163,7 @@ namespace MapCreator {
 
 		return ( iterator2_ != keyframes_.end ( ) );
 	}
-	template < > bool Tracker < TrackingType::FixedFrameCount >::Update ( ) {
+	template < > bool Tracker < TrackingType::FixedNumber >::Update ( ) {
 
 		// iter2 has reached the end of data array, no need to compute anymore.
 		if ( iterator2_ == keyframes_.end ( ) - 1 ) {
@@ -186,7 +186,7 @@ namespace MapCreator {
 
 		return true;
 	}
-	template < > bool Tracker < TrackingType::PcaKeyFrame >::Update ( ) {
+	template < > bool Tracker < TrackingType::KeyFrameOnly >::Update ( ) {
 
 		if ( iterator2_ == keyframes_.end ( ) )
 			return false;
@@ -237,7 +237,7 @@ namespace MapCreator {
 
 	}
 
-	template < > void Tracker < TrackingType::OneByOne >::ComputeNext ( ) {
+	template < > void Tracker < TrackingType::Consecutive >::ComputeNext ( ) {
 
 		CorrespondingPointsPair corresponding_points_pair = CreateCorrespondingPointsPair ( * iterator1_ , * iterator2_ );
 
@@ -278,7 +278,7 @@ namespace MapCreator {
 
 		iterator2_->SetUsed ( true );
 	}
-	template < > void Tracker < TrackingType::FixedFrameCount >::ComputeNext ( ) {
+	template < > void Tracker < TrackingType::FixedNumber >::ComputeNext ( ) {
 
 		auto corresponding_points_pair = CreateCorrespondingPointsPair ( * iterator1_ , * iterator2_ );
 
@@ -317,7 +317,7 @@ namespace MapCreator {
 
 //		return * iterator2_;
 	}
-	template < > void Tracker < TrackingType::PcaKeyFrame >::ComputeNext ( ) {
+	template < > void Tracker < TrackingType::KeyFrameOnly >::ComputeNext ( ) {
 
 		const auto local_transformation_matrix = ComputeTransformationMatrix ( inliers2_ , inliers1_ );
 		const auto & world_points1 = inliers1_;

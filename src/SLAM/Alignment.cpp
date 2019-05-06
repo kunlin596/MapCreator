@@ -1,6 +1,12 @@
 //
 // Created by LinKun on 9/13/15.
 //
+
+#include "Core/Logger.h"
+#include "Core/Serialize.h"
+#include "Core/Utility.h"
+#include "Core/MyMath.h"
+
 #include "SLAM/Alignment.h"
 #include "SLAM/Calibrator.h"
 #include "SLAM/Transformation.h"
@@ -9,13 +15,10 @@
 
 #include <limits>
 
-#include "Core/Serialize.h"
-#include "Core/Utility.h"
-#include "Core/MyMath.h"
-
 #include <boost/tuple/tuple.hpp>
 #include <boost/iostreams/filtering_stream.hpp>
 #include <boost/iostreams/filter/gzip.hpp>
+#include <boost/format.hpp>
 
 #include <QMessageBox>
 #include <QMap>
@@ -24,6 +27,8 @@
 #include <QTimer>
 #include <QTime>
 #include <QWaitCondition>
+
+LOGGER("SLAM.Alignment");
 
 namespace MapCreator {
 
@@ -44,8 +49,7 @@ namespace MapCreator {
 
         running_flag_ = true;
 
-        std::cout << "SlamAlgorithm thread : " << QThread::currentThreadId ( ) << std::endl;
-        std::cout << "SlamAlgorithm thread - data size : " << keyframes_.size ( ) << std::endl;
+        LOG_INFO(boost::str(boost::format("thread id: %1%, data size: %2%") % QThread::currentThreadId () % keyframes_.size ()));
 
         if ( keyframes_.size ( ) < 2 ) {
             emit SendData ( keyframes_ );
@@ -58,14 +62,14 @@ namespace MapCreator {
         emit Message ( "Computation begins..." );
 
         switch ( params_.type_ ) {
-            case TrackingType::OneByOne:
-                ComputeHelper < TrackingType::OneByOne > ( );
+            case TrackingType::Consecutive:
+                ComputeHelper < TrackingType::Consecutive > ( );
                 break;
-            case TrackingType::FixedFrameCount:
-                ComputeHelper < TrackingType::FixedFrameCount > ( );
+            case TrackingType::FixedNumber:
+                ComputeHelper < TrackingType::FixedNumber > ( );
                 break;
-            case TrackingType::PcaKeyFrame:
-                ComputeHelper < TrackingType::PcaKeyFrame > ( );
+            case TrackingType::KeyFrameOnly:
+                ComputeHelper < TrackingType::KeyFrameOnly > ( );
                 break;
             case TrackingType::Unknown:
                 emit Message ( "Setup computation options at first." );
@@ -141,14 +145,14 @@ namespace MapCreator {
         std::cout << params_.type_ << std::endl;
 
         switch ( params_.type_ ) {
-            case TrackingType::OneByOne:
-                result_name_prefix = QString ( "%1_%2" ).arg ( time_stamp ).arg ( "OneByOne" );
+            case TrackingType::Consecutive:
+                result_name_prefix = QString ( "%1_%2" ).arg ( time_stamp ).arg ( "Consecutive" );
                 break;
-            case TrackingType::PcaKeyFrame:
-                result_name_prefix = QString ( "%1_%2" ).arg ( time_stamp ).arg ( "PcaKeyFrame" );
+            case TrackingType::KeyFrameOnly:
+                result_name_prefix = QString ( "%1_%2" ).arg ( time_stamp ).arg ( "KeyFrameOnly" );
                 break;
-            case TrackingType::FixedFrameCount:
-                result_name_prefix = QString ( "%1_%2" ).arg ( time_stamp ).arg ( "FixedFrameCount" );
+            case TrackingType::FixedNumber:
+                result_name_prefix = QString ( "%1_%2" ).arg ( time_stamp ).arg ( "FixedNumber" );
                 break;
             case TrackingType::Unknown:
                 emit Message ( "No result to be written." );
@@ -169,15 +173,15 @@ namespace MapCreator {
 
             switch ( params_.type_ ) {
 
-                case TrackingType::OneByOne: {
+                case TrackingType::Consecutive: {
                     out << params_.paramsConsectutive.Output ( ).toStdString ( ) << std::endl;
                     break;
                 }
-                case TrackingType::PcaKeyFrame: {
+                case TrackingType::KeyFrameOnly: {
                     out << params_.paramsKeyFramesOnly.Output ( ).toStdString ( ) << std::endl;
                     break;
                 }
-                case TrackingType::FixedFrameCount : {
+                case TrackingType::FixedNumber : {
                     out << params_.paramsFixedNumber.Output ( ).toStdString ( ) << std::endl;
                     break;
                 }
@@ -205,14 +209,14 @@ namespace MapCreator {
         std::cout << params_.type_ << std::endl;
 
         switch ( params_.type_ ) {
-            case TrackingType::OneByOne:
-                result_name_prefix = QString ( "%1_%2" ).arg ( time_stamp ).arg ( "OneByOne" );
+            case TrackingType::Consecutive:
+                result_name_prefix = QString ( "%1_%2" ).arg ( time_stamp ).arg ( "Consecutive" );
                 break;
-            case TrackingType::PcaKeyFrame:
-                result_name_prefix = QString ( "%1_%2" ).arg ( time_stamp ).arg ( "PcaKeyFrame" );
+            case TrackingType::KeyFrameOnly:
+                result_name_prefix = QString ( "%1_%2" ).arg ( time_stamp ).arg ( "KeyFrameOnly" );
                 break;
-            case TrackingType::FixedFrameCount:
-                result_name_prefix = QString ( "%1_%2" ).arg ( time_stamp ).arg ( "FixedFrameCount" );
+            case TrackingType::FixedNumber:
+                result_name_prefix = QString ( "%1_%2" ).arg ( time_stamp ).arg ( "FixedNumber" );
                 break;
             case TrackingType::Unknown:
                 emit Message ( "No result to be written." );
@@ -233,15 +237,15 @@ namespace MapCreator {
 
             switch ( params_.type_ ) {
 
-                case TrackingType::OneByOne: {
+                case TrackingType::Consecutive: {
                     out << params_.paramsConsectutive.Output ( ).toStdString ( ) << std::endl;
                     break;
                 }
-                case TrackingType::PcaKeyFrame: {
+                case TrackingType::KeyFrameOnly: {
                     out << params_.paramsKeyFramesOnly.Output ( ).toStdString ( ) << std::endl;
                     break;
                 }
-                case TrackingType::FixedFrameCount : {
+                case TrackingType::FixedNumber : {
                     out << params_.paramsFixedNumber.Output ( ).toStdString ( ) << std::endl;
                     break;
                 }

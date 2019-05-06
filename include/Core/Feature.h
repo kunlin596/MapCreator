@@ -6,7 +6,6 @@
 #define MAPCREATOR_FEATURE_H
 
 #include "Serialize.h"
-#include "Logger.h"
 
 #include <opencv2/opencv.hpp>
 #include <opencv2/features2d.hpp>
@@ -17,7 +16,6 @@
 
 #include <fstream>
 #include <QDebug>
-LOGGER("Core.Feature")
 
 namespace MapCreator {
 

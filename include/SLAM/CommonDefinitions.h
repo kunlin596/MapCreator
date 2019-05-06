@@ -18,9 +18,9 @@ namespace MapCreator {
 	enum TrackingType
 	{
 		Unknown  = -1 ,
-		OneByOne = 0 ,
-		PcaKeyFrame ,
-		FixedFrameCount
+		Consecutive = 0 ,
+		KeyFrameOnly ,
+		FixedNumber
 	};
 
 	using PointPair = std::pair < glm::vec3 , glm::vec3 >;

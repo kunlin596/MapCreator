@@ -7,6 +7,10 @@
 #include <boost/iostreams/filtering_stream.hpp>
 #include <boost/iostreams/filter/gzip.hpp>
 
+#include "Core/Logger.h"
+
+LOGGER("Core.Feature");
+
 namespace MapCreator {
 
     Feature::Feature()

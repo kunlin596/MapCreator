@@ -43,7 +43,7 @@ namespace MapCreator {
             PcaKeyFrame_FrameTrackingMethodDialog dialog;
             if (dialog.exec() == QDialog::Accepted) {
 
-                params_.SetOptionsType(TrackingType::PcaKeyFrame);
+                params_.SetOptionsType(TrackingType::KeyFrameOnly);
                 params_.paramsKeyFramesOnly = dialog.GetParameters();
                 options_configured_ = true;
                 ui_->PlainTextEdit_OptionsSummary->clear();
@@ -55,7 +55,7 @@ namespace MapCreator {
 
             FixedFrameCount_FrameTrackingMethodDialog dialog;
             if (dialog.exec() == QDialog::Accepted) {
-                params_.SetOptionsType(TrackingType::FixedFrameCount);
+                params_.SetOptionsType(TrackingType::FixedNumber);
                 params_.paramsFixedNumber = dialog.GetParameters();
                 options_configured_ = true;
                 ui_->PlainTextEdit_OptionsSummary->clear();
@@ -68,7 +68,7 @@ namespace MapCreator {
 
             OneByOne_FrameTrackingMethodDialog dialog;
             if (dialog.exec() == QDialog::Accepted) {
-                params_.SetOptionsType(TrackingType::OneByOne);
+                params_.SetOptionsType(TrackingType::Consecutive);
                 params_.paramsConsectutive = dialog.GetParameters();
                 options_configured_ = true;
                 ui_->PlainTextEdit_OptionsSummary->clear();

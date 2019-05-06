@@ -6,7 +6,8 @@
 #define MAPCREATOR_MAPCREATOR_H
 
 #include <QObject>
-#include <Core/Feature.h>
+
+#include "Core/Feature.h"
 
 #include "SLAM/SlamParameters.h"
 #include "SLAM/KeyFrame.h"
@@ -157,7 +158,7 @@ namespace MapCreator {
         QDir                                          data_dir_;
         QString                                       result_cache_path_;
         Feature::Type                                 feature_type_;
-        Parameters                                       params_;
+        Parameters                                    params_;
         KeyFrames                                     keyframes_;
         int                                           converter_choice_;
         XtionCoordinateConverter                      xtion_converter_;
@@ -168,9 +169,9 @@ namespace MapCreator {
 
     };
 
-//  template < > void SlamAlgorithm::WriteCache < TrackingType::OneByOne > ( );
-//  template < > void SlamAlgorithm::WriteCache < TrackingType::FixedFrameCount > ( );
-//  template < > void SlamAlgorithm::WriteCache < TrackingType::PcaKeyFrame > ( );
+//  template < > void SlamAlgorithm::WriteCache < TrackingType::Consecutive > ( );
+//  template < > void SlamAlgorithm::WriteCache < TrackingType::FixedNumber > ( );
+//  template < > void SlamAlgorithm::WriteCache < TrackingType::KeyFrameOnly > ( );
 
     // Serialize
     bool LoadMatricesInfo ( const std::string & file_name , MatricesInfo & info );
