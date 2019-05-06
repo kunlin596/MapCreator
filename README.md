@@ -27,7 +27,7 @@ sudo port install pkgconfig glm boost qt59 opencv log4cxx
 ```
 ### Debian/Ubuntu
 ```bash
-udo apt update
+sudo apt update
 sudo apt install -y pkg-config libboost-all-dev qt5-default qtbase5-dev qtdeclarative5-dev libqt5opengl5-dev libeigen3-dev liblog4cxx-dev
 
 # libglm-dev doesn't provide cmake config, so we need to compile it from source
