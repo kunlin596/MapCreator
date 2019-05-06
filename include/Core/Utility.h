@@ -20,8 +20,6 @@ namespace MapCreator {
 
     using namespace std;
 
-    void PrintMessage ( const std::string msg , int status );
-
     /// [min, max] の区間に入っていなかったら true を返す
     template < typename T >
     inline bool OutOfRange ( T value , T range_min , T range_max ) {

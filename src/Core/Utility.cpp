@@ -9,31 +9,6 @@
 
 namespace MapCreator {
 
-    void PrintMessage ( const std::string msg , int status ) {
-
-        using namespace std;
-
-        string m = "[SLAM]";
-        switch ( status ) {
-            case 1:
-                m += " [PROCESSING]  - ";
-                break;
-            case 2:
-                m += " [OK]          - ";
-                break;
-            case 3:
-                m += " [WARNING]     - ";
-                break;
-            case 4:
-                m += " [ERROR]       - ";
-                break;
-            default:
-                break;
-        }
-
-        cout << m << msg << endl;
-    }
-
     std::string ConvertConstCStrToStdString ( const unsigned char * c_str , size_t len ) {
 
         std::string str;
