@@ -19,17 +19,16 @@ The pipeline works like this. At first, it matches the keypoints in two frames, 
 * [Engen3](https://eigen.tuxfamily.org/dox)
 * OpenGL 4.x
 
-For MacOS run:
+### macOS
 ```
 port selfupdate
 port upgrade outdated
-port insstall glm boost qt59 opencv
+port install pkgconfig glm boost qt59 opencv log4cxx
 ```
 
 ## Installation
-### MacOS
 
-If `MacPort` is being used, please make sure that Qt5's `moc` and `rcc` are in `PATH`, otherwise, the Qt objects won't compile.
+Please make sure that Qt5's `moc` and `rcc` are in `PATH`, otherwise, the Qt objects won't compile.
 
 ```
 mkdir build && cd build
