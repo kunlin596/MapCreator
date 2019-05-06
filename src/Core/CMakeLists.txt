@@ -15,7 +15,8 @@ include_directories ( ${OpenCV_INCLUDE_DIRS} ${Boost_INCLUDE_DIR} ${MapCreator_I
 
 add_library ( MapCreatorCore SHARED ${MapCreatorCore_SOURCE_FILES} )
 
-target_link_libraries ( MapCreatorCore 
+target_link_libraries ( MapCreatorCore
+    ${LOG4CXX_LIBRARIES}
 	${OpenCV_LIBS}
 	${Boost_LIBRARIES}
 	Qt5::Core
