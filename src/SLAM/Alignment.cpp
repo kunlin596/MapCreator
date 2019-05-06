@@ -120,7 +120,7 @@ namespace MapCreator {
 
 //            auto matrix = ComputeTransformationMatrix ( points2 , points1 );
 
-//            keyframe2.SetAnswerAlignmentMatrix ( std::move ( Convert_OpenCV_Matx44f_To_GLM_mat4 ( matrix ) ) );
+//            keyframe2.SetAnswerAlignmentMatrix ( std::move ( ConvertCVMatx44fToGLMmat4 ( matrix ) ) );
         }
 
         // emit Message ( QString ( "Done generating answers of  %1 frames. (used %2)" )

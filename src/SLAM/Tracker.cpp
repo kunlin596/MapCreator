@@ -266,7 +266,7 @@ namespace MapCreator {
 		std::cout << "Before LM : " << local_transformation_matrix << std::endl;
 		std::cout << "After LM : " << local_transformation_matrix_after_global_optimization << std::endl;
 
-		glm::mat4 m = Convert_OpenCV_Matx44f_To_GLM_mat4 ( local_transformation_matrix_after_global_optimization );
+		glm::mat4 m = ConvertCVMatx44fToGLMmat4 ( local_transformation_matrix_after_global_optimization );
 
 		iterator2_->SetAlignmentMatrix ( m );
 
@@ -304,7 +304,7 @@ namespace MapCreator {
 		                                                                      world_points1 ,
 		                                                                      world_points2 );
 
-		glm::mat4 m = Convert_OpenCV_Matx44f_To_GLM_mat4 ( local_transformation_matrix_after_global_optimization );
+		glm::mat4 m = ConvertCVMatx44fToGLMmat4 ( local_transformation_matrix_after_global_optimization );
 
 		iterator2_->SetAlignmentMatrix ( m );
 
@@ -336,7 +336,7 @@ namespace MapCreator {
 		std::cout << "Before LM : " << local_transformation_matrix << std::endl;
 		std::cout << "After LM : " << local_transformation_matrix_after_global_optimization << std::endl;
 
-		auto m = Convert_OpenCV_Matx44f_To_GLM_mat4 ( local_transformation_matrix_after_global_optimization );
+		auto m = ConvertCVMatx44fToGLMmat4 ( local_transformation_matrix_after_global_optimization );
 
 		iterator2_->SetAlignmentMatrix ( m );
 
