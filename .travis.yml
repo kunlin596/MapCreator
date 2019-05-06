@@ -18,7 +18,7 @@ before_script:
   - cd glm
   - mkdir build && cd build
   - cmake ..
-  - sudo make -j4 install
+  - sudo make -j8 install
   - cd ../..
 
   - git clone https://github.com/opencv/opencv_contrib.git
