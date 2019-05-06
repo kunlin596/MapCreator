@@ -126,7 +126,7 @@ namespace MapCreator {
 
 		iterator1_ = keyframes_.begin ( );
 		iterator2_ = iterator1_;
-		offset_    = keyframes_.size ( ) / ( options_.options_fixed_frame_count.frame_count - 1 ) + 1;
+		offset_    = keyframes_.size ( ) / ( params_.paramsFixedNumber.frame_count - 1 ) + 1;
 
 	}
 	template < > void Tracker < TrackingType::PcaKeyFrame >::Initialize ( ) {
@@ -144,9 +144,9 @@ namespace MapCreator {
 
 		boost::tie ( inliers2_ , inliers1_ ) = ComputeInliers ( corresponding_points_pair.second ,
 		                                                        corresponding_points_pair.first ,
-		                                                        options_.options_pca_keyframe.num_ransac_iteration ,
-		                                                        options_.options_pca_keyframe.threshold_outlier ,
-		                                                        options_.options_pca_keyframe.threshold_inlier );
+		                                                        params_.paramsKeyFramesOnly.num_ransac_iteration ,
+		                                                        params_.paramsKeyFramesOnly.threshold_outlier ,
+		                                                        params_.paramsKeyFramesOnly.threshold_inlier );
 	}
 
 	template < > bool Tracker < TrackingType::OneByOne >::Update ( ) {
@@ -197,9 +197,9 @@ namespace MapCreator {
 
 			boost::tie ( inliers2_ , inliers1_ ) = ComputeInliers ( corresponding_points_pair.second ,
 			                                                        corresponding_points_pair.first ,
-			                                                        options_.options_pca_keyframe.num_ransac_iteration ,
-			                                                        options_.options_pca_keyframe.threshold_outlier ,
-			                                                        options_.options_pca_keyframe.threshold_inlier );
+			                                                        params_.paramsKeyFramesOnly.num_ransac_iteration ,
+			                                                        params_.paramsKeyFramesOnly.threshold_outlier ,
+			                                                        params_.paramsKeyFramesOnly.threshold_inlier );
 
 			if ( iterator2_ == keyframes_.end ( ) - 1 ) {
 				return true;
@@ -208,11 +208,11 @@ namespace MapCreator {
 			QString error_msg;
 
 			bool is_valid = ValidateInliersDistribution ( inliers2_ ,
-			                                              options_.options_pca_keyframe.num_inliers ,
-			                                              options_.options_pca_keyframe.threshold_1st_component_contribution ,
-			                                              options_.options_pca_keyframe.threshold_1st_component_variance ,
-			                                              options_.options_pca_keyframe.threshold_2nd_component_variance ,
-			                                              options_.options_pca_keyframe.threshold_3rd_component_variance ,
+			                                              params_.paramsKeyFramesOnly.num_inliers ,
+			                                              params_.paramsKeyFramesOnly.threshold_1st_component_contribution ,
+			                                              params_.paramsKeyFramesOnly.threshold_1st_component_variance ,
+			                                              params_.paramsKeyFramesOnly.threshold_2nd_component_variance ,
+			                                              params_.paramsKeyFramesOnly.threshold_3rd_component_variance ,
 			                                              error_msg );
 
 			message_ = QString ( " - Checking %1 - %2 : %3" )
@@ -246,9 +246,9 @@ namespace MapCreator {
 		// 2 -> 1
 		auto local_transformation_matrix = ComputeTransformationMatrix ( corresponding_points_pair.second ,
 		                                                                 corresponding_points_pair.first ,
-		                                                                 options_.options_one_by_one.num_ransac_iteration ,
-		                                                                 options_.options_one_by_one.threshold_outlier ,
-		                                                                 options_.options_one_by_one.threshold_inlier );
+		                                                                 params_.paramsConsectutive.num_ransac_iteration ,
+		                                                                 params_.paramsConsectutive.threshold_outlier ,
+		                                                                 params_.paramsConsectutive.threshold_inlier );
 
 		const auto & world_points1 = corresponding_points_pair.first;
 		const auto & world_points2 = corresponding_points_pair.second;
@@ -287,9 +287,9 @@ namespace MapCreator {
 		// 2 -> 1
 		auto local_transformation_matrix = ComputeTransformationMatrix ( corresponding_points_pair.second ,
 		                                                                 corresponding_points_pair.first ,
-		                                                                 options_.options_fixed_frame_count.num_ransac_iteration ,
-		                                                                 options_.options_fixed_frame_count.threshold_outlier ,
-		                                                                 options_.options_fixed_frame_count.threshold_inlier );
+		                                                                 params_.paramsFixedNumber.num_ransac_iteration ,
+		                                                                 params_.paramsFixedNumber.threshold_outlier ,
+		                                                                 params_.paramsFixedNumber.threshold_inlier );
 
 		const auto & world_points1 = corresponding_points_pair.first;
 		const auto & world_points2 = corresponding_points_pair.second;

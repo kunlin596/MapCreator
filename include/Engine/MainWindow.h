@@ -9,7 +9,7 @@
 #include <QtConcurrent>
 #include <QThread>
 
-#include "SLAM/Option.h"
+#include "SLAM/SlamParameters.h"
 #include "SLAM/KeyFrame.h"
 #include "SLAM/Alignment.h"
 #include "Handler/ImageDataHandler.h"

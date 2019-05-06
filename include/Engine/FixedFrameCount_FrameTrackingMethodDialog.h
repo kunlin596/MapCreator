@@ -7,7 +7,7 @@
 
 #include <QDialog>
 #include <QAbstractButton>
-#include <SLAM/Option.h>
+#include <SLAM/SlamParameters.h>
 
 namespace Ui {
 
@@ -24,7 +24,7 @@ namespace MapCreator {
 
         FixedFrameCount_FrameTrackingMethodDialog(QWidget *parent = 0);
 
-        inline Options::Options_FixedFrameCount GetOptions() const { return options_; }
+        inline Parameters::FixedNumber GetParameters() const { return params_; }
 
     private
         slots:
@@ -45,7 +45,7 @@ namespace MapCreator {
 
         Ui::FixedFrameCount_FrameTrackingMethodDialog* ui_;
 
-        Options::Options_FixedFrameCount options_;
+        Parameters::FixedNumber params_;
 
     };
 }

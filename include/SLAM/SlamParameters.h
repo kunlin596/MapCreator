@@ -2,30 +2,31 @@
 // Created by LinKun on 10/5/15.
 //
 
-#ifndef MAPCREATOR_OPTION_H
-#define MAPCREATOR_OPTION_H
+#ifndef MAPCREATOR_SLAMPARAMETERS_H
+#define MAPCREATOR_SLAMPARAMETERS_H
 
 #include <QString>
 
 #include <Core/Serialize.h>
+
 #include "SLAM/CommonDefinitions.h"
 
 namespace MapCreator {
 
-	struct Options
+	struct Parameters
 	{
-		struct Options_OneByOne
+		struct Consecutive
 		{
 			int   num_ransac_iteration;
 			float threshold_outlier;
 			float threshold_inlier;
 
-			inline Options_OneByOne ( ) :
+			inline Consecutive ( ) :
 					num_ransac_iteration ( 10000 ) ,
 					threshold_outlier ( 0.035f ) ,
 					threshold_inlier ( 0.035f ) { }
 
-			inline Options_OneByOne ( int num_ransac_iteration ,
+			inline Consecutive ( int num_ransac_iteration ,
 			                          float threshold_outlier ,
 			                          float threshold_inlier ) :
 					num_ransac_iteration ( num_ransac_iteration ) ,
@@ -55,16 +56,16 @@ namespace MapCreator {
 
 		};
 
-		struct Options_FixedFrameCount : public Options_OneByOne
+		struct FixedNumber : public Consecutive
 		{
 			int frame_count;
 
-			Options_FixedFrameCount ( ) :
-					Options_OneByOne ( ) ,
+			FixedNumber ( ) :
+					Consecutive ( ) ,
 					frame_count ( 1 ) { }
 
-			explicit Options_FixedFrameCount ( int frame_count ) :
-					Options_OneByOne ( ) ,
+			explicit FixedNumber ( int frame_count ) :
+					Consecutive ( ) ,
 					frame_count ( frame_count ) { }
 
 			inline QString Output ( ) const {
@@ -84,13 +85,13 @@ namespace MapCreator {
 			template < class Archive >
 			void serialize ( Archive & ar , const unsigned int version ) {
 
-				ar & boost::serialization::base_object < Options_OneByOne > ( * this );
+				ar & boost::serialization::base_object < Consecutive > ( * this );
 				ar & frame_count;
 			}
 
 		};
 
-		struct Options_PcaKeyFrame : public Options_OneByOne
+		struct KeyFrameOnly : public Consecutive
 		{
 			int   num_inliers;
 			float threshold_1st_component_contribution;
@@ -98,20 +99,20 @@ namespace MapCreator {
 			float threshold_2nd_component_variance;
 			float threshold_3rd_component_variance;
 
-			inline Options_PcaKeyFrame ( ) :
-					Options_OneByOne ( ) ,
+			inline KeyFrameOnly ( ) :
+					Consecutive ( ) ,
 					num_inliers ( 3 ) ,
 					threshold_1st_component_contribution ( 0.85f ) ,
 					threshold_1st_component_variance ( 0.1f ) ,
 					threshold_2nd_component_variance ( 0.05f ) ,
 					threshold_3rd_component_variance ( 0.0f ) { }
 
-			inline Options_PcaKeyFrame ( int num_inliers ,
+			inline KeyFrameOnly ( int num_inliers ,
 			                             float threshold_1st_component_contribution ,
 			                             float threshold_1st_component_variance ,
 			                             float threshold_2nd_component_variance ,
 			                             float threshold_3rd_component_variance ) :
-					Options_OneByOne ( ) ,
+					Consecutive ( ) ,
 					num_inliers ( num_inliers ) ,
 					threshold_1st_component_contribution ( threshold_1st_component_contribution ) ,
 					threshold_1st_component_variance ( threshold_1st_component_variance ) ,
@@ -143,7 +144,7 @@ namespace MapCreator {
 			template < class Archive >
 			void serialize ( Archive & ar , const unsigned int version ) {
 
-				ar & boost::serialization::base_object < Options_OneByOne > ( * this );
+				ar & boost::serialization::base_object < Consecutive > ( * this );
 				ar & num_inliers;
 				ar & threshold_1st_component_contribution;
 				ar & threshold_1st_component_variance;
@@ -152,20 +153,20 @@ namespace MapCreator {
 			}
 		};
 
-		Options ( ) : type_ ( TrackingType::Unknown ) { }
+		Parameters ( ) : type_ ( TrackingType::Unknown ) { }
 
-		Options ( const Options_OneByOne & options_one_by_one , const Options_FixedFrameCount & options_fixed_frame_count ,
-		          const Options_PcaKeyFrame & options_pca_keyframe ) :
+		Parameters ( const Consecutive & paramsConsectutive , const FixedNumber & paramsFixedNumber ,
+		          const KeyFrameOnly & paramsKeyFramesOnly ) :
 				type_ ( TrackingType::Unknown ) ,
-				options_one_by_one ( options_one_by_one ) ,
-				options_fixed_frame_count ( options_fixed_frame_count ) ,
-				options_pca_keyframe ( options_pca_keyframe ) { }
+				paramsConsectutive ( paramsConsectutive ) ,
+				paramsFixedNumber ( paramsFixedNumber ) ,
+				paramsKeyFramesOnly ( paramsKeyFramesOnly ) { }
 
 		TrackingType            type_;
 		bool                    use_bundle_adjustment_;
-		Options_OneByOne        options_one_by_one;
-		Options_FixedFrameCount options_fixed_frame_count;
-		Options_PcaKeyFrame     options_pca_keyframe;
+		Consecutive        paramsConsectutive;
+		FixedNumber paramsFixedNumber;
+		KeyFrameOnly     paramsKeyFramesOnly;
 
 		TrackingType GetType ( ) const { return type_; }
 
@@ -176,28 +177,28 @@ namespace MapCreator {
 		inline void SetOptionsType ( const TrackingType & type ) { type_ = type; }
 
 		template < typename TrackingOptionsType >
-		TrackingOptionsType GetOptions ( );
+		TrackingOptionsType GetParameters ( );
 
 		template < typename Archive >
 		void serialize ( Archive & ar , const unsigned int version ) {
 
 			ar & type_;
 			ar & use_bundle_adjustment_;
-			ar & options_one_by_one;
-			ar & options_fixed_frame_count;
-			ar & options_pca_keyframe;
+			ar & paramsConsectutive;
+			ar & paramsFixedNumber;
+			ar & paramsKeyFramesOnly;
 		}
 	};
 
 	template < >
-	Options::Options_OneByOne           Options::GetOptions ( );
+	Parameters::Consecutive           Parameters::GetParameters ( );
 
 	template < >
-	Options::Options_FixedFrameCount    Options::GetOptions ( );
+	Parameters::FixedNumber    Parameters::GetParameters ( );
 
 	template < >
-	Options::Options_PcaKeyFrame        Options::GetOptions ( );
+	Parameters::KeyFrameOnly        Parameters::GetParameters ( );
 
 }
 
-#endif //MAPCREATOR_OPTION_H
+#endif //MAPCREATOR_SLAMPARAMETERS_H

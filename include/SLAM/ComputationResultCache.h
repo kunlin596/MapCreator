@@ -11,7 +11,7 @@
 #include <boost/iostreams/filtering_stream.hpp>
 #include <boost/iostreams/filter/gzip.hpp>
 
-#include "SLAM/Option.h"
+#include "SLAM/SlamParameters.h"
 
 namespace MapCreator {
 
@@ -19,7 +19,7 @@ namespace MapCreator {
 	{
 		std::string               data_set_name;
 		int                       computation_time;
-		Options                   options;
+		Parameters                   options;
 		std::vector < int >       indices;
 		std::vector < bool >      used_status;
 		std::vector < glm::mat4 > estimation_matrices;

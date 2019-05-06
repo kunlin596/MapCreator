@@ -8,7 +8,7 @@
 #include <QDialog>
 #include <QAbstractButton>
 
-#include "SLAM/Option.h"
+#include "SLAM/SlamParameters.h"
 
 namespace Ui {
 	class PcaKeyFrame_FrameTrackingMethodDialog;
@@ -26,7 +26,7 @@ namespace MapCreator {
 
 		PcaKeyFrame_FrameTrackingMethodDialog ( QWidget * parent = 0 );
 
-		inline Options::Options_PcaKeyFrame GetOptions ( ) { return options_; }
+		inline Parameters::KeyFrameOnly GetParameters ( ) { return params_; }
 
 	private slots:
 
@@ -41,7 +41,7 @@ namespace MapCreator {
 
 		Ui::PcaKeyFrame_FrameTrackingMethodDialog* ui_;
 
-		Options::Options_PcaKeyFrame options_;
+		Parameters::KeyFrameOnly params_;
 
 	};
 }

@@ -24,9 +24,9 @@ namespace MapCreator {
 
 		ComputationConfigureDialog ( QWidget * parent = 0 );
 
-		inline TrackingType GetTrackingType ( ) const { return options_.GetType ( ); }
+		inline TrackingType GetTrackingType ( ) const { return params_.GetType ( ); }
 
-		Options GetOptions ( ) const { return options_; }
+		Parameters GetParameters ( ) const { return params_; }
 
 		inline bool GetUseGlobalOptimization ( ) const { return use_bundle_adjustment_; }
 
@@ -43,7 +43,7 @@ namespace MapCreator {
 		bool use_bundle_adjustment_;
 		bool options_configured_;
 
-		Options options_;
+		Parameters params_;
 
 	};
 }

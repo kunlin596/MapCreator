@@ -7,7 +7,7 @@
 
 #include <QObject>
 
-#include "SLAM/Option.h"
+#include "SLAM/SlamParameters.h"
 #include "SLAM/CommonDefinitions.h"
 #include "SLAM/KeyFrame.h"
 #include "SLAM/Transformation.h"
@@ -36,14 +36,14 @@ namespace MapCreator {
 
 		using KeyFramesIterator = KeyFrames::iterator;
 
-		Tracker ( const Options & options ) {
+		Tracker ( const Parameters & options ) {
 
-			options_ = options;
+			params_ = options;
 		}
 		Tracker ( const Tracker & other ) = default;
-		Tracker ( const KeyFrames & keyframes , const Options & options , const XtionCoordinateConverter & converter ) {
+		Tracker ( const KeyFrames & keyframes , const Parameters & options , const XtionCoordinateConverter & converter ) {
 
-			options_                    = options;
+			params_                    = options;
 			keyframes_                  = keyframes;
 			xtion_coordinate_converter_ = converter;
 			converter_choice_           = 0;
@@ -53,9 +53,9 @@ namespace MapCreator {
 
 			Initialize ( );
 		}
-		Tracker ( const KeyFrames & keyframes , const Options & options , const AistCoordinateConverter & converter ) {
+		Tracker ( const KeyFrames & keyframes , const Parameters & options , const AistCoordinateConverter & converter ) {
 
-			options_                   = options;
+			params_                   = options;
 			keyframes_                 = keyframes;
 			aist_coordinate_converter_ = converter;
 			converter_choice_          = 1;
@@ -89,7 +89,7 @@ namespace MapCreator {
 		Points inliers1_;
 		Points inliers2_;
 
-		Options options_;
+		Parameters params_;
 		QString message_;
 
 		int                      converter_choice_;

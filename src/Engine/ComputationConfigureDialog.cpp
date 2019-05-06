@@ -26,7 +26,7 @@ namespace MapCreator {
 
         if (_button == (ui_->ButtonBox_ResultButtons->button(QDialogButtonBox::Apply)) and options_configured_) {
 
-            options_.UseBundleAdjustment(ui_->CheckBox_UseBundleAdjustment->isChecked());
+            params_.UseBundleAdjustment(ui_->CheckBox_UseBundleAdjustment->isChecked());
 
             QDialog::accept();
         }
@@ -43,11 +43,11 @@ namespace MapCreator {
             PcaKeyFrame_FrameTrackingMethodDialog dialog;
             if (dialog.exec() == QDialog::Accepted) {
 
-                options_.SetOptionsType(TrackingType::PcaKeyFrame);
-                options_.options_pca_keyframe = dialog.GetOptions();
+                params_.SetOptionsType(TrackingType::PcaKeyFrame);
+                params_.paramsKeyFramesOnly = dialog.GetParameters();
                 options_configured_ = true;
                 ui_->PlainTextEdit_OptionsSummary->clear();
-                ui_->PlainTextEdit_OptionsSummary->appendPlainText(options_.options_pca_keyframe.Output());
+                ui_->PlainTextEdit_OptionsSummary->appendPlainText(params_.paramsKeyFramesOnly.Output());
                 return;
             }
 
@@ -55,11 +55,11 @@ namespace MapCreator {
 
             FixedFrameCount_FrameTrackingMethodDialog dialog;
             if (dialog.exec() == QDialog::Accepted) {
-                options_.SetOptionsType(TrackingType::FixedFrameCount);
-                options_.options_fixed_frame_count = dialog.GetOptions();
+                params_.SetOptionsType(TrackingType::FixedFrameCount);
+                params_.paramsFixedNumber = dialog.GetParameters();
                 options_configured_ = true;
                 ui_->PlainTextEdit_OptionsSummary->clear();
-                ui_->PlainTextEdit_OptionsSummary->appendPlainText(options_.options_fixed_frame_count.Output());
+                ui_->PlainTextEdit_OptionsSummary->appendPlainText(params_.paramsFixedNumber.Output());
                 return;
             }
 
@@ -68,11 +68,11 @@ namespace MapCreator {
 
             OneByOne_FrameTrackingMethodDialog dialog;
             if (dialog.exec() == QDialog::Accepted) {
-                options_.SetOptionsType(TrackingType::OneByOne);
-                options_.options_one_by_one = dialog.GetOptions();
+                params_.SetOptionsType(TrackingType::OneByOne);
+                params_.paramsConsectutive = dialog.GetParameters();
                 options_configured_ = true;
                 ui_->PlainTextEdit_OptionsSummary->clear();
-                ui_->PlainTextEdit_OptionsSummary->appendPlainText(options_.options_one_by_one.Output());
+                ui_->PlainTextEdit_OptionsSummary->appendPlainText(params_.paramsConsectutive.Output());
                 return;
             }
         }

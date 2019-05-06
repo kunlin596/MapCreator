@@ -51,14 +51,14 @@ namespace MapCreator {
 		if ( val1 < 0 or val2 < 0 or val3 < 0 or val4 < 0 or val5 < 0 or val6 < 0 or val7 < 0 or val8 < 0 )
 			return false;
 
-		options_.num_ransac_iteration                 = val1;
-		options_.threshold_outlier                    = val2;
-		options_.threshold_inlier                     = val3;
-		options_.threshold_1st_component_contribution = val4;
-		options_.threshold_1st_component_variance     = val5;
-		options_.threshold_2nd_component_variance     = val6;
-		options_.threshold_3rd_component_variance     = val7;
-		options_.num_inliers                          = val8;
+		params_.num_ransac_iteration                 = val1;
+		params_.threshold_outlier                    = val2;
+		params_.threshold_inlier                     = val3;
+		params_.threshold_1st_component_contribution = val4;
+		params_.threshold_1st_component_variance     = val5;
+		params_.threshold_2nd_component_variance     = val6;
+		params_.threshold_3rd_component_variance     = val7;
+		params_.num_inliers                          = val8;
 
 		return true;
 	}

@@ -148,21 +148,21 @@ namespace MapCreator {
 		emit Message ( _message );
 
 		std::cout << "Threshold : " <<
-		options_.options_one_by_one.num_ransac_iteration << ", " <<
-		options_.options_one_by_one.threshold_outlier << ", " <<
-		options_.options_one_by_one.threshold_inlier << std::endl;
+		params_.paramsConsectutive.num_ransac_iteration << ", " <<
+		params_.paramsConsectutive.threshold_outlier << ", " <<
+		params_.paramsConsectutive.threshold_inlier << std::endl;
 
 //		CorrespondingPointsPair inliers_pair = ComputeInliersWithFlow ( corresponding_points_pair.second ,
 //		                                                                corresponding_points_pair.first ,
-//		                                                                options_.options_one_by_one.num_ransac_iteration ,
-//		                                                                options_.options_one_by_one.threshold_outlier ,
-//		                                                                options_.options_one_by_one.threshold_inlier );
+//		                                                                params_.paramsConsectutive.num_ransac_iteration ,
+//		                                                                params_.paramsConsectutive.threshold_outlier ,
+//		                                                                params_.paramsConsectutive.threshold_inlier );
 
 		CorrespondingPointsPair inliers_pair = ComputeInliers ( corresponding_points_pair.second ,
 		                                                        corresponding_points_pair.first ,
-		                                                        options_.options_one_by_one.num_ransac_iteration ,
-		                                                        options_.options_one_by_one.threshold_outlier ,
-		                                                        options_.options_one_by_one.threshold_inlier );
+		                                                        params_.paramsConsectutive.num_ransac_iteration ,
+		                                                        params_.paramsConsectutive.threshold_outlier ,
+		                                                        params_.paramsConsectutive.threshold_inlier );
 
 		const auto & inliers1 = inliers_pair.first;
 

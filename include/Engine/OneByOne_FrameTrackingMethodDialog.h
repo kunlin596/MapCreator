@@ -7,7 +7,7 @@
 
 #include <QDialog>
 #include <QAbstractButton>
-#include <SLAM/Option.h>
+#include <SLAM/SlamParameters.h>
 
 namespace Ui {
 
@@ -24,7 +24,7 @@ namespace MapCreator {
 
 		OneByOne_FrameTrackingMethodDialog ( QWidget * parent = 0 );
 
-		inline Options::Options_OneByOne GetOptions ( ) { return options_; }
+		inline Parameters::Consecutive GetParameters ( ) { return params_; }
 
 	private slots:
 
@@ -41,7 +41,7 @@ namespace MapCreator {
 
 		Ui::OneByOne_FrameTrackingMethodDialog* ui_;
 
-		Options::Options_OneByOne options_;
+		Parameters::Consecutive params_;
 
 	};
 }

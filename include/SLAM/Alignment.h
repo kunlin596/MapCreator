@@ -8,7 +8,7 @@
 #include <QObject>
 #include <Core/Feature.h>
 
-#include "SLAM/Option.h"
+#include "SLAM/SlamParameters.h"
 #include "SLAM/KeyFrame.h"
 #include "SLAM/Matcher.h"
 #include "SLAM/Tracker.h"
@@ -42,11 +42,11 @@ namespace MapCreator {
         bool CheckPreviousResult ( );
         void UsePreviousResult ( const QString & result_cache_name );
         void SetRunningFLag ( bool running_flag ) { running_flag_ = running_flag; };
-        Options GetOptions ( ) const { return options_; }
+        Parameters GetParameters ( ) const { return params_; }
 
     public slots:
 
-        void SetOptions ( const Options & options ) { options_ = options; };
+        void SetOptions ( const Parameters & options ) { params_ = options; };
         void SetFrameData ( const KeyFrames & keyframes ) {
 
             keyframes_           = keyframes;
@@ -85,7 +85,7 @@ namespace MapCreator {
             std::cout << "Computation begins" << std::endl;
             switch ( converter_choice_ ) {
                 case 0: {
-                    Tracker < type > tracker1 ( keyframes_ , options_ , xtion_converter_ );
+                    Tracker < type > tracker1 ( keyframes_ , params_ , xtion_converter_ );
                     do {
                         tracker1.ComputeNext ( );
                         // emit Message ( tracker1.GetMessage ( ) );
@@ -95,7 +95,7 @@ namespace MapCreator {
                     break;
                 }
                 case 1: {
-                    Tracker < type > tracker2 ( keyframes_ , options_ , aist_converter_ );
+                    Tracker < type > tracker2 ( keyframes_ , params_ , aist_converter_ );
                     do {
                         tracker2.ComputeNext ( );
                         // emit Message ( tracker2.GetMessage ( ) );
@@ -119,14 +119,14 @@ namespace MapCreator {
             QString cache_file_name = QString ( "%1/%2-%3-%4.cache" )
                     .arg ( result_cache_path_ )
                     .arg ( time ( nullptr ) )
-                    .arg ( static_cast<int> ( options_.GetType ( ) ) )
+                    .arg ( static_cast<int> ( params_.GetType ( ) ) )
                     .arg ( suffix );
 
             ComputationResultCache cache;
 
             cache.data_set_name    = data_dir_.absolutePath ( ).toStdString ( );
             cache.computation_time = computation_time;
-            cache.options          = options_;
+            cache.options          = params_;
 
             for_each ( std::begin ( keyframes_ ) , std::end ( keyframes_ ) ,
                        [ &cache ] ( const KeyFrame & keyframe ) -> void {
@@ -157,7 +157,7 @@ namespace MapCreator {
         QDir                                          data_dir_;
         QString                                       result_cache_path_;
         Feature::Type                                 feature_type_;
-        Options                                       options_;
+        Parameters                                       params_;
         KeyFrames                                     keyframes_;
         int                                           converter_choice_;
         XtionCoordinateConverter                      xtion_converter_;

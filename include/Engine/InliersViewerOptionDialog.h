@@ -9,7 +9,7 @@
 
 
 #include <SLAM/KeyFrame.h>
-#include <SLAM/Option.h>
+#include <SLAM/SlamParameters.h>
 
 namespace Ui { class InliersViewerOptionDialog; }
 
@@ -30,7 +30,7 @@ namespace MapCreator {
 	public slots:
 
 		void SetKeyFrames ( const KeyFrames & );
-		void SetOptions ( const Options & options ) { options_ = options; }
+		void SetOptions ( const Parameters & options ) { params_ = options; }
 
 	private slots:
 
@@ -56,7 +56,7 @@ namespace MapCreator {
 
 		KeyFrames keyframes_for_inliers_;
 
-		Options options_;
+		Parameters params_;
 
 		bool has_frame1_;
 		bool has_frame2_;

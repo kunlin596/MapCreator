@@ -57,7 +57,7 @@ namespace MapCreator {
 
         emit Message ( "Computation begins..." );
 
-        switch ( options_.type_ ) {
+        switch ( params_.type_ ) {
             case TrackingType::OneByOne:
                 ComputeHelper < TrackingType::OneByOne > ( );
                 break;
@@ -138,9 +138,9 @@ namespace MapCreator {
 
         QString result_name_prefix;
 
-        std::cout << options_.type_ << std::endl;
+        std::cout << params_.type_ << std::endl;
 
-        switch ( options_.type_ ) {
+        switch ( params_.type_ ) {
             case TrackingType::OneByOne:
                 result_name_prefix = QString ( "%1_%2" ).arg ( time_stamp ).arg ( "OneByOne" );
                 break;
@@ -165,20 +165,20 @@ namespace MapCreator {
 
         if ( out ) {
 
-            out << "Current tracker type : " << static_cast<int>(options_.type_) << std::endl;
+            out << "Current tracker type : " << static_cast<int>(params_.type_) << std::endl;
 
-            switch ( options_.type_ ) {
+            switch ( params_.type_ ) {
 
                 case TrackingType::OneByOne: {
-                    out << options_.options_one_by_one.Output ( ).toStdString ( ) << std::endl;
+                    out << params_.paramsConsectutive.Output ( ).toStdString ( ) << std::endl;
                     break;
                 }
                 case TrackingType::PcaKeyFrame: {
-                    out << options_.options_pca_keyframe.Output ( ).toStdString ( ) << std::endl;
+                    out << params_.paramsKeyFramesOnly.Output ( ).toStdString ( ) << std::endl;
                     break;
                 }
                 case TrackingType::FixedFrameCount : {
-                    out << options_.options_fixed_frame_count.Output ( ).toStdString ( ) << std::endl;
+                    out << params_.paramsFixedNumber.Output ( ).toStdString ( ) << std::endl;
                     break;
                 }
                 default:
@@ -202,9 +202,9 @@ namespace MapCreator {
 
         QString result_name_prefix;
 
-        std::cout << options_.type_ << std::endl;
+        std::cout << params_.type_ << std::endl;
 
-        switch ( options_.type_ ) {
+        switch ( params_.type_ ) {
             case TrackingType::OneByOne:
                 result_name_prefix = QString ( "%1_%2" ).arg ( time_stamp ).arg ( "OneByOne" );
                 break;
@@ -229,20 +229,20 @@ namespace MapCreator {
 
         if ( out ) {
 
-            out << "Current tracker type : " << static_cast<int>(options_.type_) << std::endl;
+            out << "Current tracker type : " << static_cast<int>(params_.type_) << std::endl;
 
-            switch ( options_.type_ ) {
+            switch ( params_.type_ ) {
 
                 case TrackingType::OneByOne: {
-                    out << options_.options_one_by_one.Output ( ).toStdString ( ) << std::endl;
+                    out << params_.paramsConsectutive.Output ( ).toStdString ( ) << std::endl;
                     break;
                 }
                 case TrackingType::PcaKeyFrame: {
-                    out << options_.options_pca_keyframe.Output ( ).toStdString ( ) << std::endl;
+                    out << params_.paramsKeyFramesOnly.Output ( ).toStdString ( ) << std::endl;
                     break;
                 }
                 case TrackingType::FixedFrameCount : {
-                    out << options_.options_fixed_frame_count.Output ( ).toStdString ( ) << std::endl;
+                    out << params_.paramsFixedNumber.Output ( ).toStdString ( ) << std::endl;
                     break;
                 }
                 default:
@@ -406,7 +406,7 @@ namespace MapCreator {
         auto data_set_name    = cache.data_set_name;
         auto computation_time = cache.computation_time;
 
-        options_ = cache.options;
+        params_ = cache.options;
 
         for ( auto i = 0 ; i < cache.indices.size ( ) ; ++i ) {
 

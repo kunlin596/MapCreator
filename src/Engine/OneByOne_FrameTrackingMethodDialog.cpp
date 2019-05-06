@@ -55,9 +55,9 @@ namespace MapCreator {
 		if ( val1 < 0 or val2 < 0 or val3 < 0 )
 			return false;
 
-		options_.num_ransac_iteration = val1;
-		options_.threshold_outlier    = val2;
-		options_.threshold_inlier     = val3;
+		params_.num_ransac_iteration = val1;
+		params_.threshold_outlier    = val2;
+		params_.threshold_inlier     = val3;
 
 		return true;
 	}

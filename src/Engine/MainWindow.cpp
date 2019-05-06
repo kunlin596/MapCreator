@@ -357,7 +357,7 @@ namespace MapCreator {
 			          SLOT ( SetCorrespondingPoints ( CorrespondingPointsPair ) ) );
 
 			inliers_viewer_option_dialog_->SetKeyFrames ( keyframes_ );
-			inliers_viewer_option_dialog_->SetOptions ( computer_->GetOptions ( ) );
+			inliers_viewer_option_dialog_->SetOptions ( computer_->GetParameters ( ) );
 
 			inliers_viewer_option_dialog_->show ( );
 			ui_->HorizontalSlider_PointCloudDensity->setEnabled ( true );
@@ -373,11 +373,11 @@ namespace MapCreator {
 
 		if ( computation_configure_dialog_->exec ( ) == QDialog::Accepted ) {
 
-			computer_->SetOptions ( computation_configure_dialog_->GetOptions ( ) );
+			computer_->SetOptions ( computation_configure_dialog_->GetParameters ( ) );
 
-			std::cout << computer_->GetOptions ( ).options_one_by_one.Output ( ).toStdString ( ) << std::endl;
-			std::cout << computer_->GetOptions ( ).options_pca_keyframe.Output ( ).toStdString ( ) << std::endl;
-			std::cout << computer_->GetOptions ( ).options_fixed_frame_count.Output ( ).toStdString ( ) << std::endl;
+			std::cout << computer_->GetParameters ( ).paramsConsectutive.Output ( ).toStdString ( ) << std::endl;
+			std::cout << computer_->GetParameters ( ).paramsKeyFramesOnly.Output ( ).toStdString ( ) << std::endl;
+			std::cout << computer_->GetParameters ( ).paramsFixedNumber.Output ( ).toStdString ( ) << std::endl;
 
 			emit ConfigurationDone ( );
 		}
