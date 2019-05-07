@@ -7,7 +7,7 @@
 
 
 #include "BasicViewer/PrimitiveGL.h"
-#include <SLAM/CommonDefinitions.h>
+#include <SLAM/SLAM.h>
 
 namespace MapCreator {
 

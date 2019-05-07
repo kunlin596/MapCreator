@@ -9,7 +9,7 @@
 #include <string>
 #include <opencv2/opencv.hpp>
 
-#include "SLAM/CommonDefinitions.h"
+#include "SLAM/SLAM.h"
 
 #include <Core/Serialize.h>
 

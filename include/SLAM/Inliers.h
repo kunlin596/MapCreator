@@ -6,7 +6,7 @@
 #define MAPCREATOR_INLIERS_H
 
 #include <BasicViewer/PrimitiveGL.h>
-#include "SLAM/CommonDefinitions.h"
+#include "SLAM/SLAM.h"
 
 namespace MapCreator {
 

@@ -7,11 +7,15 @@
 
 #include <QString>
 
-#include <Core/Serialize.h>
-
-#include "SLAM/CommonDefinitions.h"
+#include "Core/Serialize.h"
+#include "SLAM/SLAM.h"
 
 namespace MapCreator {
+
+    struct AlgorithmParameters
+    {
+        TrackingType trackingType;
+    };
 
     struct TrackerParameters
     {

@@ -13,7 +13,7 @@
 #include <random>
 #include <ctime>
 
-#include "SLAM/CommonDefinitions.h"
+#include "SLAM/SLAM.h"
 
 
 namespace MapCreator {

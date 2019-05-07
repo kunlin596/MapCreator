@@ -8,7 +8,7 @@
 #include <QObject>
 
 #include "SLAM/SlamParameters.h"
-#include "SLAM/CommonDefinitions.h"
+#include "SLAM/SLAM.h"
 #include "SLAM/KeyFrame.h"
 #include "SLAM/Transformation.h"
 #include "SLAM/CoordinateConverter.h"

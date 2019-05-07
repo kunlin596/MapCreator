@@ -9,7 +9,7 @@
 #include "Core/Feature.h"
 
 #include "SLAM/Calibrator.h"
-#include "SLAM/CommonDefinitions.h"
+#include "SLAM/SLAM.h"
 
 #include <QDir>
 #include <QFileInfo>

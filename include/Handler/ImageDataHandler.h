@@ -12,7 +12,7 @@
 #include <boost/tuple/tuple.hpp>
 
 #include "Core/Serialize.h"
-#include "SLAM/CommonDefinitions.h"
+#include "SLAM/SLAM.h"
 #include "SLAM/KeyFrame.h"
 #include "SLAM/Calibrator.h"
 #include "SLAM/CoordinateConverter.h"

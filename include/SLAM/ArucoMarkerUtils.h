@@ -12,7 +12,7 @@
 #endif
 
 #include "SLAM/KeyFrame.h"
-#include "SLAM/CommonDefinitions.h"
+#include "SLAM/SLAM.h"
 
 namespace MapCreator {
 

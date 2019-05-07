@@ -3,7 +3,7 @@
 //
 
 #include "SLAM/Transformation.h"
-#include "SLAM/CommonDefinitions.h"
+#include "SLAM/SLAM.h"
 
 #include <random>
 #include <fstream>
