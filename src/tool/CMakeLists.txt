@@ -4,7 +4,7 @@ cmake_minimum_required ( VERSION 2.8 )
 set ( CMAKE_INCLUDE_CURRENT_DIR ON )
 set ( CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "/usr/local/Qt5" )
 
-find_package ( Boost COMPONENTS system filesystem REQUIRED )
+find_package ( Boost COMPONENTS system filesystem program_options REQUIRED )
 find_package ( OpenCV REQUIRED )
 find_package ( Qt5Widgets REQUIRED )
 find_package ( Qt5Concurrent REQUIRED )
@@ -30,6 +30,13 @@ target_link_libraries ( MapCreator
 
 add_executable ( Viewer Viewer.cpp )
 add_executable ( FrameViewer FrameViewer.cpp )
+add_executable ( dataset_converter dataset_converter.cpp )
+
+target_link_libraries ( dataset_converter
+	MapCreatorCore
+	MapCreatorSlam
+	${Boost_LIBRARIES}
+)
 
 target_link_libraries ( FrameViewer
 	MapCreatorCore
@@ -40,7 +47,6 @@ target_link_libraries ( FrameViewer
 	Qt5::Widgets
 	Qt5::Concurrent
 	Qt5::OpenGL )
-
 
 install ( TARGETS
 	MapCreator
