@@ -30,7 +30,7 @@ namespace MapCreator {
 	public slots:
 
 		void SetKeyFrames ( const KeyFrames & );
-		void SetOptions ( const Parameters & options ) { params_ = options; }
+		void SetOptions ( const TrackerParameters & options ) { params_ = options; }
 
 	private slots:
 
@@ -56,7 +56,7 @@ namespace MapCreator {
 
 		KeyFrames keyframes_for_inliers_;
 
-		Parameters params_;
+		TrackerParameters params_;
 
 		bool has_frame1_;
 		bool has_frame2_;

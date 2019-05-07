@@ -26,7 +26,7 @@ namespace MapCreator {
 
 		inline TrackingType GetTrackingType ( ) const { return params_.GetType ( ); }
 
-		Parameters GetParameters ( ) const { return params_; }
+		TrackerParameters GetParameters ( ) const { return params_; }
 
 		inline bool GetUseGlobalOptimization ( ) const { return use_bundle_adjustment_; }
 
@@ -43,7 +43,7 @@ namespace MapCreator {
 		bool use_bundle_adjustment_;
 		bool options_configured_;
 
-		Parameters params_;
+		TrackerParameters params_;
 
 	};
 }

@@ -164,7 +164,7 @@ namespace MapCreator {
     using RawDataFrames = std::vector < RawDataFrame >;
 
 
-// Parameters for reading AIST image data
+// TrackerParameters for reading AIST image data
     const std::string kRawDataFrameHeader = "XTION DATA";
 
     const int kImageRows          = 480;

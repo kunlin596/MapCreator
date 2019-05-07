@@ -19,7 +19,7 @@ namespace MapCreator {
 	{
 		std::string               data_set_name;
 		int                       computation_time;
-		Parameters                   options;
+		TrackerParameters                   options;
 		std::vector < int >       indices;
 		std::vector < bool >      used_status;
 		std::vector < glm::mat4 > estimation_matrices;

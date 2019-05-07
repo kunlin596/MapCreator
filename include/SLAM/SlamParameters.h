@@ -13,7 +13,7 @@
 
 namespace MapCreator {
 
-	struct Parameters
+	struct TrackerParameters
 	{
 		struct Consecutive
 		{
@@ -36,7 +36,7 @@ namespace MapCreator {
 			inline QString Output ( ) const {
 
 				QString res;
-				res.append ( QString ( "Parameters of SLAM :\n" ) );
+				res.append ( QString ( "TrackerParameters of SLAM :\n" ) );
 				res.append ( QString ( "----------------------------------\n" ) );
 				res.append ( QString ( "Number of RANSAC Iteration : %1\n" ).arg ( QString::number ( num_ransac_iteration ) ) );
 				res.append ( QString ( "Threshold of Outlier       : %1\n" ).arg ( QString::number ( threshold_outlier ) ) );
@@ -71,7 +71,7 @@ namespace MapCreator {
 			inline QString Output ( ) const {
 
 				QString res;
-				res.append ( QString ( "Parameters of Fixed Frame Count Tracking :\n" ) );
+				res.append ( QString ( "TrackerParameters of Fixed Frame Count Tracking :\n" ) );
 				res.append ( QString ( "----------------------------------\n" ) );
 				res.append ( QString ( "Number of RANSAC Iteration : %1\n" ).arg ( QString::number ( num_ransac_iteration ) ) );
 				res.append ( QString ( "Threshold of Outlier       : %1\n" ).arg ( QString::number ( threshold_outlier ) ) );
@@ -122,7 +122,7 @@ namespace MapCreator {
 			inline QString Output ( ) const {
 
 				QString res;
-				res.append ( QString ( "Parameters of PCA Key Frame Tracking :\n" ) );
+				res.append ( QString ( "TrackerParameters of PCA Key Frame Tracking :\n" ) );
 				res.append ( QString ( "----------------------------------\n" ) );
 				res.append ( QString ( "Number of RANSAC Iteration : %1\n" ).arg ( QString::number ( num_ransac_iteration ) ) );
 				res.append ( QString ( "Threshold of Outlier       : %1\n" ).arg ( QString::number ( threshold_outlier ) ) );
@@ -153,9 +153,9 @@ namespace MapCreator {
 			}
 		};
 
-		Parameters ( ) : type_ ( TrackingType::Unknown ) { }
+		TrackerParameters ( ) : type_ ( TrackingType::Unknown ) { }
 
-		Parameters ( const Consecutive & paramsConsectutive , const FixedNumber & paramsFixedNumber ,
+		TrackerParameters ( const Consecutive & paramsConsectutive , const FixedNumber & paramsFixedNumber ,
 		          const KeyFrameOnly & paramsKeyFramesOnly ) :
 				type_ ( TrackingType::Unknown ) ,
 				paramsConsectutive ( paramsConsectutive ) ,
@@ -191,14 +191,13 @@ namespace MapCreator {
 	};
 
 	template < >
-	Parameters::Consecutive           Parameters::GetParameters ( );
+	TrackerParameters::Consecutive TrackerParameters::GetParameters ( );
 
 	template < >
-	Parameters::FixedNumber    Parameters::GetParameters ( );
+	TrackerParameters::FixedNumber TrackerParameters::GetParameters ( );
 
 	template < >
-	Parameters::KeyFrameOnly        Parameters::GetParameters ( );
-
+	TrackerParameters::KeyFrameOnly TrackerParameters::GetParameters ( );
 }
 
 #endif //MAPCREATOR_SLAMPARAMETERS_H

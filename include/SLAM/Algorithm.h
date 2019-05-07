@@ -40,11 +40,11 @@ namespace MapCreator {
         bool CheckPreviousResult ( );
         void UsePreviousResult ( const QString & result_cache_name );
         void SetRunningFLag ( bool running_flag ) { running_flag_ = running_flag; };
-        Parameters GetParameters ( ) const { return params_; }
+        TrackerParameters GetParameters ( ) const { return params_; }
 
     public slots:
 
-        void SetOptions ( const Parameters & options ) { params_ = options; };
+        void SetOptions ( const TrackerParameters & options ) { params_ = options; };
         void SetFrameData ( const KeyFrames & keyframes ) {
             keyframes_           = keyframes;
             is_data_initialized_ = true;
@@ -152,7 +152,7 @@ namespace MapCreator {
         QDir                                          data_dir_;
         QString                                       result_cache_path_;
         Feature::Type                                 feature_type_;
-        Parameters                                    params_;
+        TrackerParameters                                    params_;
         KeyFrames                                     keyframes_;
         int                                           converter_choice_;
         XtionCoordinateConverter                      xtion_converter_;

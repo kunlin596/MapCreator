@@ -7,11 +7,11 @@
 namespace MapCreator {
 
     template<>
-    Parameters::Consecutive Parameters::GetParameters() { return paramsConsectutive; }
+    TrackerParameters::Consecutive TrackerParameters::GetParameters() { return paramsConsectutive; }
 
     template<>
-    Parameters::FixedNumber Parameters::GetParameters() { return paramsFixedNumber; }
+    TrackerParameters::FixedNumber TrackerParameters::GetParameters() { return paramsFixedNumber; }
 
     template<>
-    Parameters::KeyFrameOnly Parameters::GetParameters() { return paramsKeyFramesOnly; }
+    TrackerParameters::KeyFrameOnly TrackerParameters::GetParameters() { return paramsKeyFramesOnly; }
 }

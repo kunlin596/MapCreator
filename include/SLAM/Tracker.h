@@ -29,11 +29,11 @@ namespace MapCreator {
 
 		using KeyFramesIterator = KeyFrames::iterator;
 
-		Tracker ( const Parameters & params ) {
+		Tracker ( const TrackerParameters & params ) {
 			params_ = params;
 		}
 		Tracker ( const Tracker & other ) = default;
-		Tracker ( const KeyFrames & keyframes , const Parameters & params , const XtionCoordinateConverter & converter ) {
+		Tracker ( const KeyFrames & keyframes , const TrackerParameters & params , const XtionCoordinateConverter & converter ) {
 
 			params_                    = params;
 			keyframes_                  = keyframes;
@@ -45,7 +45,8 @@ namespace MapCreator {
 
 			Initialize ( );
 		}
-		Tracker ( const KeyFrames & keyframes , const Parameters & params , const AistCoordinateConverter & converter ) {
+
+		Tracker ( const KeyFrames & keyframes , const TrackerParameters & params , const AistCoordinateConverter & converter ) {
 
 			params_                   = params;
 			keyframes_                 = keyframes;
@@ -81,7 +82,7 @@ namespace MapCreator {
 		Points inliers1_;
 		Points inliers2_;
 
-		Parameters params_;
+		TrackerParameters params_;
 		QString message_;
 
 		int                      converter_choice_;
