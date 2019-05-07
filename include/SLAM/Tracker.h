@@ -98,9 +98,9 @@ namespace MapCreator {
 	template < > bool Tracker < TrackingType::FixedNumber >::Update ( );
 	template < > bool Tracker < TrackingType::KeyFrameOnly >::Update ( );
 
-	template < > void Tracker < TrackingType::Consecutive >::ComputeNext ( );
-	template < > void Tracker < TrackingType::FixedNumber >::ComputeNext ( );
-	template < > void Tracker < TrackingType::KeyFrameOnly >::ComputeNext ( );
+	template < > void Tracker < TrackingType::Consecutive >::SpinOnce ( );
+	template < > void Tracker < TrackingType::FixedNumber >::SpinOnce ( );
+	template < > void Tracker < TrackingType::KeyFrameOnly >::SpinOnce ( );
 
 	template < > void Tracker < TrackingType::Consecutive >::Initialize ( );
 	template < > void Tracker < TrackingType::FixedNumber >::Initialize ( );

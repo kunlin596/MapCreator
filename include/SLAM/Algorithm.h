@@ -82,7 +82,7 @@ namespace MapCreator {
                 case 0: {
                     Tracker < type > tracker1 ( keyframes_ , params_ , xtion_converter_ );
                     do {
-                        tracker1.ComputeNext ( );
+                        tracker1.SpinOnce ( );
                         // emit Message ( tracker1.GetMessage ( ) );
                     }
                     while ( tracker1.Update ( ) );
@@ -92,7 +92,7 @@ namespace MapCreator {
                 case 1: {
                     Tracker < type > tracker2 ( keyframes_ , params_ , aist_converter_ );
                     do {
-                        tracker2.ComputeNext ( );
+                        tracker2.SpinOnce ( );
                         // emit Message ( tracker2.GetMessage ( ) );
                     }
                     while ( tracker2.Update ( ) );
