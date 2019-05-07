@@ -15,40 +15,40 @@ include_directories ( ${OpenCV_INCLUDE_DIRS} ${Boost_INCLUDE_DIR} ${NiS_INCLUDE_
 set ( CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib" )
 
 add_executable ( MapCreator
-	MapCreator.cpp )
+    MapCreator.cpp )
 
 target_link_libraries ( MapCreator
-	MapCreatorCore
-	MapCreatorHandler
-	MapCreatorSlam
-	MapCreatorEngine
-	${OpenCV_LIBS}
-	${Boost_LIBRARIES}
-	Qt5::Widgets
-	Qt5::Concurrent
-	Qt5::OpenGL )
+    MapCreatorCore
+    MapCreatorHandler
+    MapCreatorSlam
+    MapCreatorEngine
+    ${OpenCV_LIBS}
+    ${Boost_LIBRARIES}
+    Qt5::Widgets
+    Qt5::Concurrent
+    Qt5::OpenGL )
 
 add_executable ( Viewer Viewer.cpp )
 add_executable ( FrameViewer FrameViewer.cpp )
 add_executable ( dataset_converter dataset_converter.cpp )
 
 target_link_libraries ( dataset_converter
-	MapCreatorCore
-	MapCreatorSlam
-	${Boost_LIBRARIES}
+    MapCreatorCore
+    MapCreatorSlam
+    ${Boost_LIBRARIES}
 )
 
 target_link_libraries ( FrameViewer
-	MapCreatorCore
-	MapCreatorSlam
-	MapCreatorEngine
-	${OpenCV_LIBS}
-	${Boost_LIBRARIES}
-	Qt5::Widgets
-	Qt5::Concurrent
-	Qt5::OpenGL )
+    MapCreatorCore
+    MapCreatorSlam
+    MapCreatorEngine
+    ${OpenCV_LIBS}
+    ${Boost_LIBRARIES}
+    Qt5::Widgets
+    Qt5::Concurrent
+    Qt5::OpenGL )
 
 install ( TARGETS
-	MapCreator
-	FrameViewer
-	DESTINATION "${CMAKE_INSTALL_PREFIX}/bin" )
+    MapCreator
+    FrameViewer
+    DESTINATION "${CMAKE_INSTALL_PREFIX}/bin" )
