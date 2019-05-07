@@ -152,7 +152,8 @@ namespace MapCreator {
         QDir                                          data_dir_;
         QString                                       result_cache_path_;
         Feature::Type                                 feature_type_;
-        TrackerParameters                                    params_;
+        TrackerParameters                             params_;
+        AlgorithmParameters                           algorithmParameters;
         KeyFrames                                     keyframes_;
         int                                           converter_choice_;
         XtionCoordinateConverter                      xtion_converter_;

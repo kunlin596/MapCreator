@@ -15,8 +15,8 @@ namespace MapCreator {
 
     template <typename T>
     struct RGBDFrame_: Frame_<T> {
-        cv::Mat_<cv::Vec3b> colorimage;
-        cv::Mat_<ushort> depthimage;
+        ColorImage colorimage;
+        DepthImage depthimage;
     };
 
     using RGBDFrame = RGBDFrame_<float>;
