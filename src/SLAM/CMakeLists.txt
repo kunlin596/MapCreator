@@ -17,7 +17,7 @@ include_directories (
 
 # qt5_wrap_cpp is necessary for running qt5 moc
 qt5_wrap_cpp ( MapCreatorSlam_MOC_FILES
-    ${MapCreator_INSTALL_INCLUDE_DIR}/SLAM/Alignment.h
+    ${MapCreator_INSTALL_INCLUDE_DIR}/SLAM/Algorithm.h
 )
 
 add_library ( MapCreatorSlam SHARED

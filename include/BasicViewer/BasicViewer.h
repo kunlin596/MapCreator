@@ -18,7 +18,7 @@
 
 #include "SLAM/KeyFrame.h"
 #include "SLAM/Inliers.h"
-#include "SLAM/Alignment.h"
+#include "SLAM/Algorithm.h"
 #include "SLAM/Transformation.h"
 
 #include <boost/tuple/tuple.hpp>

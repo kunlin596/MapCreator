@@ -7,7 +7,7 @@
 #include "Core/Utility.h"
 #include "Core/MyMath.h"
 
-#include "SLAM/Alignment.h"
+#include "SLAM/Algorithm.h"
 #include "SLAM/Calibrator.h"
 #include "SLAM/Transformation.h"
 #include "SLAM/GlobalOptimization.h"
@@ -28,7 +28,7 @@
 #include <QTime>
 #include <QWaitCondition>
 
-LOGGER("SLAM.Alignment");
+LOGGER("SLAM.Algorithm");
 
 namespace MapCreator {
 

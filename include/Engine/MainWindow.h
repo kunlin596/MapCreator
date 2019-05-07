@@ -11,7 +11,7 @@
 
 #include "SLAM/SlamParameters.h"
 #include "SLAM/KeyFrame.h"
-#include "SLAM/Alignment.h"
+#include "SLAM/Algorithm.h"
 #include "Handler/ImageDataHandler.h"
 #include "Engine/InliersViewerOptionDialog.h"
 #include "Engine/LogPanelDialog.h"
