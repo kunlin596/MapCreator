@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Core/Pose.h"
+#include "SLAM/SLAM.h"
 
 namespace MapCreator {
     template <typename T>
@@ -15,7 +16,7 @@ namespace MapCreator {
     template <typename T>
     struct RGBDFrame_: Frame_<T> {
         cv::Mat_<cv::Vec3b> colorimage;
-        cv::Mat_<cv::Vec3f> depthimage;
+        cv::Mat_<ushort> depthimage;
     };
 
     using RGBDFrame = RGBDFrame_<float>;
