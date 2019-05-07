@@ -19,17 +19,41 @@ The pipeline works like this. At first, it matches the keypoints in two frames, 
 * [Engen3](https://eigen.tuxfamily.org/dox)
 * OpenGL 4.x
 
-For MacOS run:
+### macOS
+```bash
+sudo port selfupdate
+sudo port upgrade outdated
+sudo port install pkgconfig glm boost qt59 opencv log4cxx
 ```
-port selfupdate
-port upgrade outdated
-port insstall glm boost qt59 opencv
+### Debian/Ubuntu
+```bash
+sudo apt update
+sudo apt install -y pkg-config libboost-all-dev qt5-default qtbase5-dev qtdeclarative5-dev libqt5opengl5-dev libeigen3-dev liblog4cxx-dev
+
+# libglm-dev doesn't provide cmake config, so we need to compile it from source
+git clone https://github.com/g-truc/glm.git
+cd glm
+mkdir build && cd build
+cmake ..
+sudo make -j4 install
+cd ../..
+
+# clone opencv_contrib for building non-free modules
+git clone https://github.com/opencv/opencv_contrib.git
+
+# build and install opencv
+git clone https://github.com/opencv/opencv.git
+cd opencv 
+git checkout 4.1.0
+mkdir build && cd build
+cmake -DCMAKE_BUILD_TYPE=RELEASE -DBUILD_EXAMPLES=OFF -DBUILD_opencv_apps=OFF -DBUILD_DOCS=OFF -DBUILD_PERF_TESTS=OFF -DBUILD_TESTS=OFF -DOPENCV_EXTRA_MODULES_PATH=../../opencv_contrib/modules ..
+sudo make -j8 install
+cd ../..
 ```
 
 ## Installation
-### MacOS
 
-If `MacPort` is being used, please make sure that Qt5's `moc` and `rcc` are in `PATH`, otherwise, the Qt objects won't compile.
+Please make sure that Qt5's `moc` and `rcc` are in `PATH`, otherwise, the Qt objects won't compile.
 
 ```
 mkdir build && cd build
