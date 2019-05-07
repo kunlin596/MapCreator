@@ -19,16 +19,13 @@
 #include <limits>
 
 namespace {
-
     using MatricesInfo = std::pair < std::vector < size_t > , std::vector < glm::mat4 > >;
-
 };
+
 
 namespace MapCreator {
 
-
-    class SlamAlgorithm : public QObject
-    {
+    class SlamAlgorithm : public QObject {
 
     Q_OBJECT
 
@@ -49,18 +46,15 @@ namespace MapCreator {
 
         void SetOptions ( const Parameters & options ) { params_ = options; };
         void SetFrameData ( const KeyFrames & keyframes ) {
-
             keyframes_           = keyframes;
             is_data_initialized_ = true;
             has_answer_          = false;
         }
         void SetCoordinateConverter ( const XtionCoordinateConverter & converter ) {
-
             xtion_converter_  = converter;
             converter_choice_ = 0;
         }
         void SetCoordinateConverter ( const AistCoordinateConverter & converter ) {
-
             aist_converter_   = converter;
             converter_choice_ = 1;
         }

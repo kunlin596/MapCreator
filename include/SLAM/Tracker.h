@@ -22,13 +22,6 @@ namespace MapCreator {
 
 	CorrespondingPointsPair CreateCorrespondingPointsPair ( const MapCreator::KeyFrame & key_frame1 , const MapCreator::KeyFrame & key_frame2 );
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-	/*
-	 * Total new implementation of Tracker class
-	 * 2015.10.26, 10:45 am
-	 */
 	template < TrackingType type >
 	class Tracker
 	{
@@ -36,14 +29,13 @@ namespace MapCreator {
 
 		using KeyFramesIterator = KeyFrames::iterator;
 
-		Tracker ( const Parameters & options ) {
-
-			params_ = options;
+		Tracker ( const Parameters & params ) {
+			params_ = params;
 		}
 		Tracker ( const Tracker & other ) = default;
-		Tracker ( const KeyFrames & keyframes , const Parameters & options , const XtionCoordinateConverter & converter ) {
+		Tracker ( const KeyFrames & keyframes , const Parameters & params , const XtionCoordinateConverter & converter ) {
 
-			params_                    = options;
+			params_                    = params;
 			keyframes_                  = keyframes;
 			xtion_coordinate_converter_ = converter;
 			converter_choice_           = 0;
@@ -53,9 +45,9 @@ namespace MapCreator {
 
 			Initialize ( );
 		}
-		Tracker ( const KeyFrames & keyframes , const Parameters & options , const AistCoordinateConverter & converter ) {
+		Tracker ( const KeyFrames & keyframes , const Parameters & params , const AistCoordinateConverter & converter ) {
 
-			params_                   = options;
+			params_                   = params;
 			keyframes_                 = keyframes;
 			aist_coordinate_converter_ = converter;
 			converter_choice_          = 1;
@@ -70,7 +62,7 @@ namespace MapCreator {
 		~Tracker ( ) = default;
 
 		bool Update ( );
-		void ComputeNext ( );
+		void SpinOnce ();
 
 		QString GetMessage ( ) const { return message_; };
 		const KeyFramesIterator & GetIterator1 ( ) const { return iterator1_; }

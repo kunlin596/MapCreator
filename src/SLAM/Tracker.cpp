@@ -237,7 +237,7 @@ namespace MapCreator {
 
 	}
 
-	template < > void Tracker < TrackingType::Consecutive >::ComputeNext ( ) {
+	template < > void Tracker < TrackingType::Consecutive >::SpinOnce ( ) {
 
 		CorrespondingPointsPair corresponding_points_pair = CreateCorrespondingPointsPair ( * iterator1_ , * iterator2_ );
 
@@ -278,7 +278,7 @@ namespace MapCreator {
 
 		iterator2_->SetUsed ( true );
 	}
-	template < > void Tracker < TrackingType::FixedNumber >::ComputeNext ( ) {
+	template < > void Tracker < TrackingType::FixedNumber >::SpinOnce ( ) {
 
 		auto corresponding_points_pair = CreateCorrespondingPointsPair ( * iterator1_ , * iterator2_ );
 
@@ -317,7 +317,7 @@ namespace MapCreator {
 
 //		return * iterator2_;
 	}
-	template < > void Tracker < TrackingType::KeyFrameOnly >::ComputeNext ( ) {
+	template < > void Tracker < TrackingType::KeyFrameOnly >::SpinOnce ( ) {
 
 		const auto local_transformation_matrix = ComputeTransformationMatrix ( inliers2_ , inliers1_ );
 		const auto & world_points1 = inliers1_;
