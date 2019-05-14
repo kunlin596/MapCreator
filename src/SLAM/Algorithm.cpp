@@ -40,11 +40,6 @@ namespace MapCreator {
 
     // }
 
-    void SlamAlgorithm::SetDataDir ( const QDir & data_dir ) {
-
-        data_dir_ = data_dir;
-    }
-
     void SlamAlgorithm::StartCompute ( ) {
 
         running_flag_ = true;

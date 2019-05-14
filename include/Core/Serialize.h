@@ -15,6 +15,7 @@
 #include <boost/serialization/vector.hpp>
 #include <boost/serialization/version.hpp>
 
+// TODO: Remove glm
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
@@ -154,6 +155,7 @@ using RawDataFrames = std::vector<RawDataFrame>;
 // TrackerParameters for reading Asus Xtion Pro frame data
 const std::string kRawDataFrameHeader = "XTION DATA";
 
+// TODO: Get the frame information from file or streamer
 const int kImageRows = 480;
 const int kImageCols = 640;
 const int kColorImageChannels = 3;

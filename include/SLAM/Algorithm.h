@@ -30,7 +30,6 @@ class SlamAlgorithm : public QObject {
  public:
   SlamAlgorithm(QObject* parent = 0) {}
 
-  void SetDataDir(const QDir& data_dir);
   void SetFeatureType(Feature::Type type);
   bool WriteResult(const std::pair<glm::vec3, glm::vec3>& point_pair);
   bool WriteResult();
@@ -136,11 +135,9 @@ class SlamAlgorithm : public QObject {
   bool is_computation_configured_;
   bool is_data_initialized_;
 
-  QDir data_dir_;
   QString result_cache_path_;
   Feature::Type feature_type_;
-  TrackerParameters params_;
-  AlgorithmParameters algorithmParameters;
+  AlgorithmParameters algorithm_parameters;
   KeyFrames keyframes_;
   int converter_choice_;
   XtionCoordinateConverter xtion_converter_;
@@ -158,8 +155,6 @@ class SlamAlgorithm : public QObject {
 // Serialize
 bool LoadMatricesInfo(const std::string& file_name, MatricesInfo& info);
 bool SaveMatricesInfo(const std::string& file_name, const MatricesInfo& info);
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 }  // namespace MapCreator
 
