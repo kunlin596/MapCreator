@@ -1,158 +1,141 @@
-//
-// Created by LinKun on 9/13/15.
-//
-
 #ifndef MAPCREATOR_CALIBRATOR_H
 #define MAPCREATOR_CALIBRATOR_H
 
-
-#include <string>
-#include <opencv2/opencv.hpp>
-
+#include "Core/Serialize.h"
 #include "SLAM/SLAM.h"
 
-#include <Core/Serialize.h>
+#include <opencv2/opencv.hpp>
+#include <string>
+
 
 namespace {
 
-    static const char kFeatureDataHeader[] = "FeatureData";
-
+static const char kFeatureDataHeader[] = "FeatureData";
 }
 
 namespace MapCreator {
 
+struct InternalCalibrationInfo {
+  using CoefficientsVector = std::vector<float>;
+  using LocalCalibrationRow = std::vector<CoefficientsVector>;
+  using LocalCalibrationTable = std::vector<LocalCalibrationRow>;
 
-    struct InternalCalibrationInfo {
-        using CoefficientsVector = std::vector<float>;
-        using LocalCalibrationRow = std::vector<CoefficientsVector>;
-        using LocalCalibrationTable = std::vector<LocalCalibrationRow>;
+  LocalCalibrationTable table;
+  CoefficientsVector global_vector;
+  CoefficientsVector hfov_vector;
+  CoefficientsVector vfov_vector;
 
-        LocalCalibrationTable local_calibration_table;
-        CoefficientsVector global_calibration_vector;
-        CoefficientsVector hfov_calibration_vector;
-        CoefficientsVector vfov_calibration_vector;
+  bool IsValid() const {
+    return !table.empty() and
+           !global_vector.empty() and
+           !hfov_vector.empty() and
+           !vfov_vector.empty();
+  }
+};
 
-        bool IsValid() const {
+struct InternalCalibrationReader {
+  static InternalCalibrationInfo Read(const std::string &file_name) {
+    using namespace std;
 
-            return !local_calibration_table.empty() and
-                   !global_calibration_vector.empty() and
-                   !hfov_calibration_vector.empty() and
-                   !vfov_calibration_vector.empty();
+    std::ifstream in(file_name, std::ios::binary);
+
+    InternalCalibrationInfo info;
+
+    const std::string kFileHeader = "InternalCalibration";
+
+    if (in) {
+      const auto head = MapCreator::ReadString(
+          in, static_cast<unsigned long>(kFileHeader.size()));
+      const auto version = MapCreator::Read<int>(in);
+
+      InternalCalibrationInfo::LocalCalibrationTable table(
+          static_cast<unsigned long>(MapCreator::Read<int>(in)));
+
+      for (auto &coef_line : table) {
+        coef_line.resize(static_cast<unsigned long>(MapCreator::Read<int>(in)));
+        for (auto &coef : coef_line) {
+          coef = MapCreator::ReadVector<
+              InternalCalibrationInfo::CoefficientsVector::value_type>(in);
         }
-    };
+      }
 
-    struct InternalCalibrationReader {
-        static InternalCalibrationInfo Read(const std::string &file_name) {
+      info.table = table;
+      info.global_vector = MapCreator::ReadVector<
+          InternalCalibrationInfo::CoefficientsVector::value_type>(in);
+      info.hfov_vector = MapCreator::ReadVector<
+          InternalCalibrationInfo::CoefficientsVector::value_type>(in);
+      info.vfov_vector = MapCreator::ReadVector<
+          InternalCalibrationInfo::CoefficientsVector::value_type>(in);
+    }
 
-            using namespace std;
+    return info;
+  }
+};
 
-            std::ifstream in(file_name, std::ios::binary);
+class Calibrator {
+  using CoefficientsVector = std::vector<float>;
+  using LocalCalibrationRow = std::vector<CoefficientsVector>;
+  using LocalCalibrationTable = std::vector<LocalCalibrationRow>;
 
-            InternalCalibrationInfo info;
+  struct InternalCalibrationData {
+    LocalCalibrationTable table;
+    CoefficientsVector global_vector;
+    CoefficientsVector hfov_vector;
+    CoefficientsVector vfov_vector;
 
-            const std::string kFileHeader = "InternalCalibration";
+    bool IsValid() const {
+      return !table.empty() and
+             !global_vector.empty() and
+             !hfov_vector.empty() and
+             !vfov_vector.empty();
+    }
+  };
 
-            if (in) {
+ public:
+  Calibrator();
 
-                const auto head = MapCreator::ReadString(in, static_cast < unsigned long >( kFileHeader.size()));
-                const auto version = MapCreator::Read<int>(in);
+  Calibrator(const std::string &path);
 
-                InternalCalibrationInfo::LocalCalibrationTable table(static_cast<unsigned long>(MapCreator::Read<int>(in)));
+  ~Calibrator();
 
-                for (auto &coef_line : table) {
-                    coef_line.resize(static_cast<unsigned long>(MapCreator::Read<int>(in)));
-                    for (auto &coef : coef_line) {
-                        coef = MapCreator::ReadVector<InternalCalibrationInfo::CoefficientsVector::value_type>(in);
-                    }
-                }
+  PointImage CalibrateImage(const cv::Mat &depth_image);
 
-                info.local_calibration_table = table;
-                info.global_calibration_vector = MapCreator::ReadVector<InternalCalibrationInfo::CoefficientsVector::value_type>(
-                        in);
-                info.hfov_calibration_vector = MapCreator::ReadVector<InternalCalibrationInfo::CoefficientsVector::value_type>(
-                        in);
-                info.vfov_calibration_vector = MapCreator::ReadVector<InternalCalibrationInfo::CoefficientsVector::value_type>(
-                        in);
+  inline bool IsValid() const { return internal_calibration_data_.IsValid(); }
 
-            }
+  cv::Point2f WorldToScreen(cv::Point3f const &point, int rows, int cols);
 
-            return info;
-        }
-    };
+  cv::Point3f ScreenToWorld(int row, int col, float depth, int rows, int cols);
 
-    class Calibrator {
-        using CoefficientsVector = std::vector<float>;
-        using LocalCalibrationRow = std::vector<CoefficientsVector>;
-        using LocalCalibrationTable = std::vector<LocalCalibrationRow>;
+ private:
+  InternalCalibrationData ReadHelper(const std::string &path);
 
-        struct InternalCalibrationData {
-            LocalCalibrationTable local_calibration_table;
-            CoefficientsVector global_calibration_vector;
-            CoefficientsVector hfov_calibration_vector;
-            CoefficientsVector vfov_calibration_vector;
+  float NthDegreeEquation(const CoefficientsVector &coef, float x) const {
+    float y = 0;
+    float xx = 1.0f;
 
-            bool IsValid() const {
+    for (const auto &c : coef) {
+      y += c * xx;
+      xx *= x;
+    }
 
-                return !local_calibration_table.empty() and
-                       !global_calibration_vector.empty() and
-                       !hfov_calibration_vector.empty() and
-                       !vfov_calibration_vector.empty();
-            }
-        };
+    return y;
+  }
 
-    public:
+  float CorrectDepth(float depth) const {
+    const CoefficientsVector &coef =
+        internal_calibration_data_.global_vector;
+    return coef.empty() ? depth : depth * NthDegreeEquation(coef, depth);
+  }
 
-        Calibrator();
+  float CorrectDistortion(int row, int col, float depth) const {
+    const CoefficientsVector &coef =
+        internal_calibration_data_.table[row][col];
+    return coef.empty() ? 0.0f : depth * NthDegreeEquation(coef, depth);
+  }
 
-        Calibrator(const std::string &path);
+  InternalCalibrationData internal_calibration_data_;
+};
 
-        ~Calibrator();
+}  // namespace MapCreator
 
-        PointImage CalibrateImage(const cv::Mat &depth_image);
-
-        inline bool IsValid() const {
-
-            return internal_calibration_data_.IsValid();
-        }
-
-        cv::Point2f WorldToScreen(cv::Point3f const &point, int rows, int cols);
-
-        cv::Point3f ScreenToWorld(int row, int col, float depth, int rows, int cols);
-
-    private:
-
-        InternalCalibrationData ReadHelper(const std::string &path);
-
-        float NthDegreeEquation(const CoefficientsVector &coef, float x) const {
-
-            float y = 0;
-            float xx = 1.0f;
-
-            for (const auto &c : coef) {
-                y += c * xx;
-                xx *= x;
-            }
-
-            return y;
-        }
-
-        float CorrectDepth(float depth) const {
-
-            const CoefficientsVector &coef = internal_calibration_data_.global_calibration_vector;
-            return coef.empty() ? depth : depth * NthDegreeEquation(coef, depth);
-        }
-
-        float CorrectDistortion(int row, int col, float depth) const {
-
-            const CoefficientsVector &coef = internal_calibration_data_.local_calibration_table[row][col];
-            return coef.empty() ? 0.0f : depth * NthDegreeEquation(coef, depth);
-        }
-
-        InternalCalibrationData internal_calibration_data_;
-
-    };
-
-}
-
-
-#endif //MAPCREATOR_CALIBRATOR_H
+#endif  // MAPCREATOR_CALIBRATOR_H
