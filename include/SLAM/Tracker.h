@@ -7,106 +7,110 @@
 
 #include <QObject>
 
-#include "SLAM/SlamParameters.h"
-#include "SLAM/SLAM.h"
-#include "SLAM/KeyFrame.h"
-#include "SLAM/Transformation.h"
 #include "SLAM/CoordinateConverter.h"
+#include "SLAM/KeyFrame.h"
+#include "SLAM/SLAM.h"
+#include "SLAM/SlamParameters.h"
+#include "SLAM/Transformation.h"
 
 #include <Core/Utility.h>
 
-#include <iostream>
 #include <boost/tuple/tuple.hpp>
+#include <iostream>
 
 namespace MapCreator {
 
-	CorrespondingPointsPair CreateCorrespondingPointsPair ( const MapCreator::KeyFrame & key_frame1 , const MapCreator::KeyFrame & key_frame2 );
+CorrespondingPointsPair CreateCorrespondingPointsPair(
+    const MapCreator::KeyFrame& key_frame1,
+    const MapCreator::KeyFrame& key_frame2);
 
-	template < TrackingType type >
-	class Tracker
-	{
-	public:
+template <TrackingType type>
+class Tracker {
+ public:
+  using KeyFramesIterator = KeyFrames::iterator;
 
-		using KeyFramesIterator = KeyFrames::iterator;
+  Tracker(const TrackerParameters& params) { params_ = params; }
+  Tracker(const Tracker& other) = default;
+  Tracker(const KeyFrames& keyframes, const TrackerParameters& params,
+          const XtionCoordinateConverter& converter) {
+    params_ = params;
+    keyframes_ = keyframes;
+    xtion_coordinate_converter_ = converter;
+    converter_choice_ = 0;
+    converter_pointer_ = &xtion_coordinate_converter_;
 
-		Tracker ( const TrackerParameters & params ) {
-			params_ = params;
-		}
-		Tracker ( const Tracker & other ) = default;
-		Tracker ( const KeyFrames & keyframes , const TrackerParameters & params , const XtionCoordinateConverter & converter ) {
+    assert(!keyframes_.empty());
 
-			params_                    = params;
-			keyframes_                  = keyframes;
-			xtion_coordinate_converter_ = converter;
-			converter_choice_           = 0;
-			converter_pointer_          = & xtion_coordinate_converter_;
+    Initialize();
+  }
 
-			assert( !keyframes_.empty ( ) );
+  Tracker(const KeyFrames& keyframes, const TrackerParameters& params,
+          const AistCoordinateConverter& converter) {
+    params_ = params;
+    keyframes_ = keyframes;
+    aist_coordinate_converter_ = converter;
+    converter_choice_ = 1;
+    converter_pointer_ = &aist_coordinate_converter_;
 
-			Initialize ( );
-		}
+    assert(!keyframes_.empty());
 
-		Tracker ( const KeyFrames & keyframes , const TrackerParameters & params , const AistCoordinateConverter & converter ) {
+    Initialize();
+  }
 
-			params_                   = params;
-			keyframes_                 = keyframes;
-			aist_coordinate_converter_ = converter;
-			converter_choice_          = 1;
-			converter_pointer_         = & aist_coordinate_converter_;
+  Tracker() = default;
+  ~Tracker() = default;
 
-			assert( !keyframes_.empty ( ) );
+  bool Update();
+  void SpinOnce();
 
-			Initialize ( );
-		}
+  QString GetMessage() const { return message_; };
+  const KeyFramesIterator& GetIterator1() const { return iterator1_; }
+  const KeyFramesIterator& GetIterator2() const { return iterator2_; }
+  const KeyFrames GetResults() const { return keyframes_; }
 
-		Tracker ( ) = default;
-		~Tracker ( ) = default;
+ private:
+  void Initialize();
 
-		bool Update ( );
-		void SpinOnce ();
+  KeyFrames keyframes_;
 
-		QString GetMessage ( ) const { return message_; };
-		const KeyFramesIterator & GetIterator1 ( ) const { return iterator1_; }
-		const KeyFramesIterator & GetIterator2 ( ) const { return iterator2_; }
-		const KeyFrames GetResults ( ) const { return keyframes_; }
+  KeyFramesIterator iterator1_;
+  KeyFramesIterator iterator2_;
 
-	private:
+  Points inliers1_;
+  Points inliers2_;
 
-		void Initialize ( );
+  TrackerParameters params_;
+  QString message_;
 
-		KeyFrames keyframes_;
+  int converter_choice_;
+  XtionCoordinateConverter xtion_coordinate_converter_;
+  AistCoordinateConverter aist_coordinate_converter_;
+  CoordinateConverter* converter_pointer_;
 
-		KeyFramesIterator iterator1_;
-		KeyFramesIterator iterator2_;
+  int offset_;
+};
 
-		Points inliers1_;
-		Points inliers2_;
+template <>
+bool Tracker<TrackingType::Consecutive>::Update();
+template <>
+bool Tracker<TrackingType::FixedNumber>::Update();
+template <>
+bool Tracker<TrackingType::KeyFrameOnly>::Update();
 
-		TrackerParameters params_;
-		QString message_;
+template <>
+void Tracker<TrackingType::Consecutive>::SpinOnce();
+template <>
+void Tracker<TrackingType::FixedNumber>::SpinOnce();
+template <>
+void Tracker<TrackingType::KeyFrameOnly>::SpinOnce();
 
-		int                      converter_choice_;
-		XtionCoordinateConverter xtion_coordinate_converter_;
-		AistCoordinateConverter  aist_coordinate_converter_;
-		CoordinateConverter * converter_pointer_;
+template <>
+void Tracker<TrackingType::Consecutive>::Initialize();
+template <>
+void Tracker<TrackingType::FixedNumber>::Initialize();
+template <>
+void Tracker<TrackingType::KeyFrameOnly>::Initialize();
 
-		int offset_;
+}  // namespace MapCreator
 
-	};
-
-	template < > bool Tracker < TrackingType::Consecutive >::Update ( );
-	template < > bool Tracker < TrackingType::FixedNumber >::Update ( );
-	template < > bool Tracker < TrackingType::KeyFrameOnly >::Update ( );
-
-	template < > void Tracker < TrackingType::Consecutive >::SpinOnce ( );
-	template < > void Tracker < TrackingType::FixedNumber >::SpinOnce ( );
-	template < > void Tracker < TrackingType::KeyFrameOnly >::SpinOnce ( );
-
-	template < > void Tracker < TrackingType::Consecutive >::Initialize ( );
-	template < > void Tracker < TrackingType::FixedNumber >::Initialize ( );
-	template < > void Tracker < TrackingType::KeyFrameOnly >::Initialize ( );
-
-}
-
-
-#endif //MAPCREATOR_TRACKER_H
+#endif  // MAPCREATOR_TRACKER_H

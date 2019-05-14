@@ -2,10 +2,10 @@
 // Created by LinKun on 10/9/15.
 //
 
-#include "SLAM/Matcher.h"
 #include "SLAM/Tracker.h"
-#include "SLAM/Transformation.h"
 #include "SLAM/GlobalOptimization.h"
+#include "SLAM/Matcher.h"
+#include "SLAM/Transformation.h"
 
 #include <Core/Utility.h>
 #include <opencv2/core/core_c.h>
@@ -14,346 +14,366 @@
 
 namespace MapCreator {
 
-	CorrespondingPointsPair CreateCorrespondingPointsPair ( const MapCreator::KeyFrame & key_frame1 ,
-	                                                        const MapCreator::KeyFrame & key_frame2 ) {
+CorrespondingPointsPair CreateCorrespondingPointsPair(
+    const MapCreator::KeyFrame& key_frame1,
+    const MapCreator::KeyFrame& key_frame2) {
+  std::vector<cv::Point3f> points1;
+  std::vector<cv::Point3f> points2;
 
-		std::vector < cv::Point3f > points1;
-		std::vector < cv::Point3f > points2;
+  const auto& feature1 = key_frame1.GetFeature();
+  const auto& feature2 = key_frame2.GetFeature();
 
-		const auto & feature1 = key_frame1.GetFeature ( );
-		const auto & feature2 = key_frame2.GetFeature ( );
+  const auto& image1 = key_frame1.GetPointImage();
+  const auto& image2 = key_frame2.GetPointImage();
 
-		const auto & image1 = key_frame1.GetPointImage ( );
-		const auto & image2 = key_frame2.GetPointImage ( );
+  assert(!key_frame1.GetFeature().GetKeyPoints().empty());
 
-		assert ( !key_frame1.GetFeature ( ).GetKeyPoints ( ).empty ( ) );
+  const MapCreator::Matcher matcher(feature1, feature2, true);
+  const auto& matches = matcher.GetMatches();
 
-		const MapCreator::Matcher matcher ( feature1 , feature2 , true );
-		const auto & matches = matcher.GetMatches ( );
+  assert(!matches.empty());
 
-		assert ( !matches.empty ( ) );
+  std::cout << "Creating point pairs of " << key_frame2.GetId() << " - "
+            << key_frame1.GetId() << " : Matches size : " << matches.size()
+            << std::endl;
 
-		std::cout << "Creating point pairs of " << key_frame2.GetId ( ) << " - " << key_frame1.GetId ( ) << " : Matches size : " <<
-		matches.size ( ) <<
-		std::endl;
+  for (const auto& match : matches) {
+    const auto& key_point1 = feature1.GetKeyPoints()[match.first].pt;
+    const auto& key_point2 = feature2.GetKeyPoints()[match.second].pt;
 
-		for ( const auto & match : matches ) {
+    const cv::Point3f pt1 =
+        image1(cvRound(key_point1.y), cvRound(key_point1.x));
+    const cv::Point3f pt2 =
+        image2(cvRound(key_point2.y), cvRound(key_point2.x));
 
-			const auto & key_point1 = feature1.GetKeyPoints ( )[ match.first ].pt;
-			const auto & key_point2 = feature2.GetKeyPoints ( )[ match.second ].pt;
+    if (std::isfinite(pt1.x) and std::isfinite(pt2.x) and
+        (pt1 != cv::Point3f(0.0f)) and (pt2 != cv::Point3f(0.0f))) {
+      points1.push_back(pt1);
+      points2.push_back(pt2);
+    }
+  }
 
-			const cv::Point3f pt1 = image1 ( cvRound ( key_point1.y ) , cvRound ( key_point1.x ) );
-			const cv::Point3f pt2 = image2 ( cvRound ( key_point2.y ) , cvRound ( key_point2.x ) );
+  return std::make_pair(points1, points2);
+}
 
-			if ( std::isfinite ( pt1.x ) and std::isfinite ( pt2.x ) and
-			     ( pt1 != cv::Point3f ( 0.0f ) ) and ( pt2 != cv::Point3f ( 0.0f ) ) ) {
+bool ValidateInliersDistribution(
+    const InlierPoints& inliers, int threshold_inliers_number,
+    float threshold_1st_principal_component_contribution,
+    float threshold_1st_principal_component_variance,
+    float threshold_2nd_principal_component_variance,
+    float threshold_3rd_principal_component_variance, QString& error_msg) {
+  // Performing PCA using OpenCV
 
-				points1.push_back ( pt1 );
-				points2.push_back ( pt2 );
-			}
-		}
+  cv::Mat inliers_mat((int)inliers.size(), 3, CV_32FC1, (void*)inliers.data());
+  cv::PCA pca(inliers_mat, cv::Mat(), CV_PCA_DATA_AS_ROW);
 
-		return std::make_pair ( points1 , points2 );
-	}
+  float _1st_principal_component_variance = pca.eigenvalues.at<float>(0, 0);
+  float _2nd_principal_component_variance = pca.eigenvalues.at<float>(1, 0);
+  float _3rd_principal_component_variance = pca.eigenvalues.at<float>(2, 0);
 
-	bool ValidateInliersDistribution ( const InlierPoints & inliers ,
-	                                   int threshold_inliers_number ,
-	                                   float threshold_1st_principal_component_contribution ,
-	                                   float threshold_1st_principal_component_variance ,
-	                                   float threshold_2nd_principal_component_variance ,
-	                                   float threshold_3rd_principal_component_variance ,
-	                                   QString & error_msg ) {
+  float _1st_principal_component_contribution =
+      _1st_principal_component_variance /
+      (_1st_principal_component_variance + _2nd_principal_component_variance +
+       _3rd_principal_component_variance);
 
-		// Performing PCA using OpenCV
+  // Checking thresholds
+  if (inliers.size() < threshold_inliers_number) {
+    error_msg = QString("#Inliers < TH(%1)").arg(threshold_inliers_number);
+    return false;
+  }
+  if (_1st_principal_component_variance <
+      threshold_1st_principal_component_variance) {
+    error_msg = QString("1st PC variance < TH(%1)")
+                    .arg(threshold_1st_principal_component_variance);
+    return false;
+  }
+  if (_2nd_principal_component_variance <
+      threshold_2nd_principal_component_variance) {
+    error_msg = QString("2nd PC variance < TH(%1)")
+                    .arg(threshold_2nd_principal_component_variance);
+    return false;
+  }
+  if (_3rd_principal_component_variance <
+      threshold_3rd_principal_component_variance) {
+    error_msg = QString("3rd PC variance < TH(%1)")
+                    .arg(threshold_3rd_principal_component_variance);
+    return false;
+  }
+  if (_1st_principal_component_contribution >
+      threshold_1st_principal_component_contribution) {
+    error_msg = QString("1st PC contribution > TH(%1)")
+                    .arg(threshold_1st_principal_component_contribution);
+    return false;
+  }
 
-		cv::Mat inliers_mat ( ( int ) inliers.size ( ) , 3 , CV_32FC1 , ( void * ) inliers.data ( ) );
-		cv::PCA pca ( inliers_mat , cv::Mat ( ) , CV_PCA_DATA_AS_ROW );
+  error_msg = "Passed";
 
-		float _1st_principal_component_variance = pca.eigenvalues.at < float > ( 0 , 0 );
-		float _2nd_principal_component_variance = pca.eigenvalues.at < float > ( 1 , 0 );
-		float _3rd_principal_component_variance = pca.eigenvalues.at < float > ( 2 , 0 );
-
-		float _1st_principal_component_contribution = _1st_principal_component_variance /
-		                                              ( _1st_principal_component_variance +
-		                                                _2nd_principal_component_variance +
-		                                                _3rd_principal_component_variance );
-
-		// Checking thresholds
-		if ( inliers.size ( ) < threshold_inliers_number ) {
-			error_msg = QString ( "#Inliers < TH(%1)" ).arg ( threshold_inliers_number );
-			return false;
-		}
-		if ( _1st_principal_component_variance < threshold_1st_principal_component_variance ) {
-			error_msg = QString ( "1st PC variance < TH(%1)" ).arg ( threshold_1st_principal_component_variance );
-			return false;
-		}
-		if ( _2nd_principal_component_variance < threshold_2nd_principal_component_variance ) {
-			error_msg = QString ( "2nd PC variance < TH(%1)" ).arg ( threshold_2nd_principal_component_variance );
-			return false;
-		}
-		if ( _3rd_principal_component_variance < threshold_3rd_principal_component_variance ) {
-			error_msg = QString ( "3rd PC variance < TH(%1)" ).arg ( threshold_3rd_principal_component_variance );
-			return false;
-		}
-		if ( _1st_principal_component_contribution > threshold_1st_principal_component_contribution ) {
-			error_msg = QString ( "1st PC contribution > TH(%1)" ).arg ( threshold_1st_principal_component_contribution );
-			return false;
-		}
-
-		error_msg = "Passed";
-
-		return true;
-	}
+  return true;
+}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	template < > void Tracker < TrackingType::Consecutive >::Initialize ( ) {
-
-		for ( auto & keyframe : keyframes_ ) {
-			keyframe.SetAlignmentMatrix ( std::move ( glm::mat4 ( ) ) );
-			keyframe.SetUsed ( false );
-		}
-
-		iterator1_ = keyframes_.begin ( );
-		iterator2_ = iterator1_;
-	}
-	template < > void Tracker < TrackingType::FixedNumber >::Initialize ( ) {
-
-		for ( auto & keyframe : keyframes_ ) {
-			keyframe.SetAlignmentMatrix ( std::move ( glm::mat4 ( ) ) );
-			keyframe.SetUsed ( false );
-		}
-
-		iterator1_ = keyframes_.begin ( );
-		iterator2_ = iterator1_;
-		offset_    = keyframes_.size ( ) / ( params_.paramsFixedNumber.frame_count - 1 ) + 1;
-
-	}
-	template < > void Tracker < TrackingType::KeyFrameOnly >::Initialize ( ) {
-
-		for ( auto & keyframe : keyframes_ ) {
-			keyframe.SetAlignmentMatrix ( std::move ( glm::mat4 ( ) ) );
-			keyframe.SetUsed ( false );
-		}
-
-		iterator1_ = keyframes_.begin ( );
-		iterator2_ = iterator1_;
-
-		// For initial inliers computation in order to to compute next.
-		CorrespondingPointsPair corresponding_points_pair = CreateCorrespondingPointsPair ( * iterator1_ , * iterator2_ );
-
-		boost::tie ( inliers2_ , inliers1_ ) = ComputeInliers ( corresponding_points_pair.second ,
-		                                                        corresponding_points_pair.first ,
-		                                                        params_.paramsKeyFramesOnly.num_ransac_iteration ,
-		                                                        params_.paramsKeyFramesOnly.threshold_outlier ,
-		                                                        params_.paramsKeyFramesOnly.threshold_inlier );
-	}
-
-	template < > bool Tracker < TrackingType::Consecutive >::Update ( ) {
-
-
-		if ( iterator1_ == iterator2_ ) {
-			std::advance ( iterator2_ , 1 );
-		} else {
-			std::advance ( iterator1_ , 1 );
-			std::advance ( iterator2_ , 1 );
-		}
-
-		std::cout << "Updated to : " << iterator2_->GetId ( ) << " - " << iterator1_->GetId ( ) << std::endl;
-
-		return ( iterator2_ != keyframes_.end ( ) );
-	}
-	template < > bool Tracker < TrackingType::FixedNumber >::Update ( ) {
-
-		// iter2 has reached the end of data array, no need to compute anymore.
-		if ( iterator2_ == keyframes_.end ( ) - 1 ) {
-			return false;
-		}
-
-		else if ( iterator1_ == iterator2_ ) {
-			std::advance ( iterator2_ , offset_ );
-		}
-
-		else if ( iterator2_->GetId ( ) + offset_ < keyframes_.size ( ) ) {
-			std::advance ( iterator1_ , offset_ );
-			std::advance ( iterator2_ , offset_ );
-		}
-
-		else if ( iterator2_->GetId ( ) + offset_ >= keyframes_.size ( ) ) {
-			iterator2_ = keyframes_.end ( ) - 1;
-			std::advance ( iterator1_ , offset_ );
-		}
-
-		return true;
-	}
-	template < > bool Tracker < TrackingType::KeyFrameOnly >::Update ( ) {
-
-		if ( iterator2_ == keyframes_.end ( ) )
-			return false;
-
-		do {
-
-			CorrespondingPointsPair corresponding_points_pair = CreateCorrespondingPointsPair ( * iterator1_ , * iterator2_ );
-
-			boost::tie ( inliers2_ , inliers1_ ) = ComputeInliers ( corresponding_points_pair.second ,
-			                                                        corresponding_points_pair.first ,
-			                                                        params_.paramsKeyFramesOnly.num_ransac_iteration ,
-			                                                        params_.paramsKeyFramesOnly.threshold_outlier ,
-			                                                        params_.paramsKeyFramesOnly.threshold_inlier );
-
-			if ( iterator2_ == keyframes_.end ( ) - 1 ) {
-				return true;
-			}
-
-			QString error_msg;
-
-			bool is_valid = ValidateInliersDistribution ( inliers2_ ,
-			                                              params_.paramsKeyFramesOnly.num_inliers ,
-			                                              params_.paramsKeyFramesOnly.threshold_1st_component_contribution ,
-			                                              params_.paramsKeyFramesOnly.threshold_1st_component_variance ,
-			                                              params_.paramsKeyFramesOnly.threshold_2nd_component_variance ,
-			                                              params_.paramsKeyFramesOnly.threshold_3rd_component_variance ,
-			                                              error_msg );
-
-			message_ = QString ( " - Checking %1 - %2 : %3" )
-					.arg ( QString::number ( iterator2_->GetId ( ) ) )
-					.arg ( QString::number ( iterator1_->GetId ( ) ) )
-					.arg ( error_msg );
-
-			if ( is_valid ) {
-				++iterator2_;
-			}
-			else {
-
-				if ( iterator1_ + 1 != iterator2_ ) { --iterator2_; }
-				// if the iterator2 != iterator1, which means it's safe to move backwards by one.
-				// otherwise, just use these 2 frame to compute bruntly, since there's nowhere to go
-				return true;
-
-			}
-
-		} while ( true );
-
-
-	}
-
-	template < > void Tracker < TrackingType::Consecutive >::SpinOnce ( ) {
-
-		CorrespondingPointsPair corresponding_points_pair = CreateCorrespondingPointsPair ( * iterator1_ , * iterator2_ );
-
-		assert ( !corresponding_points_pair.first.empty ( ) and !corresponding_points_pair.second.empty ( ) );
-
-		// 2 -> 1
-		auto local_transformation_matrix = ComputeTransformationMatrix ( corresponding_points_pair.second ,
-		                                                                 corresponding_points_pair.first ,
-		                                                                 params_.paramsConsectutive.num_ransac_iteration ,
-		                                                                 params_.paramsConsectutive.threshold_outlier ,
-		                                                                 params_.paramsConsectutive.threshold_inlier );
-
-		const auto & world_points1 = corresponding_points_pair.first;
-		const auto & world_points2 = corresponding_points_pair.second;
-
-		auto local_transformation_matrix_after_global_optimization = LevenbergMarquardt::Compute ( local_transformation_matrix ,
-		                                                                                           * converter_pointer_ ,
-		                                                                                           world_points1 ,
-		                                                                                           world_points2 );
-
-		auto error_after_global_optimization = LevenbergMarquardt::GetError ( local_transformation_matrix_after_global_optimization ,
-		                                                                      * converter_pointer_ ,
-		                                                                      world_points1 ,
-		                                                                      world_points2 );
-
-		std::cout << "Before LM : " << local_transformation_matrix << std::endl;
-		std::cout << "After LM : " << local_transformation_matrix_after_global_optimization << std::endl;
-
-		glm::mat4 m = ConvertCVMatx44fToGLMmat4 ( local_transformation_matrix_after_global_optimization );
-
-		iterator2_->SetAlignmentMatrix ( m );
-
-		message_ = QString ( " + Computed : %1 - %2. #inliers : %3. (using Levenberg Marquardt, total error : %4.)" )
-				.arg ( QString::number ( iterator2_->GetId ( ) ) )
-				.arg ( QString::number ( iterator1_->GetId ( ) ) )
-				.arg ( world_points1.size ( ) )
-				.arg ( error_after_global_optimization );
-
-		iterator2_->SetUsed ( true );
-	}
-	template < > void Tracker < TrackingType::FixedNumber >::SpinOnce ( ) {
-
-		auto corresponding_points_pair = CreateCorrespondingPointsPair ( * iterator1_ , * iterator2_ );
-
-		assert ( !corresponding_points_pair.first.empty ( ) and !corresponding_points_pair.second.empty ( ) );
-
-		// 2 -> 1
-		auto local_transformation_matrix = ComputeTransformationMatrix ( corresponding_points_pair.second ,
-		                                                                 corresponding_points_pair.first ,
-		                                                                 params_.paramsFixedNumber.num_ransac_iteration ,
-		                                                                 params_.paramsFixedNumber.threshold_outlier ,
-		                                                                 params_.paramsFixedNumber.threshold_inlier );
-
-		const auto & world_points1 = corresponding_points_pair.first;
-		const auto & world_points2 = corresponding_points_pair.second;
-
-		auto local_transformation_matrix_after_global_optimization = LevenbergMarquardt::Compute ( local_transformation_matrix ,
-		                                                                                           * converter_pointer_ ,
-		                                                                                           world_points1 ,
-		                                                                                           world_points2 );
-
-		auto error_after_global_optimization = LevenbergMarquardt::GetError ( local_transformation_matrix_after_global_optimization ,
-		                                                                      * converter_pointer_ ,
-		                                                                      world_points1 ,
-		                                                                      world_points2 );
-
-		glm::mat4 m = ConvertCVMatx44fToGLMmat4 ( local_transformation_matrix_after_global_optimization );
-
-		iterator2_->SetAlignmentMatrix ( m );
-
-		message_ = QString ( " + Computed : %1 - %2. (using Levenberg Marquardt, total error : %3.)" )
-				.arg ( QString::number ( iterator2_->GetId ( ) ) )
-				.arg ( QString::number ( iterator1_->GetId ( ) ) )
-				.arg ( error_after_global_optimization );
-
-		iterator2_->SetUsed ( true );
-
-//		return * iterator2_;
-	}
-	template < > void Tracker < TrackingType::KeyFrameOnly >::SpinOnce ( ) {
-
-		const auto local_transformation_matrix = ComputeTransformationMatrix ( inliers2_ , inliers1_ );
-		const auto & world_points1 = inliers1_;
-		const auto & world_points2 = inliers2_;
-
-		auto local_transformation_matrix_after_global_optimization = LevenbergMarquardt::Compute ( local_transformation_matrix ,
-		                                                                                           * converter_pointer_ ,
-		                                                                                           world_points1 ,
-		                                                                                           world_points2 );
-
-		auto error_after_global_optimization = LevenbergMarquardt::GetError ( local_transformation_matrix_after_global_optimization ,
-		                                                                      * converter_pointer_ ,
-		                                                                      world_points1 ,
-		                                                                      world_points2 );
-
-		std::cout << "Before LM : " << local_transformation_matrix << std::endl;
-		std::cout << "After LM : " << local_transformation_matrix_after_global_optimization << std::endl;
-
-		auto m = ConvertCVMatx44fToGLMmat4 ( local_transformation_matrix_after_global_optimization );
-
-		iterator2_->SetAlignmentMatrix ( m );
-
-		message_ = QString ( " + Computed : %1 - %2. #inliers : %3. (using Levenberg Marquardt, total error : %4.)" )
-				.arg ( QString::number ( iterator2_->GetId ( ) ) )
-				.arg ( QString::number ( iterator1_->GetId ( ) ) )
-				.arg ( world_points1.size ( ) )
-				.arg ( error_after_global_optimization );
-
-		auto current_keyframe_itr = iterator2_;
-
-		iterator1_ = iterator2_;     // assign iterator2 to iterator1 to make the frame the current keyframe
-		iterator2_ = iterator1_ + 1; // move iterator 1 step forward to prepare the inlier distribution validation
-
-		current_keyframe_itr->SetUsed ( true );
-
-//		return res;
-	}
-
+template <>
+void Tracker<TrackingType::Consecutive>::Initialize() {
+  for (auto& keyframe : keyframes_) {
+    keyframe.SetAlignmentMatrix(std::move(glm::mat4()));
+    keyframe.SetUsed(false);
+  }
+
+  iterator1_ = keyframes_.begin();
+  iterator2_ = iterator1_;
 }
+template <>
+void Tracker<TrackingType::FixedNumber>::Initialize() {
+  for (auto& keyframe : keyframes_) {
+    keyframe.SetAlignmentMatrix(std::move(glm::mat4()));
+    keyframe.SetUsed(false);
+  }
+
+  iterator1_ = keyframes_.begin();
+  iterator2_ = iterator1_;
+  offset_ = keyframes_.size() / (params_.paramsFixedNumber.frame_count - 1) + 1;
+}
+template <>
+void Tracker<TrackingType::KeyFrameOnly>::Initialize() {
+  for (auto& keyframe : keyframes_) {
+    keyframe.SetAlignmentMatrix(std::move(glm::mat4()));
+    keyframe.SetUsed(false);
+  }
+
+  iterator1_ = keyframes_.begin();
+  iterator2_ = iterator1_;
+
+  // For initial inliers computation in order to to compute next.
+  CorrespondingPointsPair corresponding_points_pair =
+      CreateCorrespondingPointsPair(*iterator1_, *iterator2_);
+
+  boost::tie(inliers2_, inliers1_) = ComputeInliers(
+      corresponding_points_pair.second, corresponding_points_pair.first,
+      params_.paramsKeyFramesOnly.num_ransac_iteration,
+      params_.paramsKeyFramesOnly.threshold_outlier,
+      params_.paramsKeyFramesOnly.threshold_inlier);
+}
+
+template <>
+bool Tracker<TrackingType::Consecutive>::Update() {
+  if (iterator1_ == iterator2_) {
+    std::advance(iterator2_, 1);
+  } else {
+    std::advance(iterator1_, 1);
+    std::advance(iterator2_, 1);
+  }
+
+  std::cout << "Updated to : " << iterator2_->GetId() << " - "
+            << iterator1_->GetId() << std::endl;
+
+  return (iterator2_ != keyframes_.end());
+}
+template <>
+bool Tracker<TrackingType::FixedNumber>::Update() {
+  // iter2 has reached the end of data array, no need to compute anymore.
+  if (iterator2_ == keyframes_.end() - 1) {
+    return false;
+  }
+
+  else if (iterator1_ == iterator2_) {
+    std::advance(iterator2_, offset_);
+  }
+
+  else if (iterator2_->GetId() + offset_ < keyframes_.size()) {
+    std::advance(iterator1_, offset_);
+    std::advance(iterator2_, offset_);
+  }
+
+  else if (iterator2_->GetId() + offset_ >= keyframes_.size()) {
+    iterator2_ = keyframes_.end() - 1;
+    std::advance(iterator1_, offset_);
+  }
+
+  return true;
+}
+template <>
+bool Tracker<TrackingType::KeyFrameOnly>::Update() {
+  if (iterator2_ == keyframes_.end()) return false;
+
+  do {
+    CorrespondingPointsPair corresponding_points_pair =
+        CreateCorrespondingPointsPair(*iterator1_, *iterator2_);
+
+    boost::tie(inliers2_, inliers1_) = ComputeInliers(
+        corresponding_points_pair.second, corresponding_points_pair.first,
+        params_.paramsKeyFramesOnly.num_ransac_iteration,
+        params_.paramsKeyFramesOnly.threshold_outlier,
+        params_.paramsKeyFramesOnly.threshold_inlier);
+
+    if (iterator2_ == keyframes_.end() - 1) {
+      return true;
+    }
+
+    QString error_msg;
+
+    bool is_valid = ValidateInliersDistribution(
+        inliers2_, params_.paramsKeyFramesOnly.num_inliers,
+        params_.paramsKeyFramesOnly.threshold_1st_component_contribution,
+        params_.paramsKeyFramesOnly.threshold_1st_component_variance,
+        params_.paramsKeyFramesOnly.threshold_2nd_component_variance,
+        params_.paramsKeyFramesOnly.threshold_3rd_component_variance,
+        error_msg);
+
+    message_ = QString(" - Checking %1 - %2 : %3")
+                   .arg(QString::number(iterator2_->GetId()))
+                   .arg(QString::number(iterator1_->GetId()))
+                   .arg(error_msg);
+
+    if (is_valid) {
+      ++iterator2_;
+    } else {
+      if (iterator1_ + 1 != iterator2_) {
+        --iterator2_;
+      }
+      // if the iterator2 != iterator1, which means it's safe to move backwards
+      // by one. otherwise, just use these 2 frame to compute bruntly, since
+      // there's nowhere to go
+      return true;
+    }
+
+  } while (true);
+}
+
+template <>
+void Tracker<TrackingType::Consecutive>::SpinOnce() {
+  CorrespondingPointsPair corresponding_points_pair =
+      CreateCorrespondingPointsPair(*iterator1_, *iterator2_);
+
+  assert(!corresponding_points_pair.first.empty() and
+         !corresponding_points_pair.second.empty());
+
+  // 2 -> 1
+  auto local_transformation_matrix = ComputeTransformationMatrix(
+      corresponding_points_pair.second, corresponding_points_pair.first,
+      params_.paramsConsectutive.num_ransac_iteration,
+      params_.paramsConsectutive.threshold_outlier,
+      params_.paramsConsectutive.threshold_inlier);
+
+  const auto& world_points1 = corresponding_points_pair.first;
+  const auto& world_points2 = corresponding_points_pair.second;
+
+  auto local_transformation_matrix_after_global_optimization =
+      LevenbergMarquardt::Compute(local_transformation_matrix,
+                                  *converter_pointer_, world_points1,
+                                  world_points2);
+
+  auto error_after_global_optimization = LevenbergMarquardt::GetError(
+      local_transformation_matrix_after_global_optimization,
+      *converter_pointer_, world_points1, world_points2);
+
+  std::cout << "Before LM : " << local_transformation_matrix << std::endl;
+  std::cout << "After LM : "
+            << local_transformation_matrix_after_global_optimization
+            << std::endl;
+
+  glm::mat4 m = ConvertCVMatx44fToGLMmat4(
+      local_transformation_matrix_after_global_optimization);
+
+  iterator2_->SetAlignmentMatrix(m);
+
+  message_ = QString(
+                 " + Computed : %1 - %2. #inliers : %3. (using Levenberg "
+                 "Marquardt, total error : %4.)")
+                 .arg(QString::number(iterator2_->GetId()))
+                 .arg(QString::number(iterator1_->GetId()))
+                 .arg(world_points1.size())
+                 .arg(error_after_global_optimization);
+
+  iterator2_->SetUsed(true);
+}
+template <>
+void Tracker<TrackingType::FixedNumber>::SpinOnce() {
+  auto corresponding_points_pair =
+      CreateCorrespondingPointsPair(*iterator1_, *iterator2_);
+
+  assert(!corresponding_points_pair.first.empty() and
+         !corresponding_points_pair.second.empty());
+
+  // 2 -> 1
+  auto local_transformation_matrix = ComputeTransformationMatrix(
+      corresponding_points_pair.second, corresponding_points_pair.first,
+      params_.paramsFixedNumber.num_ransac_iteration,
+      params_.paramsFixedNumber.threshold_outlier,
+      params_.paramsFixedNumber.threshold_inlier);
+
+  const auto& world_points1 = corresponding_points_pair.first;
+  const auto& world_points2 = corresponding_points_pair.second;
+
+  auto local_transformation_matrix_after_global_optimization =
+      LevenbergMarquardt::Compute(local_transformation_matrix,
+                                  *converter_pointer_, world_points1,
+                                  world_points2);
+
+  auto error_after_global_optimization = LevenbergMarquardt::GetError(
+      local_transformation_matrix_after_global_optimization,
+      *converter_pointer_, world_points1, world_points2);
+
+  glm::mat4 m = ConvertCVMatx44fToGLMmat4(
+      local_transformation_matrix_after_global_optimization);
+
+  iterator2_->SetAlignmentMatrix(m);
+
+  message_ = QString(
+                 " + Computed : %1 - %2. (using Levenberg Marquardt, total "
+                 "error : %3.)")
+                 .arg(QString::number(iterator2_->GetId()))
+                 .arg(QString::number(iterator1_->GetId()))
+                 .arg(error_after_global_optimization);
+
+  iterator2_->SetUsed(true);
+
+  //		return * iterator2_;
+}
+template <>
+void Tracker<TrackingType::KeyFrameOnly>::SpinOnce() {
+  const auto local_transformation_matrix =
+      ComputeTransformationMatrix(inliers2_, inliers1_);
+  const auto& world_points1 = inliers1_;
+  const auto& world_points2 = inliers2_;
+
+  auto local_transformation_matrix_after_global_optimization =
+      LevenbergMarquardt::Compute(local_transformation_matrix,
+                                  *converter_pointer_, world_points1,
+                                  world_points2);
+
+  auto error_after_global_optimization = LevenbergMarquardt::GetError(
+      local_transformation_matrix_after_global_optimization,
+      *converter_pointer_, world_points1, world_points2);
+
+  std::cout << "Before LM : " << local_transformation_matrix << std::endl;
+  std::cout << "After LM : "
+            << local_transformation_matrix_after_global_optimization
+            << std::endl;
+
+  auto m = ConvertCVMatx44fToGLMmat4(
+      local_transformation_matrix_after_global_optimization);
+
+  iterator2_->SetAlignmentMatrix(m);
+
+  message_ = QString(
+                 " + Computed : %1 - %2. #inliers : %3. (using Levenberg "
+                 "Marquardt, total error : %4.)")
+                 .arg(QString::number(iterator2_->GetId()))
+                 .arg(QString::number(iterator1_->GetId()))
+                 .arg(world_points1.size())
+                 .arg(error_after_global_optimization);
+
+  auto current_keyframe_itr = iterator2_;
+
+  iterator1_ = iterator2_;  // assign iterator2 to iterator1 to make the frame
+                            // the current keyframe
+  iterator2_ = iterator1_ + 1;  // move iterator 1 step forward to prepare the
+                                // inlier distribution validation
+
+  current_keyframe_itr->SetUsed(true);
+
+  //		return res;
+}
+
+}  // namespace MapCreator
