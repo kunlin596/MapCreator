@@ -1,31 +1,32 @@
-#include "Core/Feature.h"
-#include "Core/Logger.h"
+#include "Feature.h"
 
 #include <boost/iostreams/filter/gzip.hpp>
 #include <boost/iostreams/filtering_stream.hpp>
+
+#include "Logger.h"
 
 LOGGER("Core.Feature");
 
 namespace MapCreator {
 
-Feature::Feature() : type_(kTypeUnknown) {}
+Feature::Feature() : type_(Type::Unknown) {}
 
 Feature::Feature(const cv::Mat_<uchar> &image, Type type) : type_(type) {
   switch (type_) {
-    case kTypeORB: {
+    case Type::ORB: {
       detector_ = cv::ORB::create();
       break;
     }
 #ifdef ENABLE_OPENCV_CONTRIB
-    case kTypeFREAK: {
+    case Type::FREAK: {
       detector_ = cv::xfeatures2d::FREAK::create();
       break;
     }
-    case kTypeSIFT: {
+    case Type::SIFT: {
       detector_ = cv::xfeatures2d::SIFT::create();
       break;
     }
-    case kTypeSURF: {
+    case Type::SURF: {
       detector_ = cv::xfeatures2d::SURF::create();
       break;
     }

@@ -2,7 +2,7 @@
 // Created by linkun on 15/09/15.
 //
 
-#include "Core/Utility.h"
+#include "Utility.h"
 
 namespace MapCreator {
 

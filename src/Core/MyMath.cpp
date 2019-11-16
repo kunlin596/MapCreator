@@ -2,7 +2,7 @@
 // Created by LinKun on 9/12/15.
 //
 
-#include "Core/MyMath.h"
+#include "MyMath.h"
 
 namespace MapCreator {
 

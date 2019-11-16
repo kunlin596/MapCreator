@@ -6,7 +6,7 @@
 #define MAPCREATOR_POINTCLOUD_H
 
 #include <opencv2/opencv.hpp>
-#include "Core/Image.h"
+#include "Image.h"
 
 namespace MapCreator {
 
