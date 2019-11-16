@@ -1,41 +1,36 @@
-#set ( CMAKE_MACOSX_RPATH 1 )
+cmake_minimum_required (VERSION 3.0)
 
-aux_source_directory ( . MapCreatorSlam_SOURCE_FILES )
+project(mapcreatorslam VERSION 0.1.0 LANGUAGES CXX)
 
-set ( CMAKE_INCLUDE_CURRENT_DIR ON )
-set ( CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "/usr/local/Qt5" )
+aux_source_directory (${CMAKE_CURRENT_SOURCE_DIR} mapcreatorslam_SOURCE_FILES)
 
-find_package ( Boost COMPONENTS system filesystem serialization REQUIRED )
-find_package ( Eigen3 REQUIRED NO_MODULE )
+set(CMAKE_CXX_FLAGS "-O3 -std=c++14 -Wall")
 
-include_directories (
-    ${EIGEN3_INCLUDE_DIR}
-    ${Boost_INCLUDE_DIR}
-    ${OpenCV_INCLUDE_DIRS}
-    ${MapCreator_INSTALL_INCLUDE_DIR}
-)
+include(CheckIncludeFile)
+include(CheckIncludeFileCXX)
+include(CheckLibraryExists)
+include(CheckFunctionExists)
+include(CheckCXXSourceCompiles)
+include(CheckCXXSourceRuns)
+include(CheckCXXCompilerFlag)
 
-# qt5_wrap_cpp is necessary for running qt5 moc
-qt5_wrap_cpp ( MapCreatorSlam_MOC_FILES
-    ${MapCreator_INSTALL_INCLUDE_DIR}/SLAM/Algorithm.h
-)
+find_package(PkgConfig)
+pkg_check_modules(LOG4CXX liblog4cxx)
 
-add_library ( MapCreatorSlam SHARED
-    ${MapCreatorSlam_SOURCE_FILES}
-    ${MapCreatorSlam_MOC_FILES}
-)
+find_package(Eigen3 REQUIRED)
+find_package(OpenCV REQUIRED)
+find_package(glm REQUIRED)
+find_package(Boost COMPONENTS system filesystem serialization iostreams REQUIRED)
 
-target_link_libraries ( MapCreatorSlam
-    MapCreatorCore
-    ${OpenCV_LIBS}
-    # ${aruco_LIBS}
-    ${Boost_LIBRARIES}
-    Qt5::Widgets
-    Qt5::OpenGL
-)
+link_directories(${LOG4CXX_LIBDIR})
+set(mapcreatorslam_INCLUDE_DIR ../../include)
 
-install ( TARGETS
-    MapCreatorSlam
-	DESTINATION "${CMAKE_INSTALL_PREFIX}/lib"
-)
+include_directories (${mapcreatorslam_INCLUDE_DIR} ${EIGEN3_INCLUDE_DIR} ${OpenCV_INCLUDE_DIRS} ${Boost_INCLUDE_DIR} ${LOG4CXX_INCLUDEDIR})
 
+add_library(mapcreatorslam_keyframe SHARED ${CMAKE_CURRENT_SOURCE_DIR}/KeyFrame.cpp)
+target_link_libraries(mapcreatorslam_keyframe PUBLIC ${OpenCV_LIBS} glm)
+
+# add_library(mapcreatorcore_algorithm SHARED ${CMAKE_CURRENT_SOURCE_DIR}/Algorithm.cpp)
+# target_link_libraries(mapcreatorcore_algorithm PUBLIC ${OpenCV_LIBS} glm)
+
+# install (TARGETS MapCreatorCore	DESTINATION "${CMAKE_INSTALL_PREFIX}/lib")
