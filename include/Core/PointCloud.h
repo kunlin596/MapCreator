@@ -14,7 +14,8 @@ class PointCloudXYZRGB {
  public:
   PointCloudXYZRGB() = default;
 
-  PointCloudXYZRGB(const ColorImage &color_image, const PointImage &point_image);
+  PointCloudXYZRGB(const ColorImage& color_image,
+                   const PointImage& point_image);
 
   PointCloudXYZRGB operator=(const PointCloudXYZRGB& other) {
     return this->Clone();

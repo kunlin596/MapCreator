@@ -12,6 +12,9 @@ namespace MapCreator {
 using ColorImage = cv::Mat_<cv::Vec3b>;
 using PointImage = cv::Mat_<cv::Vec3f>;
 
+template <typename DataT>
+using GrayScaleImage = cv::Mat_<DataT>;
+
 /**
  * @brief      Resice the image
  *
