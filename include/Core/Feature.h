@@ -1,10 +1,10 @@
 #ifndef MAPCREATOR_FEATURE_H
 #define MAPCREATOR_FEATURE_H
 
-#include "Serialize.h"
-
-#include <opencv2/features2d.hpp>
+#include <opencv2/xfeatures2d.hpp>
 #include <opencv2/opencv.hpp>
+
+#include "Serialize.h"
 
 #ifdef ENABLE_OPENCV_CONTRIB
 #include <opencv2/xfeatures2d.hpp>
@@ -17,13 +17,13 @@ namespace MapCreator {
 
 class Feature {
  public:
-  enum Type {
+  enum class Type {
     kTypeUnknown = -1,  ///< Unknown
     kTypeORB = 0,       ///< ORB
 #ifdef ENABLE_OPENCV_CONTRIB
-    kTypeFREAK,         ///< FREAK
-    kTypeSIFT,          ///< SIFT
-    kTypeSURF,          ///< SURF
+    kTypeFREAK,  ///< FREAK
+    kTypeSIFT,   ///< SIFT
+    kTypeSURF,   ///< SURF
 #endif
   };
 
