@@ -6,37 +6,41 @@
 #define MAPCREATOR_POINTCLOUD_H
 
 #include <opencv2/opencv.hpp>
+#include "Core/Image.h"
 
 namespace MapCreator {
 
-    class PointCloud {
+class PointCloudXYZRGB {
+ public:
+  PointCloudXYZRGB() = default;
 
-    public:
+  PointCloudXYZRGB(const ColorImage &color_image, const PointImage &point_image);
 
-        using ColorImage = cv::Mat_<cv::Vec3b>;
-        using PointImage = cv::Mat_<cv::Vec3f>;
+  PointCloudXYZRGB operator=(const PointCloudXYZRGB& other) {
+    return this->Clone();
+  }
 
-        PointCloud();
+  PointCloudXYZRGB(const PointCloudXYZRGB& other) {
+    color_image_ = other.GetColorImage().clone();
+    point_image_ = other.GetPointImage().clone();
+  }
 
-        PointCloud(const ColorImage &color_image, const PointImage &point_image);
+  ~PointCloudXYZRGB() = default;
 
-        ~PointCloud();
+  PointCloudXYZRGB Clone() const;
 
-        PointCloud Clone() const;
+  const ColorImage& GetColorImage() const { return color_image_; }
+  const PointImage& GetPointImage() const { return point_image_; }
 
-        // void Render() const;
+ private:
+  ColorImage color_image_;
+  PointImage point_image_;
+};
 
-        const ColorImage &GetColorImage() const { return color_image_; }
-        const PointImage &GetPointImage() const { return point_image_; }
+using PointCloudXYZRGBs = std::vector<PointCloudXYZRGB>;
+using PointCloudXYZRGBPtr = std::shared_ptr<PointCloudXYZRGB>;
+using PointCloudXYZRGBConstPtr = std::shared_ptr<const PointCloudXYZRGB>;
 
-    private:
+}  // namespace MapCreator
 
-        ColorImage color_image_;
-        PointImage point_image_;
-
-    };
-
-    using PointClouds = std::vector<PointCloud>;
-}
-
-#endif //MAPCREATOR_POINTCLOUD_H
+#endif  // MAPCREATOR_POINTCLOUD_H

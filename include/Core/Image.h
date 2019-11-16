@@ -9,6 +9,9 @@
 
 namespace MapCreator {
 
+using ColorImage = cv::Mat_<cv::Vec3b>;
+using PointImage = cv::Mat_<cv::Vec3f>;
+
 /**
  * @brief      Resice the image
  *
