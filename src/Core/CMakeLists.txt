@@ -26,6 +26,10 @@ target_link_libraries(mapcreatorcore_math PUBLIC
 add_library(mapcreatorcore_utility SHARED ${CMAKE_CURRENT_SOURCE_DIR}/Utility.cpp)
 target_link_libraries(mapcreatorcore_utility PUBLIC
                       ${OpenCV_LIBS} ${Boost_LIBRARIES} glm)
+
+add_library(mapcreatorcore_image SHARED ${CMAKE_CURRENT_SOURCE_DIR}/Image.cpp)
+target_link_libraries(mapcreatorcore_image PUBLIC
+                      ${OpenCV_LIBS} ${Boost_LIBRARIES} glm)
 # target_link_libraries (MapCreatorCore
 #                        PUBLIC
 #                        ${LOG4CXX_LIBRARIES}

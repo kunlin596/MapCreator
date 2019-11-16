@@ -103,4 +103,4 @@ cv::Mat_<uchar> BGRToGray(const cv::Mat_<cv::Vec3b>& image);
 cv::Mat_<cv::Vec3b> GrayToColor(const cv::Mat_<uchar>& image);
 }  // namespace MapCreator
 
-#endif //MAPCREATOR_IMAGE_H
+#endif  // MAPCREATOR_IMAGE_H
