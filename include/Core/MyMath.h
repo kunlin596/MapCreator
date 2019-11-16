@@ -9,6 +9,7 @@
 #define _USE_MATH_DEFINES
 #endif
 
+#include "Types.h"
 #include <cmath>
 #include <glm/glm.hpp>
 #include <opencv2/opencv.hpp>
@@ -95,10 +96,6 @@ cv::Matx44f CreateMatrix44(const cv::Matx33f& r);
 cv::Matx44f CreateMatrix44(const cv::Matx33f& r,
                            const cv::Vec3f& t = cv::Vec3f(0, 0, 0));
 
-/**
- * @brief Quaternion (t; x, y, z)
- */
-using Quaternion = cv::Vec<float, 4>;
 
 /**
  * @brief      Creates a quaternion.

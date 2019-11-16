@@ -5,8 +5,6 @@
 #ifndef MAPCREATOR_SERIALIZE_H
 #define MAPCREATOR_SERIALIZE_H
 
-#include <opencv2/opencv.hpp>
-
 #include <boost/archive/binary_iarchive.hpp>
 #include <boost/archive/binary_oarchive.hpp>
 #include <boost/serialization/split_free.hpp>
@@ -14,13 +12,13 @@
 #include <boost/serialization/utility.hpp>
 #include <boost/serialization/vector.hpp>
 #include <boost/serialization/version.hpp>
+#include <opencv2/opencv.hpp>
 
 // TODO: Remove glm
+#include <fstream>
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
-
 #include <string>
-#include <fstream>
 
 BOOST_SERIALIZATION_SPLIT_FREE(cv::Mat)
 
@@ -171,11 +169,11 @@ const int kSkipLengthOfColorImage = sizeof(char[10]) +    // sensor type
                                     sizeof(int) +         // device count
                                     sizeof(kImageRows) +  // color image rows
                                     sizeof(kImageCols) +  // color image cols
-                                    sizeof(int);          // color image type (OpenCV)
+                                    sizeof(int);  // color image type (OpenCV)
 
 const int kSkipLengthOfDepthImage = sizeof(kImageRows) +  // depth image rows
                                     sizeof(kImageCols) +  // depth image cols
-                                    sizeof(int);          // depth image type (OpenCV)
+                                    sizeof(int);  // depth image type (OpenCV)
 
 // Read primitive data type from stream
 // Example : int, float, double, etc.

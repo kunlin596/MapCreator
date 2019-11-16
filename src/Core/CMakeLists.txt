@@ -4,7 +4,7 @@ project(MapCreatorCore VERSION 0.1.0 LANGUAGES CXX)
 
 aux_source_directory (${CMAKE_CURRENT_SOURCE_DIR} MapCreatorCore_SOURCE_FILES)
 
-set(CMAKE_CXX_FLAGS "-O3 -std=c++11 -Wall")
+set(CMAKE_CXX_FLAGS "-O3 -std=c++14 -Wall")
 
 include(CheckIncludeFile)
 include(CheckIncludeFileCXX)
