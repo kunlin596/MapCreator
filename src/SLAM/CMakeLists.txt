@@ -30,7 +30,7 @@ include_directories (${mapcreatorslam_INCLUDE_DIR} ${EIGEN3_INCLUDE_DIR} ${OpenC
 add_library(mapcreatorslam_keyframe SHARED ${CMAKE_CURRENT_SOURCE_DIR}/KeyFrame.cpp)
 target_link_libraries(mapcreatorslam_keyframe PUBLIC ${OpenCV_LIBS} glm)
 
-# add_library(mapcreatorcore_algorithm SHARED ${CMAKE_CURRENT_SOURCE_DIR}/Algorithm.cpp)
-# target_link_libraries(mapcreatorcore_algorithm PUBLIC ${OpenCV_LIBS} glm)
+add_library(mapcreatorcore_matches SHARED ${CMAKE_CURRENT_SOURCE_DIR}/Matcher.cpp)
+target_link_libraries(mapcreatorcore_matches PUBLIC ${OpenCV_LIBS} glm)
 
 # install (TARGETS MapCreatorCore	DESTINATION "${CMAKE_INSTALL_PREFIX}/lib")

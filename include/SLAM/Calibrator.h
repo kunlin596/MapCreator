@@ -1,12 +1,11 @@
 #ifndef MAPCREATOR_CALIBRATOR_H
 #define MAPCREATOR_CALIBRATOR_H
 
-#include "Core/Serialize.h"
-#include "SLAM/SLAM.h"
-
 #include <opencv2/opencv.hpp>
 #include <string>
 
+#include "Core/Serialize.h"
+#include "SLAM/SLAM.h"
 
 namespace {
 
@@ -26,10 +25,8 @@ struct InternalCalibrationInfo {
   CoefficientsVector vfov_vector;
 
   bool IsValid() const {
-    return !table.empty() and
-           !global_vector.empty() and
-           !hfov_vector.empty() and
-           !vfov_vector.empty();
+    return !table.empty() and !global_vector.empty() and
+           !hfov_vector.empty() and !vfov_vector.empty();
   }
 };
 
@@ -44,15 +41,16 @@ struct InternalCalibrationReader {
     const std::string kFileHeader = "InternalCalibration";
 
     if (in) {
-      const auto head = ReadString(
-          in, static_cast<unsigned long>(kFileHeader.size()));
+      const auto head =
+          ReadString(in, static_cast<unsigned long>(kFileHeader.size()));
       // const auto version = ::MapCreator::Read<int>(in);
 
       InternalCalibrationInfo::LocalCalibrationTable table(
           static_cast<unsigned long>(::MapCreator::Read<int>(in)));
 
       for (auto &coef_line : table) {
-        coef_line.resize(static_cast<unsigned long>(::MapCreator::Read<int>(in)));
+        coef_line.resize(
+            static_cast<unsigned long>(::MapCreator::Read<int>(in)));
         for (auto &coef : coef_line) {
           coef = ::MapCreator::ReadVector<
               InternalCalibrationInfo::CoefficientsVector::value_type>(in);
@@ -84,10 +82,8 @@ class Calibrator {
     CoefficientsVector vfov_vector;
 
     bool IsValid() const {
-      return !table.empty() and
-             !global_vector.empty() and
-             !hfov_vector.empty() and
-             !vfov_vector.empty();
+      return !table.empty() and !global_vector.empty() and
+             !hfov_vector.empty() and !vfov_vector.empty();
     }
   };
 
@@ -122,14 +118,12 @@ class Calibrator {
   }
 
   float CorrectDepth(float depth) const {
-    const CoefficientsVector &coef =
-        internal_calibration_data_.global_vector;
+    const CoefficientsVector &coef = internal_calibration_data_.global_vector;
     return coef.empty() ? depth : depth * NthDegreeEquation(coef, depth);
   }
 
   float CorrectDistortion(int row, int col, float depth) const {
-    const CoefficientsVector &coef =
-        internal_calibration_data_.table[row][col];
+    const CoefficientsVector &coef = internal_calibration_data_.table[row][col];
     return coef.empty() ? 0.0f : depth * NthDegreeEquation(coef, depth);
   }
 
