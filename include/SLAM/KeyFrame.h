@@ -22,8 +22,9 @@ namespace MapCreator {
 class KeyFrame : public CameraBase {
  public:
   explicit KeyFrame(const std::string& name, const PointCloudXYZRGB& pointcloud,
-                    const Feature::Type& type = Feature::Type::ORB)
-      : name_(name), type_(type), is_used_(false) {}
+                    const Feature::Type& type = Feature::Type::ORB,
+                    const std::shared_ptr<FrameBase>& parent = nullptr)
+      : CameraBase(parent), name_(name), type_(type), is_used_(false) {}
 
   KeyFrame() = delete;
 

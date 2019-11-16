@@ -11,13 +11,14 @@ namespace MapCreator {
  * @brief      Camera base
  */
 class CameraBase : public FrameBase {
-public:
+ public:
   static size_t width;
   static size_t height;
   cv::Matx<float, 3, 4> matrix;
   float horizontalFov;
   float verticalFov;
-  CameraBase() {}
+  CameraBase(const std::shared_ptr<FrameBase>& parent = nullptr)
+      : FrameBase(parent) {}
   virtual ~CameraBase() {}
 };
 
@@ -25,11 +26,9 @@ public:
  * @brief      Captured gray image frame
  */
 class GrayFrame : public CameraBase {
-public:
+ public:
   GrayScaleImage<uint8_t> image;
-  GrayFrame(const GrayScaleImage<uint8_t>& image) {
-    this->image = image;
-  }
+  GrayFrame(const GrayScaleImage<uint8_t>& image) : image(image){};
   virtual ~GrayFrame() {}
 };
 
@@ -41,24 +40,20 @@ using DepthFrame = GrayFrame;
 /**
  * @brief      Captured RGB image frame
  */
-class RGBFrame: public CameraBase {
-public:
+class RGBFrame : public CameraBase {
+ public:
   ColorImage image;
-  RGBFrame(const ColorImage& image) {
-    this->image = image;
-  }
+  RGBFrame(const ColorImage& image) { this->image = image; }
   virtual ~RGBFrame() {}
 };
 
 /**
  * @brief      Captured point image frame
  */
-class PointFrame: public CameraBase {
-public:
+class PointFrame : public CameraBase {
+ public:
   PointImage image;
-  PointFrame(const ColorImage& image) {
-    this->image = image;
-  }
+  PointFrame(const ColorImage& image) { this->image = image; }
   virtual ~PointFrame() {}
 };
 
@@ -66,7 +61,7 @@ public:
  * @brief      Captured RGB and depth images frame
  */
 class RGBDFrame : public CameraBase {
-public:
+ public:
   ColorImage colorimage;
   PointImage pointimage;
 

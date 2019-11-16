@@ -11,7 +11,7 @@ struct AlgorithmParameters {
 };
 
 struct TrackerParameters {
-  TrackerParameters() : type_(TrackingType::Unknown) {}
+  TrackerParameters() : type(TrackingType::Unknown) {}
 
   TrackingType type;
 
@@ -34,8 +34,9 @@ struct ConsecutiveTrackerParameters : TrackerParameters {
         threshold_outlier(0.035f),
         threshold_inlier(0.035f) {}
 
-  inline ConsecutiveTrackerParameters(int num_ransac_iteration, float threshold_outlier,
-                     float threshold_inlier)
+  inline ConsecutiveTrackerParameters(int num_ransac_iteration,
+                                      float threshold_outlier,
+                                      float threshold_inlier)
       : num_ransac_iteration(num_ransac_iteration),
         threshold_outlier(threshold_outlier),
         threshold_inlier(threshold_inlier) {}
@@ -51,14 +52,15 @@ struct ConsecutiveTrackerParameters : TrackerParameters {
 struct FixedNumberTrackerParameters : public ConsecutiveTrackerParameters {
   int frame_count;
 
-  FixedNumberTrackerParameters() : Consecutive(), frame_count(1) {}
+  FixedNumberTrackerParameters()
+      : ConsecutiveTrackerParameters(), frame_count(1) {}
 
   explicit FixedNumberTrackerParameters(int frame_count)
       : ConsecutiveTrackerParameters(), frame_count(frame_count) {}
 
   template <class Archive>
   void serialize(Archive &ar, const unsigned int version) {
-    ar &boost::serialization::base_object<Consecutive>(*this);
+    ar &boost::serialization::base_object<ConsecutiveTrackerParameters>(*this);
     ar &frame_count;
   }
 };
@@ -70,20 +72,20 @@ struct KeyFrameOnlyTrackerParameters : public ConsecutiveTrackerParameters {
   float threshold_2nd_component_variance;
   float threshold_3rd_component_variance;
 
-  inline ConsecutiveTrackerParameters()
-      : Consecutive(),
+  KeyFrameOnlyTrackerParameters()
+      : ConsecutiveTrackerParameters(),
         num_inliers(3),
         threshold_1st_component_contribution(0.85f),
         threshold_1st_component_variance(0.1f),
         threshold_2nd_component_variance(0.05f),
         threshold_3rd_component_variance(0.0f) {}
 
-  inline KeyFrameOnly(int num_inliers,
-                      float threshold_1st_component_contribution,
-                      float threshold_1st_component_variance,
-                      float threshold_2nd_component_variance,
-                      float threshold_3rd_component_variance)
-      : Consecutive(),
+  inline KeyFrameOnlyTrackerParameters(
+      int num_inliers, float threshold_1st_component_contribution,
+      float threshold_1st_component_variance,
+      float threshold_2nd_component_variance,
+      float threshold_3rd_component_variance)
+      : ConsecutiveTrackerParameters(),
         num_inliers(num_inliers),
         threshold_1st_component_contribution(
             threshold_1st_component_contribution),
@@ -93,7 +95,7 @@ struct KeyFrameOnlyTrackerParameters : public ConsecutiveTrackerParameters {
 
   template <class Archive>
   void serialize(Archive &ar, const unsigned int version) {
-    ar &boost::serialization::base_object<Consecutive>(*this);
+    ar &boost::serialization::base_object<ConsecutiveTrackerParameters>(*this);
     ar &num_inliers;
     ar &threshold_1st_component_contribution;
     ar &threshold_1st_component_variance;

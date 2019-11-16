@@ -44,27 +44,27 @@ struct InternalCalibrationReader {
     const std::string kFileHeader = "InternalCalibration";
 
     if (in) {
-      const auto head = MapCreator::ReadString(
+      const auto head = ReadString(
           in, static_cast<unsigned long>(kFileHeader.size()));
-      const auto version = MapCreator::Read<int>(in);
+      // const auto version = ::MapCreator::Read<int>(in);
 
       InternalCalibrationInfo::LocalCalibrationTable table(
-          static_cast<unsigned long>(MapCreator::Read<int>(in)));
+          static_cast<unsigned long>(::MapCreator::Read<int>(in)));
 
       for (auto &coef_line : table) {
-        coef_line.resize(static_cast<unsigned long>(MapCreator::Read<int>(in)));
+        coef_line.resize(static_cast<unsigned long>(::MapCreator::Read<int>(in)));
         for (auto &coef : coef_line) {
-          coef = MapCreator::ReadVector<
+          coef = ::MapCreator::ReadVector<
               InternalCalibrationInfo::CoefficientsVector::value_type>(in);
         }
       }
 
       info.table = table;
-      info.global_vector = MapCreator::ReadVector<
+      info.global_vector = ::MapCreator::ReadVector<
           InternalCalibrationInfo::CoefficientsVector::value_type>(in);
-      info.hfov_vector = MapCreator::ReadVector<
+      info.hfov_vector = ::MapCreator::ReadVector<
           InternalCalibrationInfo::CoefficientsVector::value_type>(in);
-      info.vfov_vector = MapCreator::ReadVector<
+      info.vfov_vector = ::MapCreator::ReadVector<
           InternalCalibrationInfo::CoefficientsVector::value_type>(in);
     }
 

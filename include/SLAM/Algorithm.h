@@ -5,10 +5,11 @@
 #ifndef MAPCREATOR_MAPCREATOR_H
 #define MAPCREATOR_MAPCREATOR_H
 
-#include <QObject>
+// #include <QObject>
+
+#include <limits>
 
 #include "Core/Feature.h"
-
 #include "SLAM/ComputationResultCache.h"
 #include "SLAM/CoordinateConverter.h"
 #include "SLAM/KeyFrame.h"
@@ -16,25 +17,25 @@
 #include "SLAM/SlamParameters.h"
 #include "SLAM/Tracker.h"
 
-#include <limits>
-
 namespace {
 using MatricesInfo = std::pair<std::vector<size_t>, std::vector<glm::mat4> >;
 };
 
 namespace MapCreator {
 
-class SlamAlgorithm : public QObject {
-  Q_OBJECT
+class SlamAlgorithm {
+  // class SlamAlgorithm : public QObject {
+  // Q_OBJECT
 
  public:
-  SlamAlgorithm(QObject* parent = 0) {}
+  SlamAlgorithm() = default;
+  // SlamAlgorithm(QObject* parent = 0) {}
 
   void SetFeatureType(Feature::Type type);
   bool WriteResult(const std::pair<glm::vec3, glm::vec3>& point_pair);
   bool WriteResult();
   bool CheckPreviousResult();
-  void UsePreviousResult(const QString& result_cache_name);
+  void UsePreviousResult(const std::string& result_cache_name);
   void SetRunningFLag(bool running_flag) { running_flag_ = running_flag; };
   TrackerParameters GetParameters() const { return params_; }
 
@@ -63,10 +64,10 @@ class SlamAlgorithm : public QObject {
   bool IsComputationConfigured() const { return is_computation_configured_; }
   bool IsDataInitialized() const { return is_data_initialized_; }
 
- signals:
+  // signals:
 
-  void SendData(KeyFrames);
-  void Message(QString);
+  //  void SendData(KeyFrames);
+  //  void Message(QString);
 
  private:
   template <TrackingType type>
@@ -135,7 +136,7 @@ class SlamAlgorithm : public QObject {
   bool is_computation_configured_;
   bool is_data_initialized_;
 
-  QString result_cache_path_;
+  // QString result_cache_path_;
   Feature::Type feature_type_;
   AlgorithmParameters algorithm_parameters;
   KeyFrames keyframes_;
