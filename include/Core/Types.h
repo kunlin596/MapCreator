@@ -2,6 +2,7 @@
 
 #include <opencv2/opencv.hpp>
 #include <opencv2/core/matx.hpp>
+#include <memory>
 
 namespace MapCreator {
 
