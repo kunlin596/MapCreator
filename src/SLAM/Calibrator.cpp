@@ -3,6 +3,7 @@
 //
 
 #include "SLAM/Calibrator.h"
+
 #include <Core/Serialize.h>
 
 namespace {

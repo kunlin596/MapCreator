@@ -1,5 +1,4 @@
-#ifndef MAPCREATOR_COORDINATECONVERTER_H
-#define MAPCREATOR_COORDINATECONVERTER_H
+#pragma once
 
 #include <opencv2/opencv.hpp>
 
@@ -50,5 +49,3 @@ class CalibratedCoordinateConverter : public AbstractCoordinateConverter {
   InternalCalibrationInfo internal_calibration_data_;
 };
 };  // namespace MapCreator
-
-#endif  // MAPCREATOR_COORDINATECONVERTER_H

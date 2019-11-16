@@ -33,4 +33,7 @@ target_link_libraries(mapcreatorslam_keyframe PUBLIC ${OpenCV_LIBS} glm)
 add_library(mapcreatorslam_matches SHARED ${CMAKE_CURRENT_SOURCE_DIR}/Matcher.cpp)
 target_link_libraries(mapcreatorslam_matches PUBLIC ${OpenCV_LIBS} glm)
 
+add_library(mapcreatorslam_coordconverter SHARED ${CMAKE_CURRENT_SOURCE_DIR}/CoordinateConverter.cpp)
+target_link_libraries(mapcreatorslam_coordconverter PUBLIC ${OpenCV_LIBS} glm)
+
 # install (TARGETS MapCreatorCore	DESTINATION "${CMAKE_INSTALL_PREFIX}/lib")
