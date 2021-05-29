@@ -6,110 +6,106 @@
 #define MAPCREATOR_MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QtConcurrent>
 #include <QThread>
+#include <QtConcurrent>
 
-#include "SLAM/SlamParameters.h"
-#include "SLAM/KeyFrame.h"
-#include "SLAM/Algorithm.h"
-#include "Handler/ImageDataHandler.h"
 #include "Engine/InliersViewerOptionDialog.h"
 #include "Engine/LogPanelDialog.h"
 #include "Engine/MarkerViewerDialog.h"
 #include "Engine/UiDialogs.h"
+#include "Handler/ImageDataHandler.h"
+#include "SLAM/Algorithm.h"
+#include "SLAM/KeyFrame.h"
+#include "SLAM/SlamParameters.h"
 
-Q_DECLARE_METATYPE ( MapCreator::KeyFrames )
+Q_DECLARE_METATYPE(MapCreator::KeyFrames)
 
-namespace Ui { class MainWindow; }
+namespace Ui {
+class MainWindow;
+}
 
 namespace MapCreator {
 
-	class MainWindow : public QMainWindow
-	{
+class MainWindow : public QMainWindow {
+  Q_OBJECT
 
-	Q_OBJECT
+ public:
+  MainWindow(QWidget* parent = 0);
+  ~MainWindow();
 
-	public:
+ signals:
 
-		MainWindow ( QWidget * parent = 0 );
-		~MainWindow ( );
+  void ConfigurationDone();
+  void ChangeViewerMode(int);
 
-	signals:
+ public slots:
 
-		void ConfigurationDone ( );
-		void ChangeViewerMode ( int );
+  void EnableDensitySlider();
 
-	public slots:
+ private slots:
 
-		void EnableDensitySlider ( );
+  void onActionConfigureSlamComputation();
+  void onActionStartSlamComputation();
+  void onActionOpenDataFiles();
+  void onActionOpenInternalCalibrationFile();
+  void onActionInternalCalibration();
+  void onActionOpenInliersViewerMode(bool);
+  void onActionCaptureModelImage();
+  void onActionUsePreviousResult();
+  void onActionStopSlamComputation();
+  void onActionShowControlPanel();
+  void onActionOpenLogPanel();
+  void onActionShowMarkerViewer();
+  void onActionOutputResult();
+  void onActionGenerateAnswer();
+  void onBeginFrameIsBiggerThanEndFrame(int);
+  void onEndFrameIsSmallerThanBeginFrame(int);
 
-	private slots:
+  void OnReadingFinished();
+  void OnConversionFinished();
+  void OnSlamComputationCompleted();
 
-		void onActionConfigureSlamComputation ( );
-		void onActionStartSlamComputation ( );
-		void onActionOpenDataFiles ( );
-		void onActionOpenInternalCalibrationFile ( );
-		void onActionInternalCalibration ( );
-		void onActionOpenInliersViewerMode ( bool );
-		void onActionCaptureModelImage ( );
-		void onActionUsePreviousResult ( );
-		void onActionStopSlamComputation ( );
-		void onActionShowControlPanel ( );
-		void onActionOpenLogPanel ( );
-		void onActionShowMarkerViewer ( );
-		void onActionOutputResult ( );
-		void onActionGenerateAnswer ( );
-		void onBeginFrameIsBiggerThanEndFrame ( int );
-		void onEndFrameIsSmallerThanBeginFrame ( int );
+  void onPlayButtonClicked();
+  void onStopButtonClicked();
+  void onRewindCloud();
 
-		void OnReadingFinished ( );
-		void OnConversionFinished ( );
-		void OnSlamComputationCompleted ( );
+  void PrepareComputation();
 
-		void onPlayButtonClicked ( );
-		void onStopButtonClicked ( );
-		void onRewindCloud ( );
+ protected:
+  void keyPressEvent(QKeyEvent* e) override;
 
+ private:
+  Ui::MainWindow* ui_;
 
-		void PrepareComputation ( );
+  void WriteResult(const std::pair<glm::vec3, glm::vec3>& marker_points_pair);
+  void ResetWatcher();
 
-	protected:
+  bool computation_configured_;
+  bool computation_done_;
 
-		void keyPressEvent ( QKeyEvent * e ) override;
+  TrackingType type_;
 
-	private:
+  KeyFrames keyframes_;
 
-		Ui::MainWindow* ui_;
+  ImageHandler2* handler_;
+  SlamAlgorithm* computer_;
 
-		void WriteResult ( const std::pair < glm::vec3 , glm::vec3 > & marker_points_pair );
-		void ResetWatcher ( );
+  QTimer* play_timer_;
+  QFutureWatcher<void>* watcher_;
 
-		bool computation_configured_;
-		bool computation_done_;
+  Calibrator calibrator_;
 
-		TrackingType type_;
+  InliersViewerOptionDialog* inliers_viewer_option_dialog_;
 
-		KeyFrames keyframes_;
+  QDir data_dir_;
 
-		ImageHandler2 * handler_;
-		SlamAlgorithm  * computer_;
+  // SLAM configuration dialogs
+  ComputationConfigureDialog* computation_configure_dialog_;
+  LogPanelDialog* log_panel_dialog_;
 
-		QTimer                  * play_timer_;
-		QFutureWatcher < void > * watcher_;
+  //
+  MarkerViewerDialog* marker_viewer_dialog_;
+};
+}  // namespace MapCreator
 
-		Calibrator calibrator_;
-
-		InliersViewerOptionDialog * inliers_viewer_option_dialog_;
-
-		QDir data_dir_;
-
-		// SLAM configuration dialogs
-		ComputationConfigureDialog * computation_configure_dialog_;
-		LogPanelDialog             * log_panel_dialog_;
-
-		//
-		MarkerViewerDialog * marker_viewer_dialog_;
-	};
-}
-
-#endif //MAPCREATOR_MAINWINDOW_H
+#endif  // MAPCREATOR_MAINWINDOW_H

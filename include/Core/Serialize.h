@@ -14,10 +14,7 @@
 #include <boost/serialization/version.hpp>
 #include <opencv2/opencv.hpp>
 
-// TODO: Remove glm
 #include <fstream>
-#include <glm/glm.hpp>
-#include <glm/gtc/type_ptr.hpp>
 #include <string>
 
 BOOST_SERIALIZATION_SPLIT_FREE(cv::Mat)
@@ -92,44 +89,6 @@ template <class Archive, typename T, int M, int N>
 void serialize(Archive& ar, cv::Matx<T, M, N>& m, unsigned int version) {
   ar& boost::serialization::make_array(m.val, M * N);
 }
-
-template <class Archive>
-void serialize(Archive& ar, glm::tvec3<float, glm::precision::highp>& vec,
-               unsigned int version) {
-  ar& vec.x;
-  ar& vec.y;
-  ar& vec.z;
-}
-
-template <class Archive>
-void serialize(Archive& ar, glm::tvec4<float, glm::precision::highp>& vec,
-               unsigned int version) {
-  ar& vec.x;
-  ar& vec.y;
-  ar& vec.z;
-  ar& vec.w;
-}
-
-template <class Archive>
-void serialize(Archive& ar, glm::tmat4x4<float, glm::precision::highp>& m,
-               unsigned int version) {
-  ar& m[0];
-  ar& m[1];
-  ar& m[2];
-  ar& m[3];
-}
-
-// matrices info
-template <class Archive>
-void serialize(
-    Archive& ar,
-    std::pair<std::vector<size_t>,
-              std::vector<glm::tmat4x4<float, glm::precision::highp> > >&
-        matrices_info,
-    unsigned int version) {
-  ar& matrices_info.first;
-  ar& matrices_info.second;
-};
 
 }  // namespace serialization
 

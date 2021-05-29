@@ -9,10 +9,10 @@
 #define _USE_MATH_DEFINES
 #endif
 
-#include "Types.h"
 #include <cmath>
-#include <glm/glm.hpp>
 #include <opencv2/opencv.hpp>
+
+#include "Types.h"
 
 namespace MapCreator {
 
@@ -95,7 +95,6 @@ cv::Matx44f CreateMatrix44(const cv::Matx33f& r);
  */
 cv::Matx44f CreateMatrix44(const cv::Matx33f& r,
                            const cv::Vec3f& t = cv::Vec3f(0, 0, 0));
-
 
 /**
  * @brief      Creates a quaternion.
@@ -247,18 +246,6 @@ inline cv::Matx44f& operator<<(cv::Matx44f& m, const cv::Vec3f& t) {
 
 inline cv::Matx44f& operator<<(cv::Matx44f& dst, const cv::Matx44f& src) {
   dst = src;
-  return dst;
-}
-
-inline glm::mat3& operator<<(glm::mat3& dst, const glm::mat4& src) {
-  dst = glm::mat3(src);
-  return dst;
-}
-
-inline glm::vec3& operator<<(glm::vec3& dst, const glm::mat4& src) {
-  dst.x = src[3][0];
-  dst.y = src[3][1];
-  dst.z = src[3][2];
   return dst;
 }
 

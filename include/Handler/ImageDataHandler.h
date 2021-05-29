@@ -5,123 +5,122 @@
 #ifndef MAPCREATOR_IMAGEDATAHANDLER_H
 #define MAPCREATOR_IMAGEDATAHANDLER_H
 
-#include <QObject>
 #include <QFileInfoList>
 #include <QFutureWatcher>
-
+#include <QObject>
 #include <boost/tuple/tuple.hpp>
 
 #include "Core/Serialize.h"
-#include "SLAM/SLAM.h"
-#include "SLAM/KeyFrame.h"
 #include "SLAM/Calibrator.h"
 #include "SLAM/CoordinateConverter.h"
+#include "SLAM/KeyFrame.h"
+#include "SLAM/SLAM.h"
 
 namespace MapCreator {
 
-	class ImageHandler2 : public QObject
-	{
+class ImageHandler2 : public QObject {
+  Q_OBJECT
 
-	Q_OBJECT
+ public:
+  struct XtionFrameProperty {
+    static const float kXtionHorizontalFOV;
+    static const float kXtionVerticalFOV;
+    static const float kXtionWidth;
+    static const float kXtionHeight;
+  };
 
-	public:
+  inline ImageHandler2(QFileInfoList file_list, QObject* parent = 0)
+      : file_list_(file_list),
+        xz_factor_(
+            GetXtionDepthFactor(XtionFrameProperty::kXtionHorizontalFOV)),
+        yz_factor_(GetXtionDepthFactor(XtionFrameProperty::kXtionVerticalFOV)) {
+  }
 
-		struct XtionFrameProperty
-		{
-			static const float kXtionHorizontalFOV;
-			static const float kXtionVerticalFOV;
-			static const float kXtionWidth;
-			static const float kXtionHeight;
-		};
+  inline ~ImageHandler2() {}
 
-		inline ImageHandler2 ( QFileInfoList file_list , QObject * parent = 0 ) :
-				file_list_ ( file_list ) ,
-				xz_factor_ ( GetXtionDepthFactor ( XtionFrameProperty::kXtionHorizontalFOV ) ) ,
-				yz_factor_ ( GetXtionDepthFactor ( XtionFrameProperty::kXtionVerticalFOV ) ) { }
+  inline void SetInternalCalibrator(Calibrator const& calibrator) {
+    calibrator_ = calibrator;
+  }
 
-		inline ~ImageHandler2 ( ) { }
+  inline RawDataFrames GetRawDataFrames() const { return raw_data_frames_; }
 
-		inline void SetInternalCalibrator ( Calibrator const & calibrator ) { calibrator_ = calibrator; }
+  inline const KeyFrames& GetKeyFrames() const { return keyframes_; }
 
-		inline RawDataFrames GetRawDataFrames ( ) const { return raw_data_frames_; }
+  static MapCreator::RawDataFrame ReadFrame(const QString& file_name);
 
-		inline const KeyFrames & GetKeyFrames ( ) const { return keyframes_; }
+ signals:
 
-		static MapCreator::RawDataFrame ReadFrame ( const QString & file_name );
+  void SendData(KeyFrames);
 
-	signals:
+  void DoneReading();
 
-		void SendData ( KeyFrames );
+  void Message(QString);
 
-		void DoneReading ( );
+ public slots:
 
-		void Message ( QString );
+  void StartReading();
 
-	public slots:
+  void ConvertToPointImages(int choice);
 
-		void StartReading ( );
+  void ConvertToPointImagesWithInternalCalibration();
 
-		void ConvertToPointImages ( int choice );
+  void SetXtionCoordinateConverter() { converter_pointer_ = &xtion_converter_; }
+  void SetAistCoordinateConverter(const AistCoordinateConverter& converter) {
+    aist_converter_ = converter;
+    converter_pointer_ = &aist_converter_;
+  }
 
-		void ConvertToPointImagesWithInternalCalibration ( );
+  XtionCoordinateConverter GetXtionCoordinateConverter() const {
+    return xtion_converter_;
+  }
+  AistCoordinateConverter GetAistCoordinateConverter() const {
+    return aist_converter_;
+  }
 
-		void SetXtionCoordinateConverter ( ) { converter_pointer_ = & xtion_converter_; }
-		void SetAistCoordinateConverter ( const AistCoordinateConverter & converter ) {
+ private:
+  void ConvertHelper();
 
-			aist_converter_    = converter;
-			converter_pointer_ = & aist_converter_;
-		}
+  void ConvertHelper(bool calibrated);
 
-		XtionCoordinateConverter GetXtionCoordinateConverter ( ) const { return xtion_converter_; }
-		AistCoordinateConverter GetAistCoordinateConverter ( ) const { return aist_converter_; }
+  float GetXtionDepthFactor(float fov) { return tanf(fov / 2) * 2; }
 
-	private:
+  inline cv::Point3f ScreenToWorld(int x, int y, float depth) {
+    const float gz = 0.001f * depth;
+    cv::Point3f p;
+    p.x = gz * xz_factor_ *
+          (static_cast<float>(x) / XtionFrameProperty::kXtionWidth - 0.5f);
+    p.y = -gz * yz_factor_ *
+          (static_cast<float>(y) / XtionFrameProperty::kXtionHeight - 0.5f);
+    p.z = -gz;
 
-		void ConvertHelper ( );
+    return p;
+  }
 
-		void ConvertHelper ( bool calibrated );
+  inline cv::Point2f WorldToScreen(const cv::Point3f& point) {
+    const float x = (point.x / (point.z * xz_factor_) + 0.5f) *
+                    XtionFrameProperty::kXtionWidth;
+    const float y = (point.y / (point.z * yz_factor_) + 0.5f) *
+                    XtionFrameProperty::kXtionHeight;
+    return cv::Point2f(x, y);
+  }
 
-		float GetXtionDepthFactor ( float fov ) {
+  PointImage ConvertDepthImageToPointImage(DepthImage const& depth_image,
+                                           int choice);
 
-			return tanf ( fov / 2 ) * 2;
-		}
+  bool calibrated_;
+  Calibrator calibrator_;
+  QFileInfoList file_list_;
+  RawDataFrames raw_data_frames_;
+  KeyFrames keyframes_;
 
-		inline cv::Point3f ScreenToWorld ( int x , int y , float depth ) {
+  CoordinateConverter* converter_pointer_;
+  XtionCoordinateConverter xtion_converter_;
+  AistCoordinateConverter aist_converter_;
 
-			const float gz = 0.001f * depth;
-			cv::Point3f p;
-			p.x = gz * xz_factor_ * ( static_cast<float>(x) / XtionFrameProperty::kXtionWidth - 0.5f );
-			p.y = -gz * yz_factor_ * ( static_cast<float>(y) / XtionFrameProperty::kXtionHeight - 0.5f );
-			p.z = -gz;
+  float xz_factor_;
+  float yz_factor_;
+};
 
-			return p;
-		}
+}  // namespace MapCreator
 
-		inline cv::Point2f WorldToScreen ( const cv::Point3f & point ) {
-
-			const float x = ( point.x / ( point.z * xz_factor_ ) + 0.5f ) * XtionFrameProperty::kXtionWidth;
-			const float y = ( point.y / ( point.z * yz_factor_ ) + 0.5f ) * XtionFrameProperty::kXtionHeight;
-			return cv::Point2f ( x , y );
-		}
-
-		PointImage ConvertDepthImageToPointImage ( DepthImage const & depth_image , int choice );
-
-		bool          calibrated_;
-		Calibrator    calibrator_;
-		QFileInfoList file_list_;
-		RawDataFrames raw_data_frames_;
-		KeyFrames     keyframes_;
-
-		CoordinateConverter * converter_pointer_;
-		XtionCoordinateConverter xtion_converter_;
-		AistCoordinateConverter  aist_converter_;
-
-		float xz_factor_;
-		float yz_factor_;
-	};
-
-
-}
-
-
-#endif //MAPCREATOR_IMAGEDATAHANDLER_H
+#endif  // MAPCREATOR_IMAGEDATAHANDLER_H
