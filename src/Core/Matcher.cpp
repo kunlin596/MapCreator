@@ -2,7 +2,7 @@
 // Created by LinKun on 9/13/15.
 //
 
-#include "SLAM/Matcher.h"
+#include "Matcher.h"
 
 #include <numeric>
 

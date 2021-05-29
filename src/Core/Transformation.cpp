@@ -2,8 +2,8 @@
 // Created by LinKun on 9/13/15.
 //
 
-#include "SLAM/Transformation.h"
-#include "SLAM/SLAM.h"
+#include "Transformation.h"
+#include "SLAM.h"
 
 #include <random>
 #include <fstream>

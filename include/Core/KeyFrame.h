@@ -4,11 +4,11 @@
 
 #pragma once
 
-#include <Eigen/Dense>
+#include <eigen3/Eigen/Dense>
 
-#include "Core/Camera.h"
-#include "Core/Feature.h"
-#include "Core/PointCloud.h"
+#include "Camera.h"
+#include "Feature.h"
+#include "PointCloud.h"
 
 namespace Eigen {
 using Matrix4f = Matrix<float, 4, 4>;

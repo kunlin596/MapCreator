@@ -4,8 +4,8 @@
 
 #pragma once
 
-#include "Core/Feature.h"
-#include "Core/PointCloud.h"
+#include "Feature.h"
+#include "PointCloud.h"
 
 namespace MapCreator {
 

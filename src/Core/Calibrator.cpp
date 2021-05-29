@@ -2,9 +2,8 @@
 // Created by LinKun on 9/13/15.
 //
 
-#include "SLAM/Calibrator.h"
-
-#include <Core/Serialize.h>
+#include "Calibrator.h"
+#include "Serialize.h"
 
 namespace {
 

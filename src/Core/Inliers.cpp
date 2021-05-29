@@ -2,7 +2,7 @@
 // Created by LinKun on 10/7/15.
 //
 
-#include "SLAM/Inliers.h"
+#include "Inliers.h"
 
 namespace MapCreator {
 

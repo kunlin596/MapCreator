@@ -4,8 +4,8 @@
 #include <opencv2/opencv.hpp>
 #include <string>
 
-#include "Core/Serialize.h"
-#include "SLAM/SLAM.h"
+#include "Serialize.h"
+#include "SLAM.h"
 
 namespace {
 
