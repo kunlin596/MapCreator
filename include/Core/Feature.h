@@ -15,12 +15,12 @@ namespace MapCreator {
 class Feature {
  public:
   enum class Type {
-    Unknown = -1,  ///< Unknown
-    ORB = 0,       ///< ORB
+    kUnknown = -1,  ///< Unknown
+    kORB = 0,       ///< ORB
 #ifdef ENABLE_OPENCV_CONTRIB
-    FREAK,  ///< FREAK
-    SIFT,   ///< SIFT
-    SURF,   ///< SURF
+    kFREAK,  ///< FREAK
+    kSIFT,   ///< SIFT
+    kSURF,   ///< SURF
 #endif
   };
 
@@ -61,8 +61,13 @@ class Feature {
   }
 };
 
+
+namespace Utils {
+
 bool SaveFeature(const std::string& name, const Feature& feature);
 bool LoadFeature(const std::string& name, Feature& feature);
+
+}
 
 }  // namespace MapCreator
 
