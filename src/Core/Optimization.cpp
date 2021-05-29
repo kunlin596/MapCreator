@@ -2,7 +2,7 @@
 // Created by LinKun on 10/29/15.
 //
 
-#include "SLAM/GlobalOptimization.h"
+#include "Optimization.h"
 
 #include <Core/MyMath.h>
 
