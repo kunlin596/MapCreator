@@ -20,6 +20,20 @@ function(mapcreator_add_test name)
 endfunction()
 
 # ---- Per-module test suites (added one module at a time) ----
+# Core
 mapcreator_add_test(test_core_math
   SOURCES core/test_mymath.cpp
   LIBS MapCreatorCore)
+mapcreator_add_test(test_core_keyframe
+  SOURCES core/test_keyframe.cpp
+  LIBS MapCreatorCore)
+mapcreator_add_test(test_core_converter
+  SOURCES core/test_coordinate_converter.cpp
+  LIBS MapCreatorCore)
+
+# Handler (links a Qt library; the test itself defines no QObject, so AUTOMOC is
+# disabled to avoid re-generating the library's moc into the test target).
+mapcreator_add_test(test_handler
+  SOURCES handler/test_image_handler.cpp
+  LIBS MapCreatorHandler)
+set_target_properties(test_handler PROPERTIES AUTOMOC OFF)
