@@ -211,7 +211,7 @@ namespace MapCreator {
 
 //			handler_->SetInternalCalibrator ( std::move ( Calibrator ( path.toStdString ( ) ) ) );
 
-			handler_->SetAistCoordinateConverter ( std::move ( AistCoordinateConverter ( path.toStdString ( ) ) ) );
+			handler_->SetAistCoordinateConverter ( std::move ( CalibratedCoordinateConverter ( path.toStdString ( ) ) ) );
 
 			ui_->actionInternalCalibration->setEnabled ( true );
 
@@ -375,9 +375,6 @@ namespace MapCreator {
 
 			computer_->SetOptions ( computation_configure_dialog_->GetParameters ( ) );
 
-			std::cout << computer_->GetParameters ( ).paramsConsectutive.Output ( ).toStdString ( ) << std::endl;
-			std::cout << computer_->GetParameters ( ).paramsKeyFramesOnly.Output ( ).toStdString ( ) << std::endl;
-			std::cout << computer_->GetParameters ( ).paramsFixedNumber.Output ( ).toStdString ( ) << std::endl;
 
 			emit ConfigurationDone ( );
 		}
@@ -408,7 +405,7 @@ namespace MapCreator {
 			QString result_cache_name = QFileDialog::getOpenFileName ( this , "Open Cache File" , data_dir_.absolutePath ( ) ,
 			                                                           "*.cache" );
 			if ( !result_cache_name.isEmpty ( ) ) {
-				computer_->UsePreviousResult ( result_cache_name );
+				computer_->UsePreviousResult ( result_cache_name.toStdString ( ) );
 				OnSlamComputationCompleted ( );
 			}
 		}

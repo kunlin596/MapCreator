@@ -595,9 +595,9 @@ namespace MapCreator {
 		QResource vertex_shader_resource ( vertex_shader_source_path );
 		QResource fragment_shader_resource ( fragment_shader_source_path );
 
-		auto vertex_shader_code   = MapCreator::ConvertConstCStrToStdString ( vertex_shader_resource.data ( ) ,
+		auto vertex_shader_code   = MapCreator::GetString ( reinterpret_cast<const char*>(vertex_shader_resource.data ( )) ,
 		                                                               vertex_shader_resource.size ( ) );
-		auto fragment_shader_code = MapCreator::ConvertConstCStrToStdString ( fragment_shader_resource.data ( ) ,
+		auto fragment_shader_code = MapCreator::GetString ( reinterpret_cast<const char*>(fragment_shader_resource.data ( )) ,
 		                                                               fragment_shader_resource.size ( ) );
 
 		QOpenGLShader vertex_shader ( QOpenGLShader::Vertex , 0 );
@@ -626,8 +626,6 @@ namespace MapCreator {
 
 		estimation_point_pair_gl_.clear ( );
 
-		std::cout << point_pair.first;
-		std::cout << point_pair.second;
 
 		auto point_pair_gl = PointPairGL ( GL , point_pair );
 		point_pair_gl.SetShaderProgram ( shader_program_ );
@@ -644,8 +642,6 @@ namespace MapCreator {
 
 		marker_point_pair_gl_.clear ( );
 
-		std::cout << point_pair.first;
-		std::cout << point_pair.second;
 
 		auto point_pair_gl = AnswerPointPairGL ( GL , point_pair );
 		point_pair_gl.SetShaderProgram ( shader_program_ );

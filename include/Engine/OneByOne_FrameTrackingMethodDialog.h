@@ -24,7 +24,7 @@ namespace MapCreator {
 
 		OneByOne_FrameTrackingMethodDialog ( QWidget * parent = 0 );
 
-		inline TrackerParameters::Consecutive GetParameters ( ) { return params_; }
+		inline ConsecutiveTrackerParameters GetParameters ( ) { return params_; }
 
 	private slots:
 
@@ -41,7 +41,7 @@ namespace MapCreator {
 
 		Ui::OneByOne_FrameTrackingMethodDialog* ui_;
 
-		TrackerParameters::Consecutive params_;
+		ConsecutiveTrackerParameters params_;
 
 	};
 }

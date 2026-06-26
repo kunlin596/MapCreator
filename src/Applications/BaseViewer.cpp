@@ -2,6 +2,8 @@
 // Created by LinKun on 10/28/15.
 //
 
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include "BasicViewer/BaseViewer.h"
 
 #include <Core/Utility.h>
@@ -27,9 +29,9 @@ namespace MapCreator {
         QResource vertex_shader_resource(vertex_shader_source_path);
         QResource fragment_shader_resource(fragment_shader_source_path);
 
-        auto vertex_shader_code = MapCreator::ConvertConstCStrToStdString(vertex_shader_resource.data(),
+        auto vertex_shader_code = MapCreator::GetString(reinterpret_cast<const char*>(vertex_shader_resource.data()),
                                                                    vertex_shader_resource.size());
-        auto fragment_shader_code = MapCreator::ConvertConstCStrToStdString(fragment_shader_resource.data(),
+        auto fragment_shader_code = MapCreator::GetString(reinterpret_cast<const char*>(fragment_shader_resource.data()),
                                                                      fragment_shader_resource.size());
 
         QOpenGLShader vertex_shader(QOpenGLShader::Vertex, 0);

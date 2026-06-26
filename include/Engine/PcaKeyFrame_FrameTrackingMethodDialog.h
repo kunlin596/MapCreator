@@ -26,7 +26,7 @@ namespace MapCreator {
 
 		PcaKeyFrame_FrameTrackingMethodDialog ( QWidget * parent = 0 );
 
-		inline TrackerParameters::KeyFrameOnly GetParameters ( ) { return params_; }
+		inline KeyFrameOnlyTrackerParameters GetParameters ( ) { return params_; }
 
 	private slots:
 
@@ -41,7 +41,7 @@ namespace MapCreator {
 
 		Ui::PcaKeyFrame_FrameTrackingMethodDialog* ui_;
 
-		TrackerParameters::KeyFrameOnly params_;
+		KeyFrameOnlyTrackerParameters params_;
 
 	};
 }

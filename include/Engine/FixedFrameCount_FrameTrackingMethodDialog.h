@@ -24,7 +24,7 @@ namespace MapCreator {
 
         FixedFrameCount_FrameTrackingMethodDialog(QWidget *parent = 0);
 
-        inline TrackerParameters::FixedNumber GetParameters() const { return params_; }
+        inline FixedNumberTrackerParameters GetParameters() const { return params_; }
 
     private
         slots:
@@ -45,7 +45,7 @@ namespace MapCreator {
 
         Ui::FixedFrameCount_FrameTrackingMethodDialog* ui_;
 
-        TrackerParameters::FixedNumber params_;
+        FixedNumberTrackerParameters params_;
 
     };
 }

@@ -92,7 +92,6 @@ namespace MapCreator {
 		for ( const auto & frame : keyframes_ ) {
 
 			std::cout << frame.GetId ( ) << std::endl;
-			std::cout << frame.GetAnswerAlignmentMatrix ( ) << std::endl;
 
 			accumulated_matrix = accumulated_matrix * frame.GetAnswerAlignmentMatrix ( );
 

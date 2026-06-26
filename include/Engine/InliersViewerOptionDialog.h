@@ -30,7 +30,7 @@ namespace MapCreator {
 	public slots:
 
 		void SetKeyFrames ( const KeyFrames & );
-		void SetOptions ( const TrackerParameters & options ) { params_ = options; }
+		void SetOptions ( const TrackerParameters & options ) { params_ = static_cast<const ConsecutiveTrackerParameters&>(options); }
 
 	private slots:
 
@@ -56,7 +56,7 @@ namespace MapCreator {
 
 		KeyFrames keyframes_for_inliers_;
 
-		TrackerParameters params_;
+		ConsecutiveTrackerParameters params_;
 
 		bool has_frame1_;
 		bool has_frame2_;

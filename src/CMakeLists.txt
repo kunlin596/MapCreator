@@ -3,16 +3,15 @@
 #   MapCreatorHandler  – image/tree data handlers          (src/Streamer)
 #   MapCreatorGui      – Qt viewers + dialogs              (src/Applications + Engine assets)
 #   tools              – executables                       (src/Tools)
-add_subdirectory(Core)
-add_subdirectory(Streamer)  # MapCreatorHandler — ported to the new KeyFrame/converter API
+add_subdirectory(Core)       # MapCreatorCore — SLAM library
+add_subdirectory(Streamer)   # MapCreatorHandler — data handlers
 
-# The GUI / tool modules still target the pre-refactor APIs that were redesigned
-# mid-refactor (mutable setter-based KeyFrame -> immutable point-cloud
-# KeyFrame; converter ScreenToWorld/WorldToScreen -> Project/Unproject). They
-# are being ported one module at a time; enable this once they compile.
-option(MAPCREATOR_BUILD_APP "Build the (work-in-progress) GUI/tool modules" OFF)
+# GUI + tool executables. Note: these compile against the redesigned APIs but
+# are not runtime-verified here (no display); a few paths remain stubbed
+# (calibrated converter, polymorphic tracker parameters) — see code comments.
+option(MAPCREATOR_BUILD_APP "Build the Qt GUI and tool executables" ON)
 if(MAPCREATOR_BUILD_APP)
-  add_subdirectory(Applications)
+  add_subdirectory(Applications)  # MapCreatorGui — viewers + dialogs
   if(MAPCREATOR_BUILD_TOOLS)
     add_subdirectory(Tools)
   endif()

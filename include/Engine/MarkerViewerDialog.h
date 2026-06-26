@@ -10,6 +10,7 @@
 #include <QAbstractButton>
 
 #include "Core/KeyFrame.h"
+#include "Core/SLAM.h"
 #include "Engine/MarkerSelectorDialog.h"
 
 #include <glm/glm.hpp>

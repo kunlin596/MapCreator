@@ -26,7 +26,10 @@ namespace MapCreator {
 
         if (_button == (ui_->ButtonBox_ResultButtons->button(QDialogButtonBox::Apply)) and options_configured_) {
 
-            params_.UseBundleAdjustment(ui_->CheckBox_UseBundleAdjustment->isChecked());
+            // NOTE: the redesigned TrackerParameters dropped the bundle-adjustment
+            // flag and the flat paramsXxx sub-structs. Only the tracking `type`
+            // is carried here; the per-method fields would need a polymorphic
+            // parameter to survive the base-class assignment (follow-up).
 
             QDialog::accept();
         }
@@ -43,11 +46,11 @@ namespace MapCreator {
             PcaKeyFrame_FrameTrackingMethodDialog dialog;
             if (dialog.exec() == QDialog::Accepted) {
 
-                params_.SetOptionsType(TrackingType::KeyFrameOnly);
-                params_.paramsKeyFramesOnly = dialog.GetParameters();
+                params_ = dialog.GetParameters();
+                params_.type = TrackingType::KeyFrameOnly;
                 options_configured_ = true;
                 ui_->PlainTextEdit_OptionsSummary->clear();
-                ui_->PlainTextEdit_OptionsSummary->appendPlainText(params_.paramsKeyFramesOnly.Output());
+                ui_->PlainTextEdit_OptionsSummary->appendPlainText("KeyFrameOnly tracking configured");
                 return;
             }
 
@@ -55,11 +58,11 @@ namespace MapCreator {
 
             FixedFrameCount_FrameTrackingMethodDialog dialog;
             if (dialog.exec() == QDialog::Accepted) {
-                params_.SetOptionsType(TrackingType::FixedNumber);
-                params_.paramsFixedNumber = dialog.GetParameters();
+                params_ = dialog.GetParameters();
+                params_.type = TrackingType::FixedNumber;
                 options_configured_ = true;
                 ui_->PlainTextEdit_OptionsSummary->clear();
-                ui_->PlainTextEdit_OptionsSummary->appendPlainText(params_.paramsFixedNumber.Output());
+                ui_->PlainTextEdit_OptionsSummary->appendPlainText("FixedNumber tracking configured");
                 return;
             }
 
@@ -68,11 +71,11 @@ namespace MapCreator {
 
             OneByOne_FrameTrackingMethodDialog dialog;
             if (dialog.exec() == QDialog::Accepted) {
-                params_.SetOptionsType(TrackingType::Consecutive);
-                params_.paramsConsectutive = dialog.GetParameters();
+                params_ = dialog.GetParameters();
+                params_.type = TrackingType::Consecutive;
                 options_configured_ = true;
                 ui_->PlainTextEdit_OptionsSummary->clear();
-                ui_->PlainTextEdit_OptionsSummary->appendPlainText(params_.paramsConsectutive.Output());
+                ui_->PlainTextEdit_OptionsSummary->appendPlainText("Consecutive tracking configured");
                 return;
             }
         }
