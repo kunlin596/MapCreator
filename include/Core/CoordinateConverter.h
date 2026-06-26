@@ -19,6 +19,12 @@ class CoordinateConverter : public AbstractCoordinateConverter {
   virtual cv::Mat Project(const cv::Mat& image) const override;
   virtual cv::Mat Unproject(const cv::Mat& image) const override;
 
+  // Per-point pinhole projection of a world point to normalized image
+  // coordinates ([0,1] across the frame), the inverse of Unproject's depth
+  // model. Consumed by reprojection-error optimization; pixel scaling is
+  // irrelevant there, so coordinates are left normalized.
+  cv::Point2f WorldToScreen(const cv::Point3f& world_point) const;
+
  private:
   float GetDepthFactor(float fov) { return tanf(fov / 2) * 2; }
 

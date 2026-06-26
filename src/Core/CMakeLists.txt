@@ -7,8 +7,7 @@ file(GLOB MAPCREATOR_CORE_HEADERS CONFIGURE_DEPENDS ${PROJECT_SOURCE_DIR}/includ
 # consolidated into a single CoordinateConverter. Re-enable once that is resolved.
 list(REMOVE_ITEM MAPCREATOR_CORE_SOURCES
   ${CMAKE_CURRENT_SOURCE_DIR}/Tracker.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/Algorithm.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/Optimization.cpp)
+  ${CMAKE_CURRENT_SOURCE_DIR}/Algorithm.cpp)
 
 add_library(MapCreatorCore ${MAPCREATOR_CORE_SOURCES} ${MAPCREATOR_CORE_HEADERS})
 add_library(MapCreator::Core ALIAS MapCreatorCore)

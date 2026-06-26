@@ -40,6 +40,15 @@ cv::Mat CoordinateConverter::Unproject(cv::Mat const& image) const {
   return std::move(ret);
 }
 
+cv::Point2f CoordinateConverter::WorldToScreen(
+    const cv::Point3f& world_point) const {
+  // Inverse of Unproject: depth gz = -z, screen coordinate normalized to [0,1].
+  if (std::abs(world_point.z) < 1e-9f) return cv::Point2f(0.5f, 0.5f);
+  const float x = -world_point.x / (world_point.z * universal_xz_factor_) + 0.5f;
+  const float y = world_point.y / (world_point.z * universal_yz_factor_) + 0.5f;
+  return cv::Point2f(x, y);
+}
+
 cv::Mat CoordinateConverter::Project(cv::Mat const& image) const {
   // TODO: store the image info data
   int channels = image.channels();

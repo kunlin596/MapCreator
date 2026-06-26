@@ -23,6 +23,20 @@ TEST(CoordinateConverter, UnprojectZeroDepthMapsToOrigin) {
       EXPECT_NEAR(pts.at<cv::Vec3f>(r, c)[2], 0.0f, 1e-6f);
 }
 
+TEST(CoordinateConverter, WorldToScreenCentersOpticalAxis) {
+  const CoordinateConverter conv;
+  const cv::Point2f c = conv.WorldToScreen(cv::Point3f(0.0f, 0.0f, -2.0f));
+  EXPECT_NEAR(c.x, 0.5f, 1e-5f);
+  EXPECT_NEAR(c.y, 0.5f, 1e-5f);
+}
+
+TEST(CoordinateConverter, WorldToScreenGuardsZeroDepth) {
+  const CoordinateConverter conv;
+  const cv::Point2f c = conv.WorldToScreen(cv::Point3f(1.0f, 1.0f, 0.0f));
+  EXPECT_NEAR(c.x, 0.5f, 1e-5f);
+  EXPECT_NEAR(c.y, 0.5f, 1e-5f);
+}
+
 // The calibrated converter has not yet been ported (Unproject is stubbed to
 // return an empty matrix); pin that contract so the regression is visible when
 // it is implemented.
