@@ -1,54 +1,17 @@
-cmake_minimum_required ( VERSION 2.8 )
+# Executables. Library usage requirements (includes, Qt, transitive deps) are
+# inherited from the linked targets, so no manual include_directories needed.
 
-#set ( CMAKE_MACOSX_RPATH ${CMAKE_MACOSX_RPATH} ${CMAKE_INSTALL_PREFIX}/lib )
-set ( CMAKE_INCLUDE_CURRENT_DIR ON )
-set ( CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "/usr/local/Qt5" )
+add_executable(MapCreator MapCreator.cpp)
+target_link_libraries(MapCreator PRIVATE MapCreatorGui)
 
-find_package ( Boost COMPONENTS system filesystem program_options REQUIRED )
-find_package ( OpenCV REQUIRED )
-find_package ( Qt5Widgets REQUIRED )
-find_package ( Qt5Concurrent REQUIRED )
-find_package ( Qt5OpenGL REQUIRED )
+add_executable(FrameViewer FrameViewer.cpp)
+target_link_libraries(FrameViewer PRIVATE MapCreatorGui)
 
-include_directories ( ${OpenCV_INCLUDE_DIRS} ${Boost_INCLUDE_DIR} ${NiS_INCLUDE_DIR} )
+add_executable(dataset_converter dataset_converter.cpp)
+target_link_libraries(dataset_converter PRIVATE MapCreatorCore Boost::program_options)
 
-set ( CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib" )
+# Standalone placeholder utility.
+add_executable(Viewer Viewer.cpp)
 
-add_executable ( MapCreator
-    MapCreator.cpp )
-
-target_link_libraries ( MapCreator
-    MapCreatorCore
-    MapCreatorHandler
-    MapCreatorSlam
-    MapCreatorEngine
-    ${OpenCV_LIBS}
-    ${Boost_LIBRARIES}
-    Qt5::Widgets
-    Qt5::Concurrent
-    Qt5::OpenGL )
-
-add_executable ( Viewer Viewer.cpp )
-add_executable ( FrameViewer FrameViewer.cpp )
-add_executable ( dataset_converter dataset_converter.cpp )
-
-target_link_libraries ( dataset_converter
-    MapCreatorCore
-    MapCreatorSlam
-    ${Boost_LIBRARIES}
-)
-
-target_link_libraries ( FrameViewer
-    MapCreatorCore
-    MapCreatorSlam
-    MapCreatorEngine
-    ${OpenCV_LIBS}
-    ${Boost_LIBRARIES}
-    Qt5::Widgets
-    Qt5::Concurrent
-    Qt5::OpenGL )
-
-install ( TARGETS
-    MapCreator
-    FrameViewer
-    DESTINATION "${CMAKE_INSTALL_PREFIX}/bin" )
+install(TARGETS MapCreator FrameViewer dataset_converter Viewer
+  RUNTIME DESTINATION bin)

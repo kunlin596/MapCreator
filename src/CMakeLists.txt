@@ -1,21 +1,12 @@
-cmake_minimum_required(VERSION 2.8)
-
-# dependencies
-find_package(PkgConfig)
-
-pkg_check_modules(LOG4CXX REQUIRED liblog4cxx)
-include_directories(${LOG4CXX_INCLUDEDIR})
-link_directories(${LOG4CXX_LIBDIR})
-
-find_package ( Boost COMPONENTS system filesystem REQUIRED )
-find_package ( OpenCV REQUIRED)
-find_package ( Qt5Core REQUIRED )
-find_package ( Qt5OpenGL REQUIRED )
-find_package ( Qt5Widgets REQUIRED )
-
+# Component libraries, declared in dependency order.
+#   MapCreatorCore     – SLAM core algorithms              (src/Core)
+#   MapCreatorHandler  – image/tree data handlers          (src/Streamer)
+#   MapCreatorGui      – Qt viewers + dialogs              (src/Applications + Engine assets)
+#   tools              – executables                       (src/Tools)
 add_subdirectory(Core)
-add_subdirectory(SLAM)
-add_subdirectory(Handler)
-add_subdirectory(BasicViewer)
-add_subdirectory(Engine)
-add_subdirectory(tool)
+add_subdirectory(Streamer)
+add_subdirectory(Applications)
+
+if(MAPCREATOR_BUILD_TOOLS)
+  add_subdirectory(Tools)
+endif()

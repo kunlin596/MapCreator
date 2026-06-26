@@ -1,61 +1,31 @@
-cmake_minimum_required(VERSION 3.0)
+# MapCreatorCore — SLAM core algorithms (absorbed the former SLAM/Mapping module).
+file(GLOB MAPCREATOR_CORE_SOURCES CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
+file(GLOB MAPCREATOR_CORE_HEADERS CONFIGURE_DEPENDS ${PROJECT_SOURCE_DIR}/include/Core/*.h)
 
-project(MapCreator)
+# Deferred: the high-level orchestration layer (Tracker/Algorithm) still relies on
+# the pre-refactor XtionCoordinateConverter/AistCoordinateConverter split that was
+# consolidated into a single CoordinateConverter. Re-enable once that is resolved.
+list(REMOVE_ITEM MAPCREATOR_CORE_SOURCES
+  ${CMAKE_CURRENT_SOURCE_DIR}/Tracker.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/Algorithm.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/Transformation.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/Optimization.cpp)
 
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
-set(CMAKE_CXX_FLAGS "-O3 -Wall")
+add_library(MapCreatorCore ${MAPCREATOR_CORE_SOURCES} ${MAPCREATOR_CORE_HEADERS})
+add_library(MapCreator::Core ALIAS MapCreatorCore)
 
-aux_source_directory(
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    MapCreatorCore_SOURCE_FILES)
+target_include_directories(MapCreatorCore PUBLIC
+  ${PROJECT_SOURCE_DIR}/include
+  ${PROJECT_SOURCE_DIR}/include/Core)
 
-include(CheckIncludeFile)
-include(CheckIncludeFileCXX)
-include(CheckLibraryExists)
-include(CheckFunctionExists)
-include(CheckCXXSourceCompiles)
-include(CheckCXXSourceRuns)
-include(CheckCXXCompilerFlag)
+target_link_libraries(MapCreatorCore PUBLIC
+  ${OpenCV_LIBS}
+  Eigen3::Eigen
+  glm::glm
+  Boost::system Boost::filesystem Boost::serialization Boost::iostreams
+  Qt5::Core Qt5::Widgets  # NOTE: Algorithm.cpp/Tracker pull in Qt (QMessageBox/QObject) — GUI coupling to revisit
+  PkgConfig::LOG4CXX)
 
-set(MapCreatorCore_INCLUDE_DIR ../../include/Core)
-include_directories(${MapCreatorCore_INCLUDE_DIR})
-
-find_package(PkgConfig)
-find_package(OpenCV REQUIRED)
-find_package(
-  Boost
-  COMPONENTS
-  system
-  filesystem
-  serialization
-  iostreams
-  REQUIRED)
-find_package(log4cxx)
-find_package (Eigen3 3.3 REQUIRED)
-
-add_library(
-    mapcreator_core
-    SHARED
-    ${CMAKE_CURRENT_SOURCE_DIR}/Image.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/Feature.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/Matcher.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/Grabber.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/PointCloud.cpp
-    # ${CMAKE_CURRENT_SOURCE_DIR}/Inliers.cpp
-    # ${CMAKE_CURRENT_SOURCE_DIR}/Calibrator.cpp
-    # ${CMAKE_CURRENT_SOURCE_DIR}/KeyFrame.cpp
-    # ${CMAKE_CURRENT_SOURCE_DIR}/Transformation.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/Utility.cpp
-)
-
-target_link_libraries(
-    mapcreator_core
-    PUBLIC
-    ${LOG4CXX_LIBRARIES}
-    ${OpenCV_LIBS}
-    ${Boost_LIBRARIES}
-)
-
-# install (TARGETS MapCreatorCore DESTINATION "${CMAKE_INSTALL_PREFIX}/lib")
+if(ENABLE_OPENCV_CONTRIB)
+  target_compile_definitions(MapCreatorCore PUBLIC ENABLE_OPENCV_CONTRIB)
+endif()

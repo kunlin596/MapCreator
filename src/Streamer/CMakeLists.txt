@@ -1,38 +1,15 @@
-cmake_minimum_required ( VERSION 2.8 )
+# MapCreatorHandler — image / tree data handlers.
+file(GLOB MAPCREATOR_HANDLER_SOURCES CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
+file(GLOB MAPCREATOR_HANDLER_HEADERS CONFIGURE_DEPENDS ${PROJECT_SOURCE_DIR}/include/Handler/*.h)
 
-aux_source_directory ( . MapCreatorHandler_SOURCE_FILES )
+add_library(MapCreatorHandler ${MAPCREATOR_HANDLER_SOURCES} ${MAPCREATOR_HANDLER_HEADERS})
+add_library(MapCreator::Handler ALIAS MapCreatorHandler)
 
-# set ( CMAKE_MACOSX_RPATH 1 )
+target_include_directories(MapCreatorHandler PUBLIC
+  ${PROJECT_SOURCE_DIR}/include/Handler)
 
-set ( CMAKE_INCLUDE_CURRENT_DIR ON )
-set ( CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "/usr/local/Qt5" )
-
-find_package ( Boost COMPONENTS system filesystem REQUIRED )
-find_package ( Qt5Concurrent REQUIRED )
-
-qt5_wrap_cpp ( MapCreatorHandler_MOC_FILES
-    ${MapCreator_INSTALL_INCLUDE_DIR}/Handler/ImageDataHandler.h
-)
-
-include_directories (
-    ${OpenCV_INCLUDE_DIRS}
-    ${Boost_INCLUDE_DIR}
-    ${MapCreator_INSTALL_INCLUDE_DIR}
-)
-
-add_library ( MapCreatorHandler SHARED
-    ${MapCreatorHandler_SOURCE_FILES}
-	${MapCreatorHandler_MOC_FILES} )
-
-target_link_libraries ( MapCreatorHandler
-    MapCreatorCore
-    MapCreatorSlam
-    ${OpenCV_LIBS}
-	${Boost_LIBRARIES}
-	Qt5::Core
-	Qt5::Concurrent )
-
-install ( TARGETS
-    MapCreatorHandler
-	DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" )
-
+target_link_libraries(MapCreatorHandler PUBLIC
+  MapCreatorCore
+  ${OpenCV_LIBS}
+  Boost::system Boost::filesystem
+  Qt5::Core Qt5::Concurrent)
