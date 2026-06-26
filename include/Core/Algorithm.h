@@ -47,11 +47,11 @@ class SlamAlgorithm {
     is_data_initialized_ = true;
     has_answer_ = false;
   }
-  void SetCoordinateConverter(const XtionCoordinateConverter& converter) {
+  void SetCoordinateConverter(const CoordinateConverter& converter) {
     xtion_converter_ = converter;
     converter_choice_ = 0;
   }
-  void SetCoordinateConverter(const AistCoordinateConverter& converter) {
+  void SetCoordinateConverter(const CalibratedCoordinateConverter& converter) {
     aist_converter_ = converter;
     converter_choice_ = 1;
   }
@@ -141,8 +141,8 @@ class SlamAlgorithm {
   AlgorithmParameters algorithm_parameters;
   KeyFrames keyframes_;
   int converter_choice_;
-  XtionCoordinateConverter xtion_converter_;
-  AistCoordinateConverter aist_converter_;
+  CoordinateConverter xtion_converter_;
+  CalibratedCoordinateConverter aist_converter_;
   bool running_flag_;
   bool has_answer_;
   std::vector<std::pair<Points, Points> > all_markers_points_pairs_;

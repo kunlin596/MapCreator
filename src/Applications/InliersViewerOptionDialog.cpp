@@ -5,8 +5,8 @@
 #include "ui_InliersViewerOptionDialog.h"
 #include "Engine/InliersViewerOptionDialog.h"
 #include <opencv2/core/core_c.h>
-#include <SLAM/Transformation.h>
-#include <SLAM/Tracker.h>
+#include <Core/Transformation.h>
+#include <Core/Tracker.h>
 #include <QFileDialog>
 
 namespace MapCreator {

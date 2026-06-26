@@ -21,8 +21,8 @@
 #include <opencv2/opencv.hpp>
 
 #include <Core/Utility.h>
-#include <SLAM/SLAM.h>
-#include <SLAM/Calibrator.h>
+#include <Core/SLAM.h>
+#include <Core/Calibrator.h>
 #include <Handler/ImageDataHandler.h>
 
 namespace {
@@ -656,4 +656,3 @@ namespace MapCreator {
 	}
 
 }
-

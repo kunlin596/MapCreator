@@ -8,8 +8,8 @@
 #include <QDialog>
 
 
-#include <SLAM/KeyFrame.h>
-#include <SLAM/SlamParameters.h>
+#include <Core/KeyFrame.h>
+#include <Core/SlamParameters.h>
 
 namespace Ui { class InliersViewerOptionDialog; }
 

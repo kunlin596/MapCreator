@@ -11,6 +11,7 @@ namespace MapCreator {
 
 using ColorImage = cv::Mat_<cv::Vec3b>;
 using PointImage = cv::Mat_<cv::Vec3f>;
+using DepthImage = cv::Mat_<ushort>;
 template <typename T>
 using GrayScaleImage = cv::Mat_<T>;
 

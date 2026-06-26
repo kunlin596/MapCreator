@@ -7,7 +7,7 @@
 
 #include "PrimitiveGL.h"
 
-#include <SLAM/KeyFrame.h>
+#include <Core/KeyFrame.h>
 
 namespace MapCreator {
 

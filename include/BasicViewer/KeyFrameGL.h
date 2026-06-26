@@ -6,7 +6,7 @@
 #define MAPCREATOR_KEYFRAMEGL_H
 
 #include "BasicViewer/PrimitiveGL.h"
-#include <SLAM/KeyFrame.h>
+#include <Core/KeyFrame.h>
 #include <memory>
 
 namespace MapCreator {

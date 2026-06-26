@@ -6,8 +6,8 @@
 #include "Engine/CoordinateConverterDialog.h"
 #include "ui_MainWindow.h"
 
-#include <SLAM/Tracker.h>
-#include <SLAM/CoordinateConverter.h>
+#include <Core/Tracker.h>
+#include <Core/CoordinateConverter.h>
 
 #include <QMessageBox>
 #include <QMouseEvent>

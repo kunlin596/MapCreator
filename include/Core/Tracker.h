@@ -32,7 +32,7 @@ class Tracker {
   Tracker(const TrackerParameters& params) { params_ = params; }
   Tracker(const Tracker& other) = default;
   Tracker(const KeyFrames& keyframes, const TrackerParameters& params,
-          const XtionCoordinateConverter& converter) {
+          const CoordinateConverter& converter) {
     params_ = params;
     keyframes_ = keyframes;
     xtion_coordinate_converter_ = converter;
@@ -45,7 +45,7 @@ class Tracker {
   }
 
   Tracker(const KeyFrames& keyframes, const TrackerParameters& params,
-          const AistCoordinateConverter& converter) {
+          const CalibratedCoordinateConverter& converter) {
     params_ = params;
     keyframes_ = keyframes;
     aist_coordinate_converter_ = converter;
@@ -83,9 +83,9 @@ class Tracker {
   QString message_;
 
   int converter_choice_;
-  XtionCoordinateConverter xtion_coordinate_converter_;
-  AistCoordinateConverter aist_coordinate_converter_;
-  CoordinateConverter* converter_pointer_;
+  CoordinateConverter xtion_coordinate_converter_;
+  CalibratedCoordinateConverter aist_coordinate_converter_;
+  AbstractCoordinateConverter* converter_pointer_;
 
   int offset_;
 };

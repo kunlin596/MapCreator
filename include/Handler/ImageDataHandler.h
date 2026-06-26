@@ -65,15 +65,15 @@ class ImageHandler2 : public QObject {
   void ConvertToPointImagesWithInternalCalibration();
 
   void SetXtionCoordinateConverter() { converter_pointer_ = &xtion_converter_; }
-  void SetAistCoordinateConverter(const AistCoordinateConverter& converter) {
+  void SetAistCoordinateConverter(const CalibratedCoordinateConverter& converter) {
     aist_converter_ = converter;
     converter_pointer_ = &aist_converter_;
   }
 
-  XtionCoordinateConverter GetXtionCoordinateConverter() const {
+  CoordinateConverter GetXtionCoordinateConverter() const {
     return xtion_converter_;
   }
-  AistCoordinateConverter GetAistCoordinateConverter() const {
+  CalibratedCoordinateConverter GetAistCoordinateConverter() const {
     return aist_converter_;
   }
 
@@ -113,9 +113,9 @@ class ImageHandler2 : public QObject {
   RawDataFrames raw_data_frames_;
   KeyFrames keyframes_;
 
-  CoordinateConverter* converter_pointer_;
-  XtionCoordinateConverter xtion_converter_;
-  AistCoordinateConverter aist_converter_;
+  AbstractCoordinateConverter* converter_pointer_;
+  CoordinateConverter xtion_converter_;
+  CalibratedCoordinateConverter aist_converter_;
 
   float xz_factor_;
   float yz_factor_;

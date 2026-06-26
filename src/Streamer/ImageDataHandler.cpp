@@ -13,7 +13,7 @@
 #include <Core/Utility.h>
 #include <Core/Serialize.h>
 
-#include <SLAM/CoordinateConverter.h>
+#include <Core/CoordinateConverter.h>
 
 #include<mutex>
 
@@ -175,4 +175,3 @@ namespace MapCreator {
 	}
 
 }
-

@@ -6,7 +6,7 @@
 #define MAPCREATOR_POINTPAIRGL_H
 
 #include "BasicViewer/PrimitiveGL.h"
-#include <SLAM/KeyFrame.h>
+#include <Core/KeyFrame.h>
 
 namespace MapCreator {
 
