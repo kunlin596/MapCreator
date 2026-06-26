@@ -6,6 +6,8 @@
 
 #include <eigen3/Eigen/Dense>
 
+#include <atomic>
+
 #include "Camera.h"
 #include "Feature.h"
 #include "PointCloud.h"
@@ -24,7 +26,21 @@ class KeyFrame : public CameraBase {
   explicit KeyFrame(const std::string& name, const PointCloudXYZRGB& pointcloud,
                     const Feature::Type& type = Feature::Type::kORB,
                     const std::shared_ptr<FrameBase>& parent = nullptr)
-      : CameraBase(parent), name_(name), type_(type), is_used_(false) {}
+      : CameraBase(parent),
+        id_(NextId()),
+        name_(name),
+        type_(type),
+        is_used_(false),
+        pointCloud_(pointcloud) {
+    // Derive the 2D feature from the cloud's color image (grayscale). Empty
+    // clouds (e.g. default-constructed) leave the feature default-constructed.
+    const ColorImage& color = pointCloud_.GetColorImage();
+    if (!color.empty()) {
+      cv::Mat gray;
+      cv::cvtColor(color, gray, cv::COLOR_BGR2GRAY);
+      feature_ = Feature(cv::Mat_<uchar>(gray), type_);
+    }
+  }
 
   KeyFrame() = delete;
 
@@ -80,6 +96,13 @@ class KeyFrame : public CameraBase {
   bool IsUsed() const noexcept { return is_used_; }
 
  private:
+  // Sequential, process-unique id. The redesigned ctor no longer takes an
+  // external frame id, so one is assigned automatically on construction.
+  static int NextId() {
+    static std::atomic<int> counter{0};
+    return counter++;
+  }
+
   int id_;  ///< Unique id of the key frame
 
   std::string name_;
