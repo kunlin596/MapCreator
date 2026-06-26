@@ -7,7 +7,7 @@
 
 #endif //MAPCREATOR_SLAMOPTIONCACHE_H
 
-#include "SLAM/SlamParameters.h"
+#include "Core/SlamParameters.h"
 
 namespace MapCreator {
 

@@ -14,9 +14,9 @@
 #include "Engine/MarkerViewerDialog.h"
 #include "Engine/UiDialogs.h"
 #include "Handler/ImageDataHandler.h"
-#include "SLAM/Algorithm.h"
-#include "SLAM/KeyFrame.h"
-#include "SLAM/SlamParameters.h"
+#include "Core/Algorithm.h"
+#include "Core/KeyFrame.h"
+#include "Core/SlamParameters.h"
 
 Q_DECLARE_METATYPE(MapCreator::KeyFrames)
 

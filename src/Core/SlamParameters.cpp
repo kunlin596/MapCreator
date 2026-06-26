@@ -2,6 +2,6 @@
 // Created by LinKun on 10/26/15.
 //
 
-#include "SLAM/SlamParameters.h"
+#include "Core/SlamParameters.h"
 
 namespace MapCreator {}

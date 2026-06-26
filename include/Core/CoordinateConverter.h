@@ -2,7 +2,7 @@
 
 #include <opencv2/opencv.hpp>
 
-#include "SLAM/Calibrator.h"  // for InternalCalibrationData
+#include "Core/Calibrator.h"  // for InternalCalibrationData
 
 namespace MapCreator {
 

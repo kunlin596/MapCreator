@@ -11,10 +11,10 @@
 #include <boost/tuple/tuple.hpp>
 
 #include "Core/Serialize.h"
-#include "SLAM/Calibrator.h"
-#include "SLAM/CoordinateConverter.h"
-#include "SLAM/KeyFrame.h"
-#include "SLAM/SLAM.h"
+#include "Core/Calibrator.h"
+#include "Core/CoordinateConverter.h"
+#include "Core/KeyFrame.h"
+#include "Core/SLAM.h"
 
 namespace MapCreator {
 

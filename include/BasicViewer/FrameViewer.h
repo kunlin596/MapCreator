@@ -5,7 +5,7 @@
 #ifndef MAPCREATOR_FRAMEVIEWER_H
 #define MAPCREATOR_FRAMEVIEWER_H
 
-#include "SLAM/SLAM.h"
+#include "Core/SLAM.h"
 #include <QWidget>
 
 

@@ -11,7 +11,7 @@
 #include <boost/iostreams/filtering_stream.hpp>
 #include <boost/iostreams/filter/gzip.hpp>
 
-#include "SLAM/SlamParameters.h"
+#include "Core/SlamParameters.h"
 
 namespace MapCreator {
 

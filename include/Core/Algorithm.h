@@ -10,12 +10,12 @@
 #include <limits>
 
 #include "Core/Feature.h"
-#include "SLAM/ComputationResultCache.h"
-#include "SLAM/CoordinateConverter.h"
-#include "SLAM/KeyFrame.h"
-#include "SLAM/Matcher.h"
-#include "SLAM/SlamParameters.h"
-#include "SLAM/Tracker.h"
+#include "Core/ComputationResultCache.h"
+#include "Core/CoordinateConverter.h"
+#include "Core/KeyFrame.h"
+#include "Core/DataAssociation.h"
+#include "Core/SlamParameters.h"
+#include "Core/Tracker.h"
 
 namespace {
 using MatricesInfo = std::pair<std::vector<size_t>, std::vector<glm::mat4> >;

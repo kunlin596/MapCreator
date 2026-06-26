@@ -2,10 +2,10 @@
 // Created by LinKun on 10/9/15.
 //
 
-#include "SLAM/Tracker.h"
-#include "SLAM/GlobalOptimization.h"
-#include "SLAM/Matcher.h"
-#include "SLAM/Transformation.h"
+#include "Core/Tracker.h"
+#include "Core/Optimization.h"
+#include "Core/DataAssociation.h"
+#include "Core/Transformation.h"
 
 #include <Core/Utility.h>
 #include <opencv2/core/core_c.h>

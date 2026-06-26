@@ -2,7 +2,7 @@
 // Created by LinKun on 10/26/15.
 //
 
-#include "SLAM/ComputationResultCache.h"
+#include "Core/ComputationResultCache.h"
 
 
 namespace MapCreator {

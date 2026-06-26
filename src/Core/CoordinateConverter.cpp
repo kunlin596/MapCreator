@@ -1,4 +1,4 @@
-#include "SLAM/CoordinateConverter.h"
+#include "Core/CoordinateConverter.h"
 
 namespace {
 // TODO: make them configurable

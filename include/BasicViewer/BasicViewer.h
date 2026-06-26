@@ -16,10 +16,10 @@
 #include "BasicViewer/KeyFrameGL.h"
 #include "BasicViewer/LineSegmentGL.h"
 
-#include "SLAM/KeyFrame.h"
-#include "SLAM/Inliers.h"
-#include "SLAM/Algorithm.h"
-#include "SLAM/Transformation.h"
+#include "Core/KeyFrame.h"
+#include "Core/Inliers.h"
+#include "Core/Algorithm.h"
+#include "Core/Transformation.h"
 
 #include <boost/tuple/tuple.hpp>
 

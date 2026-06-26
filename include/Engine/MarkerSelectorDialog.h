@@ -4,7 +4,7 @@
 
 #ifndef MAPCREATOR_MARKERSELECTORDIALOG_H
 #define MAPCREATOR_MARKERSELECTORDIALOG_H
-#include "SLAM/KeyFrame.h"
+#include "Core/KeyFrame.h"
 
 #include <QDialog>
 #include <QMouseEvent>

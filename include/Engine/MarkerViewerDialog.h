@@ -9,7 +9,7 @@
 #include <QDialog>
 #include <QAbstractButton>
 
-#include "SLAM/KeyFrame.h"
+#include "Core/KeyFrame.h"
 #include "Engine/MarkerSelectorDialog.h"
 
 #include <glm/glm.hpp>

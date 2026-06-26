@@ -7,11 +7,11 @@
 
 #include <QObject>
 
-#include "SLAM/CoordinateConverter.h"
-#include "SLAM/KeyFrame.h"
-#include "SLAM/SLAM.h"
-#include "SLAM/SlamParameters.h"
-#include "SLAM/Transformation.h"
+#include "Core/CoordinateConverter.h"
+#include "Core/KeyFrame.h"
+#include "Core/SLAM.h"
+#include "Core/SlamParameters.h"
+#include "Core/Transformation.h"
 
 #include <Core/Utility.h>
 

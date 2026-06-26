@@ -8,8 +8,8 @@
 
 #include <opencv2/opencv.hpp>
 
-#include "SLAM/SLAM.h"
-#include "SLAM/CoordinateConverter.h"
+#include "Core/SLAM.h"
+#include "Core/CoordinateConverter.h"
 
 #include <Eigen/Dense>
 #include <unsupported/Eigen/LevenbergMarquardt>

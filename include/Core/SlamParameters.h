@@ -2,7 +2,7 @@
 #define MAPCREATOR_SLAMPARAMETERS_H
 
 #include "Core/Serialize.h"
-#include "SLAM/SLAM.h"
+#include "Core/SLAM.h"
 
 namespace MapCreator {
 

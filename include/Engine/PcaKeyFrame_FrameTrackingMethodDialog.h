@@ -8,7 +8,7 @@
 #include <QDialog>
 #include <QAbstractButton>
 
-#include "SLAM/SlamParameters.h"
+#include "Core/SlamParameters.h"
 
 namespace Ui {
 	class PcaKeyFrame_FrameTrackingMethodDialog;

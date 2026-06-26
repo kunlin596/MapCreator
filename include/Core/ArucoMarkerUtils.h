@@ -11,8 +11,8 @@
 #include <opencv2/aruco/charuco.hpp>
 #endif
 
-#include "SLAM/KeyFrame.h"
-#include "SLAM/SLAM.h"
+#include "Core/KeyFrame.h"
+#include "Core/SLAM.h"
 
 namespace MapCreator {
 

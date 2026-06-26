@@ -7,11 +7,11 @@
 #include "Core/Utility.h"
 #include "Core/MyMath.h"
 
-#include "SLAM/Algorithm.h"
-#include "SLAM/Calibrator.h"
-#include "SLAM/Transformation.h"
-#include "SLAM/GlobalOptimization.h"
-//#include "SLAM/ArucoMarkerUtils.h"
+#include "Core/Algorithm.h"
+#include "Core/Calibrator.h"
+#include "Core/Transformation.h"
+#include "Core/Optimization.h"
+//#include "Core/ArucoMarkerUtils.h"
 
 #include <limits>
 
