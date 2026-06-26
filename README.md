@@ -3,7 +3,8 @@
 ## Overview
 [![Project Status: Active – The project has reached a usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
 
-A visual SLAM experiment toolset for **offline RGB-D map creation**.
+A visual SLAM experiment toolset for **offline RGB-D map creation**, and the
+reference implementation of the ViEW2014 paper below.
 
 It reads saved Asus Xtion frames (with or without calibration data) and builds a 3D
 map offline. The pipeline:
@@ -22,6 +23,24 @@ Repeating this over consecutive frames accumulates the map.
 > GUI compiles but is not yet runtime-verified, and a few paths (the calibrated
 > converter and polymorphic tracker parameters) are stubbed — see the inline code
 > comments / TODOs.
+
+## Reference
+
+This repository implements:
+
+> Kun Lin and Yutaka Satoh, **"A Study on Automatic Selection of Key-frames of
+> RGB-D SLAM,"** *ViEW2014 — Vision Engineering Workshop*, 2014.
+
+The paper reduces accumulated error in RGB-D reconstruction by measuring the
+distribution of the 3D points backing the matched 2D image features and using the
+**first principal-component ratio** to decide when to insert a new keyframe — with
+significant gains in reconstruction accuracy and stability over all-frame and
+fixed-interval baselines. In this codebase that criterion is the `KeyFrameOnly`
+tracking mode (see `ValidateInliersDistribution` and `KeyFrameOnlyTrackerParameters`
+in `Core`); `Consecutive` (all frames) and `FixedNumber` (fixed interval) are the
+baselines it is compared against.
+
+See <https://kunlin.vision/publications/>.
 
 ## Dependencies
 
