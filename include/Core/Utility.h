@@ -6,6 +6,7 @@
 #define MAPCREATOR_UTILITY_H
 
 #include <algorithm>
+#include <glm/glm.hpp>
 #include <opencv2/opencv.hpp>
 #include <string>
 
@@ -29,6 +30,15 @@ std::string GetString(const char* c_str, size_t len);
 
 template <typename From, typename To>
 To ConvertMatrix(const From& m);
+
+// Convert an OpenCV 4x4 (row-vector convention, p' = p * M) to a glm matrix
+// (column-vector convention, p' = M * p): glm = transpose(cv).
+inline glm::mat4 ConvertCVMatx44fToGLMmat4(const cv::Matx44f& m) {
+  glm::mat4 result(1.0f);
+  for (int i = 0; i < 4; ++i)
+    for (int j = 0; j < 4; ++j) result[i][j] = m(i, j);
+  return result;
+}
 
 }  // namespace MapCreator
 

@@ -8,8 +8,12 @@ namespace MapCreator {
 
 class AbstractCoordinateConverter {
  public:
+  virtual ~AbstractCoordinateConverter() = default;
   virtual cv::Mat Project(const cv::Mat& image) const = 0;
   virtual cv::Mat Unproject(const cv::Mat& image) const = 0;
+  // Per-point world -> normalized screen projection (used by reprojection-error
+  // optimization through the abstract interface).
+  virtual cv::Point2f WorldToScreen(const cv::Point3f& world_point) const = 0;
 };
 
 class CoordinateConverter : public AbstractCoordinateConverter {
@@ -23,7 +27,7 @@ class CoordinateConverter : public AbstractCoordinateConverter {
   // coordinates ([0,1] across the frame), the inverse of Unproject's depth
   // model. Consumed by reprojection-error optimization; pixel scaling is
   // irrelevant there, so coordinates are left normalized.
-  cv::Point2f WorldToScreen(const cv::Point3f& world_point) const;
+  cv::Point2f WorldToScreen(const cv::Point3f& world_point) const override;
 
  private:
   float GetDepthFactor(float fov) { return tanf(fov / 2) * 2; }
@@ -41,6 +45,7 @@ class CalibratedCoordinateConverter : public AbstractCoordinateConverter {
 
   virtual cv::Mat Project(cv::Mat const& image) const override;
   virtual cv::Mat Unproject(cv::Mat const& image) const override;
+  virtual cv::Point2f WorldToScreen(const cv::Point3f& world_point) const override;
 
   // TODO: Pass in JSON object
   // inline LoadCalibrationData(std::string const& file_name) {

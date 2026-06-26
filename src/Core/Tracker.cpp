@@ -23,12 +23,12 @@ CorrespondingPointsPair CreateCorrespondingPointsPair(
   const auto& feature1 = key_frame1.GetFeature();
   const auto& feature2 = key_frame2.GetFeature();
 
-  const auto& image1 = key_frame1.GetPointImage();
-  const auto& image2 = key_frame2.GetPointImage();
+  const auto& image1 = key_frame1.GetPointCloud().GetPointImage();
+  const auto& image2 = key_frame2.GetPointCloud().GetPointImage();
 
   assert(!key_frame1.GetFeature().GetKeyPoints().empty());
 
-  const MapCreator::Matcher matcher(feature1, feature2, true);
+  const MapCreator::Matcher2D matcher(feature1, feature2, true);
   const auto& matches = matcher.GetMatches();
 
   assert(!matches.empty());
@@ -117,7 +117,7 @@ template <>
 void Tracker<TrackingType::Consecutive>::Initialize() {
   for (auto& keyframe : keyframes_) {
     keyframe.SetAlignmentMatrix(std::move(glm::mat4()));
-    keyframe.SetUsed(false);
+    keyframe.SetIsUsed(false);
   }
 
   iterator1_ = keyframes_.begin();
@@ -127,18 +127,18 @@ template <>
 void Tracker<TrackingType::FixedNumber>::Initialize() {
   for (auto& keyframe : keyframes_) {
     keyframe.SetAlignmentMatrix(std::move(glm::mat4()));
-    keyframe.SetUsed(false);
+    keyframe.SetIsUsed(false);
   }
 
   iterator1_ = keyframes_.begin();
   iterator2_ = iterator1_;
-  offset_ = keyframes_.size() / (params_.paramsFixedNumber.frame_count - 1) + 1;
+  offset_ = keyframes_.size() / (params_.frame_count - 1) + 1;
 }
 template <>
 void Tracker<TrackingType::KeyFrameOnly>::Initialize() {
   for (auto& keyframe : keyframes_) {
     keyframe.SetAlignmentMatrix(std::move(glm::mat4()));
-    keyframe.SetUsed(false);
+    keyframe.SetIsUsed(false);
   }
 
   iterator1_ = keyframes_.begin();
@@ -150,9 +150,9 @@ void Tracker<TrackingType::KeyFrameOnly>::Initialize() {
 
   boost::tie(inliers2_, inliers1_) = ComputeInliers(
       corresponding_points_pair.second, corresponding_points_pair.first,
-      params_.paramsKeyFramesOnly.num_ransac_iteration,
-      params_.paramsKeyFramesOnly.threshold_outlier,
-      params_.paramsKeyFramesOnly.threshold_inlier);
+      params_.num_ransac_iteration,
+      params_.threshold_outlier,
+      params_.threshold_inlier);
 }
 
 template <>
@@ -202,9 +202,9 @@ bool Tracker<TrackingType::KeyFrameOnly>::Update() {
 
     boost::tie(inliers2_, inliers1_) = ComputeInliers(
         corresponding_points_pair.second, corresponding_points_pair.first,
-        params_.paramsKeyFramesOnly.num_ransac_iteration,
-        params_.paramsKeyFramesOnly.threshold_outlier,
-        params_.paramsKeyFramesOnly.threshold_inlier);
+        params_.num_ransac_iteration,
+        params_.threshold_outlier,
+        params_.threshold_inlier);
 
     if (iterator2_ == keyframes_.end() - 1) {
       return true;
@@ -213,11 +213,11 @@ bool Tracker<TrackingType::KeyFrameOnly>::Update() {
     QString error_msg;
 
     bool is_valid = ValidateInliersDistribution(
-        inliers2_, params_.paramsKeyFramesOnly.num_inliers,
-        params_.paramsKeyFramesOnly.threshold_1st_component_contribution,
-        params_.paramsKeyFramesOnly.threshold_1st_component_variance,
-        params_.paramsKeyFramesOnly.threshold_2nd_component_variance,
-        params_.paramsKeyFramesOnly.threshold_3rd_component_variance,
+        inliers2_, params_.num_inliers,
+        params_.threshold_1st_component_contribution,
+        params_.threshold_1st_component_variance,
+        params_.threshold_2nd_component_variance,
+        params_.threshold_3rd_component_variance,
         error_msg);
 
     message_ = QString(" - Checking %1 - %2 : %3")
@@ -251,9 +251,9 @@ void Tracker<TrackingType::Consecutive>::SpinOnce() {
   // 2 -> 1
   auto local_transformation_matrix = ComputeTransformationMatrix(
       corresponding_points_pair.second, corresponding_points_pair.first,
-      params_.paramsConsectutive.num_ransac_iteration,
-      params_.paramsConsectutive.threshold_outlier,
-      params_.paramsConsectutive.threshold_inlier);
+      params_.num_ransac_iteration,
+      params_.threshold_outlier,
+      params_.threshold_inlier);
 
   const auto& world_points1 = corresponding_points_pair.first;
   const auto& world_points2 = corresponding_points_pair.second;
@@ -285,7 +285,7 @@ void Tracker<TrackingType::Consecutive>::SpinOnce() {
                  .arg(world_points1.size())
                  .arg(error_after_global_optimization);
 
-  iterator2_->SetUsed(true);
+  iterator2_->SetIsUsed(true);
 }
 template <>
 void Tracker<TrackingType::FixedNumber>::SpinOnce() {
@@ -298,9 +298,9 @@ void Tracker<TrackingType::FixedNumber>::SpinOnce() {
   // 2 -> 1
   auto local_transformation_matrix = ComputeTransformationMatrix(
       corresponding_points_pair.second, corresponding_points_pair.first,
-      params_.paramsFixedNumber.num_ransac_iteration,
-      params_.paramsFixedNumber.threshold_outlier,
-      params_.paramsFixedNumber.threshold_inlier);
+      params_.num_ransac_iteration,
+      params_.threshold_outlier,
+      params_.threshold_inlier);
 
   const auto& world_points1 = corresponding_points_pair.first;
   const auto& world_points2 = corresponding_points_pair.second;
@@ -326,7 +326,7 @@ void Tracker<TrackingType::FixedNumber>::SpinOnce() {
                  .arg(QString::number(iterator1_->GetId()))
                  .arg(error_after_global_optimization);
 
-  iterator2_->SetUsed(true);
+  iterator2_->SetIsUsed(true);
 
   //		return * iterator2_;
 }
@@ -371,7 +371,7 @@ void Tracker<TrackingType::KeyFrameOnly>::SpinOnce() {
   iterator2_ = iterator1_ + 1;  // move iterator 1 step forward to prepare the
                                 // inlier distribution validation
 
-  current_keyframe_itr->SetUsed(true);
+  current_keyframe_itr->SetIsUsed(true);
 
   //		return res;
 }

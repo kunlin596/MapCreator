@@ -24,16 +24,41 @@ CorrespondingPointsPair CreateCorrespondingPointsPair(
     const MapCreator::KeyFrame& key_frame1,
     const MapCreator::KeyFrame& key_frame2);
 
+namespace detail {
+// Maps a TrackingType to its concrete TrackerParameters subclass so each
+// Tracker specialization stores the right parameter fields (the redesigned
+// parameters form a class hierarchy rather than one flat struct).
+template <TrackingType Kind>
+struct TrackerParamsType {
+  using type = TrackerParameters;
+};
+template <>
+struct TrackerParamsType<TrackingType::Consecutive> {
+  using type = ConsecutiveTrackerParameters;
+};
+template <>
+struct TrackerParamsType<TrackingType::FixedNumber> {
+  using type = FixedNumberTrackerParameters;
+};
+template <>
+struct TrackerParamsType<TrackingType::KeyFrameOnly> {
+  using type = KeyFrameOnlyTrackerParameters;
+};
+}  // namespace detail
+
 template <TrackingType type>
 class Tracker {
  public:
   using KeyFramesIterator = KeyFrames::iterator;
+  using Params = typename detail::TrackerParamsType<type>::type;
 
-  Tracker(const TrackerParameters& params) { params_ = params; }
+  Tracker(const TrackerParameters& params) {
+    params_ = static_cast<const Params&>(params);
+  }
   Tracker(const Tracker& other) = default;
   Tracker(const KeyFrames& keyframes, const TrackerParameters& params,
           const CoordinateConverter& converter) {
-    params_ = params;
+    params_ = static_cast<const Params&>(params);
     keyframes_ = keyframes;
     xtion_coordinate_converter_ = converter;
     converter_choice_ = 0;
@@ -46,7 +71,7 @@ class Tracker {
 
   Tracker(const KeyFrames& keyframes, const TrackerParameters& params,
           const CalibratedCoordinateConverter& converter) {
-    params_ = params;
+    params_ = static_cast<const Params&>(params);
     keyframes_ = keyframes;
     aist_coordinate_converter_ = converter;
     converter_choice_ = 1;
@@ -79,7 +104,7 @@ class Tracker {
   Points inliers1_;
   Points inliers2_;
 
-  TrackerParameters params_;
+  Params params_;
   QString message_;
 
   int converter_choice_;

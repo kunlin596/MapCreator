@@ -34,17 +34,17 @@ namespace MapCreator {
 	public:
 
 		static cv::Matx44f Compute ( const cv::Matx44f & m_before ,
-		                             const CoordinateConverter & coordinate_converter ,
+		                             const AbstractCoordinateConverter & coordinate_converter ,
 		                             const Points & world_points1 ,
 		                             const Points & world_points2 );
 
 		static float GetError ( const cv::Matx44f & m ,
-		                        const CoordinateConverter & coordinate_converter ,
+		                        const AbstractCoordinateConverter & coordinate_converter ,
 		                        const Points & world_points1 ,
 		                        const Points & world_points2 );
 
 		static float GetError ( const cv::Matx44f & m ,
-		                        const CoordinateConverter & coordinate_converter ,
+		                        const AbstractCoordinateConverter & coordinate_converter ,
 		                        const cv::Point3f & world_point1 ,
 		                        const cv::Point3f & world_point2 );
 
@@ -72,7 +72,7 @@ namespace MapCreator {
 		public:
 
 			NumericalDiffFunctor ( int inputs , int values ,
-			                       const CoordinateConverter & coordinate_converter ,
+			                       const AbstractCoordinateConverter & coordinate_converter ,
 			                       const Points & world_points1 ,
 			                       const Points & world_points2 );
 
@@ -83,7 +83,7 @@ namespace MapCreator {
 		private:
 			const int                 inputs_;
 			const int                 values_;
-			const CoordinateConverter coordinate_converter_;
+			const AbstractCoordinateConverter & coordinate_converter_;
 			const Points              world_points1_;
 			const Points              world_points2_;
 		};

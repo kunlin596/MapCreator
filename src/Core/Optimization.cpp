@@ -13,7 +13,7 @@
 namespace MapCreator {
 
 	cv::Matx44f LevenbergMarquardt::Compute ( const cv::Matx44f & m ,
-	                                          const CoordinateConverter & coordinate_converter ,
+	                                          const AbstractCoordinateConverter & coordinate_converter ,
 	                                          const Points & world_points1 ,
 	                                          const Points & world_points2 ) {
 
@@ -50,7 +50,7 @@ namespace MapCreator {
 	}
 
 	float LevenbergMarquardt::GetError ( const cv::Matx44f & m ,
-	                                     const CoordinateConverter & coordinate_converter ,
+	                                     const AbstractCoordinateConverter & coordinate_converter ,
 	                                     const Points & world_points1 ,
 	                                     const Points & world_points2 ) {
 
@@ -72,7 +72,7 @@ namespace MapCreator {
 	}
 
 	float LevenbergMarquardt::GetError ( const cv::Matx44f & m ,
-	                                     const CoordinateConverter & coordinate_converter ,
+	                                     const AbstractCoordinateConverter & coordinate_converter ,
 	                                     const cv::Point3f & world_point1 ,         // kp1 : screen
 	                                     const cv::Point3f & world_point2 )         // kp2 : world ->screen
 	{
@@ -117,7 +117,7 @@ namespace MapCreator {
 
 
 	LevenbergMarquardt::NumericalDiffFunctor::NumericalDiffFunctor ( int inputs , int values ,
-	                                                                 const CoordinateConverter & coordinate_converter ,
+	                                                                 const AbstractCoordinateConverter & coordinate_converter ,
 	                                                                 const Points & world_points1 ,
 	                                                                 const Points & world_points2 ) :
 			inputs_ ( inputs ) ,

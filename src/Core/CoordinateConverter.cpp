@@ -97,6 +97,13 @@ cv::Mat CalibratedCoordinateConverter::Unproject(cv::Mat const& image) const {
   return cv::Mat();
 }
 
+cv::Point2f CalibratedCoordinateConverter::WorldToScreen(
+    const cv::Point3f& /*world_point*/) const {
+  // TODO: implement the calibrated projection (see commented Project above).
+  // The calibrated path is not yet ported; return the image center as a stub.
+  return cv::Point2f(0.5f, 0.5f);
+}
+
 cv::Mat CalibratedCoordinateConverter::Project(cv::Mat const& image) const {
   // const float xz_factor = NthDegreeEquation(
   //     internal_calibration_data_.hfov_calibration_vector, world_point.z);

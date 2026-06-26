@@ -8,6 +8,8 @@
 
 #include <atomic>
 
+#include <glm/glm.hpp>
+
 #include "Camera.h"
 #include "Feature.h"
 #include "PointCloud.h"
@@ -88,6 +90,15 @@ class KeyFrame : public CameraBase {
    */
   void SetIsUsed(bool is_used) { is_used_ = is_used; }
 
+  // Alignment (pose) matrices computed by the tracker, in glm form for the GL
+  // viewers: the estimated transform and the marker/ground-truth ("answer").
+  void SetAlignmentMatrix(const glm::mat4& m) { alignment_matrix_ = m; }
+  const glm::mat4& GetAlignmentMatrix() const { return alignment_matrix_; }
+  void SetAnswerAlignmentMatrix(const glm::mat4& m) { answer_alignment_matrix_ = m; }
+  const glm::mat4& GetAnswerAlignmentMatrix() const {
+    return answer_alignment_matrix_;
+  }
+
   /**
    * @brief      Determines if used.
    *
@@ -111,6 +122,9 @@ class KeyFrame : public CameraBase {
 
   Feature feature_;
   PointCloudXYZRGB pointCloud_;
+
+  glm::mat4 alignment_matrix_{1.0f};        ///< Estimated alignment (identity)
+  glm::mat4 answer_alignment_matrix_{1.0f};  ///< Marker/ground-truth alignment
 
   // Boost serialization methods
   // friend class boost::serialization::access;
