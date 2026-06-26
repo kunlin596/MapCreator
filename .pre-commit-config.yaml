@@ -1,0 +1,22 @@
+# pre-commit hooks for MapCreator — see https://pre-commit.com
+# Install:  pre-commit install && pre-commit install --hook-type commit-msg
+# Hooks act only on files staged in a commit; existing code is left untouched
+# until individually edited (no full-repo reformat).
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-merge-conflict
+      - id: check-added-large-files
+      - id: check-case-conflict
+      - id: mixed-line-ending
+      - id: check-yaml
+
+  # Enforce Conventional Commits (type(scope): description) on commit messages.
+  - repo: https://github.com/compilerla/conventional-pre-commit
+    rev: v4.4.0
+    hooks:
+      - id: conventional-pre-commit
+        stages: [commit-msg]
