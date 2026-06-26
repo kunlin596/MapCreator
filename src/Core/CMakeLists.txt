@@ -2,10 +2,6 @@
 file(GLOB MAPCREATOR_CORE_SOURCES CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
 file(GLOB MAPCREATOR_CORE_HEADERS CONFIGURE_DEPENDS ${PROJECT_SOURCE_DIR}/include/Core/*.h)
 
-# Deferred: SlamAlgorithm (Algorithm.cpp) is a half-decoupled Qt orchestrator
-# (QObject base/signals commented out, several members missing). Ported next.
-list(REMOVE_ITEM MAPCREATOR_CORE_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/Algorithm.cpp)
-
 add_library(MapCreatorCore ${MAPCREATOR_CORE_SOURCES} ${MAPCREATOR_CORE_HEADERS})
 add_library(MapCreator::Core ALIAS MapCreatorCore)
 

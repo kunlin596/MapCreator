@@ -56,7 +56,7 @@ namespace MapCreator {
 
         emit Message ( "Computation begins..." );
 
-        switch ( params_.type_ ) {
+        switch ( params_.type ) {
             case TrackingType::Consecutive:
                 ComputeHelper < TrackingType::Consecutive > ( );
                 break;
@@ -137,9 +137,9 @@ namespace MapCreator {
 
         QString result_name_prefix;
 
-        std::cout << params_.type_ << std::endl;
+        std::cout << static_cast<int>(params_.type) << std::endl;
 
-        switch ( params_.type_ ) {
+        switch ( params_.type ) {
             case TrackingType::Consecutive:
                 result_name_prefix = QString ( "%1_%2" ).arg ( time_stamp ).arg ( "Consecutive" );
                 break;
@@ -164,28 +164,30 @@ namespace MapCreator {
 
         if ( out ) {
 
-            out << "Current tracker type : " << static_cast<int>(params_.type_) << std::endl;
+            out << "Current tracker type : " << static_cast<int>(params_.type) << std::endl;
 
-            switch ( params_.type_ ) {
+            switch ( params_.type ) {
 
                 case TrackingType::Consecutive: {
-                    out << params_.paramsConsectutive.Output ( ).toStdString ( ) << std::endl;
+                    out << std::string("Consecutive") << std::endl;
                     break;
                 }
                 case TrackingType::KeyFrameOnly: {
-                    out << params_.paramsKeyFramesOnly.Output ( ).toStdString ( ) << std::endl;
+                    out << std::string("KeyFrameOnly") << std::endl;
                     break;
                 }
                 case TrackingType::FixedNumber : {
-                    out << params_.paramsFixedNumber.Output ( ).toStdString ( ) << std::endl;
+                    out << std::string("FixedNumber") << std::endl;
                     break;
                 }
                 default:
                     break;
             }
 
-            out << "point1 " << glm::vec4 ( point_pair.first , 1.0f );
-            out << "point2 " << glm::vec4 ( point_pair.second , 1.0f );
+            const glm::vec4 p1 ( point_pair.first , 1.0f );
+            const glm::vec4 p2 ( point_pair.second , 1.0f );
+            out << "point1 " << p1.x << " " << p1.y << " " << p1.z << std::endl;
+            out << "point2 " << p2.x << " " << p2.y << " " << p2.z << std::endl;
 
             out.close ( );
 
@@ -201,9 +203,9 @@ namespace MapCreator {
 
         QString result_name_prefix;
 
-        std::cout << params_.type_ << std::endl;
+        std::cout << static_cast<int>(params_.type) << std::endl;
 
-        switch ( params_.type_ ) {
+        switch ( params_.type ) {
             case TrackingType::Consecutive:
                 result_name_prefix = QString ( "%1_%2" ).arg ( time_stamp ).arg ( "Consecutive" );
                 break;
@@ -228,20 +230,20 @@ namespace MapCreator {
 
         if ( out ) {
 
-            out << "Current tracker type : " << static_cast<int>(params_.type_) << std::endl;
+            out << "Current tracker type : " << static_cast<int>(params_.type) << std::endl;
 
-            switch ( params_.type_ ) {
+            switch ( params_.type ) {
 
                 case TrackingType::Consecutive: {
-                    out << params_.paramsConsectutive.Output ( ).toStdString ( ) << std::endl;
+                    out << std::string("Consecutive") << std::endl;
                     break;
                 }
                 case TrackingType::KeyFrameOnly: {
-                    out << params_.paramsKeyFramesOnly.Output ( ).toStdString ( ) << std::endl;
+                    out << std::string("KeyFrameOnly") << std::endl;
                     break;
                 }
                 case TrackingType::FixedNumber : {
-                    out << params_.paramsFixedNumber.Output ( ).toStdString ( ) << std::endl;
+                    out << std::string("FixedNumber") << std::endl;
                     break;
                 }
                 default:
@@ -386,7 +388,7 @@ namespace MapCreator {
         return !dir.entryInfoList ( filter_list ).empty ( );
     }
 
-    void SlamAlgorithm::UsePreviousResult ( const QString & result_cache_name ) {
+    void SlamAlgorithm::UsePreviousResult ( const std::string & result_cache_name ) {
 
         if ( keyframes_.empty ( ) ) {
             emit Message ( "No data found, cannot apply matrices." );
@@ -399,7 +401,7 @@ namespace MapCreator {
 
         ComputationResultCache cache;
 
-        bool load_succeeded = LoadComputationResultCache ( result_cache_name.toStdString ( ) , cache );
+        bool load_succeeded = LoadComputationResultCache ( result_cache_name , cache );
         if ( !load_succeeded ) { return; }
 
         auto data_set_name    = cache.data_set_name;
@@ -416,8 +418,8 @@ namespace MapCreator {
 
             auto & kf = keyframes_[ id ];
 
-            kf.SetId ( id );
-            kf.SetUsed ( is_used );
+            // kf is keyframes_[id], so its auto-assigned id already matches.
+            kf.SetIsUsed ( is_used );
             kf.SetAlignmentMatrix ( estimation_matrix );
             kf.SetAnswerAlignmentMatrix ( marker_matrix );
 
@@ -478,4 +480,3 @@ namespace MapCreator {
     }
 
 }
-

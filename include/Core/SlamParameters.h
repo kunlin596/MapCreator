@@ -15,6 +15,8 @@ struct TrackerParameters {
 
   TrackingType type;
 
+  TrackingType GetType() const { return type; }
+
   template <typename TrackingOptionsType>
   TrackingOptionsType GetParameters();
 

@@ -5,7 +5,9 @@
 #ifndef MAPCREATOR_MAPCREATOR_H
 #define MAPCREATOR_MAPCREATOR_H
 
-// #include <QObject>
+#include <QDir>
+#include <QObject>
+#include <QString>
 
 #include <limits>
 
@@ -23,13 +25,11 @@ using MatricesInfo = std::pair<std::vector<size_t>, std::vector<glm::mat4> >;
 
 namespace MapCreator {
 
-class SlamAlgorithm {
-  // class SlamAlgorithm : public QObject {
-  // Q_OBJECT
+class SlamAlgorithm : public QObject {
+  Q_OBJECT
 
  public:
-  SlamAlgorithm() = default;
-  // SlamAlgorithm(QObject* parent = 0) {}
+  explicit SlamAlgorithm(QObject* parent = nullptr) : QObject(parent) {}
 
   void SetFeatureType(Feature::Type type);
   bool WriteResult(const std::pair<glm::vec3, glm::vec3>& point_pair);
@@ -64,10 +64,9 @@ class SlamAlgorithm {
   bool IsComputationConfigured() const { return is_computation_configured_; }
   bool IsDataInitialized() const { return is_data_initialized_; }
 
-  // signals:
-
-  //  void SendData(KeyFrames);
-  //  void Message(QString);
+ signals:
+  void SendData(KeyFrames);
+  void Message(QString);
 
  private:
   template <TrackingType type>
@@ -136,7 +135,9 @@ class SlamAlgorithm {
   bool is_computation_configured_;
   bool is_data_initialized_;
 
-  // QString result_cache_path_;
+  TrackerParameters params_;
+  QDir data_dir_;
+  QString result_cache_path_;
   Feature::Type feature_type_;
   AlgorithmParameters algorithm_parameters;
   KeyFrames keyframes_;
