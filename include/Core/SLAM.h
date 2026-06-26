@@ -13,7 +13,8 @@ using WorldPoint = cv::Point3f;
 using Points = std::vector<WorldPoint>;
 using CorrespondingPointsPair = std::pair<Points, Points>;
 
-using InlierPoints = PointImage;
+// Inliers are a sparse list of matched 3D correspondences, not a dense image.
+using InlierPoints = Points;
 
 enum class TrackingType { Unknown, Consecutive, KeyFrameOnly, FixedNumber };
 
