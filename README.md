@@ -17,13 +17,6 @@ map offline. The pipeline:
 
 Repeating this over consecutive frames accumulates the map.
 
-> **Status.** The codebase was recently refactored (`SLAM/` → `Core/`, an immutable
-> `KeyFrame`, a `CoordinateConverter` hierarchy, and a modern target-based CMake
-> build). The core SLAM library and data handler build and are unit-tested; the Qt
-> GUI compiles but is not yet runtime-verified, and a few paths (the calibrated
-> converter and polymorphic tracker parameters) are stubbed — see the inline code
-> comments / TODOs.
-
 ## Reference
 
 This repository implements:
@@ -64,11 +57,6 @@ sudo apt install -y \
 The default build links the system OpenCV and uses ORB features. Set
 `-DENABLE_OPENCV_CONTRIB=ON` only if you have an OpenCV built with the non-free
 `xfeatures2d` module (SIFT/SURF/FREAK).
-
-### macOS (MacPorts)
-```bash
-sudo port install cmake pkgconfig glm boost qt5 opencv eigen3 log4cxx
-```
 
 ## Build
 ```bash
