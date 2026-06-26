@@ -30,6 +30,9 @@ mapcreator_add_test(test_core_keyframe
 mapcreator_add_test(test_core_converter
   SOURCES core/test_coordinate_converter.cpp
   LIBS MapCreatorCore)
+mapcreator_add_test(test_core_transformation
+  SOURCES core/test_transformation.cpp
+  LIBS MapCreatorCore)
 
 # Handler (links a Qt library; the test itself defines no QObject, so AUTOMOC is
 # disabled to avoid re-generating the library's moc into the test target).
