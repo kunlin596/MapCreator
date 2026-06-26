@@ -4,17 +4,18 @@
 
 namespace MapCreator {
 
-// using Matrices = std::vector<glm::mat4>;
 using KeyPoints = std::vector<cv::KeyPoint>;
-using CorrespondingPointsPair = std::pair<PointImage, PointImage>;
-using InlierPoints = PointImage;
-
-enum class TrackingType { Unknown, Consecutive, KeyFrameOnly, FixedNumber };
-
-// using PointPair = std::pair<glm::vec3, glm::vec3>;
 
 using ScreenPoint = cv::Point2f;
 using WorldPoint = cv::Point3f;
+
+// An ordered list of 3D world points (e.g. matched correspondences).
+using Points = std::vector<WorldPoint>;
+using CorrespondingPointsPair = std::pair<Points, Points>;
+
+using InlierPoints = PointImage;
+
+enum class TrackingType { Unknown, Consecutive, KeyFrameOnly, FixedNumber };
 
 struct MatchedPoint {
   int id;

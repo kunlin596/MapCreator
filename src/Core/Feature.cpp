@@ -9,24 +9,24 @@ LOGGER("Core.Feature");
 
 namespace MapCreator {
 
-Feature::Feature() : type_(Type::Unknown) {}
+Feature::Feature() : type_(Type::kUnknown) {}
 
 Feature::Feature(const cv::Mat_<uchar> &image, Type type) : type_(type) {
   switch (type_) {
-    case Type::ORB: {
+    case Type::kORB: {
       detector_ = cv::ORB::create();
       break;
     }
 #ifdef ENABLE_OPENCV_CONTRIB
-    case Type::FREAK: {
+    case Type::kFREAK: {
       detector_ = cv::xfeatures2d::FREAK::create();
       break;
     }
-    case Type::SIFT: {
+    case Type::kSIFT: {
       detector_ = cv::xfeatures2d::SIFT::create();
       break;
     }
-    case Type::SURF: {
+    case Type::kSURF: {
       detector_ = cv::xfeatures2d::SURF::create();
       break;
     }

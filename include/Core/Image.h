@@ -11,9 +11,11 @@ namespace MapCreator {
 
 using ColorImage = cv::Mat_<cv::Vec3b>;
 using PointImage = cv::Mat_<cv::Vec3f>;
+template <typename T>
+using GrayScaleImage = cv::Mat_<T>;
 
 namespace Utils {
-    
+
 template <typename T>
 cv::Mat_<T> Resize(
     const cv::Mat_<T>& image,

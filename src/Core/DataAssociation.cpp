@@ -82,20 +82,20 @@ Matcher2D::Matches Matcher2D::CreateMatches(const Feature& feature1,
       feature1.GetType() == feature2.GetType()) {
     switch (feature1.GetType()) {
 #ifdef ENABLE_OPENCV_CONTRIB
-      case Feature::Type::SIFT:
-      case Feature::Type::SURF:
+      case Feature::Type::kSIFT:
+      case Feature::Type::kSURF:
         matches = ::CreateMatches<cv::FlannBasedMatcher>(feature1, feature2,
                                                          cross_check);
         break;
 #endif
-      case Feature::Type::ORB:
+      case Feature::Type::kORB:
 #ifdef ENABLE_OPENCV_CONTRIB
-      case Feature::Type::FREAK:
+      case Feature::Type::kFREAK:
 #endif
         matches =
             ::CreateMatches<cv::BFMatcher>(feature1, feature2, cross_check);
         break;
-      case Feature::Type::Unknown:
+      case Feature::Type::kUnknown:
         break;
       default:
         break;

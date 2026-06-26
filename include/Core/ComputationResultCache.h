@@ -7,6 +7,7 @@
 
 
 #include <Core/Serialize.h>
+#include <glm/glm.hpp>
 
 #include <boost/iostreams/filtering_stream.hpp>
 #include <boost/iostreams/filter/gzip.hpp>

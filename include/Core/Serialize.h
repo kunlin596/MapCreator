@@ -12,6 +12,7 @@
 #include <boost/serialization/utility.hpp>
 #include <boost/serialization/vector.hpp>
 #include <boost/serialization/version.hpp>
+#include <glm/glm.hpp>
 #include <opencv2/opencv.hpp>
 
 #include <fstream>
@@ -88,6 +89,13 @@ void serialize(Archive& ar, cv::Vec<T, N>& vec, unsigned int version) {
 template <class Archive, typename T, int M, int N>
 void serialize(Archive& ar, cv::Matx<T, M, N>& m, unsigned int version) {
   ar& boost::serialization::make_array(m.val, M * N);
+}
+
+// glm::mat4
+template <class Archive>
+void serialize(Archive& ar, glm::mat4& m, unsigned int version) {
+  for (int i = 0; i < 4; ++i)
+    for (int j = 0; j < 4; ++j) ar& m[i][j];
 }
 
 }  // namespace serialization

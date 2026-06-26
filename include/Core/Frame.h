@@ -3,6 +3,7 @@
 #include <eigen3/Eigen/Dense>
 
 #include "MyMath.h"
+#include "Pose.h"
 
 namespace MapCreator {
 

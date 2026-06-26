@@ -104,4 +104,6 @@ struct KeyFrameOnlyTrackerParameters : public ConsecutiveTrackerParameters {
   }
 };
 
+}  // namespace MapCreator
+
 #endif  // MAPCREATOR_SLAMPARAMETERS_H

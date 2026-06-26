@@ -63,16 +63,16 @@ Calibrator::InternalCalibrationData Calibrator::ReadHelper(
       }
     }
 
-    data.local_calibration_table = table;
+    data.table = table;
 
     //
-    data.global_calibration_vector =
+    data.global_vector =
         MapCreator::ReadVector<CoefficientsVector::value_type>(in);
 
     //
-    data.hfov_calibration_vector =
+    data.hfov_vector =
         MapCreator::ReadVector<CoefficientsVector::value_type>(in);
-    data.vfov_calibration_vector =
+    data.vfov_vector =
         MapCreator::ReadVector<CoefficientsVector::value_type>(in);
   }
 
@@ -88,9 +88,9 @@ cv::Point3f Calibrator::ScreenToWorld(int row, int col, float depth, int rows,
   if (depth > 0) {
     const float gz = CorrectDepth(CorrectDistortion(row, col, depth)) * 0.001f;
     const float xz_factor = NthDegreeEquation(
-        internal_calibration_data_.hfov_calibration_vector, gz);
+        internal_calibration_data_.hfov_vector, gz);
     const float yz_factor = NthDegreeEquation(
-        internal_calibration_data_.vfov_calibration_vector, gz);
+        internal_calibration_data_.vfov_vector, gz);
     const float gx = xz_factor * (static_cast<float>(col) / cols - 0.5f);
     const float gy = yz_factor * (static_cast<float>(row) / rows - 0.5f);
 
@@ -105,9 +105,9 @@ cv::Point3f Calibrator::ScreenToWorld(int row, int col, float depth, int rows,
 cv::Point2f Calibrator::WorldToScreen(cv::Point3f const &point, int rows,
                                       int cols) {
   const float xz_factor = NthDegreeEquation(
-      internal_calibration_data_.hfov_calibration_vector, point.z);
+      internal_calibration_data_.hfov_vector, point.z);
   const float yz_factor = NthDegreeEquation(
-      internal_calibration_data_.vfov_calibration_vector, point.z);
+      internal_calibration_data_.vfov_vector, point.z);
   const float x = (point.x / xz_factor + 0.5f) * cols;
   const float y = (point.y / yz_factor + 0.5f) * rows;
   return cv::Point2f(x, y);
