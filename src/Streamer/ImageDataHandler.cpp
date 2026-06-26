@@ -99,18 +99,13 @@ namespace MapCreator {
 		keyframes_.clear ( );
 
 		for ( auto i = 0 ; i < raw_data_frames_.size ( ) ; ++i ) {
-			KeyFrame kf;
-			kf.SetId ( raw_data_frames_[ i ].id );
-			kf.SetName ( raw_data_frames_[ i ].name );
-			kf.SetColorImage ( raw_data_frames_[ i ].color_image );
-			kf.SetPointImage ( std::move ( ConvertDepthImageToPointImage ( raw_data_frames_[ i ].depth_image , choice ) ) );
+			const PointImage point_image =
+				ConvertDepthImageToPointImage ( raw_data_frames_[ i ].depth_image , choice );
+			const PointCloudXYZRGB point_cloud ( raw_data_frames_[ i ].color_image , point_image );
 
-			keyframes_.push_back ( kf );
+			keyframes_.emplace_back ( raw_data_frames_[ i ].name , point_cloud );
 
 			std::cout << "Converted (" << choice << ")." << i << std::endl;
-
-			// emit Message (
-			// 		QString ( "Converted %1. KP size : %2" ).arg ( kf.GetId ( ) ).arg ( kf.GetFeature ( ).GetKeyPoints ( ).size ( ) ) );
 		}
 
 		// emit SendData ( keyframes_ );
@@ -128,17 +123,11 @@ namespace MapCreator {
 
 			for ( auto i = 0 ; i < raw_data_frames_.size ( ) ; ++i ) {
 
-				KeyFrame kf;
-				kf.SetId ( raw_data_frames_[ i ].id );
-				kf.SetName ( raw_data_frames_[ i ].name );
-				kf.SetColorImage ( raw_data_frames_[ i ].color_image );
-				kf.SetPointImage ( calibrator_.CalibrateImage ( raw_data_frames_[ i ].depth_image ) );
+				const PointImage point_image =
+					calibrator_.CalibrateImage ( raw_data_frames_[ i ].depth_image );
+				const PointCloudXYZRGB point_cloud ( raw_data_frames_[ i ].color_image , point_image );
 
-				keyframes_.push_back ( kf );
-
-				// emit Message ( QString ( "Converted %1 (Calibrated). KP size : %2" )
-				// 		               .arg ( kf.GetId ( ) )
-				// 		               .arg ( kf.GetFeature ( ).GetKeyPoints ( ).size ( ) ) );
+				keyframes_.emplace_back ( raw_data_frames_[ i ].name , point_cloud );
 			}
 
 			// emit SendData ( keyframes_ );
@@ -147,7 +136,7 @@ namespace MapCreator {
 
 	PointImage ImageHandler2::ConvertDepthImageToPointImage ( DepthImage const & depth_image , int choice ) {
 
-		const CoordinateConverter * converter;
+		const AbstractCoordinateConverter * converter = nullptr;
 		switch ( choice ) {
 			case 0:
 				converter = & xtion_converter_;
@@ -159,19 +148,13 @@ namespace MapCreator {
 				return PointImage ( );
 		}
 
-		PointImage point_image;
-		point_image.create ( depth_image.rows , depth_image.cols );
+		// Unproject maps the depth image to a CV_32FC3 grid of world points.
+		// It may flatten a continuous input to 1xN, so reshape back to the
+		// depth image's dimensions.
+		cv::Mat unprojected = converter->Unproject ( depth_image );
+		if ( unprojected.empty ( ) ) return PointImage ( );
 
-		for ( auto row = 0 ; row < depth_image.rows ; ++row ) {
-			for ( auto col = 0 ; col < depth_image.cols ; ++col ) {
-				cv::Point3f p = converter->ScreenToWorld ( ScreenPoint ( col , row ) , depth_image.at < ushort > ( row , col ) );
-
-				point_image.at < cv::Vec3f > ( row , col ) ( 0 ) = p.x;
-				point_image.at < cv::Vec3f > ( row , col ) ( 1 ) = p.y;
-				point_image.at < cv::Vec3f > ( row , col ) ( 2 ) = p.z;
-			}
-		}
-		return point_image;
+		return PointImage ( unprojected.reshape ( 0 , depth_image.rows ) );
 	}
 
 }
