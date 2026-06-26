@@ -1,10 +1,15 @@
 #pragma once
 
+#include <glm/glm.hpp>
+
 #include "Image.h"
 
 namespace MapCreator {
 
 using KeyPoints = std::vector<cv::KeyPoint>;
+
+// A pair of 3D points (e.g. a rendered correspondence) in glm form.
+using PointPair = std::pair<glm::vec3, glm::vec3>;
 
 using ScreenPoint = cv::Point2f;
 using WorldPoint = cv::Point3f;

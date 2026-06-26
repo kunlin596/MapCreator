@@ -41,6 +41,9 @@ class CoordinateConverter : public AbstractCoordinateConverter {
 class CalibratedCoordinateConverter : public AbstractCoordinateConverter {
  public:
   CalibratedCoordinateConverter() = default;
+  // Construct from a calibration file path. Loading is not yet ported (the
+  // calibrated projection is stubbed), so the path is currently ignored.
+  explicit CalibratedCoordinateConverter(const std::string& /*calibration_path*/) {}
   ~CalibratedCoordinateConverter() = default;
 
   virtual cv::Mat Project(cv::Mat const& image) const override;

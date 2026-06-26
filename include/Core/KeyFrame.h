@@ -44,7 +44,9 @@ class KeyFrame : public CameraBase {
     }
   }
 
-  KeyFrame() = delete;
+  // Default-constructible (empty) so KeyFrames can be stored as members and in
+  // resizable containers; populated instances use the constructor above.
+  KeyFrame() : id_(NextId()), type_(Feature::Type::kUnknown), is_used_(false) {}
 
   ~KeyFrame() = default;
 
@@ -61,6 +63,10 @@ class KeyFrame : public CameraBase {
    * @return     The point cloud.
    */
   const PointCloudXYZRGB& GetPointCloud() const { return pointCloud_; }
+
+  // Convenience accessors delegating to the point cloud's images.
+  const ColorImage& GetColorImage() const { return pointCloud_.GetColorImage(); }
+  const PointImage& GetPointImage() const { return pointCloud_.GetPointImage(); }
 
   /**
    * @brief      Gets the name.

@@ -47,6 +47,7 @@ class SlamAlgorithm : public QObject {
     is_data_initialized_ = true;
     has_answer_ = false;
   }
+  void SetDataDir(const QDir& data_dir) { data_dir_ = data_dir; }
   void SetCoordinateConverter(const CoordinateConverter& converter) {
     xtion_converter_ = converter;
     converter_choice_ = 0;
